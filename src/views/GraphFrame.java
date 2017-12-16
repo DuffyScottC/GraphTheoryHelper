@@ -27,21 +27,137 @@ public class GraphFrame extends javax.swing.JFrame {
     // <editor-fold defaultstate="collapsed" desc="Generated Code">//GEN-BEGIN:initComponents
     private void initComponents() {
 
-        setDefaultCloseOperation(javax.swing.WindowConstants.EXIT_ON_CLOSE);
+        jButton1 = new javax.swing.JButton();
+        jScrollPane1 = new javax.swing.JScrollPane();
+        verticesList = new javax.swing.JList<>();
+        jScrollPane2 = new javax.swing.JScrollPane();
+        edgesList = new javax.swing.JList<>();
+        verticesButtonPanel = new javax.swing.JPanel();
+        addVertexButton = new javax.swing.JButton();
+        removeVertexButton = new javax.swing.JButton();
+        edgesButtonPanel = new javax.swing.JPanel();
+        addEdgeButton = new javax.swing.JButton();
+        jButton3 = new javax.swing.JButton();
+        jLabel1 = new javax.swing.JLabel();
+        jLabel2 = new javax.swing.JLabel();
+        canvasScrollPane = new javax.swing.JScrollPane();
+        canvas = new javax.swing.JTextArea();
+        propertiesPanel = new javax.swing.JPanel();
+        titleTextField = new javax.swing.JLabel();
+        jTextField1 = new javax.swing.JTextField();
+        jTextField2 = new javax.swing.JTextField();
+        jMenuBar1 = new javax.swing.JMenuBar();
+        fileMenuBar = new javax.swing.JMenu();
+        openMenuItem = new javax.swing.JMenuItem();
+        saveMenuItem = new javax.swing.JMenuItem();
+        saveAsMenuItem = new javax.swing.JMenuItem();
+        newMenuItem = new javax.swing.JMenuItem();
+        editMenuBar = new javax.swing.JMenu();
+        rotate90MenuItem = new javax.swing.JMenuItem();
 
-        javax.swing.GroupLayout layout = new javax.swing.GroupLayout(getContentPane());
-        getContentPane().setLayout(layout);
-        layout.setHorizontalGroup(
-            layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addGap(0, 400, Short.MAX_VALUE)
-        );
-        layout.setVerticalGroup(
-            layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addGap(0, 300, Short.MAX_VALUE)
-        );
+        jButton1.setText("jButton1");
+
+        setDefaultCloseOperation(javax.swing.WindowConstants.EXIT_ON_CLOSE);
+        getContentPane().setLayout(new java.awt.GridBagLayout());
+
+        verticesList.setModel(new javax.swing.AbstractListModel<String>() {
+            String[] strings = { "Item 1", "Item 2", "Item 3", "Item 4", "Item 5" };
+            public int getSize() { return strings.length; }
+            public String getElementAt(int i) { return strings[i]; }
+        });
+        jScrollPane1.setViewportView(verticesList);
+
+        getContentPane().add(jScrollPane1, new java.awt.GridBagConstraints());
+
+        edgesList.setModel(new javax.swing.AbstractListModel<String>() {
+            String[] strings = { "Item 1", "Item 2", "Item 3", "Item 4", "Item 5" };
+            public int getSize() { return strings.length; }
+            public String getElementAt(int i) { return strings[i]; }
+        });
+        jScrollPane2.setViewportView(edgesList);
+
+        getContentPane().add(jScrollPane2, new java.awt.GridBagConstraints());
+
+        verticesButtonPanel.setLayout(new javax.swing.BoxLayout(verticesButtonPanel, javax.swing.BoxLayout.LINE_AXIS));
+
+        addVertexButton.setText("Add");
+        verticesButtonPanel.add(addVertexButton);
+
+        removeVertexButton.setText("Remove");
+        verticesButtonPanel.add(removeVertexButton);
+
+        getContentPane().add(verticesButtonPanel, new java.awt.GridBagConstraints());
+
+        edgesButtonPanel.setLayout(new javax.swing.BoxLayout(edgesButtonPanel, javax.swing.BoxLayout.LINE_AXIS));
+
+        addEdgeButton.setText("Add");
+        edgesButtonPanel.add(addEdgeButton);
+
+        jButton3.setText("jButton3");
+        edgesButtonPanel.add(jButton3);
+
+        getContentPane().add(edgesButtonPanel, new java.awt.GridBagConstraints());
+
+        jLabel1.setText("Vertices:");
+        getContentPane().add(jLabel1, new java.awt.GridBagConstraints());
+
+        jLabel2.setText("Edges:");
+        getContentPane().add(jLabel2, new java.awt.GridBagConstraints());
+
+        canvas.setEditable(false);
+        canvas.setColumns(20);
+        canvas.setRows(5);
+        canvasScrollPane.setViewportView(canvas);
+
+        getContentPane().add(canvasScrollPane, new java.awt.GridBagConstraints());
+
+        titleTextField.setText("jLabel3");
+        propertiesPanel.add(titleTextField);
+
+        jTextField1.setText("C:olor");
+        propertiesPanel.add(jTextField1);
+
+        jTextField2.setText("Title:");
+        propertiesPanel.add(jTextField2);
+
+        getContentPane().add(propertiesPanel, new java.awt.GridBagConstraints());
+
+        fileMenuBar.setText("File");
+
+        openMenuItem.setText("Open");
+        fileMenuBar.add(openMenuItem);
+
+        saveMenuItem.setText("Save");
+        fileMenuBar.add(saveMenuItem);
+
+        saveAsMenuItem.setText("Save As");
+        fileMenuBar.add(saveAsMenuItem);
+
+        newMenuItem.setText("New");
+        fileMenuBar.add(newMenuItem);
+
+        jMenuBar1.add(fileMenuBar);
+
+        editMenuBar.setText("Edit");
+
+        rotate90MenuItem.setText("Rotate 90º");
+        rotate90MenuItem.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                rotate90MenuItemActionPerformed(evt);
+            }
+        });
+        editMenuBar.add(rotate90MenuItem);
+
+        jMenuBar1.add(editMenuBar);
+
+        setJMenuBar(jMenuBar1);
 
         pack();
     }// </editor-fold>//GEN-END:initComponents
+
+    private void rotate90MenuItemActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_rotate90MenuItemActionPerformed
+        // TODO add your handling code here:
+    }//GEN-LAST:event_rotate90MenuItemActionPerformed
 
     /**
      * @param args the command line arguments
@@ -79,5 +195,32 @@ public class GraphFrame extends javax.swing.JFrame {
     }
 
     // Variables declaration - do not modify//GEN-BEGIN:variables
+    private javax.swing.JButton addEdgeButton;
+    private javax.swing.JButton addVertexButton;
+    private javax.swing.JTextArea canvas;
+    private javax.swing.JScrollPane canvasScrollPane;
+    private javax.swing.JPanel edgesButtonPanel;
+    private javax.swing.JList<String> edgesList;
+    private javax.swing.JMenu editMenuBar;
+    private javax.swing.JMenu fileMenuBar;
+    private javax.swing.JButton jButton1;
+    private javax.swing.JButton jButton3;
+    private javax.swing.JLabel jLabel1;
+    private javax.swing.JLabel jLabel2;
+    private javax.swing.JMenuBar jMenuBar1;
+    private javax.swing.JScrollPane jScrollPane1;
+    private javax.swing.JScrollPane jScrollPane2;
+    private javax.swing.JTextField jTextField1;
+    private javax.swing.JTextField jTextField2;
+    private javax.swing.JMenuItem newMenuItem;
+    private javax.swing.JMenuItem openMenuItem;
+    private javax.swing.JPanel propertiesPanel;
+    private javax.swing.JButton removeVertexButton;
+    private javax.swing.JMenuItem rotate90MenuItem;
+    private javax.swing.JMenuItem saveAsMenuItem;
+    private javax.swing.JMenuItem saveMenuItem;
+    private javax.swing.JLabel titleTextField;
+    private javax.swing.JPanel verticesButtonPanel;
+    private javax.swing.JList<String> verticesList;
     // End of variables declaration//GEN-END:variables
 }
