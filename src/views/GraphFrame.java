@@ -28,9 +28,9 @@ public class GraphFrame extends javax.swing.JFrame {
     private void initComponents() {
 
         jButton1 = new javax.swing.JButton();
-        jScrollPane1 = new javax.swing.JScrollPane();
+        verticesScrollPane = new javax.swing.JScrollPane();
         verticesList = new javax.swing.JList<>();
-        jScrollPane2 = new javax.swing.JScrollPane();
+        edgesScrollPane = new javax.swing.JScrollPane();
         edgesList = new javax.swing.JList<>();
         verticesButtonPanel = new javax.swing.JPanel();
         addVertexButton = new javax.swing.JButton();
@@ -65,18 +65,18 @@ public class GraphFrame extends javax.swing.JFrame {
             public int getSize() { return strings.length; }
             public String getElementAt(int i) { return strings[i]; }
         });
-        jScrollPane1.setViewportView(verticesList);
+        verticesScrollPane.setViewportView(verticesList);
 
-        getContentPane().add(jScrollPane1, new java.awt.GridBagConstraints());
+        getContentPane().add(verticesScrollPane, new java.awt.GridBagConstraints());
 
         edgesList.setModel(new javax.swing.AbstractListModel<String>() {
             String[] strings = { "Item 1", "Item 2", "Item 3", "Item 4", "Item 5" };
             public int getSize() { return strings.length; }
             public String getElementAt(int i) { return strings[i]; }
         });
-        jScrollPane2.setViewportView(edgesList);
+        edgesScrollPane.setViewportView(edgesList);
 
-        getContentPane().add(jScrollPane2, new java.awt.GridBagConstraints());
+        getContentPane().add(edgesScrollPane, new java.awt.GridBagConstraints());
 
         verticesButtonPanel.setLayout(new javax.swing.BoxLayout(verticesButtonPanel, javax.swing.BoxLayout.LINE_AXIS));
 
@@ -201,6 +201,7 @@ public class GraphFrame extends javax.swing.JFrame {
     private javax.swing.JScrollPane canvasScrollPane;
     private javax.swing.JPanel edgesButtonPanel;
     private javax.swing.JList<String> edgesList;
+    private javax.swing.JScrollPane edgesScrollPane;
     private javax.swing.JMenu editMenuBar;
     private javax.swing.JMenu fileMenuBar;
     private javax.swing.JButton jButton1;
@@ -208,8 +209,6 @@ public class GraphFrame extends javax.swing.JFrame {
     private javax.swing.JLabel jLabel1;
     private javax.swing.JLabel jLabel2;
     private javax.swing.JMenuBar jMenuBar1;
-    private javax.swing.JScrollPane jScrollPane1;
-    private javax.swing.JScrollPane jScrollPane2;
     private javax.swing.JTextField jTextField1;
     private javax.swing.JTextField jTextField2;
     private javax.swing.JMenuItem newMenuItem;
@@ -222,5 +221,6 @@ public class GraphFrame extends javax.swing.JFrame {
     private javax.swing.JLabel titleTextField;
     private javax.swing.JPanel verticesButtonPanel;
     private javax.swing.JList<String> verticesList;
+    private javax.swing.JScrollPane verticesScrollPane;
     // End of variables declaration//GEN-END:variables
 }
