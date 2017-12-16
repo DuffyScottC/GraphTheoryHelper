@@ -26,6 +26,7 @@ public class GraphFrame extends javax.swing.JFrame {
     @SuppressWarnings("unchecked")
     // <editor-fold defaultstate="collapsed" desc="Generated Code">//GEN-BEGIN:initComponents
     private void initComponents() {
+        java.awt.GridBagConstraints gridBagConstraints;
 
         jButton1 = new javax.swing.JButton();
         verticesScrollPane = new javax.swing.JScrollPane();
@@ -37,15 +38,16 @@ public class GraphFrame extends javax.swing.JFrame {
         removeVertexButton = new javax.swing.JButton();
         edgesButtonPanel = new javax.swing.JPanel();
         addEdgeButton = new javax.swing.JButton();
-        jButton3 = new javax.swing.JButton();
+        removeEdgeButton = new javax.swing.JButton();
         jLabel1 = new javax.swing.JLabel();
         jLabel2 = new javax.swing.JLabel();
         canvasScrollPane = new javax.swing.JScrollPane();
         canvas = new javax.swing.JTextArea();
         propertiesPanel = new javax.swing.JPanel();
-        titleTextField = new javax.swing.JLabel();
-        jTextField1 = new javax.swing.JTextField();
-        jTextField2 = new javax.swing.JTextField();
+        JLabel3 = new javax.swing.JLabel();
+        titleTextField = new javax.swing.JTextField();
+        colorTextField = new javax.swing.JTextField();
+        jLabel3 = new javax.swing.JLabel();
         jMenuBar1 = new javax.swing.JMenuBar();
         fileMenuBar = new javax.swing.JMenu();
         openMenuItem = new javax.swing.JMenuItem();
@@ -67,7 +69,12 @@ public class GraphFrame extends javax.swing.JFrame {
         });
         verticesScrollPane.setViewportView(verticesList);
 
-        getContentPane().add(verticesScrollPane, new java.awt.GridBagConstraints());
+        gridBagConstraints = new java.awt.GridBagConstraints();
+        gridBagConstraints.gridx = 1;
+        gridBagConstraints.gridy = 2;
+        gridBagConstraints.fill = java.awt.GridBagConstraints.BOTH;
+        gridBagConstraints.insets = new java.awt.Insets(0, 4, 0, 4);
+        getContentPane().add(verticesScrollPane, gridBagConstraints);
 
         edgesList.setModel(new javax.swing.AbstractListModel<String>() {
             String[] strings = { "Item 1", "Item 2", "Item 3", "Item 4", "Item 5" };
@@ -76,51 +83,100 @@ public class GraphFrame extends javax.swing.JFrame {
         });
         edgesScrollPane.setViewportView(edgesList);
 
-        getContentPane().add(edgesScrollPane, new java.awt.GridBagConstraints());
+        gridBagConstraints = new java.awt.GridBagConstraints();
+        gridBagConstraints.gridx = 1;
+        gridBagConstraints.gridy = 5;
+        gridBagConstraints.fill = java.awt.GridBagConstraints.BOTH;
+        gridBagConstraints.insets = new java.awt.Insets(0, 4, 0, 4);
+        getContentPane().add(edgesScrollPane, gridBagConstraints);
 
         verticesButtonPanel.setLayout(new javax.swing.BoxLayout(verticesButtonPanel, javax.swing.BoxLayout.LINE_AXIS));
 
-        addVertexButton.setText("Add");
+        addVertexButton.setText("+");
         verticesButtonPanel.add(addVertexButton);
 
-        removeVertexButton.setText("Remove");
+        removeVertexButton.setText("-");
         verticesButtonPanel.add(removeVertexButton);
 
-        getContentPane().add(verticesButtonPanel, new java.awt.GridBagConstraints());
+        gridBagConstraints = new java.awt.GridBagConstraints();
+        gridBagConstraints.gridx = 1;
+        gridBagConstraints.gridy = 3;
+        getContentPane().add(verticesButtonPanel, gridBagConstraints);
 
         edgesButtonPanel.setLayout(new javax.swing.BoxLayout(edgesButtonPanel, javax.swing.BoxLayout.LINE_AXIS));
 
-        addEdgeButton.setText("Add");
+        addEdgeButton.setText("+");
         edgesButtonPanel.add(addEdgeButton);
 
-        jButton3.setText("jButton3");
-        edgesButtonPanel.add(jButton3);
+        removeEdgeButton.setText("-");
+        edgesButtonPanel.add(removeEdgeButton);
 
-        getContentPane().add(edgesButtonPanel, new java.awt.GridBagConstraints());
+        gridBagConstraints = new java.awt.GridBagConstraints();
+        gridBagConstraints.gridx = 1;
+        gridBagConstraints.gridy = 6;
+        getContentPane().add(edgesButtonPanel, gridBagConstraints);
 
         jLabel1.setText("Vertices:");
-        getContentPane().add(jLabel1, new java.awt.GridBagConstraints());
+        gridBagConstraints = new java.awt.GridBagConstraints();
+        gridBagConstraints.gridx = 1;
+        gridBagConstraints.gridy = 1;
+        gridBagConstraints.anchor = java.awt.GridBagConstraints.LINE_START;
+        gridBagConstraints.insets = new java.awt.Insets(0, 4, 0, 4);
+        getContentPane().add(jLabel1, gridBagConstraints);
 
         jLabel2.setText("Edges:");
-        getContentPane().add(jLabel2, new java.awt.GridBagConstraints());
+        gridBagConstraints = new java.awt.GridBagConstraints();
+        gridBagConstraints.gridx = 1;
+        gridBagConstraints.gridy = 4;
+        gridBagConstraints.anchor = java.awt.GridBagConstraints.LINE_START;
+        gridBagConstraints.insets = new java.awt.Insets(0, 4, 0, 4);
+        getContentPane().add(jLabel2, gridBagConstraints);
 
         canvas.setEditable(false);
         canvas.setColumns(20);
         canvas.setRows(5);
         canvasScrollPane.setViewportView(canvas);
 
-        getContentPane().add(canvasScrollPane, new java.awt.GridBagConstraints());
+        gridBagConstraints = new java.awt.GridBagConstraints();
+        gridBagConstraints.gridx = 0;
+        gridBagConstraints.gridy = 0;
+        gridBagConstraints.gridheight = 7;
+        gridBagConstraints.fill = java.awt.GridBagConstraints.BOTH;
+        getContentPane().add(canvasScrollPane, gridBagConstraints);
 
-        titleTextField.setText("jLabel3");
-        propertiesPanel.add(titleTextField);
+        propertiesPanel.setLayout(new java.awt.GridBagLayout());
 
-        jTextField1.setText("C:olor");
-        propertiesPanel.add(jTextField1);
+        JLabel3.setText("Title:");
+        gridBagConstraints = new java.awt.GridBagConstraints();
+        gridBagConstraints.anchor = java.awt.GridBagConstraints.LINE_START;
+        propertiesPanel.add(JLabel3, gridBagConstraints);
 
-        jTextField2.setText("Title:");
-        propertiesPanel.add(jTextField2);
+        titleTextField.setColumns(5);
+        titleTextField.setText("A");
+        gridBagConstraints = new java.awt.GridBagConstraints();
+        gridBagConstraints.fill = java.awt.GridBagConstraints.HORIZONTAL;
+        propertiesPanel.add(titleTextField, gridBagConstraints);
 
-        getContentPane().add(propertiesPanel, new java.awt.GridBagConstraints());
+        colorTextField.setColumns(5);
+        colorTextField.setText("Blue");
+        gridBagConstraints = new java.awt.GridBagConstraints();
+        gridBagConstraints.gridx = 1;
+        gridBagConstraints.gridy = 1;
+        gridBagConstraints.fill = java.awt.GridBagConstraints.HORIZONTAL;
+        propertiesPanel.add(colorTextField, gridBagConstraints);
+
+        jLabel3.setText("Color:");
+        gridBagConstraints = new java.awt.GridBagConstraints();
+        gridBagConstraints.gridx = 0;
+        gridBagConstraints.gridy = 1;
+        gridBagConstraints.anchor = java.awt.GridBagConstraints.LINE_START;
+        propertiesPanel.add(jLabel3, gridBagConstraints);
+
+        gridBagConstraints = new java.awt.GridBagConstraints();
+        gridBagConstraints.gridx = 1;
+        gridBagConstraints.gridy = 0;
+        gridBagConstraints.fill = java.awt.GridBagConstraints.BOTH;
+        getContentPane().add(propertiesPanel, gridBagConstraints);
 
         fileMenuBar.setText("File");
 
@@ -195,30 +251,31 @@ public class GraphFrame extends javax.swing.JFrame {
     }
 
     // Variables declaration - do not modify//GEN-BEGIN:variables
+    private javax.swing.JLabel JLabel3;
     private javax.swing.JButton addEdgeButton;
     private javax.swing.JButton addVertexButton;
     private javax.swing.JTextArea canvas;
     private javax.swing.JScrollPane canvasScrollPane;
+    private javax.swing.JTextField colorTextField;
     private javax.swing.JPanel edgesButtonPanel;
     private javax.swing.JList<String> edgesList;
     private javax.swing.JScrollPane edgesScrollPane;
     private javax.swing.JMenu editMenuBar;
     private javax.swing.JMenu fileMenuBar;
     private javax.swing.JButton jButton1;
-    private javax.swing.JButton jButton3;
     private javax.swing.JLabel jLabel1;
     private javax.swing.JLabel jLabel2;
+    private javax.swing.JLabel jLabel3;
     private javax.swing.JMenuBar jMenuBar1;
-    private javax.swing.JTextField jTextField1;
-    private javax.swing.JTextField jTextField2;
     private javax.swing.JMenuItem newMenuItem;
     private javax.swing.JMenuItem openMenuItem;
     private javax.swing.JPanel propertiesPanel;
+    private javax.swing.JButton removeEdgeButton;
     private javax.swing.JButton removeVertexButton;
     private javax.swing.JMenuItem rotate90MenuItem;
     private javax.swing.JMenuItem saveAsMenuItem;
     private javax.swing.JMenuItem saveMenuItem;
-    private javax.swing.JLabel titleTextField;
+    private javax.swing.JTextField titleTextField;
     private javax.swing.JPanel verticesButtonPanel;
     private javax.swing.JList<String> verticesList;
     private javax.swing.JScrollPane verticesScrollPane;
