@@ -11,6 +11,7 @@ import java.io.Serializable;
 import java.util.ArrayList;
 import java.util.List;
 import javax.swing.DefaultListModel;
+import views.Canvas;
 
 /**
  *
@@ -33,6 +34,9 @@ public class Graph implements Serializable {
         this.title = title;
     }
     
+    public void addEventHandlers(Canvas canvas) {
+        
+    }
     
     public void drawVertices(Graphics2D g2) {
         if (vertices == null) {

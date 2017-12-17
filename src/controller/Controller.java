@@ -27,8 +27,6 @@ public class Controller {
     private final Canvas canvas = frame.getCanvas();
 
     private final Graph graph = new Graph("Simple Graph");
-    private final List<Vertex> vertices = graph.getVertices();
-    private final List<Edge> edges = graph.getEdges();
 
     //Used for moving objects. Holds the last point the mouse was at.
     private int lastX;
@@ -59,14 +57,7 @@ public class Controller {
         });
         
         //Drag to move vertices:
-        canvas.addMouseListener(new MouseAdapter() {
-            @Override
-            public void mousePressed(MouseEvent e) {
-                
-                
-                
-            }
-        });
+        graph.addEventHandlers(canvas);
         
     }
 
