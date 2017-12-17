@@ -11,6 +11,7 @@ import element.Vertex;
 import java.awt.Color;
 import java.util.ArrayList;
 import java.util.List;
+import javax.swing.DefaultListModel;
 
 /**
  *
@@ -34,7 +35,7 @@ public class Helpers {
         vertex1.setStrokeWidth(3f);
         vertex1.setTitle("A");
         vertices.add(vertex1);
-
+        
         Vertex vertex2 = new Vertex(10);
         vertex2.setLocation(100, 100);
         vertex2.setStrokeColor(Color.magenta);
@@ -42,7 +43,7 @@ public class Helpers {
         vertex2.setStrokeWidth(3f);
         vertex2.setTitle("B");
         vertices.add(vertex2);
-
+        
         Edge edgeElement = new Edge(vertex1, vertex2);
         edgeElement.setLocation(40, 40);
         edgeElement.setStrokeColor(Color.blue);
@@ -50,5 +51,18 @@ public class Helpers {
         edgeElement.setStrokeWidth(2f);
         edgeElement.setTitle("A,B");
         edges.add(edgeElement);
+        
+        DefaultListModel verticesList = graph.getVerticesListModel();
+        verticesList.removeAllElements();
+        for (Vertex v : vertices) {
+            verticesList.addElement(v);
+        }
+        
+        DefaultListModel edgesList = graph.getEdgesListModel();
+        edgesList.removeAllElements();
+        for (Edge e : edges) {
+            edgesList.addElement(e);
+        }
+        
     }
 }
