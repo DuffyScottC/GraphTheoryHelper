@@ -34,6 +34,11 @@
                 <Property name="text" type="java.lang.String" value="New"/>
               </Properties>
             </MenuItem>
+            <MenuItem class="javax.swing.JMenuItem" name="loadSamplesMenuItem">
+              <Properties>
+                <Property name="text" type="java.lang.String" value="Load Samples"/>
+              </Properties>
+            </MenuItem>
           </SubComponents>
         </Menu>
         <Menu class="javax.swing.JMenu" name="editMenuBar">

@@ -60,6 +60,7 @@ public class GraphFrame extends javax.swing.JFrame {
         saveMenuItem = new javax.swing.JMenuItem();
         saveAsMenuItem = new javax.swing.JMenuItem();
         newMenuItem = new javax.swing.JMenuItem();
+        loadSamplesMenuItem = new javax.swing.JMenuItem();
         editMenuBar = new javax.swing.JMenu();
         rotate90MenuItem = new javax.swing.JMenuItem();
 
@@ -201,6 +202,9 @@ public class GraphFrame extends javax.swing.JFrame {
         newMenuItem.setText("New");
         fileMenuBar.add(newMenuItem);
 
+        loadSamplesMenuItem.setText("Load Samples");
+        fileMenuBar.add(loadSamplesMenuItem);
+
         jMenuBar1.add(fileMenuBar);
 
         editMenuBar.setText("Edit");
@@ -242,6 +246,7 @@ public class GraphFrame extends javax.swing.JFrame {
     private javax.swing.JLabel jLabel2;
     private javax.swing.JLabel jLabel3;
     private javax.swing.JMenuBar jMenuBar1;
+    private javax.swing.JMenuItem loadSamplesMenuItem;
     private javax.swing.JMenuItem newMenuItem;
     private javax.swing.JMenuItem openMenuItem;
     private javax.swing.JPanel propertiesPanel;
@@ -317,5 +322,9 @@ public class GraphFrame extends javax.swing.JFrame {
 
     public JList<String> getVerticesList() {
         return verticesList;
+    }
+    
+    public JMenuItem getLoadSamplesMenuItem() {
+        return loadSamplesMenuItem;
     }
 }
