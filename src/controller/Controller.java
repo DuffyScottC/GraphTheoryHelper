@@ -5,11 +5,14 @@
  */
 package controller;
 
+import element.Edge;
 import element.Graph;
+import element.Vertex;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 import java.awt.event.MouseAdapter;
 import java.awt.event.MouseEvent;
+import java.util.List;
 import javax.swing.ListSelectionModel;
 import views.Canvas;
 import views.GraphFrame;
@@ -24,6 +27,8 @@ public class Controller {
     private final Canvas canvas = frame.getCanvas();
 
     private final Graph graph = new Graph("Simple Graph");
+    private final List<Vertex> vertices = graph.getVertices();
+    private final List<Edge> edges = graph.getEdges();
 
     //Used for moving objects. Holds the last point the mouse was at.
     private int lastX;
