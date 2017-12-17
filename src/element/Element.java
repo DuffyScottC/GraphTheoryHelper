@@ -33,7 +33,7 @@ public abstract class Element implements Serializable {
 
     // the actual drawing is done by the subclass
     public abstract void draw(Graphics2D g2);
-
+    
     public abstract Shape getPositionShape();
 
     public void setLocation(double xLoc, double yLoc) {

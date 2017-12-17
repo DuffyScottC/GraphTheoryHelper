@@ -6,6 +6,8 @@
 package element;
 
 import java.awt.Graphics2D;
+import java.awt.event.MouseAdapter;
+import java.awt.event.MouseEvent;
 import java.awt.geom.AffineTransform;
 import java.io.Serializable;
 import java.util.ArrayList;
@@ -30,12 +32,37 @@ public class Graph implements Serializable {
     
     private String title = "Simple Graph";
     
+    //Used for moving objects. Holds the last point the mouse was at.
+    private int lastX;
+    private int lastY;
+    
     public Graph (String title) {
         this.title = title;
     }
     
     public void addEventHandlers(Canvas canvas) {
-        
+        canvas.addMouseListener(new MouseAdapter() {
+            @Override
+            public void mousePressed(MouseEvent e) {
+                //Find the topmost vertex that 
+                //contains the mouse click (if any):
+                
+                //if vertices is null, then there are definitely no
+                //edges and we can stop here. (A graph can't have
+                //edges without vertices.)
+                if (vertices == null) {
+                    return;
+                }
+                
+                int mx = e.getX(); //x-coord of mouse click
+                int my = e.getY(); //y-coord of mouse click
+                
+                for (Vertex currentVertex : vertices) {
+                    if (currentVertex.getPositionShape().contains(mx, my))
+                }
+                
+            }
+        });
     }
     
     public void drawVertices(Graphics2D g2) {

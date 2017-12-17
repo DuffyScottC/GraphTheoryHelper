@@ -73,11 +73,15 @@ public class Vertex extends Element {
     public int getDegree() {
         return degree;
     }
-
+    
+    /**
+     * This is used to determine if the mouse click is contained by
+     * the shape of this vertex (called in Graph)
+     * @return 
+     */
     @Override
     public Shape getPositionShape() {
-        throw new UnsupportedOperationException("Not "
-                + "supported yet. Not sure what this does");
+        return new Ellipse2D.Double(xLoc, yLoc, diameter, diameter);
     }
 
 }
