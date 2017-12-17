@@ -64,9 +64,9 @@ public class Graph {
         //first when the user clicks on it.
         for (int i = edges.size() - 1; i >= 0; --i) {
             Edge edge = edges.get(i);
-            double x = edge.getLocation().x;
-            double y = edge.getLocation().y;
-            g2.translate(x, y);
+//            double x = edge.getLocation().x;
+//            double y = edge.getLocation().y;
+//            g2.translate(x, y);
             edge.draw(g2); //actually draw the edge
             g2.setTransform(t); //restore each after drawing
         }
