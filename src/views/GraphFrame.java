@@ -175,6 +175,7 @@ public class GraphFrame extends javax.swing.JFrame {
         gridBagConstraints.fill = java.awt.GridBagConstraints.BOTH;
         getContentPane().add(propertiesPanel, gridBagConstraints);
 
+        canvas.setEditable(false);
         canvas.setColumns(20);
         canvas.setRows(5);
         canvasScrollPane.setViewportView(canvas);
