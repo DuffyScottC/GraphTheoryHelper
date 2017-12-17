@@ -113,7 +113,7 @@ public class Graph implements Serializable {
         frame.getAddVertexButton().addActionListener(new ActionListener() {
             @Override
             public void actionPerformed(ActionEvent e) {
-                
+                //For now, each new vertex is simply added to the center
             }
         });
         

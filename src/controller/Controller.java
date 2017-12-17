@@ -38,8 +38,6 @@ public class Controller {
         //set their selection modes
         frame.getVerticesList().setSelectionMode(ListSelectionModel.SINGLE_SELECTION);
         frame.getEdgesList().setSelectionMode(ListSelectionModel.SINGLE_SELECTION);
-
-        frame.getInspectorPanel().setPreferredSize(new Dimension(250, 500));
         
         //Action listeners:
         frame.getLoadSamplesMenuItem().addActionListener(new ActionListener() {

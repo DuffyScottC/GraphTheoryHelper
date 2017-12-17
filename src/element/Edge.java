@@ -78,5 +78,14 @@ public class Edge extends Element {
     public Shape getPositionShape() {
         return new Line2D.Double(x1, y1, x2, y2);
     }
-    //contains a pair of vertices
+    
+    /**
+     * The string is a combination of the names of the endpoints
+     * (Order is arbitrary). 
+     * @return 
+     */
+    @Override
+    public String toString() {
+        return endpoint1.title + "," + endpoint2.title;
+    }
 }
