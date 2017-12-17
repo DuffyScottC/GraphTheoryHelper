@@ -5,6 +5,7 @@
  */
 package controller;
 
+import element.Graph;
 import views.GraphFrame;
 
 /**
@@ -15,9 +16,12 @@ public class Controller {
 
   private final GraphFrame frame = new GraphFrame();
   
+  private final Graph graph = new Graph("Simple Graph");
+  
   public Controller() {
     frame.setTitle( "Graph Helper" );
     frame.setLocationRelativeTo(null);
+    
     
     
   }

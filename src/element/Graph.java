@@ -15,12 +15,18 @@ import java.util.List;
 public class Graph {
 
     private final List<Vertex> vertices = new ArrayList<>();
+    private final List<Edge> edges = new ArrayList<>();
+    private String title = "Simple Graph";
+    
+    public Graph (String title) {
+        this.title = title;
+    }
     
     public void drawVertices() {
-
+        
     }
 
     public void drawEdges() {
-
+        
     }
 }
