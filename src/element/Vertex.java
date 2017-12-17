@@ -24,6 +24,11 @@ public class Vertex extends Element {
     private double xCent = 5;
     private double yCent = 5;
 
+    public Vertex (double diameter) {
+        this.diameter = diameter;
+        shape = new Ellipse2D.Double(0, 0, diameter, diameter);
+    }
+    
     public Vertex(String title) {
         this.title = title;
         shape = new Ellipse2D.Double(0, 0, diameter, diameter);
