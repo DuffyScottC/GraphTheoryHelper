@@ -16,7 +16,7 @@ public class Controller {
   private final GraphFrame frame = new GraphFrame();
   
   public Controller() {
-    frame.setTitle( getClass().getSimpleName() );
+    frame.setTitle( "Graph Helper" );
     frame.setLocationRelativeTo(null);
     
     
