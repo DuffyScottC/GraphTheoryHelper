@@ -17,6 +17,10 @@ public class Vertex extends Element {
     
     private int degree = 0;
     private double diameter = 10;
+    //the center of the sphere 
+    //(used to tell edges where to place their endpoints):
+    private double xCent = 5;
+    private double yCent = 5;
     
     public Vertex(String title) {
         this.title = title;
@@ -31,7 +35,8 @@ public class Vertex extends Element {
 
     @Override
     public Shape getPositionShape() {
-        throw new UnsupportedOperationException("Not supported yet. Not sure what this does");
+        throw new UnsupportedOperationException("Not "
+                + "supported yet. Not sure what this does");
     }
 
 }

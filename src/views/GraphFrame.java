@@ -16,7 +16,7 @@ import javax.swing.JTextField;
  * @author Scott
  */
 public class GraphFrame extends javax.swing.JFrame {
-
+    
     /**
      * Creates new form GraphFrame
      */
@@ -265,8 +265,9 @@ public class GraphFrame extends javax.swing.JFrame {
         return addVertexButton;
     }
 
-    public JTextArea getCanvas() {
-        return canvas;
+    public Canvas getCanvas() {
+        //need to cast this to canvas (which extends JTextArea)
+        return (Canvas) canvas;
     }
 
     public JTextField getColorTextField() {

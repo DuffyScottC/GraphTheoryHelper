@@ -6,6 +6,7 @@
 package controller;
 
 import element.Graph;
+import views.Canvas;
 import views.GraphFrame;
 
 /**
@@ -15,6 +16,7 @@ import views.GraphFrame;
 public class Controller {
 
   private final GraphFrame frame = new GraphFrame();
+  private final Canvas canvas = frame.getCanvas();
   
   private final Graph graph = new Graph("Simple Graph");
   
