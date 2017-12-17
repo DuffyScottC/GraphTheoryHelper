@@ -36,7 +36,6 @@ public class Vertex extends Element {
         }
         g2.setStroke(stroke);
         
-        
         g2.setColor(fillColor); //set the circle's color
         g2.fill(shape); //fill in the circle in that color
         
