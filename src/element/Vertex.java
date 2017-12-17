@@ -9,6 +9,7 @@ import java.awt.BasicStroke;
 import java.awt.Graphics2D;
 import java.awt.Shape;
 import java.awt.geom.Ellipse2D;
+import java.awt.geom.Point2D;
 
 /**
  *
@@ -46,6 +47,14 @@ public class Vertex extends Element {
         }
     }
 
+    /**
+     * 
+     * @return The center of the vertex
+     */
+    public Point2D.Double getCenter() {
+        return new Point2D.Double(xCent, yCent);
+    }
+    
     /**
      * The center is half the diameter from the top right corner.
      */
