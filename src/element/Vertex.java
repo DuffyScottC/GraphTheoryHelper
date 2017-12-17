@@ -29,11 +29,6 @@ public class Vertex extends Element {
     }
 
     @Override
-    public Shape getPositionShape() {
-        return new Ellipse2D.Double(xLoc, yLoc, diameter, diameter);
-    }
-
-    @Override
     public void draw(Graphics2D g2) {
 
     }
