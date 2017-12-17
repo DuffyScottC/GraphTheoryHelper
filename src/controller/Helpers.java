@@ -6,6 +6,7 @@
 package controller;
 
 import element.Edge;
+import element.Graph;
 import element.Vertex;
 import java.awt.Color;
 import java.util.ArrayList;
@@ -18,12 +19,14 @@ import java.util.List;
 public class Helpers {
     
     /**
-     * Pass in the elements you want to use as the "vertices" and "edges" lists
-     * and this will add two sample vertices and one sample edge between them.
+     * Pass in the graph and this will add two sample 
+     * vertices and one sample edge between them.
      * @param vertices
      * @param edges 
      */
-    static void setSampleElements(List<Vertex> vertices, List<Edge> edges) {
+    static void setSampleElements(Graph graph) {
+        List<Vertex> vertices = graph.getVertices();
+        List<Edge> edges = graph.getEdges();
         Vertex vertex1 = new Vertex(10);
         vertex1.setLocation(220, 140);
         vertex1.setStrokeColor(Color.magenta);
