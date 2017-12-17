@@ -38,8 +38,8 @@ public class Canvas extends JTextArea {
             RenderingHints.VALUE_ANTIALIAS_ON
         );
         
-        graph.drawVertices();
-        graph.drawEdges();
+        graph.drawVertices(g2);
+        graph.drawEdges(g2);
 
     }
 

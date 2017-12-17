@@ -65,6 +65,10 @@ public class Vertex extends Element {
         xCent = xLoc + diameter / 2;
         yCent = yLoc + diameter / 2;
     }
+    
+    public int getDegree() {
+        return degree;
+    }
 
     @Override
     public Shape getPositionShape() {

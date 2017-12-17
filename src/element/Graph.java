@@ -5,6 +5,8 @@
  */
 package element;
 
+import java.awt.Graphics2D;
+import java.awt.geom.AffineTransform;
 import java.util.ArrayList;
 import java.util.List;
 import javax.swing.DefaultListModel;
@@ -31,11 +33,16 @@ public class Graph {
     }
     
     
-    public void drawVertices() {
+    public void drawVertices(Graphics2D g2) {
+        if (vertices == null) {
+            return;
+        }
+        
+        AffineTransform t = g2.getTransform(); // save the transform settings
         
     }
 
-    public void drawEdges() {
+    public void drawEdges(Graphics2D g2) {
         
     }
     
