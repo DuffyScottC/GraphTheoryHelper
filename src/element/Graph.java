@@ -22,6 +22,7 @@ public class Graph {
         this.title = title;
     }
     
+    
     public void drawVertices() {
         
     }
@@ -29,4 +30,9 @@ public class Graph {
     public void drawEdges() {
         
     }
+    
+    public void setTitle(String title) {
+        this.title = title;
+    }
+    
 }
