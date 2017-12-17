@@ -27,13 +27,16 @@ public class Controller {
     
     canvas.setGraph(graph); //pass the graph to the canvas
     
-    //set up list models:
+    //Set up list models:
     //set them to their respective JLists
     frame.getVerticesList().setModel(graph.getVerticesListModel());
     frame.getEdgesList().setModel(graph.getEdgesListModel());
     //set their selection modes
     frame.getVerticesList().setSelectionMode(ListSelectionModel.SINGLE_SELECTION);
     frame.getEdgesList().setSelectionMode(ListSelectionModel.SINGLE_SELECTION);
+    
+    //Action listeners:
+    
     
   }
 

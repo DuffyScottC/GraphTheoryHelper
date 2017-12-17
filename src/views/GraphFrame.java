@@ -47,13 +47,13 @@ public class GraphFrame extends javax.swing.JFrame {
         removeEdgeButton = new javax.swing.JButton();
         jLabel1 = new javax.swing.JLabel();
         jLabel2 = new javax.swing.JLabel();
-        canvasScrollPane = new javax.swing.JScrollPane();
-        canvas = new javax.swing.JTextArea();
         propertiesPanel = new javax.swing.JPanel();
         JLabel3 = new javax.swing.JLabel();
         titleTextField = new javax.swing.JTextField();
         colorTextField = new javax.swing.JTextField();
         jLabel3 = new javax.swing.JLabel();
+        canvasScrollPane = new javax.swing.JScrollPane();
+        canvas = new views.Canvas();
         jMenuBar1 = new javax.swing.JMenuBar();
         fileMenuBar = new javax.swing.JMenu();
         openMenuItem = new javax.swing.JMenuItem();
@@ -140,20 +140,6 @@ public class GraphFrame extends javax.swing.JFrame {
         gridBagConstraints.insets = new java.awt.Insets(0, 4, 0, 4);
         getContentPane().add(jLabel2, gridBagConstraints);
 
-        canvas.setEditable(false);
-        canvas.setColumns(20);
-        canvas.setRows(5);
-        canvasScrollPane.setViewportView(canvas);
-
-        gridBagConstraints = new java.awt.GridBagConstraints();
-        gridBagConstraints.gridx = 0;
-        gridBagConstraints.gridy = 0;
-        gridBagConstraints.gridheight = 7;
-        gridBagConstraints.fill = java.awt.GridBagConstraints.BOTH;
-        gridBagConstraints.weightx = 0.1;
-        gridBagConstraints.weighty = 0.1;
-        getContentPane().add(canvasScrollPane, gridBagConstraints);
-
         propertiesPanel.setLayout(new java.awt.GridBagLayout());
 
         JLabel3.setText("Title:");
@@ -187,6 +173,19 @@ public class GraphFrame extends javax.swing.JFrame {
         gridBagConstraints.gridy = 0;
         gridBagConstraints.fill = java.awt.GridBagConstraints.BOTH;
         getContentPane().add(propertiesPanel, gridBagConstraints);
+
+        canvas.setColumns(20);
+        canvas.setRows(5);
+        canvasScrollPane.setViewportView(canvas);
+
+        gridBagConstraints = new java.awt.GridBagConstraints();
+        gridBagConstraints.gridx = 0;
+        gridBagConstraints.gridy = 0;
+        gridBagConstraints.gridheight = 7;
+        gridBagConstraints.fill = java.awt.GridBagConstraints.BOTH;
+        gridBagConstraints.weightx = 0.1;
+        gridBagConstraints.weighty = 0.1;
+        getContentPane().add(canvasScrollPane, gridBagConstraints);
 
         fileMenuBar.setText("File");
 
@@ -230,7 +229,7 @@ public class GraphFrame extends javax.swing.JFrame {
     private javax.swing.JLabel JLabel3;
     private javax.swing.JButton addEdgeButton;
     private javax.swing.JButton addVertexButton;
-    private javax.swing.JTextArea canvas;
+    private views.Canvas canvas;
     private javax.swing.JScrollPane canvasScrollPane;
     private javax.swing.JTextField colorTextField;
     private javax.swing.JPanel edgesButtonPanel;
