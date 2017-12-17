@@ -36,6 +36,9 @@ public class Graph implements Serializable {
     private int lastX;
     private int lastY;
     
+    //Used for moving objects
+    private Vertex selectedVertex;
+    
     public Graph (String title) {
         this.title = title;
     }
@@ -58,11 +61,28 @@ public class Graph implements Serializable {
                 int my = e.getY(); //y-coord of mouse click
                 
                 for (Vertex currentVertex : vertices) {
-                    if (currentVertex.getPositionShape().contains(mx, my))
+                    //if this figure contains the mouse click:
+                    if (currentVertex.getPositionShape().contains(mx, my)) {
+                        selectedVertex = currentVertex;
+                        break; //exit the loop (we don't need to check the rest)
+                    }
                 }
                 
+                //update the last position
+                lastX = mx;
+                lastY = my;
+                
             }
+            
+            @Override
+            public void mouseReleased(MouseEvent e) {
+                selectedVertex = null; //we don'e want to move a figure after the user lets go
+            }
+            
         });
+        
+        
+        
     }
     
     public void drawVertices(Graphics2D g2) {
