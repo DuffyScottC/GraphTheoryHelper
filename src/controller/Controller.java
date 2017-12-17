@@ -9,6 +9,23 @@ package controller;
  *
  * @author Scott
  */
+import views.GraphFrame;
+
 public class Controller {
-    //controls the running of the app
+
+  private final GraphFrame frame = new GraphFrame();
+  
+  public Controller() {
+    frame.setTitle( getClass().getSimpleName() );
+    frame.setLocationRelativeTo(null);
+    // you can adjust the size with something like this:
+    // frame.setSize(600, 500);
+	
+    // event handlers
+  }
+
+  public static void main(String[] args) {
+    Controller app = new Controller();
+    app.frame.setVisible(true);
+  }
 }
