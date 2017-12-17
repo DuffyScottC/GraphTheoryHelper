@@ -42,7 +42,7 @@ public class Graph {
         
         //loop from back to front so that the "top" vertext gets chosen
         //first when the user clicks on it.
-        for (int i = vertices.size(); i >= 0; --i) {
+        for (int i = vertices.size() - 1; i >= 0; --i) {
             Vertex vertex = vertices.get(i);
             double x = vertex.getLocation().x;
             double y = vertex.getLocation().y;
@@ -62,7 +62,7 @@ public class Graph {
         
         //loop from back to front so that the "top" edge gets chosen
         //first when the user clicks on it.
-        for (int i = edges.size(); i >= 0; --i) {
+        for (int i = edges.size() - 1; i >= 0; --i) {
             Edge edge = edges.get(i);
             double x = edge.getLocation().x;
             double y = edge.getLocation().y;
