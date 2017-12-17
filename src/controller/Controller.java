@@ -24,6 +24,7 @@ public class Controller {
     frame.setTitle( "Graph Helper" );
     frame.setLocationRelativeTo(null);
     
+    canvas.setGraph(graph); //pass the graph to the canvas
     
     
   }
