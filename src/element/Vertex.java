@@ -14,23 +14,36 @@ import java.awt.geom.Ellipse2D;
  * @author Scott
  */
 public class Vertex extends Element {
-    
+
     private int degree = 0;
     private double diameter = 10;
     //the center of the sphere 
     //(used to tell edges where to place their endpoints):
     private double xCent = 5;
     private double yCent = 5;
-    
+
     public Vertex(String title) {
         this.title = title;
-        
+
         shape = new Ellipse2D.Double(0, 0, diameter, diameter);
     }
-    
+
+    @Override
+    public Shape getPositionShape() {
+        return new Ellipse2D.Double(xLoc, yLoc, diameter, diameter);
+    }
+
     @Override
     public void draw(Graphics2D g2) {
-        
+
+    }
+
+    /**
+     * The center is half the diameter from the top right corner.
+     */
+    private void calculateCenter() {
+        xCent = xLoc + diameter / 2;
+        yCent = yLoc + diameter / 2;
     }
 
     @Override
