@@ -7,6 +7,7 @@ package element;
 
 import java.awt.Graphics2D;
 import java.awt.geom.AffineTransform;
+import java.io.Serializable;
 import java.util.ArrayList;
 import java.util.List;
 import javax.swing.DefaultListModel;
@@ -15,7 +16,7 @@ import javax.swing.DefaultListModel;
  *
  * @author Scott
  */
-public class Graph {
+public class Graph implements Serializable {
     
     //the vertices which appear in canvas and the vertices JList
     private final List<Vertex> vertices = new ArrayList<>();

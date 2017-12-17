@@ -8,6 +8,8 @@ package controller;
 import element.Graph;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
+import java.awt.event.MouseAdapter;
+import java.awt.event.MouseEvent;
 import javax.swing.ListSelectionModel;
 import views.Canvas;
 import views.GraphFrame;
@@ -50,6 +52,17 @@ public class Controller {
                 canvas.repaint();
             }
         });
+        
+        //Drag to move vertices:
+        canvas.addMouseListener(new MouseAdapter() {
+            @Override
+            public void mousePressed(MouseEvent e) {
+                
+                
+                
+            }
+        });
+        
     }
 
     public static void main(String[] args) {
