@@ -10,5 +10,5 @@ package element;
  * @author Scott
  */
 public class Edge {
-    
+    //contains a pair of vertices
 }

@@ -5,10 +5,22 @@
  */
 package element;
 
+import java.util.ArrayList;
+import java.util.List;
+
 /**
  *
  * @author Scott
  */
 public class Graph {
-    //contains a list of vertexes and connections
+
+    private final List<Vertex> vertices = new ArrayList<>();
+    
+    public void drawVertices() {
+
+    }
+
+    public void drawEdges() {
+
+    }
 }

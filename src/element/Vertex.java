@@ -5,11 +5,33 @@
  */
 package element;
 
+import java.awt.Graphics2D;
+import java.awt.Shape;
+import java.awt.geom.Ellipse2D;
+
 /**
  *
  * @author Scott
  */
-public class Vertex {
-    //consists of a shape, a color, a name, 
-    //maybe a degree
+public class Vertex extends Element {
+    
+    private int degree = 0;
+    private double diameter = 10;
+    
+    public Vertex(String title) {
+        this.title = title;
+        
+        shape = new Ellipse2D.Double(0, 0, diameter, diameter);
+    }
+    
+    @Override
+    public void draw(Graphics2D g2) {
+        
+    }
+
+    @Override
+    public Shape getPositionShape() {
+        throw new UnsupportedOperationException("Not supported yet. Not sure what this does");
+    }
+
 }
