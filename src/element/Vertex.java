@@ -52,11 +52,14 @@ public class Vertex extends Element {
      * @return The center of the vertex
      */
     public Point2D.Double getCenter() {
+        //We want to calculate the center when a given edge
+        this.calculateCenter(); //find the center
         return new Point2D.Double(xCent, yCent);
     }
     
     /**
      * The center is half the diameter from the top right corner.
+     * This is a helper method to calculate it (for readability).
      */
     private void calculateCenter() {
         xCent = xLoc + diameter / 2;
