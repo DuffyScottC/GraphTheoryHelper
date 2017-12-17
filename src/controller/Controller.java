@@ -5,12 +5,12 @@
  */
 package controller;
 
+import views.GraphFrame;
+
 /**
  *
  * @author Scott
  */
-import views.GraphFrame;
-
 public class Controller {
 
   private final GraphFrame frame = new GraphFrame();
@@ -18,10 +18,8 @@ public class Controller {
   public Controller() {
     frame.setTitle( getClass().getSimpleName() );
     frame.setLocationRelativeTo(null);
-    // you can adjust the size with something like this:
-    // frame.setSize(600, 500);
-	
-    // event handlers
+    
+    
   }
 
   public static void main(String[] args) {

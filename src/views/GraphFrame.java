@@ -5,6 +5,12 @@
  */
 package views;
 
+import javax.swing.JButton;
+import javax.swing.JList;
+import javax.swing.JMenuItem;
+import javax.swing.JTextArea;
+import javax.swing.JTextField;
+
 /**
  *
  * @author Scott
@@ -73,6 +79,7 @@ public class GraphFrame extends javax.swing.JFrame {
         gridBagConstraints.gridx = 1;
         gridBagConstraints.gridy = 2;
         gridBagConstraints.fill = java.awt.GridBagConstraints.BOTH;
+        gridBagConstraints.weighty = 0.1;
         gridBagConstraints.insets = new java.awt.Insets(0, 4, 0, 4);
         getContentPane().add(verticesScrollPane, gridBagConstraints);
 
@@ -87,6 +94,7 @@ public class GraphFrame extends javax.swing.JFrame {
         gridBagConstraints.gridx = 1;
         gridBagConstraints.gridy = 5;
         gridBagConstraints.fill = java.awt.GridBagConstraints.BOTH;
+        gridBagConstraints.weighty = 0.1;
         gridBagConstraints.insets = new java.awt.Insets(0, 4, 0, 4);
         getContentPane().add(edgesScrollPane, gridBagConstraints);
 
@@ -142,6 +150,8 @@ public class GraphFrame extends javax.swing.JFrame {
         gridBagConstraints.gridy = 0;
         gridBagConstraints.gridheight = 7;
         gridBagConstraints.fill = java.awt.GridBagConstraints.BOTH;
+        gridBagConstraints.weightx = 0.1;
+        gridBagConstraints.weighty = 0.1;
         getContentPane().add(canvasScrollPane, gridBagConstraints);
 
         propertiesPanel.setLayout(new java.awt.GridBagLayout());
@@ -280,4 +290,64 @@ public class GraphFrame extends javax.swing.JFrame {
     private javax.swing.JList<String> verticesList;
     private javax.swing.JScrollPane verticesScrollPane;
     // End of variables declaration//GEN-END:variables
+
+    public JButton getAddEdgeButton() {
+        return addEdgeButton;
+    }
+
+    public JButton getAddVertexButton() {
+        return addVertexButton;
+    }
+
+    public JTextArea getCanvas() {
+        return canvas;
+    }
+
+    public JTextField getColorTextField() {
+        return colorTextField;
+    }
+
+    public JList<String> getEdgesList() {
+        return edgesList;
+    }
+
+    public JButton getjButton1() {
+        return jButton1;
+    }
+
+    public JMenuItem getNewMenuItem() {
+        return newMenuItem;
+    }
+
+    public JMenuItem getOpenMenuItem() {
+        return openMenuItem;
+    }
+
+    public JButton getRemoveEdgeButton() {
+        return removeEdgeButton;
+    }
+
+    public JButton getRemoveVertexButton() {
+        return removeVertexButton;
+    }
+
+    public JMenuItem getRotate90MenuItem() {
+        return rotate90MenuItem;
+    }
+
+    public JMenuItem getSaveAsMenuItem() {
+        return saveAsMenuItem;
+    }
+
+    public JMenuItem getSaveMenuItem() {
+        return saveMenuItem;
+    }
+
+    public JTextField getTitleTextField() {
+        return titleTextField;
+    }
+
+    public JList<String> getVerticesList() {
+        return verticesList;
+    }
 }
