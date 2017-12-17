@@ -8,6 +8,7 @@ package views;
 import javax.swing.JButton;
 import javax.swing.JList;
 import javax.swing.JMenuItem;
+import javax.swing.JPanel;
 import javax.swing.JTextArea;
 import javax.swing.JTextField;
 
@@ -190,7 +191,6 @@ public class GraphFrame extends javax.swing.JFrame {
 
         gridBagConstraints = new java.awt.GridBagConstraints();
         gridBagConstraints.fill = java.awt.GridBagConstraints.BOTH;
-        gridBagConstraints.weighty = 0.1;
         getContentPane().add(inspectorPanel, gridBagConstraints);
 
         fileMenuBar.setText("File");
@@ -327,5 +327,9 @@ public class GraphFrame extends javax.swing.JFrame {
     
     public JMenuItem getLoadSamplesMenuItem() {
         return loadSamplesMenuItem;
+    }
+    
+    public JPanel getInspectorPanel() {
+        return inspectorPanel;
     }
 }

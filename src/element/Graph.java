@@ -6,6 +6,8 @@
 package element;
 
 import java.awt.Graphics2D;
+import java.awt.event.ActionEvent;
+import java.awt.event.ActionListener;
 import java.awt.event.MouseAdapter;
 import java.awt.event.MouseEvent;
 import java.awt.event.MouseMotionAdapter;
@@ -15,6 +17,7 @@ import java.util.ArrayList;
 import java.util.List;
 import javax.swing.DefaultListModel;
 import views.Canvas;
+import views.GraphFrame;
 
 /**
  *
@@ -44,7 +47,7 @@ public class Graph implements Serializable {
         this.title = title;
     }
     
-    public void addEventHandlers(Canvas canvas) {
+    public void addEventHandlers(Canvas canvas, GraphFrame frame) {
         canvas.addMouseListener(new MouseAdapter() {
             @Override
             public void mousePressed(MouseEvent e) {
@@ -103,6 +106,13 @@ public class Graph implements Serializable {
                 
                 selectedVertex.incLocation(incX, incY);
                 canvas.repaint();
+                
+            }
+        });
+        
+        frame.getAddVertexButton().addActionListener(new ActionListener() {
+            @Override
+            public void actionPerformed(ActionEvent e) {
                 
             }
         });

@@ -6,6 +6,7 @@
 package controller;
 
 import element.Graph;
+import java.awt.Dimension;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 import javax.swing.ListSelectionModel;
@@ -38,6 +39,8 @@ public class Controller {
         frame.getVerticesList().setSelectionMode(ListSelectionModel.SINGLE_SELECTION);
         frame.getEdgesList().setSelectionMode(ListSelectionModel.SINGLE_SELECTION);
 
+        frame.getInspectorPanel().setPreferredSize(new Dimension(250, 500));
+        
         //Action listeners:
         frame.getLoadSamplesMenuItem().addActionListener(new ActionListener() {
             @Override
@@ -48,7 +51,7 @@ public class Controller {
         });
         
         //Drag to move vertices:
-        graph.addEventHandlers(canvas);
+        graph.addEventHandlers(canvas, frame);
         
     }
 
