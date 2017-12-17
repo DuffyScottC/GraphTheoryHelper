@@ -265,8 +265,10 @@ public class GraphFrame extends javax.swing.JFrame {
     }
 
     public Canvas getCanvas() {
-        //need to cast this to canvas (which extends JTextArea)
-        return (Canvas) canvas;
+        //This already is a canvas object. Not certain why I should cast it like my
+        //prof did in his example, so I'm not going to.
+        //return (Canvas) canvas;
+        return canvas;
     }
 
     public JTextField getColorTextField() {
