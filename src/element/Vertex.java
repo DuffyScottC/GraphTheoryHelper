@@ -50,11 +50,7 @@ public class Vertex extends Element {
             g2.draw(shape); //draw the outline in that color
         }
     }
-
-    /**
-     * 
-     * @return The center of the vertex
-     */
+    
     public Point2D.Double getCenter() {
         //We want to calculate the center when a given edge
         this.calculateCenter(); //find the center

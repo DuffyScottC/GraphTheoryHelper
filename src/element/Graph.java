@@ -8,6 +8,7 @@ package element;
 import java.awt.Graphics2D;
 import java.awt.event.MouseAdapter;
 import java.awt.event.MouseEvent;
+import java.awt.event.MouseMotionAdapter;
 import java.awt.geom.AffineTransform;
 import java.io.Serializable;
 import java.util.ArrayList;
@@ -81,7 +82,30 @@ public class Graph implements Serializable {
             
         });
         
-        
+        canvas.addMouseMotionListener(new MouseMotionAdapter() {
+            @Override
+            public void mouseDragged(MouseEvent e) {
+                
+                if (selectedVertex == null) {
+                    return; //we don't have a vertex to move, so just stop here
+                }
+                
+                int mx = e.getX(); //x-coord of mouse click
+                int my = e.getY(); //y-coord of mouse click
+
+                // find the difference between the last position and the current position (used for moving the figure)
+                int incX = mx - lastX;
+                int incY = my - lastY;
+                
+                //update the last position
+                lastX = mx;
+                lastY = my;
+                
+                selectedVertex.incLocation(incX, incY);
+                canvas.repaint();
+                
+            }
+        });
         
     }
     
