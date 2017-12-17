@@ -37,8 +37,8 @@ public class Helpers {
 
         Vertex vertex2 = new Vertex(10);
         vertex2.setLocation(100, 100);
-        vertex1.setStrokeColor(Color.magenta);
-        vertex1.setFillColor(Color.yellow);
+        vertex2.setStrokeColor(Color.magenta);
+        vertex2.setFillColor(Color.yellow);
         vertex2.setStrokeWidth(3f);
         vertex2.setTitle("B");
         vertices.add(vertex2);
@@ -47,7 +47,7 @@ public class Helpers {
         edgeElement.setLocation(40, 40);
         edgeElement.setStrokeColor(Color.blue);
         edgeElement.setFillColor(Color.red);
-        edgeElement.setStrokeWidth(4.2f);
+        edgeElement.setStrokeWidth(2f);
         edgeElement.setTitle("A,B");
         edges.add(edgeElement);
     }
