@@ -34,6 +34,12 @@ public class Vertex extends Element {
         shape = new Ellipse2D.Double(0, 0, diameter, diameter);
     }
 
+    Vertex(int xLoc, int yLoc) {
+        this.xLoc = xLoc;
+        this.yLoc = yLoc;
+        shape = new Ellipse2D.Double(0, 0, diameter, diameter);
+    }
+
     @Override
     public void draw(Graphics2D g2) {
         if (stroke == null) {

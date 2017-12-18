@@ -5,6 +5,7 @@
  */
 package element;
 
+import java.awt.Color;
 import java.awt.Graphics2D;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
@@ -39,6 +40,8 @@ public class Graph implements Serializable {
     //Used for moving objects. Holds the last point the mouse was at.
     private int lastX;
     private int lastY;
+    
+    private int nameIndex;
     
     //Used for moving objects
     private Vertex selectedVertex;
@@ -114,9 +117,46 @@ public class Graph implements Serializable {
             @Override
             public void actionPerformed(ActionEvent e) {
                 //For now, each new vertex is simply added to the center
+                int xPos = canvas.getWidth()/2;
+                int yPos = canvas.getHeight()/2;
+                
+                Vertex newVertex = new Vertex(10);
+                newVertex.setLocation(xPos, yPos);
+                newVertex.setStrokeColor(Color.magenta);
+                newVertex.setFillColor(Color.yellow);
+                newVertex.setStrokeWidth(3f);
+                newVertex.setTitle("A");
+                vertices.add(newVertex);
+                
             }
         });
         
+    }
+    
+    private String generateVertexName() {
+        if (vertices == null) {
+            return "V";
+        }
+        /*
+        Loop through 1 to n = vertices.size(). Worst comes to worst, 
+        the all the current vertices are named V1, V2,...,Vn
+        And we have to name it V(n+1). If they are named V1, V2,...,V(n-1), V(n+1) 
+        (skipping Vn) then we will name it Vn automattically.
+        */
+        int i = 1;
+        String newTitle = "V"; //Holds the auto-generated name for the new vertex (will never be V)
+        boolean matchFound = true; //true when newTitle is already in the vertices list
+        while (matchFound == true) { //We want to loop again if we found that newTitle is already in the vertices list
+            newTitle = "V" + i; //Combination of the current index and V
+            matchFound = false; //We start by assuming there is no match
+            for (Vertex v : vertices) { //loop through all of the vertices
+                if (v.getTitle() == newTitle) { //If even a single vertex is named the same thing
+                    matchFound = true; //we want to continue the outermost loop and find a different number
+                    break; //and we don't need to keep looking for one that matches this particular name
+                }
+            }
+        }
+        return newTitle; //by this point, we've found a unique vertex name (be it V or V+(some number)). 
     }
     
     public void drawVertices(Graphics2D g2) {

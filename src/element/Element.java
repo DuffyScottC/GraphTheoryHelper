@@ -63,6 +63,10 @@ public abstract class Element implements Serializable {
         this.fillColor = color;
     }
 
+    public String getTitle() {
+        return title;
+    }
+    
     public final void setTitle(String title) {
         this.title = title;
     }

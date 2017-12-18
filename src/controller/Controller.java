@@ -28,7 +28,7 @@ public class Controller {
         frame.setTitle("Graph Helper");
         frame.setLocationRelativeTo(null);
         frame.setSize(800, 500);
-
+        
         canvas.setGraph(graph); //pass the graph to the canvas
 
         //Set up list models:
