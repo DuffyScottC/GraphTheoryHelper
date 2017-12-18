@@ -39,11 +39,17 @@ public class Graph implements Serializable {
     private final List<Edge> edges = new ArrayList<>();
     
     /**
-     * the last selected vertex in the JList
+     * the last selected vertex in the vertices JList
      * (Used for things like setting the title text field, updating the title,
      * changing the color, etc.)
      */
     private Vertex selectedVertex;
+    /**
+     * the last selected index in the vertices JList
+     * (Used for things like setting the title text field, updating the title,
+     * changing the color, etc.)
+     */
+    private int selectedIndex;
 
     // models for vertex and edge selection lists
     private final DefaultListModel verticesListModel = new DefaultListModel();
@@ -172,6 +178,22 @@ public class Graph implements Serializable {
         frame.getRemoveVertexButton().addActionListener(new ActionListener() {
             @Override
             public void actionPerformed(ActionEvent e) {
+                if (selectedIndex == -1) {
+                    return;
+                }
+                
+                vertices.remove(selectedIndex);
+                
+                //Update the list model
+                verticesListModel.removeAllElements();
+                for (Vertex v : vertices) {
+                    verticesListModel.addElement(v);
+                }
+                
+                //Deselect the vertex:
+                selectedIndex = -1;
+                selectedVertex = null;
+                titleTextField.setText("");
                 
             }
         });
@@ -179,7 +201,7 @@ public class Graph implements Serializable {
         verticesList.addListSelectionListener(new ListSelectionListener() {
             @Override
             public void valueChanged(ListSelectionEvent e) {
-                int selectedIndex = verticesList.getSelectedIndex(); //get the index of the selected item
+                selectedIndex = verticesList.getSelectedIndex(); //get the index of the selected item
                 
                 if (selectedIndex == -1) { //if the user is deselecting something, do nothing
                     return;
