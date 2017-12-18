@@ -6,6 +6,7 @@
 package element;
 
 import java.awt.BasicStroke;
+import java.awt.Color;
 import java.awt.Graphics2D;
 import java.awt.Shape;
 import java.awt.geom.Ellipse2D;
@@ -34,12 +35,6 @@ public class Vertex extends Element {
         shape = new Ellipse2D.Double(0, 0, diameter, diameter);
     }
 
-    Vertex(int xLoc, int yLoc) {
-        this.xLoc = xLoc;
-        this.yLoc = yLoc;
-        shape = new Ellipse2D.Double(0, 0, diameter, diameter);
-    }
-
     @Override
     public void draw(Graphics2D g2) {
         if (stroke == null) {
@@ -55,6 +50,11 @@ public class Vertex extends Element {
             g2.setColor(strokeColor); //set the circle's color
             g2.draw(shape); //draw the outline in that color
         }
+    }
+    
+    public void drawTitle(Graphics2D g2) {
+        g2.setColor(Color.BLACK);
+        g2.drawString(title, (int) xLoc, (int) yLoc - 8);
     }
     
     public Point2D.Double getCenter() {

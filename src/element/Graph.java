@@ -55,6 +55,8 @@ public class Graph implements Serializable {
     private int lastX;
     private int lastY;
     private Vertex clickedVertex;
+    
+    private boolean showTitles = false;
 
     public Graph(String title) {
         this.title = title;
@@ -124,6 +126,20 @@ public class Graph implements Serializable {
                 clickedVertex.incLocation(incX, incY);
                 canvas.repaint();
 
+            }
+        });
+        
+        frame.getShowVertexNamesMenuItem().addActionListener(new ActionListener() {
+            @Override
+            public void actionPerformed(ActionEvent e) {
+                //Toggle the showTitles boolean
+                if (showTitles) {
+                    showTitles = false;
+                } else {
+                    showTitles = true;
+                }
+                
+                canvas.repaint();
             }
         });
 
@@ -242,6 +258,10 @@ public class Graph implements Serializable {
             g2.translate(x, y);
             vertex.draw(g2); //actually draw the vertex
             g2.setTransform(t); //restore each after drawing
+            
+            if(showTitles) { //If the user wants to show the titles
+                vertex.drawTitle(g2);
+            }
         }
 
     }
@@ -263,7 +283,6 @@ public class Graph implements Serializable {
             edge.draw(g2); //actually draw the edge
             g2.setTransform(t); //restore each after drawing
         }
-
     }
 
     public List<Vertex> getVertices() {
@@ -284,6 +303,10 @@ public class Graph implements Serializable {
 
     public void setTitle(String title) {
         this.title = title;
+    }
+    
+    public void setShowTitles(boolean showTitles) {
+        this.showTitles = showTitles;
     }
 
 }

@@ -253,7 +253,6 @@ public class GraphFrame extends javax.swing.JFrame {
 
         viewMenu.setText("View");
 
-        showVertexNamesMenuItem.setSelected(true);
         showVertexNamesMenuItem.setText("Show Vertex Names");
         viewMenu.add(showVertexNamesMenuItem);
 
