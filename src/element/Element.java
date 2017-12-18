@@ -75,5 +75,18 @@ public abstract class Element implements Serializable {
     public String toString() {
         return title;
     }
+    
+    @Override
+    public boolean equals(Object obj) {
+        if (obj == null) {
+            return false;
+        }
+        if(obj instanceof Element) { //if this is an Element object (or some subclass of Element)
+            Element el = (Element) obj; //cast it to an Element
+            return this.title.equals(el); //compare the titles
+        } else { //if this is not an Element, then they are not equal
+            return false;
+        }
+    }
 
 }
