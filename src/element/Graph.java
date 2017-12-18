@@ -195,6 +195,7 @@ public class Graph implements Serializable {
                 selectedVertex = null;
                 titleTextField.setText("");
                 
+                canvas.repaint();
             }
         });
         

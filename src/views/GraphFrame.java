@@ -95,7 +95,6 @@ public class GraphFrame extends javax.swing.JFrame {
         propertiesPanel.add(JLabel3, gridBagConstraints);
 
         titleTextField.setColumns(5);
-        titleTextField.setText("A");
         gridBagConstraints = new java.awt.GridBagConstraints();
         gridBagConstraints.fill = java.awt.GridBagConstraints.HORIZONTAL;
         propertiesPanel.add(titleTextField, gridBagConstraints);
