@@ -9,6 +9,8 @@ import java.awt.Color;
 import java.awt.Graphics2D;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
+import java.awt.event.KeyAdapter;
+import java.awt.event.KeyEvent;
 import java.awt.event.MouseAdapter;
 import java.awt.event.MouseEvent;
 import java.awt.event.MouseMotionAdapter;
@@ -17,6 +19,8 @@ import java.io.Serializable;
 import java.util.ArrayList;
 import java.util.List;
 import javax.swing.DefaultListModel;
+import javax.swing.JList;
+import javax.swing.JOptionPane;
 import javax.swing.JTextField;
 import javax.swing.event.ListSelectionEvent;
 import javax.swing.event.ListSelectionListener;
@@ -33,21 +37,24 @@ public class Graph implements Serializable {
     private final List<Vertex> vertices = new ArrayList<>();
     //the edges which appear in canvas and the edges JList
     private final List<Edge> edges = new ArrayList<>();
+    
+    /**
+     * the last selected vertex in the JList
+     * (Used for things like setting the title text field, updating the title,
+     * changing the color, etc.)
+     */
+    private Vertex selectedVertex;
 
     // models for vertex and edge selection lists
     private final DefaultListModel verticesListModel = new DefaultListModel();
     private final DefaultListModel edgesListModel = new DefaultListModel();
 
     private String title = "Simple Graph";
-
+    
     //Used for moving objects. Holds the last point the mouse was at.
     private int lastX;
     private int lastY;
-
-    private int nameIndex;
-
-    //Used for moving objects
-    private Vertex selectedVertex;
+    private Vertex clickedVertex;
 
     public Graph(String title) {
         this.title = title;
@@ -56,6 +63,7 @@ public class Graph implements Serializable {
     public void addEventHandlers(Canvas canvas, GraphFrame frame) {
         
         JTextField titleTextField = frame.getTitleTextField();
+        JList verticesList = frame.getVerticesList(); //the visual JList that the user sees and interacts with
         
         canvas.addMouseListener(new MouseAdapter() {
             @Override
@@ -76,7 +84,7 @@ public class Graph implements Serializable {
                 for (Vertex currentVertex : vertices) {
                     //if this figure contains the mouse click:
                     if (currentVertex.getPositionShape().contains(mx, my)) {
-                        selectedVertex = currentVertex;
+                        clickedVertex = currentVertex;
                         break; //exit the loop (we don't need to check the rest)
                     }
                 }
@@ -89,7 +97,7 @@ public class Graph implements Serializable {
 
             @Override
             public void mouseReleased(MouseEvent e) {
-                selectedVertex = null; //we don'e want to move a figure after the user lets go
+                clickedVertex = null; //we don'e want to move a figure after the user lets go
             }
 
         });
@@ -98,7 +106,7 @@ public class Graph implements Serializable {
             @Override
             public void mouseDragged(MouseEvent e) {
 
-                if (selectedVertex == null) {
+                if (clickedVertex == null) {
                     return; //we don't have a vertex to move, so just stop here
                 }
 
@@ -113,7 +121,7 @@ public class Graph implements Serializable {
                 lastX = mx;
                 lastY = my;
 
-                selectedVertex.incLocation(incX, incY);
+                clickedVertex.incLocation(incX, incY);
                 canvas.repaint();
 
             }
@@ -145,14 +153,47 @@ public class Graph implements Serializable {
             }
         });
         
-        frame.getVerticesList().addListSelectionListener(new ListSelectionListener() {
+        frame.getRemoveVertexButton().addActionListener(new ActionListener() {
+            @Override
+            public void actionPerformed(ActionEvent e) {
+                
+            }
+        });
+        
+        verticesList.addListSelectionListener(new ListSelectionListener() {
             @Override
             public void valueChanged(ListSelectionEvent e) {
-                //When user selects a new element, update the title listed in the titleTextField:
-                int selectedIndex = frame.getVerticesList().getSelectedIndex(); //get the index of the selected item
-                String vTitle = vertices.get(selectedIndex).getTitle();
-                titleTextField.setText(vTitle);
+                int selectedIndex = verticesList.getSelectedIndex(); //get the index of the selected item
                 
+                if (selectedIndex == -1) { //if the user is deselecting something, do nothing
+                    return;
+                }
+                
+                selectedVertex = vertices.get(selectedIndex); //store the selected vertex
+                titleTextField.setText(selectedVertex.getTitle());
+                
+            }
+        });
+        
+        titleTextField.addActionListener(new ActionListener() {
+            @Override
+            public void actionPerformed(ActionEvent e) {
+                //The title of the vertex should be updated and the JList should be repainted
+                if (selectedVertex == null) {
+                    return;
+                }
+                String newTitle = titleTextField.getText();
+                //Check if the name is unique:
+                for (Vertex v : vertices) { //cycle through all elements
+                    if (v.getTitle().equals(newTitle)) {
+                        //Throw a dialogue telling the user that they can't name two vertexes the same thing
+                        JOptionPane.showMessageDialog(frame, "Title \"" + newTitle + "\" has already been used in this graph.");
+                        return; //leave (without renaming the vertex)
+                    }
+                }
+                //If the name is unique, rename the title
+                selectedVertex.setTitle(newTitle);
+                verticesList.repaint();
             }
         });
 
