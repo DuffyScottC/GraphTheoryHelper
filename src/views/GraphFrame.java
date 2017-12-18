@@ -56,14 +56,16 @@ public class GraphFrame extends javax.swing.JFrame {
         edgesScrollPane = new javax.swing.JScrollPane();
         edgesList = new javax.swing.JList<>();
         jMenuBar1 = new javax.swing.JMenuBar();
-        fileMenuBar = new javax.swing.JMenu();
+        fileMenu = new javax.swing.JMenu();
         openMenuItem = new javax.swing.JMenuItem();
         saveMenuItem = new javax.swing.JMenuItem();
         saveAsMenuItem = new javax.swing.JMenuItem();
         newMenuItem = new javax.swing.JMenuItem();
         loadSamplesMenuItem = new javax.swing.JMenuItem();
-        editMenuBar = new javax.swing.JMenu();
+        editMenu = new javax.swing.JMenu();
         rotate90MenuItem = new javax.swing.JMenuItem();
+        viewMenu = new javax.swing.JMenu();
+        showVertexNamesMenuItem = new javax.swing.JCheckBoxMenuItem();
 
         setDefaultCloseOperation(javax.swing.WindowConstants.EXIT_ON_CLOSE);
         getContentPane().setLayout(new java.awt.GridBagLayout());
@@ -193,26 +195,26 @@ public class GraphFrame extends javax.swing.JFrame {
         gridBagConstraints.fill = java.awt.GridBagConstraints.BOTH;
         getContentPane().add(inspectorPanel, gridBagConstraints);
 
-        fileMenuBar.setText("File");
+        fileMenu.setText("File");
 
         openMenuItem.setText("Open");
-        fileMenuBar.add(openMenuItem);
+        fileMenu.add(openMenuItem);
 
         saveMenuItem.setText("Save");
-        fileMenuBar.add(saveMenuItem);
+        fileMenu.add(saveMenuItem);
 
         saveAsMenuItem.setText("Save As");
-        fileMenuBar.add(saveAsMenuItem);
+        fileMenu.add(saveAsMenuItem);
 
         newMenuItem.setText("New");
-        fileMenuBar.add(newMenuItem);
+        fileMenu.add(newMenuItem);
 
         loadSamplesMenuItem.setText("Load Samples");
-        fileMenuBar.add(loadSamplesMenuItem);
+        fileMenu.add(loadSamplesMenuItem);
 
-        jMenuBar1.add(fileMenuBar);
+        jMenuBar1.add(fileMenu);
 
-        editMenuBar.setText("Edit");
+        editMenu.setText("Edit");
 
         rotate90MenuItem.setText("Rotate 90º");
         rotate90MenuItem.addActionListener(new java.awt.event.ActionListener() {
@@ -220,9 +222,17 @@ public class GraphFrame extends javax.swing.JFrame {
                 rotate90MenuItemActionPerformed(evt);
             }
         });
-        editMenuBar.add(rotate90MenuItem);
+        editMenu.add(rotate90MenuItem);
 
-        jMenuBar1.add(editMenuBar);
+        jMenuBar1.add(editMenu);
+
+        viewMenu.setText("View");
+
+        showVertexNamesMenuItem.setSelected(true);
+        showVertexNamesMenuItem.setText("Show Vertex Names");
+        viewMenu.add(showVertexNamesMenuItem);
+
+        jMenuBar1.add(viewMenu);
 
         setJMenuBar(jMenuBar1);
 
@@ -245,8 +255,8 @@ public class GraphFrame extends javax.swing.JFrame {
     private javax.swing.JLabel edgesLabel;
     private javax.swing.JList<String> edgesList;
     private javax.swing.JScrollPane edgesScrollPane;
-    private javax.swing.JMenu editMenuBar;
-    private javax.swing.JMenu fileMenuBar;
+    private javax.swing.JMenu editMenu;
+    private javax.swing.JMenu fileMenu;
     private javax.swing.JPanel inspectorPanel;
     private javax.swing.JLabel jLabel3;
     private javax.swing.JMenuBar jMenuBar1;
@@ -259,11 +269,13 @@ public class GraphFrame extends javax.swing.JFrame {
     private javax.swing.JMenuItem rotate90MenuItem;
     private javax.swing.JMenuItem saveAsMenuItem;
     private javax.swing.JMenuItem saveMenuItem;
+    private javax.swing.JCheckBoxMenuItem showVertexNamesMenuItem;
     private javax.swing.JTextField titleTextField;
     private javax.swing.JPanel verticesButtonPanel;
     private javax.swing.JLabel verticesLabel;
     private javax.swing.JList<String> verticesList;
     private javax.swing.JScrollPane verticesScrollPane;
+    private javax.swing.JMenu viewMenu;
     // End of variables declaration//GEN-END:variables
 
     public JButton getAddEdgeButton() {
@@ -331,5 +343,9 @@ public class GraphFrame extends javax.swing.JFrame {
     
     public JPanel getInspectorPanel() {
         return inspectorPanel;
+    }
+    
+    public JMenuItem getShowVertexNamesMenuItem() {
+        return showVertexNamesMenuItem;
     }
 }
