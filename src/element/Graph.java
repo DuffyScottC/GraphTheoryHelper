@@ -17,6 +17,7 @@ import java.io.Serializable;
 import java.util.ArrayList;
 import java.util.List;
 import javax.swing.DefaultListModel;
+import javax.swing.JTextField;
 import javax.swing.event.ListSelectionEvent;
 import javax.swing.event.ListSelectionListener;
 import views.Canvas;
@@ -53,6 +54,9 @@ public class Graph implements Serializable {
     }
 
     public void addEventHandlers(Canvas canvas, GraphFrame frame) {
+        
+        JTextField titleTextField = frame.getTitleTextField();
+        
         canvas.addMouseListener(new MouseAdapter() {
             @Override
             public void mousePressed(MouseEvent e) {
@@ -144,6 +148,10 @@ public class Graph implements Serializable {
         frame.getVerticesList().addListSelectionListener(new ListSelectionListener() {
             @Override
             public void valueChanged(ListSelectionEvent e) {
+                //When user selects a new element, update the title listed in the titleTextField:
+                int selectedIndex = frame.getVerticesList().getSelectedIndex(); //get the index of the selected item
+                String vTitle = vertices.get(selectedIndex).getTitle();
+                titleTextField.setText(vTitle);
                 
             }
         });
