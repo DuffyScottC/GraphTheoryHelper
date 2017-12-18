@@ -17,6 +17,8 @@ import java.io.Serializable;
 import java.util.ArrayList;
 import java.util.List;
 import javax.swing.DefaultListModel;
+import javax.swing.event.ListSelectionEvent;
+import javax.swing.event.ListSelectionListener;
 import views.Canvas;
 import views.GraphFrame;
 
@@ -136,6 +138,13 @@ public class Graph implements Serializable {
                 
                 canvas.repaint();
 
+            }
+        });
+        
+        frame.getVerticesList().addListSelectionListener(new ListSelectionListener() {
+            @Override
+            public void valueChanged(ListSelectionEvent e) {
+                
             }
         });
 
