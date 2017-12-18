@@ -151,20 +151,7 @@ public class Graph implements Serializable {
         And we have to name it V(n+1). If they are named V1, V2,...,V(n-1), V(n+1) 
         (skipping Vn) then we will name it Vn automattically.
          */
-        int i = 1;
-        String newTitle = "V"; //Holds the auto-generated name for the new vertex (will never be V)
-        boolean matchFound = true; //true when newTitle is already in the vertices list
-        while (matchFound == true) { //We want to loop again if we found that newTitle is already in the vertices list
-            newTitle = "V" + i; //Combination of the current index and V
-            matchFound = false; //We start by assuming there is no match
-            for (Vertex v : vertices) { //loop through all of the vertices
-                if (v.getTitle() == newTitle) { //If even a single vertex is named the same thing
-                    matchFound = true; //we want to continue the outermost loop and find a different number
-                    break; //and we don't need to keep looking for one that matches this particular name
-                }
-            }
-        }
-        return newTitle; //by this point, we've found a unique vertex name (be it V or V+(some number)). 
+        
     }
 
     public void drawVertices(Graphics2D g2) {
