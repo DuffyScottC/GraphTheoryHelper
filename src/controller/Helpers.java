@@ -59,6 +59,9 @@ public class Helpers {
         edgeElement.setTitle("A,B");
         edges.add(edgeElement);
         
+        vertex1.addEdge(edgeElement);
+        vertex2.addEdge(edgeElement);
+        
         DefaultListModel verticesList = graph.getVerticesListModel();
         verticesList.removeAllElements();
         for (Vertex v : vertices) {

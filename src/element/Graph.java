@@ -339,6 +339,7 @@ public class Graph implements Serializable {
                 //If the name is unique, rename the title
                 selectedVertex.setTitle(newTitle);
                 verticesList.repaint();
+                canvas.repaint();
             }
         });
 
