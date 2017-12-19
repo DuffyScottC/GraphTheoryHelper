@@ -42,10 +42,9 @@ public class Canvas extends JTextArea {
             RenderingHints.VALUE_ANTIALIAS_ON
         );
         
+        graph.drawLiveEdge(g2); //used for when we're adding an edge
         graph.drawEdges(g2);
         graph.drawVertices(g2);
-        
-        graph.drawLiveEdge(g2); //used for when we're adding an edge
         
         this.setText(graph.toString());
         

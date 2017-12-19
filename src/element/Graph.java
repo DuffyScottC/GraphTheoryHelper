@@ -118,11 +118,10 @@ public class Graph implements Serializable {
                                     edgesListModel.addElement(eg);
                                 }
                                 
-                                return; //we've created the edge, and we're done
+                                exitAddEdgeState();
+                                
+                                canvas.repaint();
                             }
-                            //if we reach this point, the user hasn't selected a vertex.
-                            //Instead, they clicked empty space. We should cancel the process
-                            exitAddEdgeState();
                         }
                     }
                 } else { //if we are not in the edge adding state, then we can move the vertices
