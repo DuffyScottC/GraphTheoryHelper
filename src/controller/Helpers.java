@@ -19,13 +19,15 @@ import javax.swing.DefaultListModel;
  */
 public class Helpers {
     
+    public static float STROKE_WIDTH = 2.0f;
+    
     /**
      * Pass in the graph and this will add two sample 
      * vertices and one sample edge between them.
      * @param vertices
      * @param edges 
      */
-    static void setSampleElements(Graph graph) {
+    public static void setSampleElements(Graph graph) {
         List<Vertex> vertices = graph.getVertices();
         List<Edge> edges = graph.getEdges();
         Vertex vertex1 = new Vertex(10);
