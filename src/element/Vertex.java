@@ -11,21 +11,23 @@ import java.awt.Graphics2D;
 import java.awt.Shape;
 import java.awt.geom.Ellipse2D;
 import java.awt.geom.Point2D;
+import java.util.ArrayList;
+import java.util.List;
 
 /**
  *
  * @author Scott
  */
 public class Vertex extends Element {
-
-    private int degree = 0;
+    
     private double diameter = 10;
     //the center of the sphere 
     //(used to tell edges where to place their endpoints):
     private double xCent = 5;
     private double yCent = 5;
     
-    //TODO - add a list of edges accociated with this vertex
+    //A list of edges accociated with this vertex
+    List<Edge> edges = new ArrayList<>();
 
     public Vertex (double diameter) {
         this.diameter = diameter;
@@ -36,7 +38,7 @@ public class Vertex extends Element {
         this.title = title;
         shape = new Ellipse2D.Double(0, 0, diameter, diameter);
     }
-
+    
     @Override
     public void draw(Graphics2D g2) {
         if (stroke == null) {
@@ -75,7 +77,15 @@ public class Vertex extends Element {
     }
     
     public int getDegree() {
-        return degree;
+        return edges.size();
+    }
+    
+    public void addEdge(Edge e) {
+        edges.add(e);
+    }
+    
+    public void removeEdge(Edge e) {
+        edges.remove(e);
     }
     
     /**
