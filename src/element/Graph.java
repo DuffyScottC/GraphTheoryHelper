@@ -254,9 +254,7 @@ public class Graph implements Serializable {
                 vertices.add(newVertex);
 
                 updateVerticesListModel();
-
-                //Update title text field
-                titleTextField.setText(newTitle);
+                
                 //Update selection:
                 int bottomIndex = vertices.size() - 1;
                 //Set the selection of the visual JList to the bottom
@@ -282,11 +280,9 @@ public class Graph implements Serializable {
 
                 updateVerticesListModel();
                 updateEdgesListModel();
-
                 //Deselect the vertex:
                 selectedIndex = -1;
-                selectedVertex = null;
-                titleTextField.setText("");
+                setSelectedVertex();
 
                 canvas.repaint();
             }
@@ -371,11 +367,13 @@ public class Graph implements Serializable {
         if (selectedIndex == -1) { //if the user deselected a vertex
             selectedVertex = null;
             titleTextField.setText("");
+            titleTextField.setEditable(false);
             verticesList.clearSelection(); //unselect the element in the JList
         } else { //if the user selected a vertex
             selectedVertex = vertices.get(selectedIndex); //store the selected vertex
             selectedVertex.setStrokeColor(Helpers.HIGHLIGHT_COLOR); //highlight the vertex
             titleTextField.setText(selectedVertex.getTitle());
+            titleTextField.setEditable(true);
         }
         canvas.repaint();
     }
