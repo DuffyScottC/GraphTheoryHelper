@@ -247,6 +247,9 @@ public class Graph implements Serializable {
                 
                 //Update title text field
                 titleTextField.setText(newTitle);
+                //Update selection
+                selectedVertex = newVertex;
+                selectedIndex = -1;
 
                 canvas.repaint();
 
