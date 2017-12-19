@@ -356,4 +356,8 @@ public class GraphFrame extends javax.swing.JFrame {
     public JMenuItem getShowVertexNamesMenuItem() {
         return showVertexNamesMenuItem;
     }
+    
+    public JTextField getStatusTextField() {
+        return statusTextField;
+    }
 }
