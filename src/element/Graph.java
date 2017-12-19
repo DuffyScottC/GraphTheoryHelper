@@ -36,42 +36,42 @@ public class Graph implements Serializable {
     private final List<Vertex> vertices = new ArrayList<>();
     //the edges which appear in canvas and the edges JList
     private final List<Edge> edges = new ArrayList<>();
-    
+
     /**
-     * the last selected vertex in the vertices JList
-     * (Used for things like setting the title text field, updating the title,
-     * changing the color, etc.)
+     * the last selected vertex in the vertices JList (Used for things like
+     * setting the title text field, updating the title, changing the color,
+     * etc.)
      */
     private Vertex selectedVertex;
     /**
-     * the last selected index in the vertices JList
-     * (Used for things like setting the title text field, updating the title,
-     * changing the color, etc.)
+     * the last selected index in the vertices JList (Used for things like
+     * setting the title text field, updating the title, changing the color,
+     * etc.)
      */
     private int selectedIndex;
-    
+
     //MARK: Adding edge state:
     /**
      * Only true if the user is in the edge adding state.
      */
     private boolean addingEdge = false;
     /**
-     * If this is not null, we want to start drawing an edge between
-     * this vertex and the mouse
+     * If this is not null, we want to start drawing an edge between this vertex
+     * and the mouse
      */
     private Vertex firstSelectedVertex;
-    
+
     // models for vertex and edge selection lists
     private final DefaultListModel verticesListModel = new DefaultListModel();
     private final DefaultListModel edgesListModel = new DefaultListModel();
 
     private String title = "Simple Graph";
-    
+
     //Used for moving objects. Holds the last point the mouse was at.
     private int lastX;
     private int lastY;
     private Vertex clickedVertex;
-    
+
     private boolean showTitles = false;
 
     public Graph(String title) {
@@ -79,38 +79,78 @@ public class Graph implements Serializable {
     }
 
     public void addEventHandlers(Canvas canvas, GraphFrame frame) {
-        
+
         JTextField titleTextField = frame.getTitleTextField();
         JList verticesList = frame.getVerticesList(); //the visual JList that the user sees and interacts with
-        
+
         canvas.addMouseListener(new MouseAdapter() {
             @Override
             public void mousePressed(MouseEvent e) {
-                //Find the topmost vertex that 
-                //contains the mouse click (if any):
+                if (addingEdge) { //if we are in the edge adding state, we don't want to be able to move any vertices
+                    int mx = e.getX(); //x-coord of mouse click
+                    int my = e.getY(); //y-coord of mouse click
 
-                //if vertices is null, then there are definitely no
-                //edges and we can stop here. (A graph can't have
-                //edges without vertices.)
-                if (vertices == null) {
-                    return;
-                }
-
-                int mx = e.getX(); //x-coord of mouse click
-                int my = e.getY(); //y-coord of mouse click
-
-                for (Vertex currentVertex : vertices) {
-                    //if this figure contains the mouse click:
-                    if (currentVertex.getPositionShape().contains(mx, my)) {
-                        clickedVertex = currentVertex;
-                        break; //exit the loop (we don't need to check the rest)
+                    //Find out which vertex was clicked (if any):
+                    if (firstSelectedVertex == null) { //if this is null, the user hasn't chosen their first vertex
+                        //(If we reach this point, vertices.size() is at least 2)
+                        for (Vertex currentVertex : vertices) { //loop through the vertices
+                            //if this figure contains the mouse click:
+                            if (currentVertex.getPositionShape().contains(mx, my)) {
+                                firstSelectedVertex = currentVertex; //assign the first vertex
+                                return; //we've assigned the first selected vertex and we're done
+                            }
+                            //if we reach this point, the user hasn't selected and vertex.
+                            //Instead, they clicked empty space. We should cancel the process
+                            exitAddEdgeState();
+                        }
+                    } else { //The user has already chosen their first vertex
+                        //(If we reach this point, vertices.size() is at least 2)
+                        for (Vertex currentVertex : vertices) { //loop through the vertices
+                            //if this figure contains the mouse click:
+                            if (currentVertex.getPositionShape().contains(mx, my)) {
+                                //Create a new edge with the two vertices
+                                Edge newEdge = new Edge(firstSelectedVertex, currentVertex);
+                                
+                                edges.add(newEdge);
+                                
+                                edgesListModel.removeAllElements();
+                                for (Edge eg : edges) {
+                                    edgesListModel.addElement(eg);
+                                }
+                                
+                                return; //we've created the edge, and we're done
+                            }
+                            //if we reach this point, the user hasn't selected a vertex.
+                            //Instead, they clicked empty space. We should cancel the process
+                            exitAddEdgeState();
+                        }
                     }
+                } else { //if we are not in the edge adding state, then we can move the vertices
+                    //Find the topmost vertex that 
+                    //contains the mouse click (if any):
+
+                    //if vertices is null, then there are definitely no
+                    //edges and we can stop here. (A graph can't have
+                    //edges without vertices.)
+                    if (vertices == null) {
+                        return;
+                    }
+
+                    int mx = e.getX(); //x-coord of mouse click
+                    int my = e.getY(); //y-coord of mouse click
+
+                    for (Vertex currentVertex : vertices) {
+                        //if this figure contains the mouse click:
+                        if (currentVertex.getPositionShape().contains(mx, my)) {
+                            clickedVertex = currentVertex;
+                            break; //exit the loop (we don't need to check the rest)
+                        }
+                    }
+
+                    //update the last position
+                    lastX = mx;
+                    lastY = my;
                 }
-
-                //update the last position
-                lastX = mx;
-                lastY = my;
-
             }
 
             @Override
@@ -123,11 +163,6 @@ public class Graph implements Serializable {
         canvas.addMouseMotionListener(new MouseMotionListener() {
             @Override
             public void mouseDragged(MouseEvent e) {
-                
-                if (addingEdge) { //if we are in the edge adding state, we don't want to be able to move any elements
-                    return;
-                }
-                
                 if (clickedVertex == null) {
                     return; //we don't have a vertex to move, so just stop here
                 }
@@ -145,9 +180,8 @@ public class Graph implements Serializable {
 
                 clickedVertex.incLocation(incX, incY);
                 canvas.repaint();
-
             }
-            
+
             @Override
             public void mouseMoved(MouseEvent e) {
                 //If null, user hasn't selected first vertex
@@ -159,12 +193,17 @@ public class Graph implements Serializable {
                 //and the user has clicked the first edge.
                 //The actual drawing happends in this.drawLiveEdge(Graphics2D g2), which
                 //gets called in canvas's paint method
-                
+
+                //I use these variables to store the 
+                //location of the mouse for drawing the lines
+                lastX = e.getX();
+                lastY = e.getY();
+
                 canvas.repaint();
             }
-            
+
         });
-        
+
         frame.getShowVertexNamesMenuItem().addActionListener(new ActionListener() {
             @Override
             public void actionPerformed(ActionEvent e) {
@@ -174,7 +213,7 @@ public class Graph implements Serializable {
                 } else {
                     showTitles = true;
                 }
-                
+
                 canvas.repaint();
             }
         });
@@ -193,64 +232,72 @@ public class Graph implements Serializable {
                 newVertex.setStrokeWidth(3f);
                 newVertex.setTitle(generateVertexName());
                 vertices.add(newVertex);
-                
+
                 //Update the list model
                 verticesListModel.removeAllElements();
                 for (Vertex v : vertices) {
                     verticesListModel.addElement(v);
                 }
-                
+
                 canvas.repaint();
 
             }
         });
-        
+
         frame.getRemoveVertexButton().addActionListener(new ActionListener() {
             @Override
             public void actionPerformed(ActionEvent e) {
                 if (selectedIndex == -1) {
                     return;
                 }
-                
+
                 vertices.remove(selectedIndex);
-                
+
                 //Update the list model
                 verticesListModel.removeAllElements();
                 for (Vertex v : vertices) {
                     verticesListModel.addElement(v);
                 }
-                
+
                 //Deselect the vertex:
                 selectedIndex = -1;
                 selectedVertex = null;
                 titleTextField.setText("");
-                
+
                 canvas.repaint();
             }
         });
-        
+
         frame.getAddEdgeButton().addActionListener(new ActionListener() {
             @Override
             public void actionPerformed(ActionEvent e) {
+                if (vertices == null) {
+                    JOptionPane.showMessageDialog(frame, "Need at least two vertices to add an edge.");
+                    return;
+                }
+                if (vertices.isEmpty() || vertices.size() == 1) {
+                    JOptionPane.showMessageDialog(frame, "Need at least two vertices to add an edge.");
+                    return;
+                }
                 addingEdge = true; //enter the edge adding state
             }
         });
-        
+
         verticesList.addListSelectionListener(new ListSelectionListener() {
             @Override
             public void valueChanged(ListSelectionEvent e) {
                 selectedIndex = verticesList.getSelectedIndex(); //get the index of the selected item
-                
+
                 if (selectedIndex == -1) { //if the user is deselecting something, do nothing
                     return;
                 }
-                
+
                 selectedVertex = vertices.get(selectedIndex); //store the selected vertex
                 titleTextField.setText(selectedVertex.getTitle());
-                
+
             }
         });
-        
+
         titleTextField.addActionListener(new ActionListener() {
             @Override
             public void actionPerformed(ActionEvent e) {
@@ -272,11 +319,10 @@ public class Graph implements Serializable {
                 verticesList.repaint();
             }
         });
-        
+
     }
-    
+
     //MARK: Other methods--------------------
-    
     private String generateVertexName() {
         if (vertices == null) {
             return "V";
@@ -320,8 +366,8 @@ public class Graph implements Serializable {
             g2.translate(x, y);
             vertex.draw(g2); //actually draw the vertex
             g2.setTransform(t); //restore each after drawing
-            
-            if(showTitles) { //If the user wants to show the titles
+
+            if (showTitles) { //If the user wants to show the titles
                 vertex.drawTitle(g2);
             }
         }
@@ -346,10 +392,12 @@ public class Graph implements Serializable {
             g2.setTransform(t); //restore each after drawing
         }
     }
-    
+
     /**
-     * We want to draw an edge between the first vertex and the current mouse position
-     * @param g2 
+     * We want to draw an edge between the first vertex and the current mouse
+     * position
+     *
+     * @param g2
      */
     public void drawLiveEdge(Graphics2D g2) {
         //If this is null, then we are not in the adding a vertex state
@@ -364,6 +412,11 @@ public class Graph implements Serializable {
         g2.setStroke(new BasicStroke(3));
         g2.setColor(Color.BLACK);
         g2.drawLine(x1, y1, x2, y2); //draw the line
+    }
+
+    private void exitAddEdgeState() {
+        addingEdge = false;
+        firstSelectedVertex = null;
     }
 
     public List<Vertex> getVertices() {
@@ -385,11 +438,11 @@ public class Graph implements Serializable {
     public void setTitle(String title) {
         this.title = title;
     }
-    
+
     public void setShowTitles(boolean showTitles) {
         this.showTitles = showTitles;
     }
-    
+
     @Override
     public String toString() {
         StringBuilder strB = new StringBuilder();

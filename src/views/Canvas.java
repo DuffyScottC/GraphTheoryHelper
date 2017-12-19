@@ -45,9 +45,7 @@ public class Canvas extends JTextArea {
         graph.drawEdges(g2);
         graph.drawVertices(g2);
         
-        if (addingEdge) {
-            
-        }
+        graph.drawLiveEdge(g2); //used for when we're adding an edge
         
         this.setText(graph.toString());
         
