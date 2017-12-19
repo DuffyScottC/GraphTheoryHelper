@@ -71,6 +71,10 @@ public class Graph implements Serializable {
     //Used for moving objects. Holds the last point the mouse was at.
     private int lastX;
     private int lastY;
+    /**
+     * This is used for moving a vertex, not to be confused with selectedVertex,
+     * which is used for deleting and changing titles.
+     */
     private Vertex clickedVertex;
 
     private boolean showTitles = false;
@@ -159,9 +163,12 @@ public class Graph implements Serializable {
                         Vertex currentVertex = vertices.get(i);
                         //if this figure contains the mouse click:
                         if (currentVertex.getPositionShape().contains(mx, my)) {
+                            //deselect the previously selected vertex
+                            selectedVertex.setStrokeColor(Helpers.VERTEX_COLOR);
+                            //assign a new selected vertex
+                            selectedVertex = clickedVertex;
                             clickedVertex = currentVertex;
                             clickedVertex.setStrokeColor(Helpers.HIGHLIGHT_COLOR);
-                            selectedVertex = clickedVertex;
                             //Set the selection of the visual JList to the bottom
                             verticesList.setSelectedIndex(i);
                             selectedIndex = i;
@@ -175,18 +182,20 @@ public class Graph implements Serializable {
                         selectedVertex = null;
                         selectedIndex = -1;
                         verticesList.setSelectedIndex(-1);
-                        selectedVertex.setStrokeColor(Helpers.VERTEX_COLOR);
+                        titleTextField.setText("");
                     }
 
                     //update the last position
                     lastX = mx;
                     lastY = my;
+                    
+                    canvas.repaint(); //needed for visual selection
                 }
             }
 
             @Override
             public void mouseReleased(MouseEvent e) {
-                clickedVertex = null; //we don'e want to move a figure after the user lets go
+                clickedVertex = null; //we don't want to move a figure after the user lets go
             }
 
         });
