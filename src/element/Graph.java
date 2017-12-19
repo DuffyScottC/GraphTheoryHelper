@@ -285,8 +285,10 @@ public class Graph implements Serializable {
                 //highlight all of the vertexes to provide a visual cue that the user is supposed
                 //to click one to add the edge
                 for (Vertex v : vertices) {
-                    v.setStrokeColor(Helpers.VERTEX_COLOR);
+                    v.setStrokeColor(Helpers.HIGHLIGHT_COLOR);
                 }
+                
+                canvas.repaint();
             }
         });
 
