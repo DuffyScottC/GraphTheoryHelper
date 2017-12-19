@@ -33,6 +33,8 @@ import views.GraphFrame;
  */
 public class Graph implements Serializable {
 
+    private Canvas canvas;
+    
     //the vertices which appear in canvas and the vertices JList
     private final List<Vertex> vertices = new ArrayList<>();
     //the edges which appear in canvas and the edges JList
@@ -85,7 +87,7 @@ public class Graph implements Serializable {
         this.title = title;
     }
 
-    public void addEventHandlers(Canvas canvas, GraphFrame frame) {
+    public void addEventHandlers(GraphFrame frame) {
 
         titleTextField = frame.getTitleTextField();
         verticesList = frame.getVerticesList(); //the visual JList that the user sees and interacts with
@@ -113,7 +115,7 @@ public class Graph implements Serializable {
                         }
                         //if we reach this point, the user hasn't selected and vertex.
                         //Instead, they clicked empty space. We should cancel the process
-                        exitAddEdgeState(canvas);
+                        exitAddEdgeState();
                     } else { //The user has already chosen their first vertex
                         //(If we reach this point, vertices.size() is at least 2)
                         for (Vertex currentVertex : vertices) { //loop through the vertices
@@ -134,14 +136,14 @@ public class Graph implements Serializable {
 
                                 updateEdgesListModel();
 
-                                exitAddEdgeState(canvas);
+                                exitAddEdgeState();
 
                                 return; //we don't need to check anymore
                             }
 
                         }
                         //If we reach this point, we want to cancel the edge
-                        exitAddEdgeState(canvas);
+                        exitAddEdgeState();
 
                     }
                 } else { //if we are not in the edge adding state, then we can move the vertices
@@ -374,7 +376,7 @@ public class Graph implements Serializable {
             selectedVertex.setStrokeColor(Helpers.HIGHLIGHT_COLOR); //highlight the vertex
             titleTextField.setText(selectedVertex.getTitle());
         }
-
+        canvas.repaint();
     }
 
     private String generateVertexTitle() {
@@ -468,7 +470,7 @@ public class Graph implements Serializable {
         g2.drawLine(x1, y1, x2, y2); //draw the line
     }
 
-    private void exitAddEdgeState(Canvas canvas) {
+    private void exitAddEdgeState() {
         addingEdge = false;
         firstSelectedVertex = null;
         for (Vertex v : vertices) {
@@ -513,6 +515,10 @@ public class Graph implements Serializable {
 
     public void setShowTitles(boolean showTitles) {
         this.showTitles = showTitles;
+    }
+    
+    public void setCanvas(Canvas canvas) {
+        this.canvas = canvas;
     }
 
     @Override

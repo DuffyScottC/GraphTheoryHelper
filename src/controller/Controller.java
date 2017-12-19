@@ -30,6 +30,7 @@ public class Controller {
         frame.setSize(800, 500);
         
         canvas.setGraph(graph); //pass the graph to the canvas
+        graph.setCanvas(canvas); //pass the canvas to the graph
 
         //Set up list models:
         //set them to their respective JLists
@@ -49,7 +50,7 @@ public class Controller {
         });
         
         //Drag to move vertices:
-        graph.addEventHandlers(canvas, frame);
+        graph.addEventHandlers(frame);
         
     }
 
