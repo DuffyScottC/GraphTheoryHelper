@@ -414,8 +414,7 @@ public class Graph implements Serializable {
 
         //loop from back to front so that the "top" vertext gets chosen
         //first when the user clicks on it.
-        for (int i = vertices.size() - 1; i >= 0; --i) {
-            Vertex vertex = vertices.get(i);
+        for (Vertex vertex : vertices) {
             double x = vertex.getLocation().x;
             double y = vertex.getLocation().y;
             g2.translate(x, y);
@@ -438,8 +437,7 @@ public class Graph implements Serializable {
 
         //loop from back to front so that the "top" edge gets chosen
         //first when the user clicks on it.
-        for (int i = edges.size() - 1; i >= 0; --i) {
-            Edge edge = edges.get(i);
+        for (Edge edge : edges) {
 //            double x = edge.getLocation().x;
 //            double y = edge.getLocation().y;
 //            g2.translate(x, y);
