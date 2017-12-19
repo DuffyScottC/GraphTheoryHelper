@@ -232,7 +232,8 @@ public class Graph implements Serializable {
                 newVertex.setStrokeColor(Helpers.VERTEX_COLOR);
                 newVertex.setFillColor(Helpers.VERTEX_COLOR);
                 newVertex.setStrokeWidth(3f);
-                newVertex.setTitle(generateVertexName());
+                String newTitle = generateVertexTitle();
+                newVertex.setTitle(newTitle);
                 vertices.add(newVertex);
 
                 //Update the list model
@@ -240,6 +241,9 @@ public class Graph implements Serializable {
                 for (Vertex v : vertices) {
                     verticesListModel.addElement(v);
                 }
+                
+                //Update title text field
+                titleTextField.setText(newTitle);
 
                 canvas.repaint();
 
@@ -332,7 +336,7 @@ public class Graph implements Serializable {
     }
 
     //MARK: Other methods--------------------
-    private String generateVertexName() {
+    private String generateVertexTitle() {
         if (vertices == null) {
             return "V";
         }
