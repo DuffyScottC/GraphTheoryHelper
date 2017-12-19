@@ -25,6 +25,7 @@ public class Helpers {
      */
     public static Color VERTEX_COLOR = Color.RED;
     public static Color HIGHLIGHT_COLOR = Color.GREEN;
+    public static int DIAMETER = 15;
     
     /**
      * Pass in the graph and this will add two sample 
@@ -35,7 +36,7 @@ public class Helpers {
     public static void setSampleElements(Graph graph) {
         List<Vertex> vertices = graph.getVertices();
         List<Edge> edges = graph.getEdges();
-        Vertex vertex1 = new Vertex(10);
+        Vertex vertex1 = new Vertex(DIAMETER);
         vertex1.setLocation(220, 140);
         vertex1.setStrokeColor(VERTEX_COLOR);
         vertex1.setFillColor(VERTEX_COLOR);
@@ -43,7 +44,7 @@ public class Helpers {
         vertex1.setTitle("A");
         vertices.add(vertex1);
         
-        Vertex vertex2 = new Vertex(10);
+        Vertex vertex2 = new Vertex(DIAMETER);
         vertex2.setLocation(100, 100);
         vertex2.setStrokeColor(VERTEX_COLOR);
         vertex2.setFillColor(VERTEX_COLOR);

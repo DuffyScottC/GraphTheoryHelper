@@ -41,8 +41,6 @@ public class GraphFrame extends javax.swing.JFrame {
         propertiesPanel = new javax.swing.JPanel();
         JLabel3 = new javax.swing.JLabel();
         titleTextField = new javax.swing.JTextField();
-        colorTextField = new javax.swing.JTextField();
-        jLabel3 = new javax.swing.JLabel();
         verticesLabel = new javax.swing.JLabel();
         verticesScrollPane = new javax.swing.JScrollPane();
         verticesList = new javax.swing.JList<>();
@@ -86,32 +84,11 @@ public class GraphFrame extends javax.swing.JFrame {
 
         inspectorPanel.setLayout(new java.awt.GridBagLayout());
 
-        propertiesPanel.setLayout(new java.awt.GridBagLayout());
-
         JLabel3.setText("Title:");
-        gridBagConstraints = new java.awt.GridBagConstraints();
-        gridBagConstraints.anchor = java.awt.GridBagConstraints.LINE_START;
-        propertiesPanel.add(JLabel3, gridBagConstraints);
+        propertiesPanel.add(JLabel3);
 
         titleTextField.setColumns(5);
-        gridBagConstraints = new java.awt.GridBagConstraints();
-        gridBagConstraints.fill = java.awt.GridBagConstraints.HORIZONTAL;
-        propertiesPanel.add(titleTextField, gridBagConstraints);
-
-        colorTextField.setColumns(5);
-        colorTextField.setText("Blue");
-        gridBagConstraints = new java.awt.GridBagConstraints();
-        gridBagConstraints.gridx = 1;
-        gridBagConstraints.gridy = 1;
-        gridBagConstraints.fill = java.awt.GridBagConstraints.HORIZONTAL;
-        propertiesPanel.add(colorTextField, gridBagConstraints);
-
-        jLabel3.setText("Color:");
-        gridBagConstraints = new java.awt.GridBagConstraints();
-        gridBagConstraints.gridx = 0;
-        gridBagConstraints.gridy = 1;
-        gridBagConstraints.anchor = java.awt.GridBagConstraints.LINE_START;
-        propertiesPanel.add(jLabel3, gridBagConstraints);
+        propertiesPanel.add(titleTextField);
 
         gridBagConstraints = new java.awt.GridBagConstraints();
         gridBagConstraints.gridx = 1;
@@ -257,7 +234,6 @@ public class GraphFrame extends javax.swing.JFrame {
     private javax.swing.JButton addVertexButton;
     private views.Canvas canvas;
     private javax.swing.JScrollPane canvasScrollPane;
-    private javax.swing.JTextField colorTextField;
     private javax.swing.JPanel edgesButtonPanel;
     private javax.swing.JLabel edgesLabel;
     private javax.swing.JList<String> edgesList;
@@ -265,7 +241,6 @@ public class GraphFrame extends javax.swing.JFrame {
     private javax.swing.JMenu editMenu;
     private javax.swing.JMenu fileMenu;
     private javax.swing.JPanel inspectorPanel;
-    private javax.swing.JLabel jLabel3;
     private javax.swing.JMenuBar jMenuBar1;
     private javax.swing.JMenuItem loadSamplesMenuItem;
     private javax.swing.JMenuItem newMenuItem;
@@ -299,10 +274,6 @@ public class GraphFrame extends javax.swing.JFrame {
         //prof did in his example, so I'm not going to.
         //return (Canvas) canvas;
         return canvas;
-    }
-
-    public JTextField getColorTextField() {
-        return colorTextField;
     }
 
     public JList<String> getEdgesList() {

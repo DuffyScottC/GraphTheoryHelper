@@ -230,7 +230,7 @@ public class Graph implements Serializable {
                 int xPos = canvas.getWidth() / 2;
                 int yPos = canvas.getHeight() / 2;
 
-                Vertex newVertex = new Vertex(10);
+                Vertex newVertex = new Vertex(Helpers.DIAMETER);
                 newVertex.setLocation(xPos, yPos);
                 newVertex.setStrokeColor(Helpers.VERTEX_COLOR);
                 newVertex.setFillColor(Helpers.VERTEX_COLOR);
