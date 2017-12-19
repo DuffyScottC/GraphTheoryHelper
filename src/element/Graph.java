@@ -302,6 +302,12 @@ public class Graph implements Serializable {
                 addingEdge = true; //enter the edge adding state
                 //highlight all of the vertexes to provide a visual cue that the user is supposed
                 //to click one to add the edge
+                
+                //Update vertex selection
+                verticesList.clearSelection();
+                selectedIndex = -1;
+                setSelectedVertex();
+                
                 for (Vertex v : vertices) {
                     v.setStrokeColor(Helpers.HIGHLIGHT_COLOR);
                 }
@@ -427,7 +433,7 @@ public class Graph implements Serializable {
         }
 
     }
-
+    
     public void drawEdges(Graphics2D g2) {
         if (edges == null) {
             return;
