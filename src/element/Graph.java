@@ -335,7 +335,7 @@ public class Graph implements Serializable {
     @Override
     public String toString() {
         StringBuilder strB = new StringBuilder();
-        
+        strB.append("{");
         for (int i = 0; i < edges.size(); i++) {
             strB.append("{");
             strB.append(edges.get(i).toString());
@@ -344,7 +344,7 @@ public class Graph implements Serializable {
                 strB.append(",");
             }
         }
-        
+        strB.append("}");
         return strB.toString();
     }
 

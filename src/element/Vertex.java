@@ -24,6 +24,8 @@ public class Vertex extends Element {
     //(used to tell edges where to place their endpoints):
     private double xCent = 5;
     private double yCent = 5;
+    
+    //TODO - add a list of edges accociated with this vertex
 
     public Vertex (double diameter) {
         this.diameter = diameter;

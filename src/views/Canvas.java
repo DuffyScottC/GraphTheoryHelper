@@ -40,7 +40,9 @@ public class Canvas extends JTextArea {
         
         graph.drawEdges(g2);
         graph.drawVertices(g2);
-
+        
+        this.setText(graph.toString());
+        
     }
 
 }
