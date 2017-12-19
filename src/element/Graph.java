@@ -152,44 +152,19 @@ public class Graph implements Serializable {
                     if (vertices == null) {
                         return;
                     }
-                    
-                    /**
-                     * True if the user clicked canvas, false
-                     * if the user clicked a vertex
-                     */
-                    boolean userClickedCanvas = true;
 
                     for (int i = vertices.size() - 1; i >= 0; --i) {
                         Vertex currentVertex = vertices.get(i);
                         //if this figure contains the mouse click:
                         if (currentVertex.getPositionShape().contains(mx, my)) {
-                            //deselect the previously selected vertex
-                            selectedVertex.setStrokeColor(Helpers.VERTEX_COLOR);
-                            //assign a new selected vertex
-                            selectedVertex = clickedVertex;
                             clickedVertex = currentVertex;
-                            clickedVertex.setStrokeColor(Helpers.HIGHLIGHT_COLOR);
-                            //Set the selection of the visual JList to the bottom
-                            verticesList.setSelectedIndex(i);
-                            selectedIndex = i;
-                            userClickedCanvas = false;
                             break; //exit the loop (we don't need to check the rest)
                         }
-                    }
-                    
-                    if (userClickedCanvas) { //if the user clicked open space
-                        //Deselect the vertex
-                        selectedVertex = null;
-                        selectedIndex = -1;
-                        verticesList.setSelectedIndex(-1);
-                        titleTextField.setText("");
                     }
 
                     //update the last position
                     lastX = mx;
                     lastY = my;
-                    
-                    canvas.repaint(); //needed for visual selection
                 }
             }
 
