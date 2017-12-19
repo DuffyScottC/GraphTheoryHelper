@@ -295,7 +295,7 @@ public class GraphFrame extends javax.swing.JFrame {
     public JButton getRemoveVertexButton() {
         return removeVertexButton;
     }
-
+    
     public JMenuItem getRotate90MenuItem() {
         return rotate90MenuItem;
     }

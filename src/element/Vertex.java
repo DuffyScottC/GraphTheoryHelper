@@ -26,7 +26,11 @@ public class Vertex extends Element {
     private double xCent = 5;
     private double yCent = 5;
     
-    //A list of edges accociated with this vertex
+    /**
+     * A list of edges associated with this vertex.
+     * Used to delete all associated edges when this vertex
+     * is deleted.
+     */
     List<Edge> edges = new ArrayList<>();
 
     public Vertex (double diameter) {

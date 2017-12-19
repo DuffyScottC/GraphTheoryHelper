@@ -90,7 +90,7 @@ public class Graph implements Serializable {
                 int mx = e.getX(); //x-coord of mouse click
                 int my = e.getY(); //y-coord of mouse click
                 if (addingEdge) { //if we are in the edge adding state, we don't want to be able to move any vertices
-                    
+
                     //Find out which vertex was clicked (if any):
                     if (firstSelectedVertex == null) { //if this is null, the user hasn't chosen their first vertex
                         //(If we reach this point, vertices.size() is at least 2)
@@ -107,31 +107,39 @@ public class Graph implements Serializable {
                         }
                         //if we reach this point, the user hasn't selected and vertex.
                         //Instead, they clicked empty space. We should cancel the process
-                        exitAddEdgeState();
-                        
-                        canvas.repaint();
+                        exitAddEdgeState(canvas);
                     } else { //The user has already chosen their first vertex
                         //(If we reach this point, vertices.size() is at least 2)
                         for (Vertex currentVertex : vertices) { //loop through the vertices
                             //if this figure contains the mouse click:
                             if (currentVertex.getPositionShape().contains(mx, my)) {
+                                //If the user has clicked the same vertex twice
+                                if (firstSelectedVertex.equals(currentVertex)) {
+                                    break; //stop adding the edge
+                                }
                                 //Create a new edge with the two vertices
                                 Edge newEdge = new Edge(firstSelectedVertex, currentVertex);
                                 
+                                //Add the new edge to the two vertices
+                                firstSelectedVertex.addEdge(newEdge);
+                                currentVertex.addEdge(newEdge);
+
                                 edges.add(newEdge);
-                                
+
                                 edgesListModel.removeAllElements();
                                 for (Edge eg : edges) {
                                     edgesListModel.addElement(eg);
                                 }
-                                
-                                exitAddEdgeState();
-                                
-                                canvas.repaint();
-                                
+
+                                exitAddEdgeState(canvas);
+
                                 return; //we don't need to check anymore
                             }
+
                         }
+                        //If we reach this point, we want to cancel the edge
+                        exitAddEdgeState(canvas);
+
                     }
                 } else { //if we are not in the edge adding state, then we can move the vertices
                     //Find the topmost vertex that 
@@ -244,7 +252,7 @@ public class Graph implements Serializable {
                 for (Vertex v : vertices) {
                     verticesListModel.addElement(v);
                 }
-                
+
                 //Update title text field
                 titleTextField.setText(newTitle);
                 //Update selection
@@ -297,7 +305,7 @@ public class Graph implements Serializable {
                 for (Vertex v : vertices) {
                     v.setStrokeColor(Helpers.HIGHLIGHT_COLOR);
                 }
-                
+
                 canvas.repaint();
             }
         });
@@ -433,12 +441,13 @@ public class Graph implements Serializable {
         g2.drawLine(x1, y1, x2, y2); //draw the line
     }
 
-    private void exitAddEdgeState() {
+    private void exitAddEdgeState(Canvas canvas) {
         addingEdge = false;
         firstSelectedVertex = null;
         for (Vertex v : vertices) {
             v.setStrokeColor(Helpers.VERTEX_COLOR);
         }
+        canvas.repaint();
     }
 
     public List<Vertex> getVertices() {
