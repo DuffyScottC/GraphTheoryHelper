@@ -148,14 +148,34 @@ public class Graph implements Serializable {
                     if (vertices == null) {
                         return;
                     }
+                    
+                    /**
+                     * True if the user clicked a vertex. False if the user
+                     * clicked open space. 
+                     */
+                    boolean vertexWasSelected = true;
 
                     for (int i = vertices.size() - 1; i >= 0; --i) {
                         Vertex currentVertex = vertices.get(i);
                         //if this figure contains the mouse click:
                         if (currentVertex.getPositionShape().contains(mx, my)) {
                             clickedVertex = currentVertex;
+                            clickedVertex.setStrokeColor(Helpers.HIGHLIGHT_COLOR);
+                            selectedVertex = clickedVertex;
+                            //Set the selection of the visual JList to the bottom
+                            verticesList.setSelectedIndex(i);
+                            selectedIndex = i;
+                            vertexWasSelected = false;
                             break; //exit the loop (we don't need to check the rest)
                         }
+                    }
+                    
+                    if (vertexWasSelected == false) { //if the user clicked open space
+                        //Deselect the vertex
+                        selectedVertex = null;
+                        selectedIndex = -1;
+                        verticesList.setSelectedIndex(-1);
+                        selectedVertex.setStrokeColor(Helpers.VERTEX_COLOR);
                     }
 
                     //update the last position
@@ -235,7 +255,7 @@ public class Graph implements Serializable {
                 //For now, each new vertex is simply added to the center
                 int xPos = canvas.getWidth() / 2;
                 int yPos = canvas.getHeight() / 2;
-                
+
                 Vertex newVertex = new Vertex(Helpers.DIAMETER);
                 newVertex.setLocation(xPos, yPos);
                 newVertex.setStrokeColor(Helpers.VERTEX_COLOR);
@@ -244,9 +264,9 @@ public class Graph implements Serializable {
                 String newTitle = generateVertexTitle();
                 newVertex.setTitle(newTitle);
                 vertices.add(newVertex);
-                
+
                 updateVerticesListModel();
-                
+
                 //Update title text field
                 titleTextField.setText(newTitle);
                 //Update selection:
@@ -255,7 +275,7 @@ public class Graph implements Serializable {
                 //Set the selection of the visual JList to the bottom
                 verticesList.setSelectedIndex(bottomIndex);
                 selectedIndex = bottomIndex;
-                
+
                 canvas.repaint();
             }
         });
@@ -266,14 +286,14 @@ public class Graph implements Serializable {
                 if (selectedIndex == -1) {
                     return;
                 }
-                
+
                 //Get the list of edges to remove
                 List<Edge> removeEdges = vertices.get(selectedIndex).getEdges();
                 vertices.remove(selectedIndex); //remove the vertex
-                
+
                 //remove the elements that were attached to this vertex
                 edges.removeAll(removeEdges);
-                
+
                 updateVerticesListModel();
                 updateEdgesListModel();
 
