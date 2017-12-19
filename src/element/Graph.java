@@ -154,10 +154,10 @@ public class Graph implements Serializable {
                     }
                     
                     /**
-                     * True if the user clicked a vertex. False if the user
-                     * clicked open space. 
+                     * True if the user clicked canvas, false
+                     * if the user clicked a vertex
                      */
-                    boolean vertexWasSelected = true;
+                    boolean userClickedCanvas = true;
 
                     for (int i = vertices.size() - 1; i >= 0; --i) {
                         Vertex currentVertex = vertices.get(i);
@@ -172,12 +172,12 @@ public class Graph implements Serializable {
                             //Set the selection of the visual JList to the bottom
                             verticesList.setSelectedIndex(i);
                             selectedIndex = i;
-                            vertexWasSelected = false;
+                            userClickedCanvas = false;
                             break; //exit the loop (we don't need to check the rest)
                         }
                     }
                     
-                    if (vertexWasSelected == false) { //if the user clicked open space
+                    if (userClickedCanvas) { //if the user clicked open space
                         //Deselect the vertex
                         selectedVertex = null;
                         selectedIndex = -1;
