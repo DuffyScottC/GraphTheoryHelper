@@ -88,4 +88,35 @@ public class Edge extends Element {
     public String toString() {
         return endpoint1.title + "," + endpoint2.title;
     }
+    
+    @Override
+    public boolean equals(Object obj) {
+        if (obj == null) {
+            return false;
+        }
+        if (obj instanceof Edge) {
+            Edge e = (Edge) obj;
+            if (this.endpoint1.equals(e.endpoint1)) { //If e.enpoint1 equals either endpoint1
+                //check if e.endpoint2 equals endpoint2
+                if (this.endpoint2.equals(e.endpoint2)) { //if e.endpoint2 equals endpoint2
+                    return true; //Both are equal and they are the same
+                } else {
+                    return false; //Only e.endpoint1 equals endpoint1 and they are different
+                }
+            } else if (this.endpoint2.equals(e.endpoint1)) { //If e.endpoint1 equals endpoint2
+                //check if e.endpoint2 equals endpoint1
+                if (this.endpoint1.equals(e.endpoint2)) { //If e.ednpoint2 equals endpoint1
+                    return true; //both are equal and they are the same
+                } else {
+                    return false; //onlye e.endpoint1 equals endpoint2, so they are different
+                }
+            } else { //If e.endpoint1 equals neither endpoint1 nor endpoint2
+                //then they are not equal (no need to check the other endpoint)
+                return false;
+            }
+        } else {
+            return false;
+        }
+    }
+    
 }
