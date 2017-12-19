@@ -24,7 +24,7 @@ public class Helpers {
      * The default vertex color
      */
     public static Color VERTEX_COLOR = Color.RED;
-    public static Color HIGHLIGHT_COLOR = Color.BLUE;
+    public static Color HIGHLIGHT_COLOR = Color.GREEN;
     
     /**
      * Pass in the graph and this will add two sample 
