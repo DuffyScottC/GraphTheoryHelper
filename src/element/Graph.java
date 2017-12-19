@@ -249,11 +249,10 @@ public class Graph implements Serializable {
                 //Update title text field
                 titleTextField.setText(newTitle);
                 //Update selection:
-                int bottomIndex = vertices.size() - 1;
                 selectedVertex = newVertex;
                 //Set the selection of the visual JList to the bottom
-                verticesList.setSelectedIndex(bottomIndex);
-                selectedIndex = bottomIndex;
+                verticesList.setSelectedIndex(0);
+                selectedIndex = 0;
                 
                 canvas.repaint();
             }
@@ -321,7 +320,7 @@ public class Graph implements Serializable {
 
             }
         });
-
+        
         titleTextField.addActionListener(new ActionListener() {
             @Override
             public void actionPerformed(ActionEvent e) {
@@ -384,16 +383,15 @@ public class Graph implements Serializable {
 
         //loop from back to front so that the "top" vertext gets chosen
         //first when the user clicks on it.
-        for (int i = vertices.size() - 1; i >= 0; --i) {
-            Vertex vertex = vertices.get(i);
-            double x = vertex.getLocation().x;
-            double y = vertex.getLocation().y;
+        for (Vertex v : vertices) {
+            double x = v.getLocation().x;
+            double y = v.getLocation().y;
             g2.translate(x, y);
-            vertex.draw(g2); //actually draw the vertex
+            v.draw(g2); //actually draw the vertex
             g2.setTransform(t); //restore each after drawing
-
+            
             if (showTitles) { //If the user wants to show the titles
-                vertex.drawTitle(g2);
+                v.drawTitle(g2);
             }
         }
 
@@ -408,12 +406,8 @@ public class Graph implements Serializable {
 
         //loop from back to front so that the "top" edge gets chosen
         //first when the user clicks on it.
-        for (int i = edges.size() - 1; i >= 0; --i) {
-            Edge edge = edges.get(i);
-//            double x = edge.getLocation().x;
-//            double y = edge.getLocation().y;
-//            g2.translate(x, y);
-            edge.draw(g2); //actually draw the edge
+        for (Edge e : edges) {
+            e.draw(g2); //actually draw the edge
             g2.setTransform(t); //restore each after drawing
         }
     }
