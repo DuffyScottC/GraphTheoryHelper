@@ -50,6 +50,8 @@ public class Graph implements Serializable {
      * etc.)
      */
     private int selectedIndex;
+    private JTextField titleTextField;
+    private JList verticesList;
 
     //MARK: Adding edge state:
     /**
@@ -85,8 +87,8 @@ public class Graph implements Serializable {
 
     public void addEventHandlers(Canvas canvas, GraphFrame frame) {
 
-        JTextField titleTextField = frame.getTitleTextField();
-        JList verticesList = frame.getVerticesList(); //the visual JList that the user sees and interacts with
+        titleTextField = frame.getTitleTextField();
+        verticesList = frame.getVerticesList(); //the visual JList that the user sees and interacts with
 
         canvas.addMouseListener(new MouseAdapter() {
             @Override
@@ -321,8 +323,7 @@ public class Graph implements Serializable {
                     return;
                 }
 
-                selectedVertex = vertices.get(selectedIndex); //store the selected vertex
-                titleTextField.setText(selectedVertex.getTitle());
+                setSelectedVertex();
 
             }
         });
@@ -353,6 +354,29 @@ public class Graph implements Serializable {
     }
 
     //MARK: Other methods--------------------
+    
+    /**
+     * Uses selectedIndex (a member variable) to set selectedVertex, highlight
+     * selected vertex, un-highlights previously selected vertex set the
+     * titleTextField content, (If selectedIndex = -1, then it deselects all)
+     */
+    private void setSelectedVertex() {
+        //Visually deselect the old selectedVertex
+        selectedVertex.setStrokeColor(Helpers.VERTEX_COLOR);
+        
+        //Programattically select the new selectedVertex (or deselect entirely)
+        if (selectedIndex == -1) { //if the user deselected a vertex
+            selectedVertex = null;
+            titleTextField.setText("");
+            verticesList.clearSelection(); //unselect the element in the JList
+        } else { //if the user selected a vertex
+            selectedVertex = vertices.get(selectedIndex); //store the selected vertex
+            selectedVertex.setStrokeColor(Helpers.HIGHLIGHT_COLOR); //highlight the vertex
+            titleTextField.setText(selectedVertex.getTitle());
+        }
+
+    }
+
     private String generateVertexTitle() {
         if (vertices == null) {
             return "V";
