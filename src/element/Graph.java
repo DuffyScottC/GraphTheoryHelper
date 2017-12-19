@@ -149,7 +149,8 @@ public class Graph implements Serializable {
                         return;
                     }
 
-                    for (Vertex currentVertex : vertices) {
+                    for (int i = vertices.size() - 1; i >= 0; --i) {
+                        Vertex currentVertex = vertices.get(i);
                         //if this figure contains the mouse click:
                         if (currentVertex.getPositionShape().contains(mx, my)) {
                             clickedVertex = currentVertex;
