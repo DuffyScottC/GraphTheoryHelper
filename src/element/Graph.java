@@ -5,15 +5,14 @@
  */
 package element;
 
+import java.awt.BasicStroke;
 import java.awt.Color;
 import java.awt.Graphics2D;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
-import java.awt.event.KeyAdapter;
-import java.awt.event.KeyEvent;
 import java.awt.event.MouseAdapter;
 import java.awt.event.MouseEvent;
-import java.awt.event.MouseMotionAdapter;
+import java.awt.event.MouseMotionListener;
 import java.awt.geom.AffineTransform;
 import java.io.Serializable;
 import java.util.ArrayList;
@@ -50,7 +49,18 @@ public class Graph implements Serializable {
      * changing the color, etc.)
      */
     private int selectedIndex;
-
+    
+    //MARK: Adding edge state:
+    /**
+     * Only true if the user is in the edge adding state.
+     */
+    private boolean addingEdge = false;
+    /**
+     * If this is not null, we want to start drawing an edge between
+     * this vertex and the mouse
+     */
+    private Vertex firstSelectedVertex;
+    
     // models for vertex and edge selection lists
     private final DefaultListModel verticesListModel = new DefaultListModel();
     private final DefaultListModel edgesListModel = new DefaultListModel();
@@ -110,10 +120,14 @@ public class Graph implements Serializable {
 
         });
 
-        canvas.addMouseMotionListener(new MouseMotionAdapter() {
+        canvas.addMouseMotionListener(new MouseMotionListener() {
             @Override
             public void mouseDragged(MouseEvent e) {
-
+                
+                if (addingEdge) { //if we are in the edge adding state, we don't want to be able to move any elements
+                    return;
+                }
+                
                 if (clickedVertex == null) {
                     return; //we don't have a vertex to move, so just stop here
                 }
@@ -133,6 +147,22 @@ public class Graph implements Serializable {
                 canvas.repaint();
 
             }
+            
+            @Override
+            public void mouseMoved(MouseEvent e) {
+                //If null, user hasn't selected first vertex
+                //(or we're not in the adding edge state
+                if (firstSelectedVertex == null) {
+                    return;
+                }
+                //If firstSelectedVertex is not null, we are in the edge adding state
+                //and the user has clicked the first edge.
+                //The actual drawing happends in this.drawLiveEdge(Graphics2D g2), which
+                //gets called in canvas's paint method
+                
+                canvas.repaint();
+            }
+            
         });
         
         frame.getShowVertexNamesMenuItem().addActionListener(new ActionListener() {
@@ -199,6 +229,13 @@ public class Graph implements Serializable {
             }
         });
         
+        frame.getAddEdgeButton().addActionListener(new ActionListener() {
+            @Override
+            public void actionPerformed(ActionEvent e) {
+                addingEdge = true; //enter the edge adding state
+            }
+        });
+        
         verticesList.addListSelectionListener(new ListSelectionListener() {
             @Override
             public void valueChanged(ListSelectionEvent e) {
@@ -235,9 +272,11 @@ public class Graph implements Serializable {
                 verticesList.repaint();
             }
         });
-
+        
     }
-
+    
+    //MARK: Other methods--------------------
+    
     private String generateVertexName() {
         if (vertices == null) {
             return "V";
@@ -306,6 +345,25 @@ public class Graph implements Serializable {
             edge.draw(g2); //actually draw the edge
             g2.setTransform(t); //restore each after drawing
         }
+    }
+    
+    /**
+     * We want to draw an edge between the first vertex and the current mouse position
+     * @param g2 
+     */
+    public void drawLiveEdge(Graphics2D g2) {
+        //If this is null, then we are not in the adding a vertex state
+        //or the user has not yet selected their first vertex
+        if (firstSelectedVertex == null) {
+            return;
+        }
+        int x1 = (int) firstSelectedVertex.getCenter().getX();
+        int y1 = (int) firstSelectedVertex.getCenter().getY();
+        int x2 = lastX;
+        int y2 = lastY;
+        g2.setStroke(new BasicStroke(3));
+        g2.setColor(Color.BLACK);
+        g2.drawLine(x1, y1, x2, y2); //draw the line
     }
 
     public List<Vertex> getVertices() {

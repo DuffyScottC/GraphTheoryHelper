@@ -18,6 +18,10 @@ import javax.swing.JTextArea;
 public class Canvas extends JTextArea {
 
     private Graph graph = null;
+    /**
+     * True if we are in the edge adding state
+     */
+    private boolean addingEdge = false;
 
     public void setGraph(Graph graph) {
         this.graph = graph;
@@ -40,6 +44,10 @@ public class Canvas extends JTextArea {
         
         graph.drawEdges(g2);
         graph.drawVertices(g2);
+        
+        if (addingEdge) {
+            
+        }
         
         this.setText(graph.toString());
         
