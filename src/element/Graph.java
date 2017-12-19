@@ -433,7 +433,7 @@ public class Graph implements Serializable {
             return;
         }
 
-        AffineTransform t = g2.getTransform(); // save the transform settings
+//        AffineTransform t = g2.getTransform(); // save the transform settings
 
         //loop from back to front so that the "top" edge gets chosen
         //first when the user clicks on it.
@@ -442,7 +442,7 @@ public class Graph implements Serializable {
 //            double y = edge.getLocation().y;
 //            g2.translate(x, y);
             edge.draw(g2); //actually draw the edge
-            g2.setTransform(t); //restore each after drawing
+//            g2.setTransform(t); //restore each after drawing
         }
     }
 
