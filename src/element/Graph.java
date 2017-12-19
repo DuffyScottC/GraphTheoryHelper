@@ -87,10 +87,10 @@ public class Graph implements Serializable {
         canvas.addMouseListener(new MouseAdapter() {
             @Override
             public void mousePressed(MouseEvent e) {
+                int mx = e.getX(); //x-coord of mouse click
+                int my = e.getY(); //y-coord of mouse click
                 if (addingEdge) { //if we are in the edge adding state, we don't want to be able to move any vertices
-                    int mx = e.getX(); //x-coord of mouse click
-                    int my = e.getY(); //y-coord of mouse click
-
+                    
                     //Find out which vertex was clicked (if any):
                     if (firstSelectedVertex == null) { //if this is null, the user hasn't chosen their first vertex
                         //(If we reach this point, vertices.size() is at least 2)
@@ -98,12 +98,18 @@ public class Graph implements Serializable {
                             //if this figure contains the mouse click:
                             if (currentVertex.getPositionShape().contains(mx, my)) {
                                 firstSelectedVertex = currentVertex; //assign the first vertex
+                                firstSelectedVertex.setStrokeColor(Helpers.VERTEX_COLOR);
+                                lastX = mx;
+                                lastY = my;
+                                canvas.repaint();
                                 return; //we've assigned the first selected vertex and we're done
                             }
                         }
                         //if we reach this point, the user hasn't selected and vertex.
                         //Instead, they clicked empty space. We should cancel the process
                         exitAddEdgeState();
+                        
+                        canvas.repaint();
                     } else { //The user has already chosen their first vertex
                         //(If we reach this point, vertices.size() is at least 2)
                         for (Vertex currentVertex : vertices) { //loop through the vertices
@@ -137,9 +143,6 @@ public class Graph implements Serializable {
                     if (vertices == null) {
                         return;
                     }
-
-                    int mx = e.getX(); //x-coord of mouse click
-                    int my = e.getY(); //y-coord of mouse click
 
                     for (Vertex currentVertex : vertices) {
                         //if this figure contains the mouse click:

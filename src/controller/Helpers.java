@@ -37,25 +37,24 @@ public class Helpers {
         List<Edge> edges = graph.getEdges();
         Vertex vertex1 = new Vertex(10);
         vertex1.setLocation(220, 140);
-        vertex1.setStrokeColor(Color.magenta);
-        vertex1.setFillColor(Color.yellow);
+        vertex1.setStrokeColor(VERTEX_COLOR);
+        vertex1.setFillColor(VERTEX_COLOR);
         vertex1.setStrokeWidth(3f);
         vertex1.setTitle("A");
         vertices.add(vertex1);
         
         Vertex vertex2 = new Vertex(10);
         vertex2.setLocation(100, 100);
-        vertex2.setStrokeColor(Color.magenta);
-        vertex2.setFillColor(Color.yellow);
+        vertex2.setStrokeColor(VERTEX_COLOR);
+        vertex2.setFillColor(VERTEX_COLOR);
         vertex2.setStrokeWidth(3f);
         vertex2.setTitle("B");
         vertices.add(vertex2);
         
         Edge edgeElement = new Edge(vertex1, vertex2);
-        edgeElement.setLocation(40, 40);
-        edgeElement.setStrokeColor(Color.blue);
-        edgeElement.setFillColor(Color.red);
-        edgeElement.setStrokeWidth(2f);
+        edgeElement.setStrokeColor(Color.BLACK);
+        edgeElement.setFillColor(Color.BLACK);
+        edgeElement.setStrokeWidth(STROKE_WIDTH);
         edgeElement.setTitle("A,B");
         edges.add(edgeElement);
         
