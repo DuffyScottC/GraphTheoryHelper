@@ -19,13 +19,11 @@ import javax.swing.DefaultListModel;
  */
 public class Helpers {
     
-    public static float STROKE_WIDTH = 2.0f;
-    /**
-     * The default vertex color
-     */
-    public static Color VERTEX_COLOR = Color.RED;
-    public static Color HIGHLIGHT_COLOR = Color.GREEN;
-    public static int DIAMETER = 15;
+    public static final float STROKE_WIDTH = 2.0f;
+    public static final Color VERTEX_FILL_COLOR = Color.RED;
+    public static final Color VERTEX_STROKE_COLOR = Color.BLACK;
+    public static final Color HIGHLIGHT_COLOR = Color.GREEN;
+    public static final int DIAMETER = 15;
     
     /**
      * Pass in the graph and this will add two sample 
@@ -38,16 +36,16 @@ public class Helpers {
         List<Edge> edges = graph.getEdges();
         Vertex vertex1 = new Vertex(DIAMETER);
         vertex1.setLocation(220, 140);
-        vertex1.setStrokeColor(VERTEX_COLOR);
-        vertex1.setFillColor(VERTEX_COLOR);
+        vertex1.setStrokeColor(VERTEX_FILL_COLOR);
+        vertex1.setFillColor(VERTEX_STROKE_COLOR);
         vertex1.setStrokeWidth(3f);
         vertex1.setTitle("A");
         vertices.add(vertex1);
         
         Vertex vertex2 = new Vertex(DIAMETER);
         vertex2.setLocation(100, 100);
-        vertex2.setStrokeColor(VERTEX_COLOR);
-        vertex2.setFillColor(VERTEX_COLOR);
+        vertex2.setStrokeColor(VERTEX_FILL_COLOR);
+        vertex2.setFillColor(VERTEX_STROKE_COLOR);
         vertex2.setStrokeWidth(3f);
         vertex2.setTitle("B");
         vertices.add(vertex2);

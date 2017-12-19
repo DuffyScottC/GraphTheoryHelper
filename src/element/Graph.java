@@ -106,7 +106,7 @@ public class Graph implements Serializable {
                             //if this figure contains the mouse click:
                             if (currentVertex.getPositionShape().contains(mx, my)) {
                                 firstSelectedVertex = currentVertex; //assign the first vertex
-                                firstSelectedVertex.setStrokeColor(Helpers.VERTEX_COLOR);
+                                firstSelectedVertex.setStrokeColor(Helpers.VERTEX_STROKE_COLOR);
                                 lastX = mx;
                                 lastY = my;
                                 canvas.repaint();
@@ -246,8 +246,8 @@ public class Graph implements Serializable {
 
                 Vertex newVertex = new Vertex(Helpers.DIAMETER);
                 newVertex.setLocation(xPos, yPos);
-                newVertex.setStrokeColor(Helpers.VERTEX_COLOR);
-                newVertex.setFillColor(Helpers.VERTEX_COLOR);
+                newVertex.setStrokeColor(Helpers.VERTEX_STROKE_COLOR);
+                newVertex.setFillColor(Helpers.VERTEX_FILL_COLOR);
                 newVertex.setStrokeWidth(3f);
                 String newTitle = generateVertexTitle();
                 newVertex.setTitle(newTitle);
@@ -360,7 +360,7 @@ public class Graph implements Serializable {
     private void setSelectedVertex() {
         //Visually deselect the old selectedVertex
         if (selectedVertex != null) { //if there was a previously selected vertex
-            selectedVertex.setStrokeColor(Helpers.VERTEX_COLOR);
+            selectedVertex.setStrokeColor(Helpers.VERTEX_STROKE_COLOR);
         }
         
         //Programattically select the new selectedVertex (or deselect entirely)
@@ -473,7 +473,7 @@ public class Graph implements Serializable {
         addingEdge = false;
         firstSelectedVertex = null;
         for (Vertex v : vertices) {
-            v.setStrokeColor(Helpers.VERTEX_COLOR);
+            v.setStrokeColor(Helpers.VERTEX_FILL_COLOR);
         }
         canvas.repaint();
     }

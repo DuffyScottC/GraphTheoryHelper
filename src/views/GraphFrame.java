@@ -88,6 +88,7 @@ public class GraphFrame extends javax.swing.JFrame {
         JLabel3.setText("Title:");
         propertiesPanel.add(JLabel3);
 
+        titleTextField.setEditable(false);
         titleTextField.setColumns(5);
         propertiesPanel.add(titleTextField);
 
