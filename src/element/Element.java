@@ -84,7 +84,7 @@ public abstract class Element implements Serializable {
         }
         if (obj instanceof Element) { //if this is an Element object (or some subclass of Element)
             Element el = (Element) obj; //cast it to an Element
-            return this.title.equals(el); //compare the titles
+            return this.title.equals(el.title); //compare the titles
         } else { //if this is not an Element, then they are not equal
             return false;
         }
