@@ -92,6 +92,10 @@ public class Vertex extends Element {
         edges.remove(e);
     }
     
+    public List<Edge> getEdges() {
+        return edges;
+    }
+    
     /**
      * This is used to determine if the mouse click is contained by
      * the shape of this vertex (called in Graph)

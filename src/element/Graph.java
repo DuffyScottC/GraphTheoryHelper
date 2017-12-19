@@ -119,17 +119,14 @@ public class Graph implements Serializable {
                                 }
                                 //Create a new edge with the two vertices
                                 Edge newEdge = new Edge(firstSelectedVertex, currentVertex);
-                                
+
                                 //Add the new edge to the two vertices
                                 firstSelectedVertex.addEdge(newEdge);
                                 currentVertex.addEdge(newEdge);
 
                                 edges.add(newEdge);
 
-                                edgesListModel.removeAllElements();
-                                for (Edge eg : edges) {
-                                    edgesListModel.addElement(eg);
-                                }
+                                updateEdgesListModel();
 
                                 exitAddEdgeState(canvas);
 
@@ -247,11 +244,7 @@ public class Graph implements Serializable {
                 newVertex.setTitle(newTitle);
                 vertices.add(newVertex);
 
-                //Update the list model
-                verticesListModel.removeAllElements();
-                for (Vertex v : vertices) {
-                    verticesListModel.addElement(v);
-                }
+                updateVerticesListModel();
 
                 //Update title text field
                 titleTextField.setText(newTitle);
@@ -270,14 +263,16 @@ public class Graph implements Serializable {
                 if (selectedIndex == -1) {
                     return;
                 }
-
-                vertices.remove(selectedIndex);
-
-                //Update the list model
-                verticesListModel.removeAllElements();
-                for (Vertex v : vertices) {
-                    verticesListModel.addElement(v);
-                }
+                
+                //Get the list of edges to remove
+                List<Edge> removeEdges = vertices.get(selectedIndex).getEdges();
+                vertices.remove(selectedIndex); //remove the vertex
+                
+                //remove the elements that were attached to this vertex
+                edges.removeAll(removeEdges);
+                
+                updateVerticesListModel();
+                updateEdgesListModel();
 
                 //Deselect the vertex:
                 selectedIndex = -1;
@@ -448,6 +443,20 @@ public class Graph implements Serializable {
             v.setStrokeColor(Helpers.VERTEX_COLOR);
         }
         canvas.repaint();
+    }
+
+    private void updateVerticesListModel() {
+        verticesListModel.removeAllElements();
+        for (Vertex v : vertices) {
+            verticesListModel.addElement(v);
+        }
+    }
+
+    private void updateEdgesListModel() {
+        edgesListModel.removeAllElements();
+        for (Edge eg : edges) {
+            edgesListModel.addElement(eg);
+        }
     }
 
     public List<Vertex> getVertices() {
