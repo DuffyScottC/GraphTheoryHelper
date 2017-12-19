@@ -100,10 +100,10 @@ public class Graph implements Serializable {
                                 firstSelectedVertex = currentVertex; //assign the first vertex
                                 return; //we've assigned the first selected vertex and we're done
                             }
-                            //if we reach this point, the user hasn't selected and vertex.
-                            //Instead, they clicked empty space. We should cancel the process
-                            exitAddEdgeState();
                         }
+                        //if we reach this point, the user hasn't selected and vertex.
+                        //Instead, they clicked empty space. We should cancel the process
+                        exitAddEdgeState();
                     } else { //The user has already chosen their first vertex
                         //(If we reach this point, vertices.size() is at least 2)
                         for (Vertex currentVertex : vertices) { //loop through the vertices
@@ -122,6 +122,8 @@ public class Graph implements Serializable {
                                 exitAddEdgeState();
                                 
                                 canvas.repaint();
+                                
+                                return; //we don't need to check anymore
                             }
                         }
                     }
