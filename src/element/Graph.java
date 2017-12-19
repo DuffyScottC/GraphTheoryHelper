@@ -259,12 +259,10 @@ public class Graph implements Serializable {
                 titleTextField.setText(newTitle);
                 //Update selection:
                 int bottomIndex = vertices.size() - 1;
-                selectedVertex = newVertex;
                 //Set the selection of the visual JList to the bottom
                 verticesList.setSelectedIndex(bottomIndex);
                 selectedIndex = bottomIndex;
-
-                canvas.repaint();
+                setSelectedVertex();
             }
         });
 
@@ -360,11 +358,14 @@ public class Graph implements Serializable {
     /**
      * Uses selectedIndex (a member variable) to set selectedVertex, highlight
      * selected vertex, un-highlights previously selected vertex set the
-     * titleTextField content, (If selectedIndex = -1, then it deselects all)
+     * titleTextField content, (If selectedIndex = -1, then it deselects all).
+     * This also repaints the canvas.
      */
     private void setSelectedVertex() {
         //Visually deselect the old selectedVertex
-        selectedVertex.setStrokeColor(Helpers.VERTEX_COLOR);
+        if (selectedVertex != null) { //if there was a previously selected vertex
+            selectedVertex.setStrokeColor(Helpers.VERTEX_COLOR);
+        }
         
         //Programattically select the new selectedVertex (or deselect entirely)
         if (selectedIndex == -1) { //if the user deselected a vertex
