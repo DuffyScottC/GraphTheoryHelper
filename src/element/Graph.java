@@ -227,8 +227,8 @@ public class Graph implements Serializable {
 
                 Vertex newVertex = new Vertex(10);
                 newVertex.setLocation(xPos, yPos);
-                newVertex.setStrokeColor(Color.magenta);
-                newVertex.setFillColor(Color.yellow);
+                newVertex.setStrokeColor(Helpers.VERTEX_COLOR);
+                newVertex.setFillColor(Helpers.VERTEX_COLOR);
                 newVertex.setStrokeWidth(3f);
                 newVertex.setTitle(generateVertexName());
                 vertices.add(newVertex);
@@ -280,6 +280,11 @@ public class Graph implements Serializable {
                     return;
                 }
                 addingEdge = true; //enter the edge adding state
+                //highlight all of the vertexes to provide a visual cue that the user is supposed
+                //to click one to add the edge
+                for (Vertex v : vertices) {
+                    v.setStrokeColor(Helpers.VERTEX_COLOR);
+                }
             }
         });
 
@@ -417,6 +422,9 @@ public class Graph implements Serializable {
     private void exitAddEdgeState() {
         addingEdge = false;
         firstSelectedVertex = null;
+        for (Vertex v : vertices) {
+            v.setStrokeColor(Helpers.VERTEX_COLOR);
+        }
     }
 
     public List<Vertex> getVertices() {

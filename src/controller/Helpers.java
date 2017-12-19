@@ -20,6 +20,10 @@ import javax.swing.DefaultListModel;
 public class Helpers {
     
     public static float STROKE_WIDTH = 2.0f;
+    /**
+     * The default vertex color
+     */
+    public static Color VERTEX_COLOR = Color.RED;
     
     /**
      * Pass in the graph and this will add two sample 
