@@ -65,6 +65,7 @@ public class GraphFrame extends javax.swing.JFrame {
         loadSamplesMenuItem = new javax.swing.JMenuItem();
         editMenu = new javax.swing.JMenu();
         rotate90MenuItem = new javax.swing.JMenuItem();
+        addVertices = new javax.swing.JMenuItem();
         viewMenu = new javax.swing.JMenu();
         showVertexNamesMenuItem = new javax.swing.JCheckBoxMenuItem();
         formatVertexMenuItem = new javax.swing.JMenuItem();
@@ -215,6 +216,9 @@ public class GraphFrame extends javax.swing.JFrame {
         });
         editMenu.add(rotate90MenuItem);
 
+        addVertices.setText("Add Vertices");
+        editMenu.add(addVertices);
+
         myMenuBar.add(editMenu);
 
         viewMenu.setText("View");
@@ -241,6 +245,7 @@ public class GraphFrame extends javax.swing.JFrame {
     private javax.swing.JLabel JLabel3;
     private javax.swing.JButton addEdgeButton;
     private javax.swing.JButton addVertexButton;
+    private javax.swing.JMenuItem addVertices;
     private views.Canvas canvas;
     private javax.swing.JScrollPane canvasScrollPane;
     private javax.swing.JPanel edgesButtonPanel;
@@ -348,5 +353,15 @@ public class GraphFrame extends javax.swing.JFrame {
     
     public JMenuBar getMyMenuBar() {
         return myMenuBar;
+    }
+    
+    /**
+     * Not to be confused with addVertex. This is a menu item
+     * that allows a user to add vertices by typing in a list
+     * of edges.
+     * @return 
+     */
+    public JMenuItem getAddVertices() {
+        return addVertices;
     }
 }
