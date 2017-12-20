@@ -19,7 +19,8 @@ import javax.swing.DefaultListModel;
  */
 public class Helpers {
     
-    public static final float STROKE_WIDTH = 2.0f;
+    public static final float VERTEX_STROKE_WIDTH = 1.0f;
+    public static final float HIGHLIGHT_STROKE_WIDTH = 2.0f;
     public static final Color VERTEX_FILL_COLOR = Color.RED;
     public static final Color VERTEX_STROKE_COLOR = Color.BLACK;
     public static final Color HIGHLIGHT_COLOR = Color.GREEN;
@@ -53,7 +54,7 @@ public class Helpers {
         Edge edgeElement = new Edge(vertex1, vertex2);
         edgeElement.setStrokeColor(Color.BLACK);
         edgeElement.setFillColor(Color.BLACK);
-        edgeElement.setStrokeWidth(STROKE_WIDTH);
+        edgeElement.setStrokeWidth(VERTEX_STROKE_WIDTH);
         edgeElement.setTitle("A,B");
         edges.add(edgeElement);
         

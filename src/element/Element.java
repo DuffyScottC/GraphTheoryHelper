@@ -19,7 +19,7 @@ import java.io.Serializable;
  */
 public abstract class Element implements Serializable {
 
-    protected float strokeWidth = Helpers.STROKE_WIDTH;
+    protected float strokeWidth = Helpers.VERTEX_STROKE_WIDTH;
     protected Shape shape;
     protected Color strokeColor = Color.BLACK;
     protected Color fillColor = Color.RED;

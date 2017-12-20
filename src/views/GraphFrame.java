@@ -74,6 +74,7 @@ public class GraphFrame extends javax.swing.JFrame {
 
         canvas.setEditable(false);
         canvas.setColumns(20);
+        canvas.setLineWrap(true);
         canvas.setRows(5);
         canvasScrollPane.setViewportView(canvas);
 

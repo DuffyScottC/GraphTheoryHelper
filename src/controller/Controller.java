@@ -30,21 +30,21 @@ import views.GraphFrame;
  * @author Scott
  */
 public class Controller {
-
+    
     private final GraphFrame frame = new GraphFrame();
     private final Canvas canvas = frame.getCanvas();
-
+    
     private final Graph graph = new Graph("Simple Graph");
-
+    
     //File I/O:
     private JFileChooser chooser = new JFileChooser(System.getProperty("user.dir"));
     private File saveFile;
-
+    
     public Controller() {
         frame.setTitle("Graph Helper");
         frame.setLocationRelativeTo(null);
         frame.setSize(800, 500);
-
+        
         canvas.setGraph(graph); //pass the graph to the canvas
         graph.setCanvas(canvas); //pass the canvas to the graph
 
@@ -150,9 +150,11 @@ public class Controller {
                             canvas.repaint();
                         }
                     } catch (IOException ex) {
-                        JOptionPane.showMessageDialog(frame, "Unable to read selected file.\n" + ex.getMessage(), "Oops!", JOptionPane.ERROR_MESSAGE);
+                        JOptionPane.showMessageDialog(frame, "Unable to read selected file.\n" + 
+                                ex.getMessage(), "Oops!", JOptionPane.ERROR_MESSAGE);
                     } catch (ClassNotFoundException ex) {
-                        JOptionPane.showMessageDialog(frame, "File is not a figures file.\n" + ex.getMessage(), "Oops!", JOptionPane.ERROR_MESSAGE);
+                        JOptionPane.showMessageDialog(frame, "File is not a figures file.\n" + 
+                                ex.getMessage(), "Oops!", JOptionPane.ERROR_MESSAGE);
                     }
 
                     saveFile = loadFile; //update the save file
@@ -225,7 +227,8 @@ public class Controller {
      * out of the method
      */
     private boolean shouldContinue(String message) {
-        int selection = JOptionPane.showConfirmDialog(frame, message); //ask the user if they want to continue
+        //ask the user if they want to continue
+        int selection = JOptionPane.showConfirmDialog(frame, message);
 
         if (selection != JOptionPane.YES_OPTION) { //if the user did not choose "yes"
             return false; //cancel the operation
@@ -253,7 +256,8 @@ public class Controller {
             oostr.close(); //must do this to ensure completion
         } catch (IOException ex) {
 
-            JOptionPane.showMessageDialog(frame, "Unable to save file.\n" + ex.getMessage(), "Oops!", JOptionPane.ERROR_MESSAGE);
+            JOptionPane.showMessageDialog(frame, "Unable to save file.\n" + 
+                    ex.getMessage(), "Oops!", JOptionPane.ERROR_MESSAGE);
 
         }
 

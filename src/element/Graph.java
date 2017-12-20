@@ -112,6 +112,7 @@ public class Graph implements Serializable {
                             if (currentVertex.getPositionShape().contains(mx, my)) {
                                 firstSelectedVertex = currentVertex; //assign the first vertex
                                 firstSelectedVertex.setStrokeColor(Helpers.VERTEX_STROKE_COLOR);
+                                firstSelectedVertex.setStrokeWidth(Helpers.VERTEX_STROKE_WIDTH);
                                 lastX = mx;
                                 lastY = my;
                                 canvas.repaint();
@@ -276,7 +277,7 @@ public class Graph implements Serializable {
                 newVertex.setLocation(xPos, yPos);
                 newVertex.setStrokeColor(Helpers.VERTEX_STROKE_COLOR);
                 newVertex.setFillColor(Helpers.VERTEX_FILL_COLOR);
-                newVertex.setStrokeWidth(3f);
+                newVertex.setStrokeWidth(Helpers.VERTEX_STROKE_WIDTH);
                 String newTitle = generateVertexTitle();
                 newVertex.setTitle(newTitle);
                 vertices.add(newVertex);
@@ -340,6 +341,7 @@ public class Graph implements Serializable {
 
                 for (Vertex v : vertices) {
                     v.setStrokeColor(Helpers.HIGHLIGHT_COLOR);
+                    v.setStrokeWidth(Helpers.HIGHLIGHT_STROKE_WIDTH);
                 }
 
                 canvas.repaint();
@@ -397,6 +399,7 @@ public class Graph implements Serializable {
         //Visually deselect the old selectedVertex
         if (selectedVertex != null) { //if there was a previously selected vertex
             selectedVertex.setStrokeColor(Helpers.VERTEX_STROKE_COLOR);
+            selectedVertex.setStrokeWidth(Helpers.VERTEX_STROKE_WIDTH);
         }
 
         //Programattically select the new selectedVertex (or deselect entirely)
@@ -408,6 +411,7 @@ public class Graph implements Serializable {
         } else { //if the user selected a vertex
             selectedVertex = vertices.get(selectedIndex); //store the selected vertex
             selectedVertex.setStrokeColor(Helpers.HIGHLIGHT_COLOR); //highlight the vertex
+            selectedVertex.setStrokeWidth(Helpers.HIGHLIGHT_STROKE_WIDTH);
             titleTextField.setText(selectedVertex.getTitle());
             titleTextField.setEditable(true);
         }
@@ -497,7 +501,7 @@ public class Graph implements Serializable {
         int y1 = (int) firstSelectedVertex.getCenter().getY();
         int x2 = lastX;
         int y2 = lastY;
-        g2.setStroke(new BasicStroke(Helpers.STROKE_WIDTH));
+        g2.setStroke(new BasicStroke(Helpers.VERTEX_STROKE_WIDTH));
         g2.setColor(Color.BLACK);
         g2.drawLine(x1, y1, x2, y2); //draw the line
     }
@@ -557,6 +561,7 @@ public class Graph implements Serializable {
         firstSelectedVertex = null;
         for (Vertex v : vertices) {
             v.setStrokeColor(Helpers.VERTEX_STROKE_COLOR);
+            v.setStrokeWidth(Helpers.VERTEX_STROKE_WIDTH);
         }
         canvas.repaint();
     }
