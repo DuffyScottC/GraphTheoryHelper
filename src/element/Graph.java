@@ -495,6 +495,8 @@ public class Graph implements Serializable {
      * @param g 
      */
     public void replace(Graph g) {
+        this.title = g.title;
+        
         List<Vertex> newVertices = g.getVertices();
         List<Edge> newEdges = g.getEdges();
         

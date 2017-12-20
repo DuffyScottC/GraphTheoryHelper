@@ -15,6 +15,7 @@ import java.io.FileOutputStream;
 import java.io.IOException;
 import java.io.ObjectInputStream;
 import java.io.ObjectOutputStream;
+import java.nio.file.Files;
 import java.nio.file.Path;
 import javax.swing.JFileChooser;
 import javax.swing.JOptionPane;
@@ -94,6 +95,15 @@ public class Controller {
                     }
                     
                     File saveFile = path.toFile(); //convert the path object to a file object
+                    
+                    //check if the file already exists
+                    if (Files.exists(path)) { //if the file already exists
+                        //ask the user if they want to continue
+                        if (!shouldContinue("OK to overwrite existing file?")) {
+                            //if the user does not want to overwrite a pre-existing file
+                            return;
+                        }
+                    }
                     
                     //Save the graph
                     try {
