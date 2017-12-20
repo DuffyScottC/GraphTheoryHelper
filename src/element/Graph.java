@@ -531,6 +531,22 @@ public class Graph implements Serializable {
         //^ Already has canvas.repaint();
         
     }
+    
+    /**
+     * Clears the graph of all elements
+     */
+    public void clear() {
+        vertices.clear();
+        edges.clear();
+        
+        updateVerticesListModel();
+        updateEdgesListModel();
+        
+        //deselect the vertices
+        selectedIndex = -1;
+        setSelectedVertex();
+        //^ has canvas.repaint() in it already
+    }
 
     private void exitAddEdgeState() {
         addingEdge = false;

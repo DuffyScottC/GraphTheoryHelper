@@ -189,6 +189,21 @@ public class Controller {
                 saveGraph();
             }
         });
+        
+        frame.getNewMenuItem().addActionListener(new ActionListener() {
+            @Override
+            public void actionPerformed(ActionEvent e) {
+                if (!graph.isSaved()) {
+                    if (!shouldContinue("OK to discard changes?")) {
+                        return;
+                    }
+                }
+                
+                graph.clear();
+                
+                graph.setIsSaved(false); //we have not yet saved the new file
+            }
+        });
 
         //Drag to move vertices:
         graph.addEventHandlers(frame);
