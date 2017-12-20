@@ -33,6 +33,8 @@ public class Controller {
 
     private final Graph graph = new Graph("Simple Graph");
     
+    private boolean isSaved = true;
+    
     //File I/O:
     JFileChooser chooser = new JFileChooser(System.getProperty("user.dir"));
 
@@ -117,6 +119,12 @@ public class Controller {
         frame.getOpenMenuItem().addActionListener(new ActionListener() {
             @Override
             public void actionPerformed(ActionEvent e) {
+                if (!isSaved) {
+                    if (!shouldContinue("OK to discard changes?")) {
+                        return;
+                    }
+                }
+                
                 chooser.setDialogTitle("Open");
                 int chooserResult = chooser.showOpenDialog(frame);
                 if (chooserResult == JFileChooser.APPROVE_OPTION) {
@@ -154,6 +162,27 @@ public class Controller {
         //Drag to move vertices:
         graph.addEventHandlers(frame);
         
+    }
+    
+    /**
+     * Convenience method that asks a user if they want to continue if they try
+     * to 1) open a file without saving 2) create a new file without saving 3)
+     * close the program without saving
+     *
+     * @return true if the process should continue, false if you should return
+     * out of the method
+     */
+    private boolean shouldContinue(String message) {
+        int selection = JOptionPane.showConfirmDialog(frame, message); //ask the user if they want to continue
+
+        if (selection != JOptionPane.YES_OPTION) { //if the user did not choose "yes"
+            return false; //cancel the operation
+        }
+
+        //if the user did choose yes, then we should continue the operation
+        //if the file has been saved, then we can just return true
+        return true;
+
     }
 
     public static void main(String[] args) {
