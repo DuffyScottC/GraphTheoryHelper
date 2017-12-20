@@ -20,6 +20,8 @@ import java.nio.file.Path;
 import javax.swing.JFileChooser;
 import javax.swing.JOptionPane;
 import javax.swing.ListSelectionModel;
+import javax.swing.event.MenuEvent;
+import javax.swing.event.MenuListener;
 import views.Canvas;
 import views.GraphFrame;
 
@@ -153,25 +155,38 @@ public class Controller {
                         JOptionPane.showMessageDialog(frame, "File is not a figures file.\n" + ex.getMessage(), "Oops!", JOptionPane.ERROR_MESSAGE);
                     }
 
+                    saveFile = loadFile; //update the save file
+
                 }
             }
         });
 
-        frame.getFileMenu().addActionListener(new ActionListener() {
+        frame.getFileMenu().addMenuListener(new MenuListener() {
             @Override
-            public void actionPerformed(ActionEvent e) {
+            public void menuSelected(MenuEvent e) {
                 if (graph.isSaved()) { //if the graph is saved
                     frame.getSaveMenuItem().setEnabled(false); //disable save
                 } else {
                     frame.getSaveMenuItem().setEnabled(true); //enable save
                 }
+                System.out.println("openned file menu");
+            }
+
+            @Override
+            public void menuDeselected(MenuEvent e) {
+                //nothing
+            }
+
+            @Override
+            public void menuCanceled(MenuEvent e) {
+                //nothing
             }
         });
 
         frame.getSaveMenuItem().addActionListener(new ActionListener() {
             @Override
             public void actionPerformed(ActionEvent e) {
-
+                saveGraph();
             }
         });
 
@@ -205,7 +220,7 @@ public class Controller {
         if (saveFile == null) {
             return;
         }
-        
+
         try {
             //Create an output stream from the file
             FileOutputStream ostr = new FileOutputStream(saveFile);

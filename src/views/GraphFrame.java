@@ -8,6 +8,7 @@ package views;
 import javax.swing.JButton;
 import javax.swing.JList;
 import javax.swing.JMenu;
+import javax.swing.JMenuBar;
 import javax.swing.JMenuItem;
 import javax.swing.JPanel;
 import javax.swing.JTextArea;
@@ -55,7 +56,7 @@ public class GraphFrame extends javax.swing.JFrame {
         edgesScrollPane = new javax.swing.JScrollPane();
         edgesList = new javax.swing.JList<>();
         statusTextField = new javax.swing.JTextField();
-        jMenuBar1 = new javax.swing.JMenuBar();
+        myMenuBar = new javax.swing.JMenuBar();
         fileMenu = new javax.swing.JMenu();
         openMenuItem = new javax.swing.JMenuItem();
         saveMenuItem = new javax.swing.JMenuItem();
@@ -189,6 +190,7 @@ public class GraphFrame extends javax.swing.JFrame {
         fileMenu.add(openMenuItem);
 
         saveMenuItem.setText("Save");
+        saveMenuItem.setEnabled(false);
         fileMenu.add(saveMenuItem);
 
         saveAsMenuItem.setText("Save As");
@@ -200,7 +202,7 @@ public class GraphFrame extends javax.swing.JFrame {
         loadSamplesMenuItem.setText("Load Samples");
         fileMenu.add(loadSamplesMenuItem);
 
-        jMenuBar1.add(fileMenu);
+        myMenuBar.add(fileMenu);
 
         editMenu.setText("Edit");
 
@@ -212,7 +214,7 @@ public class GraphFrame extends javax.swing.JFrame {
         });
         editMenu.add(rotate90MenuItem);
 
-        jMenuBar1.add(editMenu);
+        myMenuBar.add(editMenu);
 
         viewMenu.setText("View");
 
@@ -222,9 +224,9 @@ public class GraphFrame extends javax.swing.JFrame {
         formatVertexMenuItem.setText("Format Vertex");
         viewMenu.add(formatVertexMenuItem);
 
-        jMenuBar1.add(viewMenu);
+        myMenuBar.add(viewMenu);
 
-        setJMenuBar(jMenuBar1);
+        setJMenuBar(myMenuBar);
 
         pack();
     }// </editor-fold>//GEN-END:initComponents
@@ -248,8 +250,8 @@ public class GraphFrame extends javax.swing.JFrame {
     private javax.swing.JMenu fileMenu;
     private javax.swing.JMenuItem formatVertexMenuItem;
     private javax.swing.JPanel inspectorPanel;
-    private javax.swing.JMenuBar jMenuBar1;
     private javax.swing.JMenuItem loadSamplesMenuItem;
+    private javax.swing.JMenuBar myMenuBar;
     private javax.swing.JMenuItem newMenuItem;
     private javax.swing.JMenuItem openMenuItem;
     private javax.swing.JPanel propertiesPanel;
@@ -341,5 +343,9 @@ public class GraphFrame extends javax.swing.JFrame {
     
     public JMenu getFileMenu() {
         return fileMenu;
+    }
+    
+    public JMenuBar getMyMenuBar() {
+        return myMenuBar;
     }
 }
