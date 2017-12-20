@@ -34,8 +34,6 @@ public class Controller {
 
     private final Graph graph = new Graph("Simple Graph");
     
-    private boolean isSaved = true;
-    
     //File I/O:
     JFileChooser chooser = new JFileChooser(System.getProperty("user.dir"));
 
@@ -121,6 +119,8 @@ public class Controller {
                         
                     }
                     
+                    graph.setIsSaved(true);
+                    
                 }
                 
             }
@@ -129,11 +129,13 @@ public class Controller {
         frame.getOpenMenuItem().addActionListener(new ActionListener() {
             @Override
             public void actionPerformed(ActionEvent e) {
-                if (!isSaved) {
+                if (!graph.isSaved()) {
                     if (!shouldContinue("OK to discard changes?")) {
                         return;
                     }
                 }
+                
+                graph.setIsSaved(true);
                 
                 chooser.setDialogTitle("Open");
                 int chooserResult = chooser.showOpenDialog(frame);

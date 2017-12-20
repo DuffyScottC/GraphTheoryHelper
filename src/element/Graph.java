@@ -82,9 +82,11 @@ public class Graph implements Serializable {
     private Vertex clickedVertex;
 
     private boolean showTitles; //is not serializable
+    private boolean isSaved; //is not serializable
     
     public Graph(String title) {
         showTitles = false;
+        isSaved = true;
         verticesListModel = new DefaultListModel();
         edgesListModel = new DefaultListModel();
         this.title = title;
@@ -140,6 +142,8 @@ public class Graph implements Serializable {
                                 updateEdgesListModel();
 
                                 exitAddEdgeState();
+                                
+                                isSaved = false;
 
                                 return; //we don't need to check anymore
                             }
@@ -202,6 +206,8 @@ public class Graph implements Serializable {
                 if (clickedVertex == null) {
                     return; //we don't have a vertex to move, so just stop here
                 }
+                
+                isSaved = false;
 
                 int mx = e.getX(); //x-coord of mouse click
                 int my = e.getY(); //y-coord of mouse click
@@ -278,6 +284,7 @@ public class Graph implements Serializable {
                 verticesList.setSelectedIndex(bottomIndex);
                 selectedIndex = bottomIndex;
                 setSelectedVertex();
+                isSaved = false;
             }
         });
 
@@ -302,6 +309,7 @@ public class Graph implements Serializable {
                 setSelectedVertex();
 
                 canvas.repaint();
+                isSaved = false;
             }
         });
 
@@ -367,6 +375,7 @@ public class Graph implements Serializable {
                 selectedVertex.setTitle(newTitle);
                 verticesList.repaint();
                 canvas.repaint();
+                isSaved = false;
             }
         });
 
@@ -581,6 +590,14 @@ public class Graph implements Serializable {
      */
     public boolean isEmpty() {
         return vertices.isEmpty();
+    }
+    
+    public boolean isSaved() {
+        return isSaved;
+    }
+    
+    public void setIsSaved(boolean isSaved) {
+        this.isSaved = isSaved;
     }
 
     @Override
