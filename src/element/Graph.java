@@ -81,7 +81,7 @@ public class Graph implements Serializable {
      */
     private Vertex clickedVertex;
 
-    private boolean showTitles;
+    private boolean showTitles; //is not serializable
     
     public Graph(String title) {
         showTitles = false;
