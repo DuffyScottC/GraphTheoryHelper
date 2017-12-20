@@ -81,9 +81,10 @@ public class Graph implements Serializable {
      */
     private Vertex clickedVertex;
 
-    private boolean showTitles = false;
+    private boolean showTitles;
     
     public Graph(String title) {
+        showTitles = false;
         verticesListModel = new DefaultListModel();
         edgesListModel = new DefaultListModel();
         this.title = title;
