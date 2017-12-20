@@ -181,13 +181,13 @@ public class Graph implements Serializable {
                             break; //exit the loop (we don't need to check the rest)
                         }
                     }
-
+                    
                     if (clickedBlankSpace) {
                         verticesList.clearSelection(); //deselect vertex in the list
                         selectedIndex = -1;
                         setSelectedVertex();
                     }
-
+                    
                     //update the last position
                     lastX = mx;
                     lastY = my;
@@ -291,6 +291,11 @@ public class Graph implements Serializable {
                 selectedIndex = bottomIndex;
                 setSelectedVertex();
                 isSaved = false;
+                
+                //Set the focus to be in the titleTextField
+                titleTextField.requestFocus();
+                titleTextField.setSelectionStart(0);
+                titleTextField.setSelectionEnd(newTitle.length());
             }
         });
 
