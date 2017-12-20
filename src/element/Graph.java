@@ -163,8 +163,13 @@ public class Graph implements Serializable {
                         Vertex currentVertex = vertices.get(i);
                         //if this figure contains the mouse click:
                         if (currentVertex.getPositionShape().contains(mx, my)) {
+                            //store the clicked vertex (for moving)
                             clickedVertex = currentVertex;
-                            clickedBlankSpace = false;
+                            //Update the selection
+                            verticesList.setSelectedIndex(i);
+                            selectedIndex = i;
+                            setSelectedVertex();
+                            clickedBlankSpace = false; //user didn't click blank space
                             break; //exit the loop (we don't need to check the rest)
                         }
                     }
