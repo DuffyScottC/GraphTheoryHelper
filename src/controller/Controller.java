@@ -164,12 +164,16 @@ public class Controller {
         frame.getFileMenu().addMenuListener(new MenuListener() {
             @Override
             public void menuSelected(MenuEvent e) {
+                if (saveFile == null) {
+                    frame.getSaveMenuItem().setEnabled(false); //disable save
+                    return; //leave this method
+                }
+                
                 if (graph.isSaved()) { //if the graph is saved
                     frame.getSaveMenuItem().setEnabled(false); //disable save
                 } else {
                     frame.getSaveMenuItem().setEnabled(true); //enable save
                 }
-                System.out.println("openned file menu");
             }
 
             @Override
