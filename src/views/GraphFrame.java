@@ -7,6 +7,7 @@ package views;
 
 import javax.swing.JButton;
 import javax.swing.JList;
+import javax.swing.JMenu;
 import javax.swing.JMenuItem;
 import javax.swing.JPanel;
 import javax.swing.JTextArea;
@@ -336,5 +337,9 @@ public class GraphFrame extends javax.swing.JFrame {
     
     public JTextField getStatusTextField() {
         return statusTextField;
+    }
+    
+    public JMenu getFileMenu() {
+        return fileMenu;
     }
 }

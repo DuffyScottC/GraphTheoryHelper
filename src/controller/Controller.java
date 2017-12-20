@@ -171,6 +171,17 @@ public class Controller {
             }
         });
         
+        frame.getFileMenu().addActionListener(new ActionListener() {
+            @Override
+            public void actionPerformed(ActionEvent e) {
+                if (graph.isSaved()) { //if the graph is saved
+                    frame.getSaveMenuItem().setEnabled(false); //disable save
+                } else {
+                    frame.getSaveMenuItem().setEnabled(true); //enable save
+                }
+            }
+        });
+        
         //Drag to move vertices:
         graph.addEventHandlers(frame);
         
