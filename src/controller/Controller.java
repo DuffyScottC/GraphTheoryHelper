@@ -10,8 +10,10 @@ import java.awt.Dimension;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 import java.io.File;
+import java.io.FileInputStream;
 import java.io.FileOutputStream;
 import java.io.IOException;
+import java.io.ObjectInputStream;
 import java.io.ObjectOutputStream;
 import java.nio.file.Path;
 import javax.swing.JFileChooser;
@@ -29,7 +31,7 @@ public class Controller {
     private final GraphFrame frame = new GraphFrame();
     private final Canvas canvas = frame.getCanvas();
 
-    private final Graph graph = new Graph("Simple Graph");
+    private Graph graph = new Graph("Simple Graph");
     
     //File I/O:
     JFileChooser chooser = new JFileChooser(System.getProperty("user.dir"));
@@ -103,10 +105,49 @@ public class Controller {
                         oostr.close(); //must do this to ensure completion
                     } catch (IOException ex) {
                         
+                        JOptionPane.showMessageDialog(frame, "Unable to save file.\n" + ex.getMessage(), "Oops!", JOptionPane.ERROR_MESSAGE);
+                        
                     }
                     
                 }
                 
+            }
+        });
+        
+        frame.getLoadSamplesMenuItem().addActionListener(new ActionListener() {
+            @Override
+            public void actionPerformed(ActionEvent e) {
+                chooser.setDialogTitle("Open");
+                int chooserResult = chooser.showOpenDialog(frame);
+                if (chooserResult == JFileChooser.APPROVE_OPTION) {
+                    File loadFile = chooser.getSelectedFile();
+                    
+                    try {
+                        //create an input stream from the selected file
+                        FileInputStream  istr = new FileInputStream(loadFile); 
+                        ObjectInputStream oistr = new ObjectInputStream( istr );
+                        
+                        //load the object from the serialized file
+                        Object theObject = oistr.readObject();
+                        oistr.close();
+                        
+                        //if this object is a graph
+                        if (theObject instanceof Graph) {
+                            //cast the loaded object to a graph
+                            Graph loadedGraph = (Graph) theObject;
+                            
+                            //replace the old graph with the new one
+                            graph = loadedGraph;
+                            
+                            canvas.repaint();
+                        }
+                    } catch (IOException ex) {
+                        
+                    } catch (ClassNotFoundException ex) {
+                        
+                    }
+                    
+                }
             }
         });
         

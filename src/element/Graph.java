@@ -424,14 +424,14 @@ public class Graph implements Serializable {
         }
         return newTitle; //by this point, we've found a unique vertex name (be it V or V+(some number)). 
     }
-
+    
     public void drawVertices(Graphics2D g2) {
         if (vertices == null) {
             return;
         }
 
         AffineTransform t = g2.getTransform(); // save the transform settings
-
+        
         //loop from back to front so that the "top" vertext gets chosen
         //first when the user clicks on it.
         for (Vertex vertex : vertices) {
