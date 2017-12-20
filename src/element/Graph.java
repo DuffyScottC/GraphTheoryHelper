@@ -32,14 +32,14 @@ import views.GraphFrame;
  * @author Scott
  */
 public class Graph implements Serializable {
-    
+
     private Canvas canvas;
-    
+
     //the vertices which appear in canvas and the vertices JList
     private final List<Vertex> vertices = new ArrayList<>();
     //the edges which appear in canvas and the edges JList
     private final List<Edge> edges = new ArrayList<>();
-    
+
     /**
      * the last selected vertex in the vertices JList (Used for things like
      * setting the title text field, updating the title, changing the color,
@@ -65,11 +65,11 @@ public class Graph implements Serializable {
      * and the mouse
      */
     private Vertex firstSelectedVertex;
-    
+
     // models for vertex and edge selection lists
     private final DefaultListModel verticesListModel;
     private final DefaultListModel edgesListModel;
-    
+
     private String title = "Simple Graph";
 
     //Used for moving objects. Holds the last point the mouse was at.
@@ -83,7 +83,7 @@ public class Graph implements Serializable {
 
     private boolean showTitles; //is not serializable
     private boolean isSaved; //is not serializable
-    
+
     public Graph(String title) {
         showTitles = false;
         isSaved = true;
@@ -142,7 +142,7 @@ public class Graph implements Serializable {
                                 updateEdgesListModel();
 
                                 exitAddEdgeState();
-                                
+
                                 isSaved = false;
 
                                 return; //we don't need to check anymore
@@ -163,9 +163,9 @@ public class Graph implements Serializable {
                     if (vertices == null) {
                         return;
                     }
-                    
+
                     boolean clickedBlankSpace = true;
-                    
+
                     for (int i = vertices.size() - 1; i >= 0; --i) {
                         Vertex currentVertex = vertices.get(i);
                         //if this figure contains the mouse click:
@@ -180,7 +180,7 @@ public class Graph implements Serializable {
                             break; //exit the loop (we don't need to check the rest)
                         }
                     }
-                    
+
                     if (clickedBlankSpace) {
                         verticesList.clearSelection(); //deselect vertex in the list
                         selectedIndex = -1;
@@ -203,25 +203,30 @@ public class Graph implements Serializable {
         canvas.addMouseMotionListener(new MouseMotionListener() {
             @Override
             public void mouseDragged(MouseEvent e) {
-                if (clickedVertex == null) {
-                    return; //we don't have a vertex to move, so just stop here
-                }
-                
                 isSaved = false;
-
+                
                 int mx = e.getX(); //x-coord of mouse click
                 int my = e.getY(); //y-coord of mouse click
-
+                
                 // find the difference between the last position and the current position (used for moving the figure)
                 int incX = mx - lastX;
                 int incY = my - lastY;
-
+                
                 //update the last position
                 lastX = mx;
                 lastY = my;
-
-                clickedVertex.incLocation(incX, incY);
-                canvas.repaint();
+                
+                if (clickedVertex == null) { //if the user clicked open space
+                    //move all nodes
+                    for (Vertex v : vertices) {
+                        v.incLocation(incX, incY);
+                    }
+                    canvas.repaint();
+                } else { //if the user clicked a vertex
+                    //move the chosen node
+                    clickedVertex.incLocation(incX, incY);
+                    canvas.repaint();
+                }
             }
 
             @Override
@@ -277,7 +282,7 @@ public class Graph implements Serializable {
                 vertices.add(newVertex);
 
                 updateVerticesListModel();
-                
+
                 //Update selection:
                 int bottomIndex = vertices.size() - 1;
                 //Set the selection of the visual JList to the bottom
@@ -327,12 +332,12 @@ public class Graph implements Serializable {
                 addingEdge = true; //enter the edge adding state
                 //highlight all of the vertexes to provide a visual cue that the user is supposed
                 //to click one to add the edge
-                
+
                 //Update vertex selection
                 verticesList.clearSelection();
                 selectedIndex = -1;
                 setSelectedVertex();
-                
+
                 for (Vertex v : vertices) {
                     v.setStrokeColor(Helpers.HIGHLIGHT_COLOR);
                 }
@@ -382,7 +387,6 @@ public class Graph implements Serializable {
     }
 
     //MARK: Other methods--------------------
-    
     /**
      * Uses selectedIndex (a member variable) to set selectedVertex, highlight
      * selected vertex, un-highlights previously selected vertex set the
@@ -394,7 +398,7 @@ public class Graph implements Serializable {
         if (selectedVertex != null) { //if there was a previously selected vertex
             selectedVertex.setStrokeColor(Helpers.VERTEX_STROKE_COLOR);
         }
-        
+
         //Programattically select the new selectedVertex (or deselect entirely)
         if (selectedIndex == -1) { //if the user deselected a vertex
             selectedVertex = null;
@@ -436,14 +440,14 @@ public class Graph implements Serializable {
         }
         return newTitle; //by this point, we've found a unique vertex name (be it V or V+(some number)). 
     }
-    
+
     public void drawVertices(Graphics2D g2) {
         if (vertices == null) {
             return;
         }
 
         AffineTransform t = g2.getTransform(); // save the transform settings
-        
+
         //loop from back to front so that the "top" vertext gets chosen
         //first when the user clicks on it.
         for (Vertex vertex : vertices) {
@@ -459,14 +463,13 @@ public class Graph implements Serializable {
         }
 
     }
-    
+
     public void drawEdges(Graphics2D g2) {
         if (edges == null) {
             return;
         }
 
 //        AffineTransform t = g2.getTransform(); // save the transform settings
-
         //loop from back to front so that the "top" edge gets chosen
         //first when the user clicks on it.
         for (Edge edge : edges) {
@@ -498,50 +501,51 @@ public class Graph implements Serializable {
         g2.setColor(Color.BLACK);
         g2.drawLine(x1, y1, x2, y2); //draw the line
     }
-    
+
     /**
      * Used for loading a graph from a file
-     * @param g 
+     *
+     * @param g
      */
     public void replace(Graph g) {
         this.title = g.title;
-        
+
         List<Vertex> newVertices = g.getVertices();
         List<Edge> newEdges = g.getEdges();
-        
+
         vertices.clear(); //remove all elements from vertices
         for (Vertex v : newVertices) { //loop through new list
             vertices.add(v); //add each vertex to the vertices list
         }
-        
+
         updateVerticesListModel();
-        
+
         edges.clear(); //remove all elements from edges
         for (Edge e : newEdges) { //loop through new list
             edges.add(e); //add each edge to the edges list
         }
-        
+
         updateEdgesListModel();
-        
+
         //Update the list selection
         int newIndex = vertices.size() - 1;
         verticesList.setSelectedIndex(newIndex);
         selectedIndex = newIndex;
         setSelectedVertex();
         //^ Already has canvas.repaint();
-        
+
     }
-    
+
     /**
      * Clears the graph of all elements
      */
     public void clear() {
         vertices.clear();
         edges.clear();
-        
+
         updateVerticesListModel();
         updateEdgesListModel();
-        
+
         //deselect the vertices
         selectedIndex = -1;
         setSelectedVertex();
@@ -594,24 +598,25 @@ public class Graph implements Serializable {
     public void setShowTitles(boolean showTitles) {
         this.showTitles = showTitles;
     }
-    
+
     public void setCanvas(Canvas canvas) {
         this.canvas = canvas;
     }
-    
+
     /**
-     * The graph is empty if vertices is empty (doesn't matter
-     * whether edges is full or not)
-     * @return 
+     * The graph is empty if vertices is empty (doesn't matter whether edges is
+     * full or not)
+     *
+     * @return
      */
     public boolean isEmpty() {
         return vertices.isEmpty();
     }
-    
+
     public boolean isSaved() {
         return isSaved;
     }
-    
+
     public void setIsSaved(boolean isSaved) {
         this.isSaved = isSaved;
     }
