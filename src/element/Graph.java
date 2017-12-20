@@ -82,7 +82,7 @@ public class Graph implements Serializable {
     private Vertex clickedVertex;
 
     private boolean showTitles = false;
-
+    
     public Graph(String title) {
         this.title = title;
     }
@@ -536,6 +536,15 @@ public class Graph implements Serializable {
     
     public void setCanvas(Canvas canvas) {
         this.canvas = canvas;
+    }
+    
+    /**
+     * The graph is empty if vertices is empty (doesn't matter
+     * whether edges is full or not)
+     * @return 
+     */
+    public boolean isEmpty() {
+        return vertices.isEmpty();
     }
 
     @Override
