@@ -486,6 +486,37 @@ public class Graph implements Serializable {
         g2.setColor(Color.BLACK);
         g2.drawLine(x1, y1, x2, y2); //draw the line
     }
+    
+    /**
+     * Used for loading a graph from a file
+     * @param g 
+     */
+    public void replace(Graph g) {
+        List<Vertex> newVertices = g.getVertices();
+        List<Edge> newEdges = g.getEdges();
+        
+        vertices.clear(); //remove all elements from vertices
+        for (Vertex v : newVertices) { //loop through new list
+            vertices.add(v); //add each vertex to the vertices list
+        }
+        
+        updateVerticesListModel();
+        
+        edges.clear(); //remove all elements from edges
+        for (Edge e : newEdges) { //loop through new list
+            edges.add(e); //add each edge to the edges list
+        }
+        
+        updateEdgesListModel();
+        
+        //Update the list selection
+        int newIndex = vertices.size() - 1;
+        verticesList.setSelectedIndex(newIndex);
+        selectedIndex = newIndex;
+        setSelectedVertex();
+        //^ Already has canvas.repaint();
+        
+    }
 
     private void exitAddEdgeState() {
         addingEdge = false;

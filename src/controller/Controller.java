@@ -31,7 +31,7 @@ public class Controller {
     private final GraphFrame frame = new GraphFrame();
     private final Canvas canvas = frame.getCanvas();
 
-    private Graph graph = new Graph("Simple Graph");
+    private final Graph graph = new Graph("Simple Graph");
     
     //File I/O:
     JFileChooser chooser = new JFileChooser(System.getProperty("user.dir"));
@@ -114,7 +114,7 @@ public class Controller {
             }
         });
         
-        frame.getLoadSamplesMenuItem().addActionListener(new ActionListener() {
+        frame.getOpenMenuItem().addActionListener(new ActionListener() {
             @Override
             public void actionPerformed(ActionEvent e) {
                 chooser.setDialogTitle("Open");
@@ -137,7 +137,7 @@ public class Controller {
                             Graph loadedGraph = (Graph) theObject;
                             
                             //replace the old graph with the new one
-                            graph = loadedGraph;
+                            graph.replace(loadedGraph);
                             
                             canvas.repaint();
                         }
