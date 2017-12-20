@@ -142,9 +142,9 @@ public class Controller {
                             canvas.repaint();
                         }
                     } catch (IOException ex) {
-                        
+                        JOptionPane.showMessageDialog(frame, "Unable to read selected file.\n" + ex.getMessage(), "Oops!", JOptionPane.ERROR_MESSAGE);
                     } catch (ClassNotFoundException ex) {
-                        
+                        JOptionPane.showMessageDialog(frame, "File is not a figures file.\n" + ex.getMessage(), "Oops!", JOptionPane.ERROR_MESSAGE);
                     }
                     
                 }

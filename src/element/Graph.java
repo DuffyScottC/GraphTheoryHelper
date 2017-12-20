@@ -67,8 +67,8 @@ public class Graph implements Serializable {
     private Vertex firstSelectedVertex;
     
     // models for vertex and edge selection lists
-    private final DefaultListModel verticesListModel = new DefaultListModel();
-    private final DefaultListModel edgesListModel = new DefaultListModel();
+    private final DefaultListModel verticesListModel;
+    private final DefaultListModel edgesListModel;
     
     private String title = "Simple Graph";
 
@@ -84,6 +84,8 @@ public class Graph implements Serializable {
     private boolean showTitles = false;
     
     public Graph(String title) {
+        verticesListModel = new DefaultListModel();
+        edgesListModel = new DefaultListModel();
         this.title = title;
     }
 
