@@ -32,14 +32,14 @@ import views.GraphFrame;
  * @author Scott
  */
 public class Graph implements Serializable {
-
+    
     private Canvas canvas;
     
     //the vertices which appear in canvas and the vertices JList
     private final List<Vertex> vertices = new ArrayList<>();
     //the edges which appear in canvas and the edges JList
     private final List<Edge> edges = new ArrayList<>();
-
+    
     /**
      * the last selected vertex in the vertices JList (Used for things like
      * setting the title text field, updating the title, changing the color,
@@ -65,11 +65,11 @@ public class Graph implements Serializable {
      * and the mouse
      */
     private Vertex firstSelectedVertex;
-
+    
     // models for vertex and edge selection lists
     private final DefaultListModel verticesListModel = new DefaultListModel();
     private final DefaultListModel edgesListModel = new DefaultListModel();
-
+    
     private String title = "Simple Graph";
 
     //Used for moving objects. Holds the last point the mouse was at.
@@ -156,14 +156,23 @@ public class Graph implements Serializable {
                     if (vertices == null) {
                         return;
                     }
-
+                    
+                    boolean clickedBlankSpace = true;
+                    
                     for (int i = vertices.size() - 1; i >= 0; --i) {
                         Vertex currentVertex = vertices.get(i);
                         //if this figure contains the mouse click:
                         if (currentVertex.getPositionShape().contains(mx, my)) {
                             clickedVertex = currentVertex;
+                            clickedBlankSpace = false;
                             break; //exit the loop (we don't need to check the rest)
                         }
+                    }
+                    
+                    if (clickedBlankSpace) {
+                        verticesList.clearSelection(); //deselect vertex in the list
+                        selectedIndex = -1;
+                        setSelectedVertex();
                     }
 
                     //update the last position
@@ -477,7 +486,7 @@ public class Graph implements Serializable {
         addingEdge = false;
         firstSelectedVertex = null;
         for (Vertex v : vertices) {
-            v.setStrokeColor(Helpers.VERTEX_FILL_COLOR);
+            v.setStrokeColor(Helpers.VERTEX_STROKE_COLOR);
         }
         canvas.repaint();
     }
