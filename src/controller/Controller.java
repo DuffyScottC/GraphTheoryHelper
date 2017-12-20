@@ -199,6 +199,8 @@ public class Controller {
                     }
                 }
                 
+                saveFile = null; //we no longer have a file to save
+                
                 graph.clear();
                 
                 graph.setIsSaved(false); //we have not yet saved the new file
