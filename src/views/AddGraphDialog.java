@@ -5,8 +5,11 @@
  */
 package views;
 
+import javax.swing.JButton;
+
 /**
- *
+ * Used for adding on pieces of a graph (or a whole graph) from text
+ * input such as {{A,B},{A,C}} etc.
  * @author Scott
  */
 public class AddGraphDialog extends javax.swing.JDialog {
@@ -28,16 +31,16 @@ public class AddGraphDialog extends javax.swing.JDialog {
     // <editor-fold defaultstate="collapsed" desc="Generated Code">//GEN-BEGIN:initComponents
     private void initComponents() {
 
-        jButton1 = new javax.swing.JButton();
-        jButton2 = new javax.swing.JButton();
+        addButton = new javax.swing.JButton();
+        cancelButton = new javax.swing.JButton();
         graphTextField = new javax.swing.JTextField();
         jLabel1 = new javax.swing.JLabel();
 
         setDefaultCloseOperation(javax.swing.WindowConstants.DISPOSE_ON_CLOSE);
 
-        jButton1.setText("Add");
+        addButton.setText("Add");
 
-        jButton2.setText("Cancel");
+        cancelButton.setText("Cancel");
 
         graphTextField.setText("{}");
 
@@ -56,9 +59,9 @@ public class AddGraphDialog extends javax.swing.JDialog {
                         .addComponent(graphTextField))
                     .addGroup(layout.createSequentialGroup()
                         .addGap(0, 315, Short.MAX_VALUE)
-                        .addComponent(jButton2)
+                        .addComponent(cancelButton)
                         .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                        .addComponent(jButton1)))
+                        .addComponent(addButton)))
                 .addContainerGap())
         );
         layout.setVerticalGroup(
@@ -70,8 +73,8 @@ public class AddGraphDialog extends javax.swing.JDialog {
                     .addComponent(jLabel1))
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
                 .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
-                    .addComponent(jButton1)
-                    .addComponent(jButton2))
+                    .addComponent(addButton)
+                    .addComponent(cancelButton))
                 .addContainerGap())
         );
 
@@ -122,9 +125,9 @@ public class AddGraphDialog extends javax.swing.JDialog {
     }
 
     // Variables declaration - do not modify//GEN-BEGIN:variables
+    private javax.swing.JButton addButton;
+    private javax.swing.JButton cancelButton;
     private javax.swing.JTextField graphTextField;
-    private javax.swing.JButton jButton1;
-    private javax.swing.JButton jButton2;
     private javax.swing.JLabel jLabel1;
     // End of variables declaration//GEN-END:variables
     
@@ -135,6 +138,14 @@ public class AddGraphDialog extends javax.swing.JDialog {
     public void setFocusToTextField() {
         graphTextField.requestFocus();
         graphTextField.setCaretPosition(1);
+    }
+    
+    public JButton getAddButton() {
+        return addButton;
+    }
+    
+    public JButton getCancelButton() {
+        return cancelButton;
     }
     
 }
