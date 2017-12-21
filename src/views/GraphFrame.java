@@ -65,7 +65,7 @@ public class GraphFrame extends javax.swing.JFrame {
         loadSamplesMenuItem = new javax.swing.JMenuItem();
         editMenu = new javax.swing.JMenu();
         rotate90MenuItem = new javax.swing.JMenuItem();
-        addVertices = new javax.swing.JMenuItem();
+        addVerticesMenuItem = new javax.swing.JMenuItem();
         viewMenu = new javax.swing.JMenu();
         showVertexNamesMenuItem = new javax.swing.JCheckBoxMenuItem();
         formatVertexMenuItem = new javax.swing.JMenuItem();
@@ -216,8 +216,8 @@ public class GraphFrame extends javax.swing.JFrame {
         });
         editMenu.add(rotate90MenuItem);
 
-        addVertices.setText("Add Vertices");
-        editMenu.add(addVertices);
+        addVerticesMenuItem.setText("Add Vertices");
+        editMenu.add(addVerticesMenuItem);
 
         myMenuBar.add(editMenu);
 
@@ -245,7 +245,7 @@ public class GraphFrame extends javax.swing.JFrame {
     private javax.swing.JLabel JLabel3;
     private javax.swing.JButton addEdgeButton;
     private javax.swing.JButton addVertexButton;
-    private javax.swing.JMenuItem addVertices;
+    private javax.swing.JMenuItem addVerticesMenuItem;
     private views.Canvas canvas;
     private javax.swing.JScrollPane canvasScrollPane;
     private javax.swing.JPanel edgesButtonPanel;
@@ -361,7 +361,7 @@ public class GraphFrame extends javax.swing.JFrame {
      * of edges.
      * @return 
      */
-    public JMenuItem getAddVertices() {
-        return addVertices;
+    public JMenuItem getAddVerticesMenuItem() {
+        return addVerticesMenuItem;
     }
 }

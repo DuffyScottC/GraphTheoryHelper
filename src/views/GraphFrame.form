@@ -50,7 +50,7 @@
                 <EventHandler event="actionPerformed" listener="java.awt.event.ActionListener" parameters="java.awt.event.ActionEvent" handler="rotate90MenuItemActionPerformed"/>
               </Events>
             </MenuItem>
-            <MenuItem class="javax.swing.JMenuItem" name="addVertices">
+            <MenuItem class="javax.swing.JMenuItem" name="addVerticesMenuItem">
               <Properties>
                 <Property name="text" type="java.lang.String" value="Add Vertices"/>
               </Properties>

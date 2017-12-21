@@ -272,7 +272,7 @@ public class Graph implements Serializable {
                 //For now, each new vertex is simply added to the center
                 int xPos = canvas.getWidth() / 2;
                 int yPos = canvas.getHeight() / 2;
-
+                
                 Vertex newVertex = new Vertex(Helpers.DIAMETER);
                 newVertex.setLocation(xPos, yPos);
                 newVertex.setStrokeColor(Helpers.VERTEX_STROKE_COLOR);
@@ -281,9 +281,9 @@ public class Graph implements Serializable {
                 String newTitle = generateVertexTitle();
                 newVertex.setTitle(newTitle);
                 vertices.add(newVertex);
-
+                
                 updateVerticesListModel();
-
+                
                 //Update selection:
                 int bottomIndex = vertices.size() - 1;
                 //Set the selection of the visual JList to the bottom

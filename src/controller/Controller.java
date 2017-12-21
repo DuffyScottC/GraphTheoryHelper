@@ -24,6 +24,7 @@ import javax.swing.event.MenuEvent;
 import javax.swing.event.MenuListener;
 import views.Canvas;
 import views.GraphFrame;
+import views.AddGraphDialog;
 
 /**
  *
@@ -35,6 +36,8 @@ public class Controller {
     private final Canvas canvas = frame.getCanvas();
     
     private final Graph graph = new Graph("Simple Graph");
+    
+    private AddGraphDialog addGraphDialog = new AddGraphDialog(frame, true);
     
     //File I/O:
     private JFileChooser chooser = new JFileChooser(System.getProperty("user.dir"));
@@ -210,6 +213,18 @@ public class Controller {
                 graph.clear();
                 
                 graph.setIsSaved(false); //we have not yet saved the new file
+            }
+        });
+        
+        frame.getAddVerticesMenuItem().addActionListener(new ActionListener() {
+            @Override
+            public void actionPerformed(ActionEvent e) {
+                addGraphDialog.setLocationRelativeTo(null);
+                addGraphDialog.setTitle("Add Vertices");
+                
+                addGraphDialog.setFocusToTextField();
+                
+                addGraphDialog.setVisible(true);
             }
         });
 
