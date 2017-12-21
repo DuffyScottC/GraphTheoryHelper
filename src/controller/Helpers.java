@@ -92,20 +92,26 @@ public class Helpers {
             public void actionPerformed(ActionEvent e) {
                 List<Edge> edges = new ArrayList();
                 
-                //This checks if the graph is properly formatted
+                //This regex checks if the graph is properly formatted
                 //(e.g. {{A,B},{B,A},{C,D}} )
                 String properFormat = "\\{(\\{\\w+,\\w+\\})(,\\s*\\{\\w+,\\w+\\})*\\}";
                 
+                //Get the user's input
+                String input = addGraphDialog.getGraphTextField().getText();
                 
+                //Check if it's properly formatted:
+                if (!input.matches(properFormat)) { //if it's NOT properly formatted
+                    
+                }
                 
-                addGraphDialog.setVisible(false);
+                addGraphDialog.setVisible(false); //close the dialog
             }
         });
         
         addGraphDialog.getCancelButton().addActionListener(new ActionListener() {
             @Override
             public void actionPerformed(ActionEvent e) {
-                addGraphDialog.setVisible(false);
+                addGraphDialog.setVisible(false); //close the dialog
             }
         });
         
