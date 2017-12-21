@@ -9,6 +9,8 @@ import element.Edge;
 import element.Graph;
 import element.Vertex;
 import java.awt.Color;
+import java.awt.event.ActionEvent;
+import java.awt.event.ActionListener;
 import java.util.ArrayList;
 import java.util.List;
 import javax.swing.DefaultListModel;
@@ -85,7 +87,27 @@ public class Helpers {
             Canvas canvas
     ) {
         
+        addGraphDialog.getAddButton().addActionListener(new ActionListener() {
+            @Override
+            public void actionPerformed(ActionEvent e) {
+                List<Edge> edges = new ArrayList();
+                
+                //This checks if the graph is properly formatted
+                //(e.g. {{A,B},{B,A},{C,D}} )
+                String properFormat = "\\{(\\{\\w+,\\w+\\})(,\\s*\\{\\w+,\\w+\\})*\\}";
+                
+                
+                
+                addGraphDialog.setVisible(false);
+            }
+        });
         
+        addGraphDialog.getCancelButton().addActionListener(new ActionListener() {
+            @Override
+            public void actionPerformed(ActionEvent e) {
+                addGraphDialog.setVisible(false);
+            }
+        });
         
     }
     

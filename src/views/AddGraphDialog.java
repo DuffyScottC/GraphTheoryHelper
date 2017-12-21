@@ -6,6 +6,7 @@
 package views;
 
 import javax.swing.JButton;
+import javax.swing.JTextField;
 
 /**
  * Used for adding on pieces of a graph (or a whole graph) from text
@@ -146,6 +147,10 @@ public class AddGraphDialog extends javax.swing.JDialog {
     
     public JButton getCancelButton() {
         return cancelButton;
+    }
+    
+    public JTextField getGraphTextField() {
+        return graphTextField;
     }
     
 }
