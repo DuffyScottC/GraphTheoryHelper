@@ -230,6 +230,7 @@ public class Controller {
 
         //Drag to move vertices:
         graph.addEventHandlers(frame);
+        Helpers.addGraphDialogEventHandlers(addGraphDialog, graph, frame, canvas);
 
     }
 

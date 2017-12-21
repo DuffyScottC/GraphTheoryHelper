@@ -12,6 +12,9 @@ import java.awt.Color;
 import java.util.ArrayList;
 import java.util.List;
 import javax.swing.DefaultListModel;
+import views.AddGraphDialog;
+import views.Canvas;
+import views.GraphFrame;
 
 /**
  *
@@ -74,4 +77,16 @@ public class Helpers {
         }
         
     }
+    
+    public static void addGraphDialogEventHandlers(
+            AddGraphDialog addGraphDialog,
+            Graph graph,
+            GraphFrame frame,
+            Canvas canvas
+    ) {
+        
+        
+        
+    }
+    
 }
