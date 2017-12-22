@@ -227,6 +227,13 @@ public class Controller {
                 addGraphDialog.setVisible(true);
             }
         });
+        
+        frame.getFormatVertexMenuItem().addActionListener(new ActionListener() {
+            @Override
+            public void actionPerformed(ActionEvent e) {
+                
+            }
+        });
 
         //Drag to move vertices:
         graph.addEventHandlers(frame);

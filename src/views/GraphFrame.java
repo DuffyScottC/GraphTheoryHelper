@@ -355,6 +355,10 @@ public class GraphFrame extends javax.swing.JFrame {
         return myMenuBar;
     }
     
+    public JMenuItem getFormatVertexMenuItem() {
+        return formatVertexMenuItem;
+    }
+    
     /**
      * Not to be confused with addVertex. This is a menu item
      * that allows a user to add vertices by typing in a list

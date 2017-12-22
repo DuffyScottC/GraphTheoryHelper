@@ -458,16 +458,33 @@ public class Graph implements Serializable {
         
         //Add the vertices
         for (Vertex v : vs) { //loop through the new vertices
-            if (!vertices.contains(v)) { //if vertices does not already contain this vertex
-                
+            if (!vertices.contains(v)) { //if vertices does NOT already contain this vertex
+                vertices.add(v); //add the new vertex to the graph
+                toBeFormatted.add(v); //assign the new vertex to be formatted
             }
         }
+        
+        //Add the edges
+        for (Edge e : es) {
+            if (!edges.contains(e)) { //if edges does NOT already contain this edge
+                edges.add(e); //add the new edge to the graph
+            }
+        }
+        
+        //Format the new vertices that weren't already in the graph
+        this.formatVertices(toBeFormatted);
+        
+        canvas.repaint();
     }
     
     public void formatAllVertices() {
         this.formatVertices(this.vertices);
     }
     
+    /**
+     * Positions all vertices passed to this function in an evenly spaced circle
+     * @param vs A list of vertices (Must contain only vertices that already exist in the graph)
+     */
     private void formatVertices(List<Vertex> vs) {
         //For now, it just puts the vertices into a line at the top
         int xPosition = Helpers.DIAMETER;
