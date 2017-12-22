@@ -40,6 +40,9 @@ public class Edge extends Element {
         //Connect this edge to the two vertices
         endpoint1.addEdge(this);
         endpoint2.addEdge(this);
+        
+        //Default stroke width
+        this.strokeWidth = Helpers.EDGE_STROKE_WIDTH;
     }
     
     @Override
