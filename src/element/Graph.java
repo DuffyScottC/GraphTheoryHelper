@@ -464,6 +464,8 @@ public class Graph implements Serializable {
 
         //Add the vertices
         for (Vertex v : vs) { //loop through the new vertices
+            System.out.println("v: " + v + " - {" + v.getEdges() + "}");
+            
             int matchIndex = vertices.indexOf(v); //get the index of the vertex that matches v
             if (matchIndex == -1) { //if vertices does NOT already contain this vertex
                 vertices.add(v); //add the new vertex to the graph
@@ -471,12 +473,17 @@ public class Graph implements Serializable {
             } else { //if vertices does already contain this vertex
                 //we have to link the new edges that the user added to the pre-existing vertices
                 Vertex matchVertex = vertices.get(matchIndex); //get the matching vertex
+                System.out.println("matchVertex: " + matchVertex + " - " + matchVertex.getEdges());
                 matchVertex.addAllEdges(v.getEdges()); //add all the new edges to the vertex
+                System.out.println("new matchVertex: " + matchVertex + " - " + matchVertex.getEdges() + "\n");
             }
         }
-
+        
+        System.out.println("");
+        
         //Add the edges
         for (Edge e : es) {
+            System.out.println("e: {" + e + "}");
             if (!edges.contains(e)) { //if edges does NOT already contain this edge
                 edges.add(e); //add the new edge to the graph
             }

@@ -46,7 +46,7 @@ public class Controller {
     public Controller() {
         frame.setTitle("Graph Helper");
         frame.setLocationRelativeTo(null);
-        frame.setSize(800, 500);
+        frame.setSize(600, 500);
         
         canvas.setGraph(graph); //pass the graph to the canvas
         graph.setCanvas(canvas); //pass the canvas to the graph
