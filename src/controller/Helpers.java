@@ -33,6 +33,7 @@ public class Helpers {
     public static final Color VERTEX_STROKE_COLOR = Color.BLACK;
     public static final Color HIGHLIGHT_COLOR = Color.GREEN;
     public static final int DIAMETER = 15;
+    public static final double FORMAT_RADIUS = 50;
 
     /**
      * Pass in the graph and this will add two sample vertices and one sample
