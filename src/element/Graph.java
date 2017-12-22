@@ -421,7 +421,7 @@ public class Graph implements Serializable {
 
     private String generateVertexTitle() {
         if (vertices == null) {
-            return "V";
+            return "V1";
         }
         /*
         Loop through 1 to n = vertices.size(). Worst comes to worst, 
