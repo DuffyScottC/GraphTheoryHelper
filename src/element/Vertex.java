@@ -38,8 +38,9 @@ public class Vertex extends Element {
         shape = new Ellipse2D.Double(0, 0, diameter, diameter);
     }
     
-    public Vertex(String title) {
+    public Vertex(String title, double diameter) {
         this.title = title;
+        this.diameter = diameter;
         shape = new Ellipse2D.Double(0, 0, diameter, diameter);
     }
     
@@ -85,6 +86,15 @@ public class Vertex extends Element {
     }
     
     public void addEdge(Edge e) {
+        //if the new edge is already connected to this vertex:
+        if (edges.contains(e)) {
+            throw new RuntimeException("Attempted to add edge (" +
+                    e.toString() +
+                    ") same to vertex (" +
+                    this.toString() +
+                    ") twice.");
+        }
+        //Otherwise just add it
         edges.add(e);
     }
     
