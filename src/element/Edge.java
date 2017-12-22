@@ -26,7 +26,8 @@ public class Edge extends Element {
     private int y2;
     
     /**
-     * An initializer that allows you to define the endpoints immediately
+     * An initializer that allows you to define the endpoints immediately. This
+     * also automatically adds itself to the two endpoints so that you don't have to.
      * (Note: endpoints are unordered. Numbered so we can tell them apart.)
      * @param endpoint1
      * @param endpoint2 
@@ -34,6 +35,10 @@ public class Edge extends Element {
     public Edge (Vertex endpoint1, Vertex endpoint2) {
         this.endpoint1 = endpoint1;
         this.endpoint2 = endpoint2;
+        
+        //Connect this edge to the two vertices
+        endpoint1.addEdge(this);
+        endpoint2.addEdge(this);
     }
     
     @Override
