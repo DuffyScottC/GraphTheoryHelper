@@ -228,7 +228,7 @@ public class Controller {
             }
         });
         
-        frame.getFormatVertexMenuItem().addActionListener(new ActionListener() {
+        frame.getFormatVerticesMenuItem().addActionListener(new ActionListener() {
             @Override
             public void actionPerformed(ActionEvent e) {
                 graph.formatAllVertices();

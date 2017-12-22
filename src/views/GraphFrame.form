@@ -67,9 +67,9 @@
                 <Property name="text" type="java.lang.String" value="Show Vertex Names"/>
               </Properties>
             </MenuItem>
-            <MenuItem class="javax.swing.JMenuItem" name="formatVertexMenuItem">
+            <MenuItem class="javax.swing.JMenuItem" name="formatVerticesMenuItem">
               <Properties>
-                <Property name="text" type="java.lang.String" value="Format Vertex"/>
+                <Property name="text" type="java.lang.String" value="Format Vertices"/>
               </Properties>
             </MenuItem>
           </SubComponents>

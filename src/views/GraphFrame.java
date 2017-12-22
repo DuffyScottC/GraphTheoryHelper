@@ -68,7 +68,7 @@ public class GraphFrame extends javax.swing.JFrame {
         addVerticesMenuItem = new javax.swing.JMenuItem();
         viewMenu = new javax.swing.JMenu();
         showVertexNamesMenuItem = new javax.swing.JCheckBoxMenuItem();
-        formatVertexMenuItem = new javax.swing.JMenuItem();
+        formatVerticesMenuItem = new javax.swing.JMenuItem();
 
         setDefaultCloseOperation(javax.swing.WindowConstants.EXIT_ON_CLOSE);
         getContentPane().setLayout(new java.awt.GridBagLayout());
@@ -233,8 +233,8 @@ public class GraphFrame extends javax.swing.JFrame {
         showVertexNamesMenuItem.setText("Show Vertex Names");
         viewMenu.add(showVertexNamesMenuItem);
 
-        formatVertexMenuItem.setText("Format Vertex");
-        viewMenu.add(formatVertexMenuItem);
+        formatVerticesMenuItem.setText("Format Vertices");
+        viewMenu.add(formatVerticesMenuItem);
 
         myMenuBar.add(viewMenu);
 
@@ -261,7 +261,7 @@ public class GraphFrame extends javax.swing.JFrame {
     private javax.swing.JScrollPane edgesScrollPane;
     private javax.swing.JMenu editMenu;
     private javax.swing.JMenu fileMenu;
-    private javax.swing.JMenuItem formatVertexMenuItem;
+    private javax.swing.JMenuItem formatVerticesMenuItem;
     private views.InspectorPanel inspectorPanel;
     private javax.swing.JMenuItem loadSamplesMenuItem;
     private javax.swing.JMenuBar myMenuBar;
@@ -358,8 +358,8 @@ public class GraphFrame extends javax.swing.JFrame {
         return myMenuBar;
     }
     
-    public JMenuItem getFormatVertexMenuItem() {
-        return formatVertexMenuItem;
+    public JMenuItem getFormatVerticesMenuItem() {
+        return formatVerticesMenuItem;
     }
     
     /**
