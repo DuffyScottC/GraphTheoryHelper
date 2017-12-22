@@ -145,7 +145,13 @@ public class Vertex extends Element {
     }
     
     public boolean isAdjacentTo(Vertex v) {
-        
+        for (Edge e : edges) { //cycle through all the edges
+            if (e.hasEndpoint(v)) { //if v is an enpoint of e
+                return true;
+            }
+        }
+        //if none of the edges has v as an endpoint
+        return false;
     }
     
     /**
