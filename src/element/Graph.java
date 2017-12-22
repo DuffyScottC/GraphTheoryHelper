@@ -108,8 +108,9 @@ public class Graph implements Serializable {
                     if (firstSelectedVertex == null) { //if this is null, the user hasn't chosen their first vertex
                         //(If we reach this point, vertices.size() is at least 2)
                         for (Vertex currentVertex : vertices) { //loop through the vertices
-                            //if this figure contains the mouse click:
+                            //if this vertex contains the mouse click:
                             if (currentVertex.getPositionShape().contains(mx, my)) {
+                                highlightAvailableVertices();
                                 firstSelectedVertex = currentVertex; //assign the first vertex
                                 firstSelectedVertex.setStrokeColor(Helpers.VERTEX_STROKE_COLOR);
                                 firstSelectedVertex.setStrokeWidth(Helpers.VERTEX_STROKE_WIDTH);
@@ -606,7 +607,7 @@ public class Graph implements Serializable {
         selectedIndex = -1;
         setSelectedVertex();
         
-        //Highglight the appropriate vertices
+        //Highglight all the vertices
         for (Vertex v : vertices) {
             v.setStrokeColor(Helpers.HIGHLIGHT_COLOR);
             v.setStrokeWidth(Helpers.HIGHLIGHT_STROKE_WIDTH);
@@ -623,6 +624,15 @@ public class Graph implements Serializable {
             v.setStrokeWidth(Helpers.VERTEX_STROKE_WIDTH);
         }
         canvas.repaint();
+    }
+    
+    /**
+     * Highlights all vertices that are available to have an edge added to them.
+     * (A vertex is available if its degree is less than order-1 (where order
+     * is the number of vertices in the graph)
+     */
+    private void highlightAvailableVertices() {
+        
     }
 
     private void updateVerticesListModel() {

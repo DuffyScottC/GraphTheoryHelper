@@ -46,29 +46,26 @@ public class Helpers {
         List<Edge> edges = graph.getEdges();
         Vertex vertex1 = new Vertex(DIAMETER);
         vertex1.setLocation(220, 140);
-        vertex1.setStrokeColor(VERTEX_FILL_COLOR);
-        vertex1.setFillColor(VERTEX_STROKE_COLOR);
-        vertex1.setStrokeWidth(3f);
+        vertex1.setStrokeColor(VERTEX_STROKE_COLOR);
+        vertex1.setFillColor(VERTEX_FILL_COLOR);
+        vertex1.setStrokeWidth(VERTEX_STROKE_WIDTH);
         vertex1.setTitle("A");
         vertices.add(vertex1);
 
         Vertex vertex2 = new Vertex(DIAMETER);
         vertex2.setLocation(100, 100);
-        vertex2.setStrokeColor(VERTEX_FILL_COLOR);
-        vertex2.setFillColor(VERTEX_STROKE_COLOR);
-        vertex2.setStrokeWidth(3f);
+        vertex2.setStrokeColor(VERTEX_STROKE_COLOR);
+        vertex2.setFillColor(VERTEX_FILL_COLOR);
+        vertex2.setStrokeWidth(VERTEX_STROKE_WIDTH);
         vertex2.setTitle("B");
         vertices.add(vertex2);
 
         Edge edgeElement = new Edge(vertex1, vertex2);
         edgeElement.setStrokeColor(Color.BLACK);
         edgeElement.setFillColor(Color.BLACK);
-        edgeElement.setStrokeWidth(VERTEX_STROKE_WIDTH);
+        edgeElement.setStrokeWidth(EDGE_STROKE_WIDTH);
         edgeElement.setTitle("A,B");
         edges.add(edgeElement);
-
-        vertex1.addEdge(edgeElement);
-        vertex2.addEdge(edgeElement);
 
         DefaultListModel verticesList = graph.getVerticesListModel();
         verticesList.removeAllElements();
