@@ -315,17 +315,17 @@ public class Graph implements Serializable {
                 //Get the list of edges to remove
                 List<Edge> removeEdges = vertices.get(selectedIndex).getEdges();
                 
+                //remove the edges that were attached to this vertex from the list of edges
+                edges.removeAll(removeEdges);
+                
+                vertices.remove(selectedIndex); //remove the vertex
+                
                 //Remove the edges that were attached to this vertex 
                 //from all the other vertices associated with them
                 for (Edge eg : removeEdges) {
                     eg.getEndpoint1().removeEdge(eg);
                     eg.getEndpoint2().removeEdge(eg);
                 }
-                
-                //remove the edges that were attached to this vertex from the list of edges
-                edges.removeAll(removeEdges);
-                
-                vertices.remove(selectedIndex); //remove the vertex
                 
                 updateVerticesListModel();
                 updateEdgesListModel();
