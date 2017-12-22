@@ -88,7 +88,8 @@ public class Helpers {
             GraphFrame frame,
             Canvas canvas
     ) {
-
+        
+        //The add button
         addGraphDialog.getAddButton().addActionListener(new ActionListener() {
             @Override
             public void actionPerformed(ActionEvent e) {
@@ -112,6 +113,9 @@ public class Helpers {
                 //If it is properly formatted
                 
                 //Convert the input to a list of edges:
+                
+                //will be set to true if anything was actually changed
+                boolean wasModified = false;
                 
                 //this will grab the titles of the vertices
                 String titleRegex = "(\\w+),(\\w+)";
@@ -140,6 +144,7 @@ public class Helpers {
                     if (index1 == -1) { //if this is a new vertex
                         vertices.add(newVertex1); //add this vertex to the list
                         toBeFormatted.add(newVertex1);
+                        wasModified = true;
                     } else { //if this vertex is already contained in the graph
                         //reassign the reference newVertex1 to the vertex that
                         //is already in the graph but has the same name:
@@ -149,6 +154,7 @@ public class Helpers {
                     if (index2 == -1) { //if this is a new vertex
                         vertices.add(newVertex2); //add this vertex to the list
                         toBeFormatted.add(newVertex2);
+                        wasModified = true;
                     } else { //if this vertex is already contained in the graph
                         //reassign the reference newVertex2 to the vertex that
                         //is already in the graph but has the same name:
@@ -166,10 +172,15 @@ public class Helpers {
                         //create a new edge between newVertex1 and newVertex2
                         Edge newEdge = new Edge(newVertex1, newVertex2);
                         edges.add(newEdge); //add the edge to the list
+                        wasModified = true;
                     }
                     
                     //if newVertex1 not already connected to newVertex2, then
                     //it must already be in edges and we don't need to do anything else
+                    
+                    if (wasModified) {
+                        graph.setIsModified(true);
+                    }
                     
                     graph.formatVertices(toBeFormatted);
                     graph.updateListModels();

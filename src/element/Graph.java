@@ -82,11 +82,11 @@ public class Graph implements Serializable {
     private Vertex clickedVertex;
 
     private boolean showTitles; //is not serializable
-    private boolean isSaved; //is not serializable
+    private boolean isModified; //is not serializable
 
     public Graph(String title) {
         showTitles = false;
-        isSaved = true;
+        isModified = false;
         verticesListModel = new DefaultListModel();
         edgesListModel = new DefaultListModel();
         this.title = title;
@@ -149,7 +149,7 @@ public class Graph implements Serializable {
                                     
                                     exitAddEdgeState(); //exit the add edge state
                                     
-                                    isSaved = false; //Note that this is not saved
+                                    isModified = true; //Note that this is not saved
 
                                     return; //we don't need to check anymore
                                 }
@@ -210,7 +210,7 @@ public class Graph implements Serializable {
         canvas.addMouseMotionListener(new MouseMotionListener() {
             @Override
             public void mouseDragged(MouseEvent e) {
-                isSaved = false;
+                isModified = true;
 
                 int mx = e.getX(); //x-coord of mouse click
                 int my = e.getY(); //y-coord of mouse click
@@ -296,7 +296,7 @@ public class Graph implements Serializable {
                 verticesList.setSelectedIndex(bottomIndex);
                 selectedIndex = bottomIndex;
                 setSelectedVertex();
-                isSaved = false;
+                isModified = true;
 
                 //Set the focus to be in the titleTextField
                 titleTextField.requestFocus();
@@ -335,7 +335,7 @@ public class Graph implements Serializable {
                 setSelectedVertex();
                 
                 canvas.repaint();
-                isSaved = false;
+                isModified = true;
             }
         });
 
@@ -388,7 +388,7 @@ public class Graph implements Serializable {
                 selectedVertex.setTitle(newTitle);
                 verticesList.repaint();
                 canvas.repaint();
-                isSaved = false;
+                isModified = true;
             }
         });
 
@@ -728,12 +728,12 @@ public class Graph implements Serializable {
         return vertices.isEmpty();
     }
 
-    public boolean isSaved() {
-        return isSaved;
+    public boolean isModified() {
+        return isModified;
     }
 
-    public void setIsSaved(boolean isSaved) {
-        this.isSaved = isSaved;
+    public void setIsModified(boolean isModified) {
+        this.isModified = isModified;
     }
 
     @Override

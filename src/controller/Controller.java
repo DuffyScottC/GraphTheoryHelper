@@ -84,7 +84,7 @@ public class Controller {
                     }
                 }
 
-                graph.setIsSaved(true);
+                graph.setIsModified(true);
 
                 chooser.setDialogTitle("Open");
                 int chooserResult = chooser.showOpenDialog(frame);
@@ -128,7 +128,7 @@ public class Controller {
             @Override
             public void actionPerformed(ActionEvent e) {
                 if (saveFile == null) {
-                    frame.getSaveMenuItem().setEnabled(false); //disable save
+                    saveGraphAs();
                 } else {
                     saveGraph();
                 }
@@ -148,7 +148,7 @@ public class Controller {
                 
                 graph.clear();
                 
-                graph.setIsSaved(false); //we have not yet saved the new file
+                graph.setIsModified(false); //we have not yet saved the new file
             }
         });
         
@@ -203,7 +203,7 @@ public class Controller {
 
     }
     
-    private void saveAsGraph() {
+    private void saveGraphAs() {
         if (graph.isEmpty()) {
                     JOptionPane.showMessageDialog(frame, "Cannot save an empty graph.");
                     return;
@@ -269,7 +269,7 @@ public class Controller {
 
         }
 
-        graph.setIsSaved(true);
+        graph.setIsModified(true);
     }
 
     public static void main(String[] args) {
