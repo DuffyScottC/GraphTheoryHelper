@@ -448,13 +448,33 @@ public class Graph implements Serializable {
     
     /**
      * This will add the given list of vertices and list of edges to the graph's own list,
-     * and will assign positional values to the entirely new vertices (in a circle that tries not 
+     * and will assign positions to the entirely new vertices (in a circle that tries not 
      * to interfere with the existing elements).
      * @param vs A list of vertices to be added to the graph
      * @param es A list of edges to be added to the graph
      */
     public void appendElements(List<Vertex> vs, List<Edge> es) {
+        List<Vertex> toBeFormatted = new ArrayList(); //holds the new vertices that must be formatted
         
+        //Add the vertices
+        for (Vertex v : vs) { //loop through the new vertices
+            if (!vertices.contains(v)) { //if vertices does not already contain this vertex
+                
+            }
+        }
+    }
+    
+    public void formatAllVertices() {
+        this.formatVertices(this.vertices);
+    }
+    
+    private void formatVertices(List<Vertex> vs) {
+        //For now, it just puts the vertices into a line at the top
+        int xPosition = Helpers.DIAMETER;
+        for (Vertex v : vs) {
+            v.setLocation(xPosition, Helpers.DIAMETER);
+            xPosition += Helpers.DIAMETER;
+        }
     }
 
     public void drawVertices(Graphics2D g2) {
