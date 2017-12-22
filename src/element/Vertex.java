@@ -21,10 +21,18 @@ import java.util.List;
 public class Vertex extends Element {
     
     private double diameter = 10;
-    //the center of the sphere 
+    
     //(used to tell edges where to place their endpoints):
     private double xCent = 5;
     private double yCent = 5;
+    
+    /**
+     * Used to determine whether a vertex is available to add an edge to
+     * (whether from a given edge or from the first selected edge).
+     * Used in addEdgeState operations. Defaults to true when you
+     * create a new vertex (not serializable, so set in constructor)
+     */
+    private boolean canAddEdges;
     
     /**
      * A list of edges associated with this vertex.
@@ -35,12 +43,14 @@ public class Vertex extends Element {
 
     public Vertex (double diameter) {
         this.diameter = diameter;
+        canAddEdges = true;
         shape = new Ellipse2D.Double(0, 0, diameter, diameter);
     }
     
     public Vertex(String title, double diameter) {
         this.title = title;
         this.diameter = diameter;
+        canAddEdges = true;
         shape = new Ellipse2D.Double(0, 0, diameter, diameter);
     }
     

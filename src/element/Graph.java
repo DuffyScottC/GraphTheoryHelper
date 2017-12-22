@@ -600,25 +600,23 @@ public class Graph implements Serializable {
         addingEdge = true; //enter the edge adding state
         //highlight all of the vertexes to provide a visual cue that the user is supposed
         //to click one to add the edge
-
+        
         //Update vertex selection
         verticesList.clearSelection(); //clear the visual selection
         //deselect the vertex
         selectedIndex = -1;
         setSelectedVertex();
         
-        //Highglight all the vertices
-        for (Vertex v : vertices) {
-            v.setStrokeColor(Helpers.HIGHLIGHT_COLOR);
-            v.setStrokeWidth(Helpers.HIGHLIGHT_STROKE_WIDTH);
-        }
-
+        //Highglight appropriate vertices
+        
+        
         canvas.repaint();
     }
 
     private void exitAddEdgeState() {
         addingEdge = false;
-        firstSelectedVertex = null;
+        firstSelectedVertex = null; //prepare for the next edge
+        //Unhighlight all vertices
         for (Vertex v : vertices) {
             v.setStrokeColor(Helpers.VERTEX_STROKE_COLOR);
             v.setStrokeWidth(Helpers.VERTEX_STROKE_WIDTH);
