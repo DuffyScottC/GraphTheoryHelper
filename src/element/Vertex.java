@@ -116,6 +116,14 @@ public class Vertex extends Element {
         return edges;
     }
     
+    public void setCanAddEdges(boolean canAddEdges) {
+        this.canAddEdges = canAddEdges;
+    }
+    
+    public boolean canAddEdges() {
+        return canAddEdges;
+    }
+    
     /**
      * This is used to determine if the mouse click is contained by
      * the shape of this vertex (called in Graph)

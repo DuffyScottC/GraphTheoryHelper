@@ -607,8 +607,10 @@ public class Graph implements Serializable {
         selectedIndex = -1;
         setSelectedVertex();
         
+        //Assign the canAddEdges values of all the vertices
+        assignCanAddEdges();
         //Highglight appropriate vertices
-        
+        highlightAvailableVertices();
         
         canvas.repaint();
     }
@@ -625,12 +627,37 @@ public class Graph implements Serializable {
     }
     
     /**
-     * Highlights all vertices that are available to have an edge added to them.
-     * (A vertex is available if its degree is less than order-1 (where order
-     * is the number of vertices in the graph)
+     * Determines whether all vertices are available to add edges to (and assigns
+     * their canAddEdges value) when the user enters the addEdgeState. (A vertex is 
+     * available if its degree is less than (order-1), where order is the number of 
+     * vertices in the graph.
+     */
+    private void assignCanAddEdges() {
+        for (Vertex v : vertices) {
+            //if this vertex is available to add edges to:
+            if (v.getDegree() < vertices.size() - 1) {
+                v.setCanAddEdges(true);
+            } else { //if this vertex is completely full
+                v.setCanAddEdges(false);
+            }
+        }
+    }
+    
+    /**
+     * Highlights all vertices that are available to have an edge added to them
+     * when the user enters the addEdgeState.
      */
     private void highlightAvailableVertices() {
-        
+        for (Vertex v : vertices) {
+            //if this vertex is available to add edges to
+            if (v.canAddEdges()) {
+                v.setStrokeColor(Helpers.HIGHLIGHT_COLOR);
+                v.setStrokeWidth(Helpers.HIGHLIGHT_STROKE_WIDTH);
+            } else { //if this vertex is completely full
+                v.setStrokeColor(Helpers.VERTEX_STROKE_COLOR);
+                v.setStrokeWidth(Helpers.VERTEX_STROKE_WIDTH);
+            }
+        }
     }
 
     private void updateVerticesListModel() {
