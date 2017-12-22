@@ -232,6 +232,7 @@ public class Controller {
             @Override
             public void actionPerformed(ActionEvent e) {
                 graph.formatAllVertices();
+                canvas.repaint();
                 System.out.println("Currently only lines them up");
             }
         });

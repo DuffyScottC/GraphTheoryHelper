@@ -171,6 +171,7 @@ public class Helpers {
                     //it must already be in edges and we don't need to do anything else
                     
                     graph.formatVertices(toBeFormatted);
+                    graph.updateListModels();
                     canvas.repaint();
                 }
                 

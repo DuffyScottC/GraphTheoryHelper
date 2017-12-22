@@ -673,6 +673,15 @@ public class Graph implements Serializable {
             edgesListModel.addElement(eg);
         }
     }
+    
+    /**
+     * Updates the visual JLists that show the user what vertices and edges
+     * are in the graph.
+     */
+    public void updateListModels() {
+        updateVerticesListModel();
+        updateEdgesListModel();
+    }
 
     public List<Vertex> getVertices() {
         return vertices;
