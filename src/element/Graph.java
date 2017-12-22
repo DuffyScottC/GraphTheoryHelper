@@ -134,10 +134,6 @@ public class Graph implements Serializable {
                                 //Create a new edge with the two vertices
                                 Edge newEdge = new Edge(firstSelectedVertex, currentVertex);
 
-                                //Add the new edge to the two vertices
-                                firstSelectedVertex.addEdge(newEdge);
-                                currentVertex.addEdge(newEdge);
-
                                 edges.add(newEdge);
 
                                 updateEdgesListModel();
