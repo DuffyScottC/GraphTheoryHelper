@@ -117,13 +117,56 @@ public class Helpers {
                 Pattern p = Pattern.compile(titleRegex);
                 Matcher m = p.matcher(input);
                 
-                //cycle through all of the 
+                //cycle through all of the edges entered by the user
                 while (m.find()) {
-                    //Get the two titles
+                    //Get the two titles of the vertices of the next edge
                     String title1 = m.group(1); //the first title
                     String title2 = m.group(2); //the second title
                     
+                    //Create new vertex objects using the titles entered
+                    //(these are used to 1. Search the vertices list to check if
+                    //they exist in the graph or not and 2. Add a new vertex to
+                    //the list if this is a new vertex)
+                    Vertex newVertex1 = new Vertex(title1, DIAMETER);
+                    Vertex newVertex2 = new Vertex(title2, DIAMETER);
                     
+                    //Get the indexes of the vertexes named title1 and title2
+                    //(if they exist):
+                    int index1 = vertices.indexOf(newVertex1);
+                    int index2 = vertices.indexOf(newVertex2);
+                    
+                    if (index1 == -1) { //if this is a new vertex
+                        vertices.add(newVertex1); //add this vertex to the list
+                    } else { //if this vertex is already contained in the graph
+                        //reassign the reference newVertex1 to the vertex that
+                        //is already in the graph but has the same name:
+                        newVertex1 = vertices.get(index1);
+                    }
+                    
+                    if (index2 == -1) { //if this is a new vertex
+                        vertices.add(newVertex2); //add this vertex to the list
+                    } else { //if this vertex is already contained in the graph
+                        //reassign the reference newVertex2 to the vertex that
+                        //is already in the graph but has the same name:
+                        newVertex2 = vertices.get(index2);
+                    }
+                    
+                    //At this point, newVertex1 and newVertex2 are the vertices
+                    //in the graph that we want to work with (whether their new
+                    //or already existed in the graph).
+                    
+                    //Check if the edge already exists:
+                    
+                    //Create a new edge from the two vertices
+                    Edge newEdge = new Edge(newVertex1, newVertex2);
+                    
+                    if (!edges.contains(newEdge)) { //if this is a new edge
+                        edges.add(newEdge); //add the edge to the list
+                    }
+                    //if this edge already exists, then we don't need to do
+                    //anything else to it
+                    
+                    canvas.repaint();
                 }
                 
                 addGraphDialog.setVisible(false); //close the dialog
