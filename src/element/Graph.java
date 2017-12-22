@@ -445,6 +445,17 @@ public class Graph implements Serializable {
         }
         return newTitle; //by this point, we've found a unique vertex name (be it V or V+(some number)). 
     }
+    
+    /**
+     * This will add the given list of vertices and list of edges to the graph's own list,
+     * and will assign positional values to the entirely new vertices (in a circle that tries not 
+     * to interfere with the existing elements).
+     * @param vs A list of vertices to be added to the graph
+     * @param es A list of edges to be added to the graph
+     */
+    public void appendElements(List<Vertex> vs, List<Edge> es) {
+        
+    }
 
     public void drawVertices(Graphics2D g2) {
         if (vertices == null) {
