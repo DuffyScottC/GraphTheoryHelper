@@ -451,46 +451,6 @@ public class Graph implements Serializable {
         return newTitle; //by this point, we've found a unique vertex name (be it V or V+(some number)). 
     }
 
-    /**
-     * This will add the given list of vertices and list of edges to the graph's
-     * own list, and will assign positions to the entirely new vertices (in a
-     * circle that tries not to interfere with the existing elements).
-     *
-     * @param vs A list of vertices to be added to the graph
-     * @param es A list of edges to be added to the graph
-     */
-    public void appendElements(List<Vertex> vs, List<Edge> es) {
-        List<Vertex> toBeFormatted = new ArrayList(); //holds the new vertices that must be formatted
-
-        //Add the vertices
-        for (Vertex v : vs) { //loop through the new verticesint matchIndex = vertices.indexOf(v); //get the index of the vertex that matches v
-            if (vertices.contains(v)) { //if vertices does NOT already contain this vertex
-                vertices.add(v); //add the new vertex to the graph
-                toBeFormatted.add(v); //assign the new vertex to be formatted
-            }
-        }
-        
-        System.out.println("");
-        
-        //Add the edges
-        for (Edge e : es) {
-            System.out.println("e: {" + e + "}");
-            if (!edges.contains(e)) { //if edges does NOT already contain this edge
-                edges.add(e); //add the new edge to the graph
-                Vertex tempE1 = e.getEndpoint1(); //get the endpoint1 of the new edge
-                //(tempE1 is only a copy of the true e1 that is contained in the graph)
-                int trueE1Index = vertices.indexOf(tempE1); //find the index of the true e1
-                Vertex trueE1 = vertices.get(trueE1Index); //get a reference to the true e1
-                e.setEndpoint1(trueE1); //assign the true e1 as the e1 of the edge e
-            }
-        }
-
-        //Format the new vertices that weren't already in the graph
-        this.formatVertices(toBeFormatted);
-
-        canvas.repaint();
-    }
-
     public void formatAllVertices() {
         this.formatVertices(this.vertices);
     }
