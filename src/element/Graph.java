@@ -137,7 +137,7 @@ public class Graph implements Serializable {
                             //If this vertex can have edges added to it (no use checking if
                             //its shape contains the mouse click if not):
                             if (currentVertex.canAddEdges()) {
-                                //if this figure contains the mouse click:
+                                //If this figure contains the mouse click:
                                 if (currentVertex.getPositionShape().contains(mx, my)) {
                                     //Create a new edge with the two vertices
                                     Edge newEdge = new Edge(firstSelectedVertex, currentVertex);
@@ -311,20 +311,28 @@ public class Graph implements Serializable {
                 if (selectedIndex == -1) {
                     return;
                 }
-
+                
                 //Get the list of edges to remove
                 List<Edge> removeEdges = vertices.get(selectedIndex).getEdges();
-                vertices.remove(selectedIndex); //remove the vertex
-
-                //remove the elements that were attached to this vertex
+                
+                //Remove the edges that were attached to this vertex 
+                //from all the other vertices associated with them
+                for (Edge eg : removeEdges) {
+                    eg.getEndpoint1().removeEdge(eg);
+                    eg.getEndpoint2().removeEdge(eg);
+                }
+                
+                //remove the edges that were attached to this vertex from the list of edges
                 edges.removeAll(removeEdges);
-
+                
+                vertices.remove(selectedIndex); //remove the vertex
+                
                 updateVerticesListModel();
                 updateEdgesListModel();
                 //Deselect the vertex:
                 selectedIndex = -1;
                 setSelectedVertex();
-
+                
                 canvas.repaint();
                 isSaved = false;
             }
