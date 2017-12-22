@@ -93,8 +93,8 @@ public class Helpers {
         addGraphDialog.getAddButton().addActionListener(new ActionListener() {
             @Override
             public void actionPerformed(ActionEvent e) {
-                List<Vertex> vertices = graph.getVertices();
-                List<Edge> edges = graph.getEdges();
+                List<Vertex> vertices = new ArrayList();
+                List<Edge> edges = new ArrayList();
                 
                 //This regex checks if the graph is properly formatted
                 //(e.g. {{A,B},{B,A},{C,D}} )
