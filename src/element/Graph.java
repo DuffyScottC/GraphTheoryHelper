@@ -312,6 +312,10 @@ public class Graph implements Serializable {
                     return;
                 }
                 
+                for (Vertex v : vertices) {
+                    System.out.println(v + " " + v.getEdges() + " " + v.getEdges().size());
+                }
+                
                 //Get the list of edges to remove
                 List<Edge> removeEdges = vertices.get(selectedIndex).getEdges();
                 
@@ -322,9 +326,14 @@ public class Graph implements Serializable {
                 
                 //Remove the edges that were attached to this vertex 
                 //from all the other vertices associated with them
-                for (Edge eg : removeEdges) {
-                    eg.getEndpoint1().removeEdge(eg);
-                    eg.getEndpoint2().removeEdge(eg);
+                for (Edge eg : removeEdges) { //cycle through all the edges to remove
+                    for (Vertex v : vertices) { //cycle through all the vertices
+                        v.removeEdge(eg); //remove each edge from each vertex
+                    }
+                }
+                
+                for (Vertex v : vertices) {
+                    System.out.println(v + " " + v.getEdges() + " " + v.getEdges().size());
                 }
                 
                 updateVerticesListModel();
