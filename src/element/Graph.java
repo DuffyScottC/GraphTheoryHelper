@@ -134,25 +134,25 @@ public class Graph implements Serializable {
                     } else { //The user has already chosen their first vertex
                         //(If we reach this point, vertices.size() is at least 2)
                         for (Vertex currentVertex : vertices) { //loop through the vertices
-                            //if this figure contains the mouse click:
-                            if (currentVertex.getPositionShape().contains(mx, my)) {
-                                //If the user has clicked the same vertex twice
-                                if (firstSelectedVertex.equals(currentVertex)) {
-                                    break; //stop adding the edge
+                            //If this vertex can have edges added to it (no use checking if
+                            //its shape contains the mouse click if not):
+                            if (currentVertex.canAddEdges()) {
+                                //if this figure contains the mouse click:
+                                if (currentVertex.getPositionShape().contains(mx, my)) {
+                                    //Create a new edge with the two vertices
+                                    Edge newEdge = new Edge(firstSelectedVertex, currentVertex);
+                                    newEdge.setStrokeWidth(Helpers.EDGE_STROKE_WIDTH);
+                                    
+                                    edges.add(newEdge); //Add the edge to the graph
+                                    
+                                    updateEdgesListModel(); //update the visual JList
+                                    
+                                    exitAddEdgeState(); //exit the add edge state
+                                    
+                                    isSaved = false; //Note that this is not saved
+
+                                    return; //we don't need to check anymore
                                 }
-                                //Create a new edge with the two vertices
-                                Edge newEdge = new Edge(firstSelectedVertex, currentVertex);
-                                newEdge.setStrokeWidth(Helpers.EDGE_STROKE_WIDTH);
-
-                                edges.add(newEdge);
-
-                                updateEdgesListModel();
-
-                                exitAddEdgeState();
-
-                                isSaved = false;
-
-                                return; //we don't need to check anymore
                             }
 
                         }
