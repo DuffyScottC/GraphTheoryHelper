@@ -133,6 +133,7 @@ public class Graph implements Serializable {
                                 }
                                 //Create a new edge with the two vertices
                                 Edge newEdge = new Edge(firstSelectedVertex, currentVertex);
+                                newEdge.setStrokeWidth(Helpers.EDGE_STROKE_WIDTH);
 
                                 edges.add(newEdge);
 
@@ -550,7 +551,7 @@ public class Graph implements Serializable {
         int y1 = (int) firstSelectedVertex.getCenter().getY();
         int x2 = lastX;
         int y2 = lastY;
-        g2.setStroke(new BasicStroke(Helpers.VERTEX_STROKE_WIDTH));
+        g2.setStroke(new BasicStroke(Helpers.EDGE_STROKE_WIDTH));
         g2.setColor(Color.BLACK);
         g2.drawLine(x1, y1, x2, y2); //draw the line
     }

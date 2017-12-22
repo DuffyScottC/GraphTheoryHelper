@@ -25,7 +25,8 @@ import views.GraphFrame;
  * @author Scott
  */
 public class Helpers {
-
+    
+    public static final float EDGE_STROKE_WIDTH = 2.0f;
     public static final float VERTEX_STROKE_WIDTH = 1.0f;
     public static final float HIGHLIGHT_STROKE_WIDTH = 2.0f;
     public static final Color VERTEX_FILL_COLOR = Color.RED;
