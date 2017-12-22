@@ -108,6 +108,20 @@ public class Vertex extends Element {
         edges.add(e);
     }
     
+    /**
+     * Make it so that edges cannot be added to the vertices that are already
+     * connected to this vertex.
+     */
+    public void assignCanAddEdgesToConnectedVertices() {
+        //Loop through all edges
+        for (Edge e : edges) {
+            //Disable both endpoints (It's not worth checking
+            //if each endpoint is the current vertex or not)
+            e.getEndpoint1().setCanAddEdges(false);
+            e.getEndpoint2().setCanAddEdges(false);
+        }
+    }
+    
     public void removeEdge(Edge e) {
         edges.remove(e);
     }

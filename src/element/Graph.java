@@ -108,16 +108,23 @@ public class Graph implements Serializable {
                     if (firstSelectedVertex == null) { //if this is null, the user hasn't chosen their first vertex
                         //(If we reach this point, vertices.size() is at least 2)
                         for (Vertex currentVertex : vertices) { //loop through the vertices
-                            //if this vertex contains the mouse click:
-                            if (currentVertex.getPositionShape().contains(mx, my)) {
-                                highlightAvailableVertices();
-                                firstSelectedVertex = currentVertex; //assign the first vertex
-                                firstSelectedVertex.setStrokeColor(Helpers.VERTEX_STROKE_COLOR);
-                                firstSelectedVertex.setStrokeWidth(Helpers.VERTEX_STROKE_WIDTH);
-                                lastX = mx;
-                                lastY = my;
-                                canvas.repaint();
-                                return; //we've assigned the first selected vertex and we're done
+                            //if we can add edges to this vertex in the first place
+                            //(don't bother checking if shape contains mouse position if not):
+                            if (currentVertex.canAddEdges()) {
+                                //Check if this vertex contains the mouse click:
+                                if (currentVertex.getPositionShape().contains(mx, my)) {
+                                    firstSelectedVertex = currentVertex; //assign the first vertex
+                                    //make it so that user can't add edge from a vertex to itself
+                                    firstSelectedVertex.setCanAddEdges(false);
+                                    //make it so that user can't add an edge to vertices that are already
+                                    //connected to the firstSelectedVertex
+                                    firstSelectedVertex.assignCanAddEdgesToConnectedVertices();
+                                    highlightAvailableVertices();
+                                    lastX = mx;
+                                    lastY = my;
+                                    canvas.repaint();
+                                    return; //we've assigned the first selected vertex and we're done
+                                }
                             }
                         }
                         //if we reach this point, the user hasn't selected and vertex.
@@ -600,18 +607,18 @@ public class Graph implements Serializable {
         addingEdge = true; //enter the edge adding state
         //highlight all of the vertexes to provide a visual cue that the user is supposed
         //to click one to add the edge
-        
+
         //Update vertex selection
         verticesList.clearSelection(); //clear the visual selection
         //deselect the vertex
         selectedIndex = -1;
         setSelectedVertex();
-        
+
         //Assign the canAddEdges values of all the vertices
         assignCanAddEdges();
         //Highglight appropriate vertices
         highlightAvailableVertices();
-        
+
         canvas.repaint();
     }
 
@@ -625,12 +632,12 @@ public class Graph implements Serializable {
         }
         canvas.repaint();
     }
-    
+
     /**
-     * Determines whether all vertices are available to add edges to (and assigns
-     * their canAddEdges value) when the user enters the addEdgeState. (A vertex is 
-     * available if its degree is less than (order-1), where order is the number of 
-     * vertices in the graph.
+     * Determines whether all vertices are available to add edges to (and
+     * assigns their canAddEdges value) when the user enters the addEdgeState.
+     * (A vertex is available if its degree is less than (order-1), where order
+     * is the number of vertices in the graph.
      */
     private void assignCanAddEdges() {
         for (Vertex v : vertices) {
@@ -642,7 +649,7 @@ public class Graph implements Serializable {
             }
         }
     }
-    
+
     /**
      * Highlights all vertices that are available to have an edge added to them
      * when the user enters the addEdgeState.
