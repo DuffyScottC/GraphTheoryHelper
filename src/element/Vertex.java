@@ -108,6 +108,12 @@ public class Vertex extends Element {
         edges.add(e);
     }
     
+    public void addAllEdges(List<Edge> es) {
+        for (Edge e : es) { //loop through the edges to be added
+            this.addEdge(e); //add the edge to this vertex
+        }
+    }
+    
     /**
      * Make it so that edges cannot be added to the vertices that are already
      * connected to this vertex.

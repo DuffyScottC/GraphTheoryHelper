@@ -9,7 +9,7 @@ import java.awt.Dimension;
 import javax.swing.JPanel;
 
 /**
- *
+ * This makes the inspector side-bar stay the correct size
  * @author Scott
  */
 public class InspectorPanel extends JPanel {

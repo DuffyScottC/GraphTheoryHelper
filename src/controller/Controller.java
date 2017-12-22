@@ -231,7 +231,8 @@ public class Controller {
         frame.getFormatVertexMenuItem().addActionListener(new ActionListener() {
             @Override
             public void actionPerformed(ActionEvent e) {
-                
+                graph.formatAllVertices();
+                System.out.println("Currently only lines them up");
             }
         });
 

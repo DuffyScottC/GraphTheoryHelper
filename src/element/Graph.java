@@ -464,9 +464,14 @@ public class Graph implements Serializable {
 
         //Add the vertices
         for (Vertex v : vs) { //loop through the new vertices
-            if (!vertices.contains(v)) { //if vertices does NOT already contain this vertex
+            int matchIndex = vertices.indexOf(v); //get the index of the vertex that matches v
+            if (matchIndex == -1) { //if vertices does NOT already contain this vertex
                 vertices.add(v); //add the new vertex to the graph
                 toBeFormatted.add(v); //assign the new vertex to be formatted
+            } else { //if vertices does already contain this vertex
+                //we have to link the new edges that the user added to the pre-existing vertices
+                Vertex matchVertex = vertices.get(matchIndex); //get the matching vertex
+                matchVertex.addAllEdges(v.getEdges()); //add all the new edges to the vertex
             }
         }
 
