@@ -160,14 +160,15 @@ public class Helpers {
                     
                     //Check if the edge already exists:
                     
-                    //Create a new edge from the two vertices
-                    Edge newEdge = new Edge(newVertex1, newVertex2);
-                    
-                    if (!edges.contains(newEdge)) { //if this is a new edge
+                    //If newVertex1 is NOT already connected to newVertex2
+                    if (!newVertex1.isAdjacentTo(newVertex2)) {
+                        //create a new edge between newVertex1 and newVertex2
+                        Edge newEdge = new Edge(newVertex1, newVertex2);
                         edges.add(newEdge); //add the edge to the list
                     }
-                    //if this edge already exists, then we don't need to do
-                    //anything else to it
+                    
+                    //if newVertex1 not already connected to newVertex2, then
+                    //it must already be in edges and we don't need to do anything else
                     
                     graph.formatVertices(toBeFormatted);
                     canvas.repaint();

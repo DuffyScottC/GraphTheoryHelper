@@ -144,6 +144,10 @@ public class Vertex extends Element {
         return canAddEdges;
     }
     
+    public boolean isAdjacentTo(Vertex v) {
+        
+    }
+    
     /**
      * This is used to determine if the mouse click is contained by
      * the shape of this vertex (called in Graph)
