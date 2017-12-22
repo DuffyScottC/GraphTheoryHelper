@@ -71,49 +71,7 @@ public class Controller {
         frame.getSaveAsMenuItem().addActionListener(new ActionListener() {
             @Override
             public void actionPerformed(ActionEvent e) {
-                if (graph.isEmpty()) {
-                    JOptionPane.showMessageDialog(frame, "Cannot save an empty graph.");
-                    return;
-                }
-
-                chooser.setDialogTitle("Save");
-
-                //Open the save dialogue and let the user choose 
-                //where to save the file:
-                int chooserResult = chooser.showSaveDialog(frame);
-                //if the user successfully saved the file
-                if (chooserResult == JFileChooser.APPROVE_OPTION) {
-
-                    //get the path of the file that the user selected
-                    Path path = chooser.getSelectedFile().toPath();
-
-                    //check if the file has an extension already
-                    String fileName = path.getFileName().toString(); //the name of the file
-                    if (!fileName.matches(".*\\.\\w+")) { //if the file name has NO extension
-                        //add .fig
-                        String fileNameWithExtension = fileName + ".graph";
-                        //use the resolveSibling method to change the old, 
-                        //extensionless file name to the new filename created above
-                        path = path.resolveSibling(fileNameWithExtension);
-                        //e.g. this will replace "curdir/sample2" with "curdir/sample2.graph"
-                    }
-
-                    saveFile = path.toFile(); //convert the path object to a file object
-
-                    //check if the file already exists
-                    if (Files.exists(path)) { //if the file already exists
-                        //ask the user if they want to continue
-                        if (!shouldContinue("OK to overwrite existing file?")) {
-                            //if the user does not want to overwrite a pre-existing file
-                            return;
-                        }
-                    }
-
-                    //Save the graph
-                    saveGraph();
-
-                }
-
+                saveGraphAs();
             }
         });
 
@@ -166,31 +124,14 @@ public class Controller {
             }
         });
 
-        frame.getFileMenu().addMenuListener(new MenuListener() {
-            @Override
-            public void menuSelected(MenuEvent e) {
-                if (saveFile == null) {
-                    frame.getSaveMenuItem().setEnabled(false); //disable save
-                } else {
-                    frame.getSaveMenuItem().setEnabled(true); //enable save
-                }
-            }
-
-            @Override
-            public void menuDeselected(MenuEvent e) {
-                //nothing
-            }
-
-            @Override
-            public void menuCanceled(MenuEvent e) {
-                //nothing
-            }
-        });
-
         frame.getSaveMenuItem().addActionListener(new ActionListener() {
             @Override
             public void actionPerformed(ActionEvent e) {
-                saveGraph();
+                if (saveFile == null) {
+                    frame.getSaveMenuItem().setEnabled(false); //disable save
+                } else {
+                    saveGraph();
+                }
             }
         });
         
@@ -260,6 +201,51 @@ public class Controller {
         //if the file has been saved, then we can just return true
         return true;
 
+    }
+    
+    private void saveAsGraph() {
+        if (graph.isEmpty()) {
+                    JOptionPane.showMessageDialog(frame, "Cannot save an empty graph.");
+                    return;
+                }
+
+                chooser.setDialogTitle("Save");
+
+                //Open the save dialogue and let the user choose 
+                //where to save the file:
+                int chooserResult = chooser.showSaveDialog(frame);
+                //if the user successfully saved the file
+                if (chooserResult == JFileChooser.APPROVE_OPTION) {
+
+                    //get the path of the file that the user selected
+                    Path path = chooser.getSelectedFile().toPath();
+
+                    //check if the file has an extension already
+                    String fileName = path.getFileName().toString(); //the name of the file
+                    if (!fileName.matches(".*\\.\\w+")) { //if the file name has NO extension
+                        //add .fig
+                        String fileNameWithExtension = fileName + ".graph";
+                        //use the resolveSibling method to change the old, 
+                        //extensionless file name to the new filename created above
+                        path = path.resolveSibling(fileNameWithExtension);
+                        //e.g. this will replace "curdir/sample2" with "curdir/sample2.graph"
+                    }
+
+                    saveFile = path.toFile(); //convert the path object to a file object
+
+                    //check if the file already exists
+                    if (Files.exists(path)) { //if the file already exists
+                        //ask the user if they want to continue
+                        if (!shouldContinue("OK to overwrite existing file?")) {
+                            //if the user does not want to overwrite a pre-existing file
+                            return;
+                        }
+                    }
+
+                    //Save the graph
+                    saveGraph();
+
+                }
     }
 
     private void saveGraph() {
