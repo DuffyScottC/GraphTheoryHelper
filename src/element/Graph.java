@@ -487,10 +487,10 @@ public class Graph implements Serializable {
      */
     private void formatVertices(List<Vertex> vs) {
         //For now, it just puts the vertices into a line at the top
-        int xPosition = Helpers.DIAMETER;
-        for (Vertex v : vs) {
-            v.setLocation(xPosition, Helpers.DIAMETER);
-            xPosition += Helpers.DIAMETER;
+        int xPosition = Helpers.DIAMETER; //initialize the x position
+        for (Vertex v : vs) { //loop through the vertices to be moved
+            v.setLocation(xPosition, Helpers.DIAMETER * 2); //place the vertex in the line
+            xPosition += Helpers.DIAMETER * 2; //increment the x position
         }
     }
 

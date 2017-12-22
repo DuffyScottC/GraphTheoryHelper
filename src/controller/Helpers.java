@@ -147,9 +147,8 @@ public class Helpers {
                     }
                 }
                 
-                graph.appendElements(vertices, edges);
-                
                 //Add the new edges and vertices to the graph
+                graph.appendElements(vertices, edges);
                 
                 addGraphDialog.setVisible(false); //close the dialog
             }
