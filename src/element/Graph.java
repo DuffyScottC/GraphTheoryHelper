@@ -463,19 +463,10 @@ public class Graph implements Serializable {
         List<Vertex> toBeFormatted = new ArrayList(); //holds the new vertices that must be formatted
 
         //Add the vertices
-        for (Vertex v : vs) { //loop through the new vertices
-            System.out.println("v: " + v + " - {" + v.getEdges() + "}");
-            
-            int matchIndex = vertices.indexOf(v); //get the index of the vertex that matches v
-            if (matchIndex == -1) { //if vertices does NOT already contain this vertex
+        for (Vertex v : vs) { //loop through the new verticesint matchIndex = vertices.indexOf(v); //get the index of the vertex that matches v
+            if (vertices.contains(v)) { //if vertices does NOT already contain this vertex
                 vertices.add(v); //add the new vertex to the graph
                 toBeFormatted.add(v); //assign the new vertex to be formatted
-            } else { //if vertices does already contain this vertex
-                //we have to link the new edges that the user added to the pre-existing vertices
-                Vertex matchVertex = vertices.get(matchIndex); //get the matching vertex
-                System.out.println("matchVertex: " + matchVertex + " - " + matchVertex.getEdges());
-                matchVertex.addAllEdges(v.getEdges()); //add all the new edges to the vertex
-                System.out.println("new matchVertex: " + matchVertex + " - " + matchVertex.getEdges() + "\n");
             }
         }
         
@@ -486,6 +477,11 @@ public class Graph implements Serializable {
             System.out.println("e: {" + e + "}");
             if (!edges.contains(e)) { //if edges does NOT already contain this edge
                 edges.add(e); //add the new edge to the graph
+                Vertex tempE1 = e.getEndpoint1(); //get the endpoint1 of the new edge
+                //(tempE1 is only a copy of the true e1 that is contained in the graph)
+                int trueE1Index = vertices.indexOf(tempE1); //find the index of the true e1
+                Vertex trueE1 = vertices.get(trueE1Index); //get a reference to the true e1
+                e.setEndpoint1(trueE1); //assign the true e1 as the e1 of the edge e
             }
         }
 
