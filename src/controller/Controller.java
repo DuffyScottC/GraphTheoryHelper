@@ -224,6 +224,8 @@ public class Controller {
                 
                 addGraphDialog.setFocusToTextField();
                 
+                addGraphDialog.getRootPane().setDefaultButton(addGraphDialog.getAddButton());
+                
                 addGraphDialog.setVisible(true);
             }
         });
