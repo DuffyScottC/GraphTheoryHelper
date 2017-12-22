@@ -450,7 +450,7 @@ public class Graph implements Serializable {
         }
         return newTitle; //by this point, we've found a unique vertex name (be it V or V+(some number)). 
     }
-
+    
     public void formatAllVertices() {
         this.formatVertices(this.vertices);
     }

@@ -91,8 +91,8 @@ public class Helpers {
         addGraphDialog.getAddButton().addActionListener(new ActionListener() {
             @Override
             public void actionPerformed(ActionEvent e) {
-                List<Vertex> vertices = new ArrayList();
-                List<Edge> edges = new ArrayList();
+                List<Vertex> vertices = graph.getVertices();
+                List<Edge> edges = graph.getEdges();
                 
                 //This regex checks if the graph is properly formatted
                 //(e.g. {{A,B},{B,A},{C,D}} )
@@ -123,30 +123,8 @@ public class Helpers {
                     String title1 = m.group(1); //the first title
                     String title2 = m.group(2); //the second title
                     
-                    //Form two new vertices from the titles
-                    Vertex v1 = new Vertex(title1, DIAMETER);
-                    Vertex v2 = new Vertex(title2, DIAMETER);
                     
-                    //Add the two vertices to the list
-                    //(unless their repeats)
-                    if (!vertices.contains(v1)) {
-                        vertices.add(v1);
-                    }
-                    if (!vertices.contains(v2)) {
-                        vertices.add(v2);
-                    }
-                    
-                    //Create an edge from the two vertices
-                    Edge eg = new Edge(v1, v2);
-                    
-                    //Add the edge to the list of edges
-                    if (!edges.contains(eg)) {
-                        edges.add(eg);
-                    }
                 }
-                
-                //Add the new edges and vertices to the graph
-                graph.appendElements(vertices, edges);
                 
                 addGraphDialog.setVisible(false); //close the dialog
             }
