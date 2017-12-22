@@ -142,7 +142,9 @@ public class Helpers {
                     Edge eg = new Edge(v1, v2);
                     
                     //Add the edge to the list of edges
-                    edges.add(eg);
+                    if (!edges.contains(eg)) {
+                        edges.add(eg);
+                    }
                 }
                 
                 //Add the new edges and vertices to the graph
