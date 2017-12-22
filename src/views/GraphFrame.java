@@ -39,13 +39,11 @@ public class GraphFrame extends javax.swing.JFrame {
 
         canvasScrollPane = new javax.swing.JScrollPane();
         canvas = new views.Canvas();
-        inspectorPanel = new javax.swing.JPanel();
+        inspectorPanel = new views.InspectorPanel();
         propertiesPanel = new javax.swing.JPanel();
         JLabel3 = new javax.swing.JLabel();
         titleTextField = new javax.swing.JTextField();
         verticesLabel = new javax.swing.JLabel();
-        verticesScrollPane = new javax.swing.JScrollPane();
-        verticesList = new javax.swing.JList<>();
         verticesButtonPanel = new javax.swing.JPanel();
         addVertexButton = new javax.swing.JButton();
         removeVertexButton = new javax.swing.JButton();
@@ -55,6 +53,8 @@ public class GraphFrame extends javax.swing.JFrame {
         edgesLabel = new javax.swing.JLabel();
         edgesScrollPane = new javax.swing.JScrollPane();
         edgesList = new javax.swing.JList<>();
+        verticesScrollPane = new javax.swing.JScrollPane();
+        verticesList = new javax.swing.JList<>();
         statusTextField = new javax.swing.JTextField();
         myMenuBar = new javax.swing.JMenuBar();
         fileMenu = new javax.swing.JMenu();
@@ -87,8 +87,6 @@ public class GraphFrame extends javax.swing.JFrame {
         gridBagConstraints.weighty = 0.1;
         getContentPane().add(canvasScrollPane, gridBagConstraints);
 
-        inspectorPanel.setMaximumSize(new java.awt.Dimension(150, 2147483647));
-        inspectorPanel.setSize(new java.awt.Dimension(150, 406));
         inspectorPanel.setLayout(new java.awt.GridBagLayout());
 
         JLabel3.setText("Title:");
@@ -111,25 +109,6 @@ public class GraphFrame extends javax.swing.JFrame {
         gridBagConstraints.anchor = java.awt.GridBagConstraints.LINE_START;
         gridBagConstraints.insets = new java.awt.Insets(0, 4, 0, 4);
         inspectorPanel.add(verticesLabel, gridBagConstraints);
-
-        verticesList.setModel(new javax.swing.AbstractListModel<String>() {
-            String[] strings = { "Item 1", "Item 2", "Item 3", "Item 4", "Item 5" };
-            public int getSize() { return strings.length; }
-            public String getElementAt(int i) { return strings[i]; }
-        });
-        verticesList.setMaximumSize(new java.awt.Dimension(138, 85));
-        verticesList.setMinimumSize(new java.awt.Dimension(138, 85));
-        verticesList.setPreferredSize(new java.awt.Dimension(138, 85));
-        verticesList.setSize(new java.awt.Dimension(138, 0));
-        verticesScrollPane.setViewportView(verticesList);
-
-        gridBagConstraints = new java.awt.GridBagConstraints();
-        gridBagConstraints.gridx = 0;
-        gridBagConstraints.gridy = 2;
-        gridBagConstraints.fill = java.awt.GridBagConstraints.BOTH;
-        gridBagConstraints.weighty = 0.1;
-        gridBagConstraints.insets = new java.awt.Insets(0, 4, 0, 4);
-        inspectorPanel.add(verticesScrollPane, gridBagConstraints);
 
         verticesButtonPanel.setLayout(new javax.swing.BoxLayout(verticesButtonPanel, javax.swing.BoxLayout.LINE_AXIS));
 
@@ -184,8 +163,26 @@ public class GraphFrame extends javax.swing.JFrame {
         gridBagConstraints.insets = new java.awt.Insets(0, 4, 0, 4);
         inspectorPanel.add(edgesScrollPane, gridBagConstraints);
 
+        verticesList.setModel(new javax.swing.AbstractListModel<String>() {
+            String[] strings = { "Item 1", "Item 2", "Item 3", "Item 4", "Item 5" };
+            public int getSize() { return strings.length; }
+            public String getElementAt(int i) { return strings[i]; }
+        });
+        verticesList.setMaximumSize(new java.awt.Dimension(138, 85));
+        verticesList.setMinimumSize(new java.awt.Dimension(138, 85));
+        verticesList.setPreferredSize(new java.awt.Dimension(138, 85));
+        verticesList.setSize(new java.awt.Dimension(138, 0));
+        verticesScrollPane.setViewportView(verticesList);
+
         gridBagConstraints = new java.awt.GridBagConstraints();
-        gridBagConstraints.gridheight = 2;
+        gridBagConstraints.gridx = 0;
+        gridBagConstraints.gridy = 2;
+        gridBagConstraints.fill = java.awt.GridBagConstraints.BOTH;
+        gridBagConstraints.weighty = 0.1;
+        gridBagConstraints.insets = new java.awt.Insets(0, 4, 0, 4);
+        inspectorPanel.add(verticesScrollPane, gridBagConstraints);
+
+        gridBagConstraints = new java.awt.GridBagConstraints();
         gridBagConstraints.fill = java.awt.GridBagConstraints.BOTH;
         getContentPane().add(inspectorPanel, gridBagConstraints);
 
@@ -265,7 +262,7 @@ public class GraphFrame extends javax.swing.JFrame {
     private javax.swing.JMenu editMenu;
     private javax.swing.JMenu fileMenu;
     private javax.swing.JMenuItem formatVertexMenuItem;
-    private javax.swing.JPanel inspectorPanel;
+    private views.InspectorPanel inspectorPanel;
     private javax.swing.JMenuItem loadSamplesMenuItem;
     private javax.swing.JMenuBar myMenuBar;
     private javax.swing.JMenuItem newMenuItem;
@@ -343,10 +340,6 @@ public class GraphFrame extends javax.swing.JFrame {
     
     public JMenuItem getLoadSamplesMenuItem() {
         return loadSamplesMenuItem;
-    }
-    
-    public JPanel getInspectorPanel() {
-        return inspectorPanel;
     }
     
     public JMenuItem getShowVertexNamesMenuItem() {
