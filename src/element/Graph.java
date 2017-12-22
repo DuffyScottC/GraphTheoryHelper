@@ -114,11 +114,12 @@ public class Graph implements Serializable {
                                 //Check if this vertex contains the mouse click:
                                 if (currentVertex.getPositionShape().contains(mx, my)) {
                                     firstSelectedVertex = currentVertex; //assign the first vertex
-                                    //make it so that user can't add edge from a vertex to itself
+                                    //Make it so that user can't add edge from a vertex to itself:
                                     firstSelectedVertex.setCanAddEdges(false);
-                                    //make it so that user can't add an edge to vertices that are already
-                                    //connected to the firstSelectedVertex
+                                    //Make it so that user can't add an edge to vertices that are already
+                                    //connected to the firstSelectedVertex:
                                     firstSelectedVertex.assignCanAddEdgesToConnectedVertices();
+                                    //Reset the highlights
                                     highlightAvailableVertices();
                                     lastX = mx;
                                     lastY = my;
@@ -614,8 +615,15 @@ public class Graph implements Serializable {
         selectedIndex = -1;
         setSelectedVertex();
 
-        //Assign the canAddEdges values of all the vertices
-        assignCanAddEdges();
+        //Assign the canAddEdges values of all the vertices and get the number of vertices
+        //that can't have edges added to them
+        int numberOfFalses = assignCanAddEdges();
+        
+        if (numberOfFalses == vertices.size()) { //if none of the vertices can have edges added to them
+            exitAddEdgeState(); //exit the state
+            return; //do not continue
+        }
+        
         //Highglight appropriate vertices
         highlightAvailableVertices();
 
@@ -638,16 +646,21 @@ public class Graph implements Serializable {
      * assigns their canAddEdges value) when the user enters the addEdgeState.
      * (A vertex is available if its degree is less than (order-1), where order
      * is the number of vertices in the graph.
+     * @return The number of vertexes that were assigned a canAddEdges value
+     * of false
      */
-    private void assignCanAddEdges() {
+    private int assignCanAddEdges() {
+        int numberOfFalses = 0;
         for (Vertex v : vertices) {
             //if this vertex is available to add edges to:
             if (v.getDegree() < vertices.size() - 1) {
                 v.setCanAddEdges(true);
             } else { //if this vertex is completely full
                 v.setCanAddEdges(false);
+                numberOfFalses++; //increment the number of falses
             }
         }
+        return numberOfFalses;
     }
 
     /**
