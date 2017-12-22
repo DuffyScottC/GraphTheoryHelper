@@ -473,8 +473,8 @@ public class Graph implements Serializable {
         
         for (Vertex v : vs) {
             //calculate the positions
-            double x = xCent + radius + Math.cos(angle);
-            double y = yCent + radius + Math.sin(angle);
+            double x = xCent + radius * Math.cos(angle);
+            double y = yCent + radius * Math.sin(angle);
             v.setLocation(x, y); //position the vertex
             angle += delta; //increment the angle
         }
