@@ -451,6 +451,9 @@ public class Graph implements Serializable {
         return newTitle; //by this point, we've found a unique vertex name (be it V or V+(some number)). 
     }
     
+    /**
+     * Positions all vertices in the graph in an evenly spaced circle
+     */
     public void formatAllVertices() {
         this.formatVertices(this.vertices);
     }
@@ -461,7 +464,7 @@ public class Graph implements Serializable {
      * @param vs A list of vertices (Must contain only vertices that already
      * exist in the graph)
      */
-    private void formatVertices(List<Vertex> vs) {
+    public void formatVertices(List<Vertex> vs) {
         //For now, it just puts the vertices into a line at the top
         int xPosition = Helpers.DIAMETER; //initialize the x position
         for (Vertex v : vs) { //loop through the vertices to be moved

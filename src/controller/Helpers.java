@@ -91,6 +91,7 @@ public class Helpers {
         addGraphDialog.getAddButton().addActionListener(new ActionListener() {
             @Override
             public void actionPerformed(ActionEvent e) {
+                List<Vertex> toBeFormatted = new ArrayList();
                 List<Vertex> vertices = graph.getVertices();
                 List<Edge> edges = graph.getEdges();
                 
@@ -137,6 +138,7 @@ public class Helpers {
                     
                     if (index1 == -1) { //if this is a new vertex
                         vertices.add(newVertex1); //add this vertex to the list
+                        toBeFormatted.add(newVertex1);
                     } else { //if this vertex is already contained in the graph
                         //reassign the reference newVertex1 to the vertex that
                         //is already in the graph but has the same name:
@@ -145,6 +147,7 @@ public class Helpers {
                     
                     if (index2 == -1) { //if this is a new vertex
                         vertices.add(newVertex2); //add this vertex to the list
+                        toBeFormatted.add(newVertex2);
                     } else { //if this vertex is already contained in the graph
                         //reassign the reference newVertex2 to the vertex that
                         //is already in the graph but has the same name:
@@ -166,6 +169,7 @@ public class Helpers {
                     //if this edge already exists, then we don't need to do
                     //anything else to it
                     
+                    graph.formatVertices(toBeFormatted);
                     canvas.repaint();
                 }
                 
