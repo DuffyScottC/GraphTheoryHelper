@@ -178,13 +178,13 @@ public class Graph implements Serializable {
                             break; //exit the loop (we don't need to check the rest)
                         }
                     }
-                    
+
                     if (clickedBlankSpace) {
                         verticesList.clearSelection(); //deselect vertex in the list
                         selectedIndex = -1;
                         setSelectedVertex();
                     }
-                    
+
                     //update the last position
                     lastX = mx;
                     lastY = my;
@@ -202,18 +202,18 @@ public class Graph implements Serializable {
             @Override
             public void mouseDragged(MouseEvent e) {
                 isSaved = false;
-                
+
                 int mx = e.getX(); //x-coord of mouse click
                 int my = e.getY(); //y-coord of mouse click
-                
+
                 // find the difference between the last position and the current position (used for moving the figure)
                 int incX = mx - lastX;
                 int incY = my - lastY;
-                
+
                 //update the last position
                 lastX = mx;
                 lastY = my;
-                
+
                 if (clickedVertex == null) { //if the user clicked open space
                     //move all nodes
                     for (Vertex v : vertices) {
@@ -269,7 +269,7 @@ public class Graph implements Serializable {
                 //For now, each new vertex is simply added to the center
                 int xPos = canvas.getWidth() / 2;
                 int yPos = canvas.getHeight() / 2;
-                
+
                 Vertex newVertex = new Vertex(Helpers.DIAMETER);
                 newVertex.setLocation(xPos, yPos);
                 newVertex.setStrokeColor(Helpers.VERTEX_STROKE_COLOR);
@@ -278,9 +278,9 @@ public class Graph implements Serializable {
                 String newTitle = generateVertexTitle();
                 newVertex.setTitle(newTitle);
                 vertices.add(newVertex);
-                
+
                 updateVerticesListModel();
-                
+
                 //Update selection:
                 int bottomIndex = vertices.size() - 1;
                 //Set the selection of the visual JList to the bottom
@@ -288,7 +288,7 @@ public class Graph implements Serializable {
                 selectedIndex = bottomIndex;
                 setSelectedVertex();
                 isSaved = false;
-                
+
                 //Set the focus to be in the titleTextField
                 titleTextField.requestFocus();
                 titleTextField.setSelectionStart(0);
@@ -332,21 +332,7 @@ public class Graph implements Serializable {
                     JOptionPane.showMessageDialog(frame, "Need at least two vertices to add an edge.");
                     return;
                 }
-                addingEdge = true; //enter the edge adding state
-                //highlight all of the vertexes to provide a visual cue that the user is supposed
-                //to click one to add the edge
-
-                //Update vertex selection
-                verticesList.clearSelection();
-                selectedIndex = -1;
-                setSelectedVertex();
-
-                for (Vertex v : vertices) {
-                    v.setStrokeColor(Helpers.HIGHLIGHT_COLOR);
-                    v.setStrokeWidth(Helpers.HIGHLIGHT_STROKE_WIDTH);
-                }
-
-                canvas.repaint();
+                enterAddEdgeState();
             }
         });
 
@@ -446,17 +432,18 @@ public class Graph implements Serializable {
         }
         return newTitle; //by this point, we've found a unique vertex name (be it V or V+(some number)). 
     }
-    
+
     /**
-     * This will add the given list of vertices and list of edges to the graph's own list,
-     * and will assign positions to the entirely new vertices (in a circle that tries not 
-     * to interfere with the existing elements).
+     * This will add the given list of vertices and list of edges to the graph's
+     * own list, and will assign positions to the entirely new vertices (in a
+     * circle that tries not to interfere with the existing elements).
+     *
      * @param vs A list of vertices to be added to the graph
      * @param es A list of edges to be added to the graph
      */
     public void appendElements(List<Vertex> vs, List<Edge> es) {
         List<Vertex> toBeFormatted = new ArrayList(); //holds the new vertices that must be formatted
-        
+
         //Add the vertices
         for (Vertex v : vs) { //loop through the new vertices
             if (!vertices.contains(v)) { //if vertices does NOT already contain this vertex
@@ -464,27 +451,29 @@ public class Graph implements Serializable {
                 toBeFormatted.add(v); //assign the new vertex to be formatted
             }
         }
-        
+
         //Add the edges
         for (Edge e : es) {
             if (!edges.contains(e)) { //if edges does NOT already contain this edge
                 edges.add(e); //add the new edge to the graph
             }
         }
-        
+
         //Format the new vertices that weren't already in the graph
         this.formatVertices(toBeFormatted);
-        
+
         canvas.repaint();
     }
-    
+
     public void formatAllVertices() {
         this.formatVertices(this.vertices);
     }
-    
+
     /**
      * Positions all vertices passed to this function in an evenly spaced circle
-     * @param vs A list of vertices (Must contain only vertices that already exist in the graph)
+     *
+     * @param vs A list of vertices (Must contain only vertices that already
+     * exist in the graph)
      */
     private void formatVertices(List<Vertex> vs) {
         //For now, it just puts the vertices into a line at the top
@@ -604,6 +593,26 @@ public class Graph implements Serializable {
         selectedIndex = -1;
         setSelectedVertex();
         //^ has canvas.repaint() in it already
+    }
+
+    private void enterAddEdgeState() {
+        addingEdge = true; //enter the edge adding state
+        //highlight all of the vertexes to provide a visual cue that the user is supposed
+        //to click one to add the edge
+
+        //Update vertex selection
+        verticesList.clearSelection(); //clear the visual selection
+        //deselect the vertex
+        selectedIndex = -1;
+        setSelectedVertex();
+        
+        //Highglight the appropriate vertices
+        for (Vertex v : vertices) {
+            v.setStrokeColor(Helpers.HIGHLIGHT_COLOR);
+            v.setStrokeWidth(Helpers.HIGHLIGHT_STROKE_WIDTH);
+        }
+
+        canvas.repaint();
     }
 
     private void exitAddEdgeState() {
