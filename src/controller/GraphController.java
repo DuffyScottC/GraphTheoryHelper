@@ -631,12 +631,17 @@ public class GraphController implements Serializable {
                     //if newVertex1 not already connected to newVertex2, then
                     //it must already be in edges and we don't need to do anything else
                     
+                    //if there was at least one new vertex or edge
                     if (wasModified) {
-                        graph.setIsModified(true);
+                        isModified = true;
                     }
                     
-                    graph.formatVertices(toBeFormatted);
-                    graph.updateListModels();
+                    //update the list models
+                    updateVerticesListModel();
+                    updateEdgesListModel();
+                    
+                    //Formate the new vertices
+                    formatVertices(toBeFormatted);
                     canvas.repaint();
                 }
                 
@@ -723,7 +728,7 @@ public class GraphController implements Serializable {
      * @param vs A list of vertices (Must contain only vertices that already
      * exist in the graph)
      */
-    public void formatVertices(List<Vertex> vs) {
+    private void formatVertices(List<Vertex> vs) {
         int xCent = canvas.getWidth() / 2;
         int yCent = canvas.getHeight() / 2;
         final double radius = Helpers.FORMAT_RADIUS;
@@ -877,15 +882,6 @@ public class GraphController implements Serializable {
         for (Edge eg : edges) {
             edgesListModel.addElement(eg);
         }
-    }
-
-    /**
-     * Updates the visual JLists that show the user what vertices and edges are
-     * in the graph.
-     */
-    public void updateListModels() {
-        updateVerticesListModel();
-        updateEdgesListModel();
     }
 
     /**
