@@ -749,18 +749,19 @@ public class GraphController implements Serializable {
      *
      * @param g
      */
-    public void replace(GraphController g) {
+    public void replace(Graph g) {
+        //Get a reverence to the new graph's vertices and edges
         List<Vertex> newVertices = g.getVertices();
         List<Edge> newEdges = g.getEdges();
-
-        vertices.clear(); //remove all elements from vertices
+        
+        vertices.clear(); //remove all elements from the current vertices
         for (Vertex v : newVertices) { //loop through new list
             vertices.add(v); //add each vertex to the vertices list
         }
 
         updateVerticesListModel();
 
-        edges.clear(); //remove all elements from edges
+        edges.clear(); //remove all elements from the current edges
         for (Edge e : newEdges) { //loop through new list
             edges.add(e); //add each edge to the edges list
         }
@@ -998,26 +999,6 @@ public class GraphController implements Serializable {
 
     public boolean isModified() {
         return isModified;
-    }
-
-    public void setIsModified(boolean isModified) {
-        this.isModified = isModified;
-    }
-
-    @Override
-    public String toString() {
-        StringBuilder strB = new StringBuilder();
-        strB.append("{");
-        for (int i = 0; i < edges.size(); i++) {
-            strB.append("{");
-            strB.append(edges.get(i).toString());
-            strB.append("}");
-            if (i < edges.size() - 1) { //if this is not the last one
-                strB.append(",");
-            }
-        }
-        strB.append("}");
-        return strB.toString();
     }
 
     public static void main(String[] args) {
