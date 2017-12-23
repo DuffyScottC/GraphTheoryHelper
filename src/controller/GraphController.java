@@ -97,10 +97,10 @@ public class GraphController {
      * which is used for deleting and changing titles.
      */
     private Vertex clickedVertex;
-    
+
     /**
      * Used to make sure clearSelection() does not redundantly call the change
-     * listeners on the JLists. 
+     * listeners on the JLists.
      */
     private boolean shouldChange = true;
     private boolean showTitles = false;
@@ -403,7 +403,7 @@ public class GraphController {
             @Override
             public void valueChanged(ListSelectionEvent e) {
                 if (shouldChange) { //if we did not just call clearSelection() 
-                                    //(which would redundantly run this again)
+                    //(which would redundantly run this again)
                     //Deselect the edge (if it was selected)
                     selectedEdgeIndex = -1;
                     setSelectedEdge();
@@ -421,7 +421,7 @@ public class GraphController {
             @Override
             public void valueChanged(ListSelectionEvent e) {
                 if (shouldChange) { //if we did not just call clearSelection() 
-                                    //(which would redundantly run this again)
+                    //(which would redundantly run this again)
                     //Deselect the vertex (if it was selected)
                     selectedVertexIndex = -1;
                     setSelectedVertex();
@@ -476,27 +476,12 @@ public class GraphController {
         frame.getEdgesList()
                 .setSelectionMode(ListSelectionModel.SINGLE_SELECTION);
 
-        //Action listeners:
-        frame.getLoadSamplesMenuItem()
-                .addActionListener(new ActionListener() {
-                    @Override
-                    public void actionPerformed(ActionEvent e
-                    ) {
-                        Helpers.setSampleElements(graph, verticesListModel, edgesListModel);
-                        canvas.repaint();
-                    }
-                }
-                );
-
-        frame.getSaveAsMenuItem()
-                .addActionListener(new ActionListener() {
-                    @Override
-                    public void actionPerformed(ActionEvent e
-                    ) {
-                        saveGraphAs();
-                    }
-                }
-                );
+        frame.getSaveAsMenuItem().addActionListener(new ActionListener() {
+            @Override
+            public void actionPerformed(ActionEvent e) {
+                saveGraphAs();
+            }
+        });
 
         frame.getOpenMenuItem()
                 .addActionListener(new ActionListener() {

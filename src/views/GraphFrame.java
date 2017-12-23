@@ -64,7 +64,6 @@ public class GraphFrame extends javax.swing.JFrame {
         saveMenuItem = new javax.swing.JMenuItem();
         saveAsMenuItem = new javax.swing.JMenuItem();
         newMenuItem = new javax.swing.JMenuItem();
-        loadSamplesMenuItem = new javax.swing.JMenuItem();
         editMenu = new javax.swing.JMenu();
         rotate90MenuItem = new javax.swing.JMenuItem();
         addVerticesMenuItem = new javax.swing.JMenuItem();
@@ -226,9 +225,6 @@ public class GraphFrame extends javax.swing.JFrame {
         newMenuItem.setText("New");
         fileMenu.add(newMenuItem);
 
-        loadSamplesMenuItem.setText("Load Samples");
-        fileMenu.add(loadSamplesMenuItem);
-
         myMenuBar.add(fileMenu);
 
         editMenu.setText("Edit");
@@ -281,7 +277,6 @@ public class GraphFrame extends javax.swing.JFrame {
     private javax.swing.JMenu fileMenu;
     private javax.swing.JMenuItem formatVerticesMenuItem;
     private views.InspectorPanel inspectorPanel;
-    private javax.swing.JMenuItem loadSamplesMenuItem;
     private javax.swing.JTextField modifiedTextField;
     private javax.swing.JMenuBar myMenuBar;
     private javax.swing.JMenuItem newMenuItem;
@@ -356,10 +351,6 @@ public class GraphFrame extends javax.swing.JFrame {
 
     public JList<String> getVerticesList() {
         return verticesList;
-    }
-    
-    public JMenuItem getLoadSamplesMenuItem() {
-        return loadSamplesMenuItem;
     }
     
     public JMenuItem getShowVertexNamesMenuItem() {
