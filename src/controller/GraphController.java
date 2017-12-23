@@ -321,11 +321,6 @@ public class GraphController implements Serializable {
                 selectedIndex = bottomIndex;
                 setSelectedVertex();
                 isModified = true;
-
-                //Set the focus to be in the titleTextField
-                titleTextField.requestFocus();
-                titleTextField.setSelectionStart(0);
-                titleTextField.setSelectionEnd(newTitle.length());
             }
         });
 
@@ -383,12 +378,7 @@ public class GraphController implements Serializable {
             public void valueChanged(ListSelectionEvent e) {
                 selectedIndex = verticesList.getSelectedIndex(); //get the index of the selected item
 
-//                if (selectedIndex == -1) { //if the user is deselecting something, do nothing
-//                    return;
-//                }
-
                 setSelectedVertex();
-
             }
         });
 
@@ -683,6 +673,10 @@ public class GraphController implements Serializable {
             selectedVertex.setStrokeWidth(Helpers.HIGHLIGHT_STROKE_WIDTH);
             titleTextField.setText(selectedVertex.getTitle());
             titleTextField.setEditable(true);
+            //Set the focus to be in the titleTextField
+            titleTextField.requestFocus();
+            titleTextField.setSelectionStart(0);
+            titleTextField.setSelectionEnd(titleTextField.getText().length());
         }
         canvas.repaint();
     }
