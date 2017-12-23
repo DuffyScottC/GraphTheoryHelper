@@ -6,7 +6,6 @@
 package controller;
 
 import element.Edge;
-import element.Graph;
 import element.Vertex;
 import java.awt.Color;
 import java.awt.event.ActionEvent;

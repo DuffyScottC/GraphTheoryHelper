@@ -5,7 +5,7 @@
  */
 package views;
 
-import element.Graph;
+import controller.Graph;
 import java.awt.Graphics;
 import java.awt.Graphics2D;
 import java.awt.RenderingHints;
