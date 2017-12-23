@@ -57,11 +57,19 @@ public class GraphController {
      */
     private Vertex selectedVertex;
     /**
+     * The last selected edge in the edges JList
+     */
+    private Edge selectedEdge;
+    /**
      * the last selected index in the vertices JList (Used for things like
      * setting the title text field, updating the title, changing the color,
      * etc.)
      */
-    private int selectedIndex;
+    private int selectedVertexIndex;
+    /**
+     * The last selected index in the edges JList
+     */
+    private int selectedEdgeIndex;
     private JTextField titleTextField;
     private JList verticesList;
     private JList edgesList;
@@ -209,8 +217,9 @@ public class GraphController {
                             clickedVertex = currentVertex;
                             //Update the selection
                             verticesList.setSelectedIndex(i);
-                            selectedIndex = i;
+                            selectedVertexIndex = i;
                             setSelectedVertex();
+                            canvas.repaint();
                             clickedBlankSpace = false; //user didn't click blank space
                             break; //exit the loop (we don't need to check the rest)
                         }
@@ -218,8 +227,9 @@ public class GraphController {
 
                     if (clickedBlankSpace) {
                         verticesList.clearSelection(); //deselect vertex in the list
-                        selectedIndex = -1;
+                        selectedVertexIndex = -1;
                         setSelectedVertex();
+                        canvas.repaint();
                     }
 
                     //update the last position
@@ -326,8 +336,9 @@ public class GraphController {
                 int bottomIndex = vertices.size() - 1;
                 //Set the selection of the visual JList to the bottom
                 verticesList.setSelectedIndex(bottomIndex);
-                selectedIndex = bottomIndex;
+                selectedVertexIndex = bottomIndex;
                 setSelectedVertex();
+                canvas.repaint();
                 isModified = true;
                 modifiedTextField.setText("*");
             }
@@ -336,17 +347,17 @@ public class GraphController {
         frame.getRemoveVertexButton().addActionListener(new ActionListener() {
             @Override
             public void actionPerformed(ActionEvent e) {
-                if (selectedIndex == -1) {
+                if (selectedVertexIndex == -1) {
                     return;
                 }
 
                 //Get the list of edges to remove
-                List<Edge> removeEdges = vertices.get(selectedIndex).getEdges();
+                List<Edge> removeEdges = vertices.get(selectedVertexIndex).getEdges();
 
                 //remove the edges that were attached to this vertex from the list of edges
                 edges.removeAll(removeEdges);
 
-                vertices.remove(selectedIndex); //remove the vertex
+                vertices.remove(selectedVertexIndex); //remove the vertex
 
                 //Remove the edges that were attached to this vertex 
                 //from all the other vertices associated with them
@@ -359,7 +370,7 @@ public class GraphController {
                 updateVerticesListModel();
                 updateEdgesListModel();
                 //Deselect the vertex:
-                selectedIndex = -1;
+                selectedVertexIndex = -1;
                 setSelectedVertex();
 
                 canvas.repaint();
@@ -386,17 +397,28 @@ public class GraphController {
         verticesList.addListSelectionListener(new ListSelectionListener() {
             @Override
             public void valueChanged(ListSelectionEvent e) {
-                selectedIndex = verticesList.getSelectedIndex(); //get the index of the selected item
-
+                //Deselect the edge (if it was selected)
+                selectedEdgeIndex = -1;
+                setSelectedEdge();
+                
+                //Select (or deselect) the vertex
+                selectedVertexIndex = verticesList.getSelectedIndex(); //get the index of the selected item
                 setSelectedVertex();
+                canvas.repaint();
             }
         });
         
         edgesList.addListSelectionListener(new ListSelectionListener() {
             @Override
             public void valueChanged(ListSelectionEvent e) {
-                selectedIndex = -1;
+                //Deselect the vertex (if it was selected)
+                selectedVertexIndex = -1;
                 setSelectedVertex();
+                
+                //Select (or deselect) the edge
+                selectedEdgeIndex = edgesList.getSelectedIndex(); //get the index of the selected item
+                setSelectedEdge();
+                canvas.repaint();
             }
         });
 
@@ -683,15 +705,15 @@ public class GraphController {
         }
 
         //Programattically select the new selectedVertex (or deselect entirely)
-        if (selectedIndex == -1) { //if the user deselected a vertex
+        if (selectedVertexIndex == -1) { //if the user deselected a vertex
             selectedVertex = null;
             titleTextField.setText("");
             titleTextField.setEditable(false);
-            verticesList.clearSelection(); //unselect the element in the JList
+            verticesList.clearSelection(); //unselect the vertex in the JList
         } else { //if the user selected a vertex
-            selectedVertex = vertices.get(selectedIndex); //store the selected vertex
+            selectedVertex = vertices.get(selectedVertexIndex); //store the selected vertex
             selectedVertex.setStrokeColor(Helpers.HIGHLIGHT_COLOR); //highlight the vertex
-            selectedVertex.setStrokeWidth(Helpers.HIGHLIGHT_STROKE_WIDTH);
+            selectedVertex.setStrokeWidth(Helpers.VERTEX_HIGHLIGHT_STROKE_WIDTH);
             titleTextField.setText(selectedVertex.getTitle());
             titleTextField.setEditable(true);
             //Set the focus to be in the titleTextField
@@ -699,7 +721,22 @@ public class GraphController {
             titleTextField.setSelectionStart(0);
             titleTextField.setSelectionEnd(titleTextField.getText().length());
         }
-        canvas.repaint();
+    }
+    
+    private void setSelectedEdge() {
+        //Visually deselect the old selected edge
+        if (selectedEdge != null) {
+            selectedEdge.setStrokeWidth(Helpers.EDGE_STROKE_WIDTH);
+        }
+        
+        //Programatically and visually select the new edge (or deselect entirely)
+        if (selectedEdgeIndex == -1) { //if the user deselected the edge
+            selectedEdge = null;
+            edgesList.clearSelection(); //unselect the edge in the JList
+        } else { //if the user selected an edge
+            selectedEdge = edges.get(selectedEdgeIndex);
+            selectedEdge.setStrokeWidth(Helpers.EDGE_HIGHLIGHT_STROKE_WIDTH);
+        }
     }
 
     private String generateVertexTitle() {
@@ -785,9 +822,9 @@ public class GraphController {
         //Update the list selection
         int newIndex = vertices.size() - 1;
         verticesList.setSelectedIndex(newIndex);
-        selectedIndex = newIndex;
+        selectedVertexIndex = newIndex;
         setSelectedVertex();
-        //^ Already has canvas.repaint();
+        canvas.repaint();
 
     }
 
@@ -802,9 +839,9 @@ public class GraphController {
         updateEdgesListModel();
 
         //deselect the vertices
-        selectedIndex = -1;
+        selectedVertexIndex = -1;
         setSelectedVertex();
-        //^ has canvas.repaint() in it already
+        canvas.repaint();
     }
 
     private void enterAddEdgeState() {
@@ -815,8 +852,9 @@ public class GraphController {
         //Update vertex selection
         verticesList.clearSelection(); //clear the visual selection
         //deselect the vertex
-        selectedIndex = -1;
+        selectedVertexIndex = -1;
         setSelectedVertex();
+        canvas.repaint();
 
         //Assign the canAddEdges values of all the vertices and get the number of vertices
         //that can't have edges added to them
@@ -877,7 +915,7 @@ public class GraphController {
             //if this vertex is available to add edges to
             if (v.canAddEdges()) {
                 v.setStrokeColor(Helpers.HIGHLIGHT_COLOR);
-                v.setStrokeWidth(Helpers.HIGHLIGHT_STROKE_WIDTH);
+                v.setStrokeWidth(Helpers.VERTEX_HIGHLIGHT_STROKE_WIDTH);
             } else { //if this vertex is completely full
                 v.setStrokeColor(Helpers.VERTEX_STROKE_COLOR);
                 v.setStrokeWidth(Helpers.VERTEX_STROKE_WIDTH);
