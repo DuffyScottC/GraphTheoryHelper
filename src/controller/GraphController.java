@@ -467,12 +467,12 @@ public class GraphController implements Serializable {
                         oistr.close();
 
                         //if this object is a graph
-                        if (theObject instanceof GraphController) {
+                        if (theObject instanceof Graph) {
                             //cast the loaded object to a graph
-                            GraphController loadedGraph = (GraphController) theObject;
+                            Graph loadedGraph = (Graph) theObject;
 
                             //replace the old graph with the new one
-                            graph.replace(loadedGraph);
+                            replace(loadedGraph);
 
                             canvas.repaint();
                         }
@@ -512,7 +512,7 @@ public class GraphController implements Serializable {
 
                 saveFile = null; //we no longer have a file to save
 
-                graph.clear();
+                clear();
 
                 isModified = true; //we have not yet saved the new file
             }
@@ -956,7 +956,7 @@ public class GraphController implements Serializable {
         if (saveFile == null) {
             return;
         }
-
+        
         try {
             //Create an output stream from the file
             FileOutputStream ostr = new FileOutputStream(saveFile);
@@ -972,7 +972,7 @@ public class GraphController implements Serializable {
                     + ex.getMessage(), "Oops!", JOptionPane.ERROR_MESSAGE);
 
         }
-
+        
         isModified = false;
     }
 
@@ -991,14 +991,6 @@ public class GraphController implements Serializable {
 
     public DefaultListModel getEdgesListModel() {
         return edgesListModel;
-    }
-
-//    public void setCanvas(Canvas canvas) {
-//        this.canvas = canvas;
-//    }
-
-    public boolean isModified() {
-        return isModified;
     }
 
     public static void main(String[] args) {
