@@ -89,20 +89,21 @@ public class GraphController {
      * which is used for deleting and changing titles.
      */
     private Vertex clickedVertex;
-
+    
     private boolean showTitles = false;
     private boolean isModified = false;
-
+    private JTextField modifiedTextField;
+    
     //MARK: From controller
     private final GraphFrame frame = new GraphFrame();
     private final Canvas canvas = frame.getCanvas();
     private final AddGraphDialog addGraphDialog = new AddGraphDialog(frame, true);
-
+    
     private final Graph graph = new Graph();
     
     private final List<Vertex> vertices = graph.getVertices();
     private final List<Edge> edges = graph.getEdges();
-
+    
     //File I/O:
     private final JFileChooser chooser = new JFileChooser(System.getProperty("user.dir"));
     private File saveFile;
@@ -118,6 +119,7 @@ public class GraphController {
         titleTextField = frame.getTitleTextField();
         verticesList = frame.getVerticesList(); //the visual JList that the user sees and interacts with
         edgesList = frame.getEdgesList(); //the visual JList that the user sees and interacts with
+        modifiedTextField = frame.getModifiedTextField();
         
         canvas.addMouseListener(new MouseAdapter() {
             @Override
@@ -174,6 +176,8 @@ public class GraphController {
                                     exitAddEdgeState(); //exit the add edge state
 
                                     isModified = true; //Note that this is not saved
+                                    modifiedTextField.setText("*");
+                                    
 
                                     return; //we don't need to check anymore
                                 }
@@ -235,6 +239,7 @@ public class GraphController {
             @Override
             public void mouseDragged(MouseEvent e) {
                 isModified = true;
+                modifiedTextField.setText("*");
 
                 int mx = e.getX(); //x-coord of mouse click
                 int my = e.getY(); //y-coord of mouse click
@@ -324,6 +329,7 @@ public class GraphController {
                 selectedIndex = bottomIndex;
                 setSelectedVertex();
                 isModified = true;
+                modifiedTextField.setText("*");
             }
         });
 
@@ -358,6 +364,7 @@ public class GraphController {
 
                 canvas.repaint();
                 isModified = true;
+                modifiedTextField.setText("*");
             }
         });
 
@@ -414,6 +421,7 @@ public class GraphController {
                 verticesList.repaint();
                 canvas.repaint();
                 isModified = true;
+                modifiedTextField.setText("*");
             }
         });
 
@@ -451,6 +459,7 @@ public class GraphController {
                 }
 
                 isModified= false;
+                modifiedTextField.setText("");
 
                 chooser.setDialogTitle("Open");
                 int chooserResult = chooser.showOpenDialog(frame);
@@ -515,6 +524,7 @@ public class GraphController {
                 clear();
 
                 isModified = true; //we have not yet saved the new file
+                modifiedTextField.setText("*");
             }
         });
 
@@ -537,7 +547,6 @@ public class GraphController {
             public void actionPerformed(ActionEvent e) {
                 formatAllVertices();
                 canvas.repaint();
-                System.out.println("Currently only lines them up");
             }
         });
 
@@ -634,6 +643,7 @@ public class GraphController {
                     //if there was at least one new vertex or edge
                     if (wasModified) {
                         isModified = true;
+                        modifiedTextField.setText("*");
                     }
                     
                     //update the list models
@@ -978,6 +988,7 @@ public class GraphController {
         }
         
         isModified = false;
+        modifiedTextField.setText("");
     }
 
     //MARK: Getters and Setters

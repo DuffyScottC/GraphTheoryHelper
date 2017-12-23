@@ -382,6 +382,10 @@ public class GraphFrame extends javax.swing.JFrame {
         return formatVerticesMenuItem;
     }
     
+    public JTextField getModifiedTextField() {
+        return modifiedTextField;
+    }
+    
     /**
      * Not to be confused with addVertex. This is a menu item
      * that allows a user to add vertices by typing in a list
