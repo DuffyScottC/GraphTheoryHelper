@@ -98,6 +98,10 @@ public class GraphController {
      */
     private Vertex clickedVertex;
     
+    /**
+     * Used to make sure clearSelection() does not redundantly call the change
+     * listeners on the JLists. 
+     */
     private boolean shouldChange = true;
     private boolean showTitles = false;
     private boolean isModified = false;
@@ -226,6 +230,7 @@ public class GraphController {
                     }
 
                     if (clickedBlankSpace) {
+                        shouldChange = false; //don't allow clearSelection to run setSelectedVertex again
                         verticesList.clearSelection(); //deselect vertex in the list
                         selectedVertexIndex = -1;
                         setSelectedVertex();
@@ -397,7 +402,8 @@ public class GraphController {
         verticesList.addListSelectionListener(new ListSelectionListener() {
             @Override
             public void valueChanged(ListSelectionEvent e) {
-                if (shouldChange) { //this prevents chains of calls to this listener
+                if (shouldChange) { //if we did not just call clearSelection() 
+                                    //(which would redundantly run this again)
                     //Deselect the edge (if it was selected)
                     selectedEdgeIndex = -1;
                     setSelectedEdge();
@@ -414,7 +420,8 @@ public class GraphController {
         edgesList.addListSelectionListener(new ListSelectionListener() {
             @Override
             public void valueChanged(ListSelectionEvent e) {
-                if (shouldChange) { //this prevents chains of calls to this listener
+                if (shouldChange) { //if we did not just call clearSelection() 
+                                    //(which would redundantly run this again)
                     //Deselect the vertex (if it was selected)
                     selectedVertexIndex = -1;
                     setSelectedVertex();
@@ -889,6 +896,7 @@ public class GraphController {
         //to click one to add the edge
 
         //Update vertex selection
+        shouldChange = false; //don't allow clearSelection to run setSelectedVertex again
         verticesList.clearSelection(); //clear the visual selection
         //deselect the vertex
         selectedVertexIndex = -1;
