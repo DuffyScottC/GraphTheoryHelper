@@ -414,6 +414,10 @@ public class GraphController {
                 edgeToRemove.getEndpoint2().removeEdge(edgeToRemove);
                 
                 edges.remove(selectedEdgeIndex);
+                
+                updateEdgesListModel();
+                
+                canvas.repaint();
             }
         });
 
