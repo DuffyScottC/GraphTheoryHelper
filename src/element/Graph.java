@@ -7,14 +7,16 @@ package element;
 
 import java.awt.Graphics2D;
 import java.awt.geom.AffineTransform;
+import java.io.Serializable;
 import java.util.ArrayList;
 import java.util.List;
 
 /**
- *
+ * Holds the list of vertices and edges that are contained in the graph.
+ * This will be stored in the binary file. 
  * @author Scott
  */
-public class Graph {
+public class Graph implements Serializable {
     //the vertices which appear in canvas and the vertices JList
     private final List<Vertex> vertices = new ArrayList<>();
     //the edges which appear in canvas and the edges JList
