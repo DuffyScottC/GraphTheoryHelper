@@ -398,6 +398,13 @@ public class GraphController {
                 enterAddEdgeState();
             }
         });
+        
+        frame.getAddEdgeButton().addActionListener(new ActionListener() {
+            @Override
+            public void actionPerformed(ActionEvent e) {
+                
+            }
+        });
 
         verticesList.addListSelectionListener(new ListSelectionListener() {
             @Override
