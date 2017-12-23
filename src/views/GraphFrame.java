@@ -199,7 +199,6 @@ public class GraphFrame extends javax.swing.JFrame {
         fileMenu.add(openMenuItem);
 
         saveMenuItem.setText("Save");
-        saveMenuItem.setEnabled(false);
         fileMenu.add(saveMenuItem);
 
         saveAsMenuItem.setText("Save As");
