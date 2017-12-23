@@ -49,9 +49,6 @@ import views.GraphFrame;
  */
 public class GraphController implements Serializable {
     
-    private List<Vertex> vertices;
-    private List<Edge> edges;
-    
     /**
      * the last selected vertex in the vertices JList (Used for things like
      * setting the title text field, updating the title, changing the color,
@@ -97,13 +94,15 @@ public class GraphController implements Serializable {
     //MARK: From controller
     private final GraphFrame frame = new GraphFrame();
     private final Canvas canvas = frame.getCanvas();
+    private final AddGraphDialog addGraphDialog = new AddGraphDialog(frame, true);
 
     private final Graph graph = new Graph();
-
-    private AddGraphDialog addGraphDialog = new AddGraphDialog(frame, true);
+    
+    private final List<Vertex> vertices = graph.getVertices();
+    private final List<Edge> edges = graph.getEdges();
 
     //File I/O:
-    private JFileChooser chooser = new JFileChooser(System.getProperty("user.dir"));
+    private final JFileChooser chooser = new JFileChooser(System.getProperty("user.dir"));
     private File saveFile;
 
     public GraphController() {
@@ -116,7 +115,7 @@ public class GraphController implements Serializable {
 
         titleTextField = frame.getTitleTextField();
         verticesList = frame.getVerticesList(); //the visual JList that the user sees and interacts with
-
+        
         canvas.addMouseListener(new MouseAdapter() {
             @Override
             public void mousePressed(MouseEvent e) {
