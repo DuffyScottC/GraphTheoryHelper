@@ -27,4 +27,14 @@ public class Graph {
     public List<Edge> getEdges() {
         return edges;
     }
+    
+    /**
+     * The graph is empty if vertices is empty (doesn't matter whether edges is
+     * full or not)
+     *
+     * @return
+     */
+    public boolean isEmpty() {
+        return vertices.isEmpty();
+    }
 }

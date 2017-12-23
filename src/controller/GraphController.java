@@ -888,15 +888,6 @@ public class GraphController implements Serializable {
 //    public void setCanvas(Canvas canvas) {
 //        this.canvas = canvas;
 //    }
-    /**
-     * The graph is empty if vertices is empty (doesn't matter whether edges is
-     * full or not)
-     *
-     * @return
-     */
-    public boolean isEmpty() {
-        return vertices.isEmpty();
-    }
 
     public boolean isModified() {
         return isModified;
