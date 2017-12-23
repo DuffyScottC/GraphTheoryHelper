@@ -5,10 +5,26 @@
  */
 package element;
 
+import java.awt.Graphics2D;
+import java.awt.geom.AffineTransform;
+import java.util.ArrayList;
+import java.util.List;
+
 /**
  *
  * @author Scott
  */
 public class Graph {
+    //the vertices which appear in canvas and the vertices JList
+    private final List<Vertex> vertices = new ArrayList<>();
+    //the edges which appear in canvas and the edges JList
+    private final List<Edge> edges = new ArrayList<>();
     
+    public List<Vertex> getVertices() {
+        return vertices;
+    }
+    
+    public List<Edge> getEdges() {
+        return edges;
+    }
 }
