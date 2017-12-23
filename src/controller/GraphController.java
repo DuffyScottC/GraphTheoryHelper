@@ -397,28 +397,28 @@ public class GraphController {
         verticesList.addListSelectionListener(new ListSelectionListener() {
             @Override
             public void valueChanged(ListSelectionEvent e) {
-                //Deselect the edge (if it was selected)
-                selectedEdgeIndex = -1;
-                setSelectedEdge();
-                
-                //Select (or deselect) the vertex
-                selectedVertexIndex = verticesList.getSelectedIndex(); //get the index of the selected item
-                setSelectedVertex();
-                canvas.repaint();
+                if (!e.getValueIsAdjusting()) { //this prevents chains of calls to this listener
+                    //If this is not one in a series of multiple events:
+                    //Select (or deselect) the vertex
+                    selectedEdgeIndex = -1;
+                    selectedVertexIndex = verticesList.getSelectedIndex(); //get the index of the selected item
+                    setSelectedVertex();
+                    canvas.repaint();
+                }
             }
         });
         
         edgesList.addListSelectionListener(new ListSelectionListener() {
             @Override
             public void valueChanged(ListSelectionEvent e) {
-                //Deselect the vertex (if it was selected)
-                selectedVertexIndex = -1;
-                setSelectedVertex();
-                
-                //Select (or deselect) the edge
-                selectedEdgeIndex = edgesList.getSelectedIndex(); //get the index of the selected item
-                setSelectedEdge();
-                canvas.repaint();
+                if (!e.getValueIsAdjusting()) { //this prevents chains of calls to this listener
+                    //If this is not one in a series of multiple events:
+                    //Select (or deselect) the edge
+                    selectedVertexIndex = -1;
+                    selectedEdgeIndex = edgesList.getSelectedIndex(); //get the index of the selected item
+                    setSelectedVertex();
+                    canvas.repaint();
+                }
             }
         });
 
@@ -703,7 +703,7 @@ public class GraphController {
             selectedVertex.setStrokeColor(Helpers.VERTEX_STROKE_COLOR);
             selectedVertex.setStrokeWidth(Helpers.VERTEX_STROKE_WIDTH);
         }
-
+        
         //Programattically select the new selectedVertex (or deselect entirely)
         if (selectedVertexIndex == -1) { //if the user deselected a vertex
             selectedVertex = null;
@@ -720,22 +720,6 @@ public class GraphController {
             titleTextField.requestFocus();
             titleTextField.setSelectionStart(0);
             titleTextField.setSelectionEnd(titleTextField.getText().length());
-        }
-    }
-    
-    private void setSelectedEdge() {
-        //Visually deselect the old selected edge
-        if (selectedEdge != null) {
-            selectedEdge.setStrokeWidth(Helpers.EDGE_STROKE_WIDTH);
-        }
-        
-        //Programatically and visually select the new edge (or deselect entirely)
-        if (selectedEdgeIndex == -1) { //if the user deselected the edge
-            selectedEdge = null;
-            edgesList.clearSelection(); //unselect the edge in the JList
-        } else { //if the user selected an edge
-            selectedEdge = edges.get(selectedEdgeIndex);
-            selectedEdge.setStrokeWidth(Helpers.EDGE_HIGHLIGHT_STROKE_WIDTH);
         }
     }
 
