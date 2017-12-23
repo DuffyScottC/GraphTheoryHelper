@@ -532,7 +532,7 @@ public class GraphController implements Serializable {
         frame.getFormatVerticesMenuItem().addActionListener(new ActionListener() {
             @Override
             public void actionPerformed(ActionEvent e) {
-                graph.formatAllVertices();
+                formatAllVertices();
                 canvas.repaint();
                 System.out.println("Currently only lines them up");
             }

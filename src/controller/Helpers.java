@@ -82,7 +82,7 @@ public class Helpers {
 
     public static void addGraphDialogEventHandlers(
             AddGraphDialog addGraphDialog,
-            GraphController graph,
+            Graph graph,
             GraphFrame frame,
             Canvas canvas
     ) {
