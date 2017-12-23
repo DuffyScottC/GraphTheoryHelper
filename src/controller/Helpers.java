@@ -6,6 +6,7 @@
 package controller;
 
 import element.Edge;
+import element.Graph;
 import element.Vertex;
 import java.awt.Color;
 import java.awt.event.ActionEvent;
@@ -41,7 +42,7 @@ public class Helpers {
      * @param vertices
      * @param edges
      */
-    public static void setSampleElements(GraphController graph) {
+    public static void setSampleElements(Graph graph, DefaultListModel verticesListModel, DefaultListModel edgesListModel) {
         List<Vertex> vertices = graph.getVertices();
         List<Edge> edges = graph.getEdges();
         Vertex vertex1 = new Vertex(DIAMETER);
@@ -67,16 +68,14 @@ public class Helpers {
         edgeElement.setTitle("A,B");
         edges.add(edgeElement);
 
-        DefaultListModel verticesList = graph.getVerticesListModel();
-        verticesList.removeAllElements();
+        verticesListModel.removeAllElements();
         for (Vertex v : vertices) {
-            verticesList.addElement(v);
+            verticesListModel.addElement(v);
         }
 
-        DefaultListModel edgesList = graph.getEdgesListModel();
-        edgesList.removeAllElements();
+        edgesListModel.removeAllElements();
         for (Edge e : edges) {
-            edgesList.addElement(e);
+            edgesListModel.addElement(e);
         }
 
     }

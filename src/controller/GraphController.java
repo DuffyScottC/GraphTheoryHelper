@@ -6,6 +6,7 @@
 package controller;
 
 import element.Edge;
+import element.Graph;
 import element.Vertex;
 import java.awt.BasicStroke;
 import java.awt.Color;
@@ -44,12 +45,10 @@ import views.GraphFrame;
  * @author Scott
  */
 public class GraphController implements Serializable {
-
-    //the vertices which appear in canvas and the vertices JList
-    private final List<Vertex> vertices = new ArrayList<>();
-    //the edges which appear in canvas and the edges JList
-    private final List<Edge> edges = new ArrayList<>();
-
+    
+    private List<Vertex> vertices;
+    private List<Edge> edges;
+    
     /**
      * the last selected vertex in the vertices JList (Used for things like
      * setting the title text field, updating the title, changing the color,
@@ -78,10 +77,7 @@ public class GraphController implements Serializable {
 
     // models for vertex and edge selection lists
     private final DefaultListModel verticesListModel = new DefaultListModel();
-
     private final DefaultListModel edgesListModel = new DefaultListModel();
-
-    private String title = "Simple Graph";
 
     //Used for moving objects. Holds the last point the mouse was at.
     private int lastX;
@@ -92,14 +88,14 @@ public class GraphController implements Serializable {
      */
     private Vertex clickedVertex;
 
-    private boolean showTitles; //is not serializable
-    private boolean isModified; //is not serializable
+    private boolean showTitles = false;
+    private boolean isModified = false;
 
     //MARK: From controller
     private final GraphFrame frame = new GraphFrame();
     private final Canvas canvas = frame.getCanvas();
 
-    private final Graph graph = new Graph("Simple Graph");
+    private final Graph graph = new Graph();
 
     private AddGraphDialog addGraphDialog = new AddGraphDialog(frame, true);
 
@@ -107,15 +103,8 @@ public class GraphController implements Serializable {
     private JFileChooser chooser = new JFileChooser(System.getProperty("user.dir"));
     private File saveFile;
 
-    public GraphController(String title) {
-        showTitles = false;
-        isModified = false;
-
-        this.title = title;
-    }
-
     public GraphController() {
-        frame.setTitle("Graph Helper");
+        frame.setTitle("Graph Theory Helper");
         frame.setLocationRelativeTo(null);
         frame.setSize(600, 500);
 
@@ -142,6 +131,7 @@ public class GraphController implements Serializable {
                                 //Check if this vertex contains the mouse click:
                                 if (currentVertex.getPositionShape().contains(mx, my)) {
                                     firstSelectedVertex = currentVertex; //assign the first vertex
+                                    canvas.setFirstSelectedVertex(firstSelectedVertex);
                                     //Make it so that user can't add edge from a vertex to itself:
                                     firstSelectedVertex.setCanAddEdges(false);
                                     //Make it so that user can't add an edge to vertices that are already
@@ -151,6 +141,7 @@ public class GraphController implements Serializable {
                                     highlightAvailableVertices();
                                     lastX = mx;
                                     lastY = my;
+                                    canvas.setLastPosition(lastX, lastY);
                                     canvas.repaint();
                                     return; //we've assigned the first selected vertex and we're done
                                 }
@@ -280,6 +271,7 @@ public class GraphController implements Serializable {
                 //location of the mouse for drawing the lines
                 lastX = e.getX();
                 lastY = e.getY();
+                canvas.setLastPosition(lastX, lastY);
 
                 canvas.repaint();
             }
@@ -292,8 +284,10 @@ public class GraphController implements Serializable {
                 //Toggle the showTitles boolean
                 if (showTitles) {
                     showTitles = false;
+                    canvas.setShowTitles(false);
                 } else {
                     showTitles = true;
+                    canvas.setShowTitles(true);
                 }
 
                 canvas.repaint();
@@ -422,8 +416,8 @@ public class GraphController implements Serializable {
 
         //Set up list models:
         //set them to their respective JLists
-        frame.getVerticesList().setModel(graph.getVerticesListModel());
-        frame.getEdgesList().setModel(graph.getEdgesListModel());
+        frame.getVerticesList().setModel(verticesListModel);
+        frame.getEdgesList().setModel(edgesListModel);
         //set their selection modes
         frame.getVerticesList().setSelectionMode(ListSelectionModel.SINGLE_SELECTION);
         frame.getEdgesList().setSelectionMode(ListSelectionModel.SINGLE_SELECTION);
@@ -432,7 +426,7 @@ public class GraphController implements Serializable {
         frame.getLoadSamplesMenuItem().addActionListener(new ActionListener() {
             @Override
             public void actionPerformed(ActionEvent e) {
-                Helpers.setSampleElements(graph);
+                Helpers.setSampleElements(graph, verticesListModel, edgesListModel);
                 canvas.repaint();
             }
         });
@@ -634,67 +628,6 @@ public class GraphController implements Serializable {
         }
     }
 
-    public void drawVertices(Graphics2D g2) {
-        if (vertices == null) {
-            return;
-        }
-
-        AffineTransform t = g2.getTransform(); // save the transform settings
-
-        //loop from back to front so that the "top" vertext gets chosen
-        //first when the user clicks on it.
-        for (Vertex vertex : vertices) {
-            double x = vertex.getLocation().x;
-            double y = vertex.getLocation().y;
-            g2.translate(x, y);
-            vertex.draw(g2); //actually draw the vertex
-            g2.setTransform(t); //restore each after drawing
-
-            if (showTitles) { //If the user wants to show the titles
-                vertex.drawTitle(g2);
-            }
-        }
-
-    }
-
-    public void drawEdges(Graphics2D g2) {
-        if (edges == null) {
-            return;
-        }
-
-//        AffineTransform t = g2.getTransform(); // save the transform settings
-        //loop from back to front so that the "top" edge gets chosen
-        //first when the user clicks on it.
-        for (Edge edge : edges) {
-//            double x = edge.getLocation().x;
-//            double y = edge.getLocation().y;
-//            g2.translate(x, y);
-            edge.draw(g2); //actually draw the edge
-//            g2.setTransform(t); //restore each after drawing
-        }
-    }
-
-    /**
-     * We want to draw an edge between the first vertex and the current mouse
-     * position
-     *
-     * @param g2
-     */
-    public void drawLiveEdge(Graphics2D g2) {
-        //If this is null, then we are not in the adding a vertex state
-        //or the user has not yet selected their first vertex
-        if (firstSelectedVertex == null) {
-            return;
-        }
-        int x1 = (int) firstSelectedVertex.getCenter().getX();
-        int y1 = (int) firstSelectedVertex.getCenter().getY();
-        int x2 = lastX;
-        int y2 = lastY;
-        g2.setStroke(new BasicStroke(Helpers.EDGE_STROKE_WIDTH));
-        g2.setColor(Color.BLACK);
-        g2.drawLine(x1, y1, x2, y2); //draw the line
-    }
-
     /**
      * Used for loading a graph from a file
      *
@@ -774,6 +707,7 @@ public class GraphController implements Serializable {
     private void exitAddEdgeState() {
         addingEdge = false;
         firstSelectedVertex = null; //prepare for the next edge
+        canvas.setFirstSelectedVertex(null);
         //Unhighlight all vertices
         for (Vertex v : vertices) {
             v.setStrokeColor(Helpers.VERTEX_STROKE_COLOR);
@@ -955,10 +889,6 @@ public class GraphController implements Serializable {
 
     public void setTitle(String title) {
         this.title = title;
-    }
-
-    public void setShowTitles(boolean showTitles) {
-        this.showTitles = showTitles;
     }
 
 //    public void setCanvas(Canvas canvas) {
