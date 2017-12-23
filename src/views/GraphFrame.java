@@ -55,7 +55,9 @@ public class GraphFrame extends javax.swing.JFrame {
         edgesList = new javax.swing.JList<>();
         verticesScrollPane = new javax.swing.JScrollPane();
         verticesList = new javax.swing.JList<>();
+        statusPanel = new javax.swing.JPanel();
         statusTextField = new javax.swing.JTextField();
+        modifiedTextField = new javax.swing.JTextField();
         myMenuBar = new javax.swing.JMenuBar();
         fileMenu = new javax.swing.JMenu();
         openMenuItem = new javax.swing.JMenuItem();
@@ -186,12 +188,29 @@ public class GraphFrame extends javax.swing.JFrame {
         gridBagConstraints.fill = java.awt.GridBagConstraints.BOTH;
         getContentPane().add(inspectorPanel, gridBagConstraints);
 
+        statusPanel.setLayout(new java.awt.GridBagLayout());
+
         statusTextField.setEditable(false);
         gridBagConstraints = new java.awt.GridBagConstraints();
         gridBagConstraints.gridx = 0;
-        gridBagConstraints.gridy = 1;
+        gridBagConstraints.gridy = 0;
         gridBagConstraints.fill = java.awt.GridBagConstraints.HORIZONTAL;
-        getContentPane().add(statusTextField, gridBagConstraints);
+        gridBagConstraints.weightx = 0.1;
+        statusPanel.add(statusTextField, gridBagConstraints);
+
+        modifiedTextField.setEditable(false);
+        modifiedTextField.setColumns(1);
+        gridBagConstraints = new java.awt.GridBagConstraints();
+        gridBagConstraints.gridx = 1;
+        gridBagConstraints.gridy = 0;
+        statusPanel.add(modifiedTextField, gridBagConstraints);
+
+        gridBagConstraints = new java.awt.GridBagConstraints();
+        gridBagConstraints.gridx = 0;
+        gridBagConstraints.gridy = 1;
+        gridBagConstraints.fill = java.awt.GridBagConstraints.BOTH;
+        gridBagConstraints.weightx = 0.1;
+        getContentPane().add(statusPanel, gridBagConstraints);
 
         fileMenu.setText("File");
 
@@ -263,6 +282,7 @@ public class GraphFrame extends javax.swing.JFrame {
     private javax.swing.JMenuItem formatVerticesMenuItem;
     private views.InspectorPanel inspectorPanel;
     private javax.swing.JMenuItem loadSamplesMenuItem;
+    private javax.swing.JTextField modifiedTextField;
     private javax.swing.JMenuBar myMenuBar;
     private javax.swing.JMenuItem newMenuItem;
     private javax.swing.JMenuItem openMenuItem;
@@ -273,6 +293,7 @@ public class GraphFrame extends javax.swing.JFrame {
     private javax.swing.JMenuItem saveAsMenuItem;
     private javax.swing.JMenuItem saveMenuItem;
     private javax.swing.JCheckBoxMenuItem showVertexNamesMenuItem;
+    private javax.swing.JPanel statusPanel;
     private javax.swing.JTextField statusTextField;
     private javax.swing.JTextField titleTextField;
     private javax.swing.JPanel verticesButtonPanel;
