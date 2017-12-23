@@ -441,13 +441,13 @@ public class GraphController implements Serializable {
         frame.getOpenMenuItem().addActionListener(new ActionListener() {
             @Override
             public void actionPerformed(ActionEvent e) {
-                if (graph.isModified()) {
+                if (isModified) {
                     if (!shouldContinue("OK to discard changes?")) {
                         return;
                     }
                 }
 
-                graph.setIsModified(false);
+                isModified= false;
 
                 chooser.setDialogTitle("Open");
                 int chooserResult = chooser.showOpenDialog(frame);
@@ -501,7 +501,7 @@ public class GraphController implements Serializable {
         frame.getNewMenuItem().addActionListener(new ActionListener() {
             @Override
             public void actionPerformed(ActionEvent e) {
-                if (graph.isModified()) {
+                if (isModified) {
                     if (!shouldContinue("OK to discard changes?")) {
                         return;
                     }
@@ -511,7 +511,7 @@ public class GraphController implements Serializable {
 
                 graph.clear();
 
-                graph.setIsModified(true); //we have not yet saved the new file
+                isModified = true; //we have not yet saved the new file
             }
         });
 
@@ -634,8 +634,6 @@ public class GraphController implements Serializable {
      * @param g
      */
     public void replace(GraphController g) {
-        this.title = g.title;
-
         List<Vertex> newVertices = g.getVertices();
         List<Edge> newEdges = g.getEdges();
 
@@ -867,7 +865,7 @@ public class GraphController implements Serializable {
 
         }
 
-        graph.setIsModified(false);
+        isModified = false;
     }
 
     //MARK: Getters and Setters
@@ -885,10 +883,6 @@ public class GraphController implements Serializable {
 
     public DefaultListModel getEdgesListModel() {
         return edgesListModel;
-    }
-
-    public void setTitle(String title) {
-        this.title = title;
     }
 
 //    public void setCanvas(Canvas canvas) {
