@@ -5,7 +5,6 @@
  */
 package controller;
 
-import controller.Helpers;
 import element.Edge;
 import element.Vertex;
 import java.awt.BasicStroke;
@@ -44,7 +43,7 @@ import views.GraphFrame;
  *
  * @author Scott
  */
-public class Graph implements Serializable {
+public class GraphController implements Serializable {
 
     //the vertices which appear in canvas and the vertices JList
     private final List<Vertex> vertices = new ArrayList<>();
@@ -79,7 +78,7 @@ public class Graph implements Serializable {
 
     // models for vertex and edge selection lists
     private final DefaultListModel verticesListModel = new DefaultListModel();
-        
+
     private final DefaultListModel edgesListModel = new DefaultListModel();
 
     private String title = "Simple Graph";
@@ -95,34 +94,34 @@ public class Graph implements Serializable {
 
     private boolean showTitles; //is not serializable
     private boolean isModified; //is not serializable
-    
+
     //MARK: From controller
     private final GraphFrame frame = new GraphFrame();
     private final Canvas canvas = frame.getCanvas();
-    
+
     private final Graph graph = new Graph("Simple Graph");
-    
+
     private AddGraphDialog addGraphDialog = new AddGraphDialog(frame, true);
-    
+
     //File I/O:
     private JFileChooser chooser = new JFileChooser(System.getProperty("user.dir"));
     private File saveFile;
 
-    public Graph(String title) {
+    public GraphController(String title) {
         showTitles = false;
         isModified = false;
-        
+
         this.title = title;
     }
 
-    public Graph() {
+    public GraphController() {
         frame.setTitle("Graph Helper");
         frame.setLocationRelativeTo(null);
         frame.setSize(600, 500);
-        
+
         canvas.setGraph(graph); //pass the graph to the canvas
 //        graph.setCanvas(canvas); //pass the canvas to the graph
-        
+
         titleTextField = frame.getTitleTextField();
         verticesList = frame.getVerticesList(); //the visual JList that the user sees and interacts with
 
@@ -171,13 +170,13 @@ public class Graph implements Serializable {
                                     //Create a new edge with the two vertices
                                     Edge newEdge = new Edge(firstSelectedVertex, currentVertex);
                                     newEdge.setStrokeWidth(Helpers.EDGE_STROKE_WIDTH);
-                                    
+
                                     edges.add(newEdge); //Add the edge to the graph
-                                    
+
                                     updateEdgesListModel(); //update the visual JList
-                                    
+
                                     exitAddEdgeState(); //exit the add edge state
-                                    
+
                                     isModified = true; //Note that this is not saved
 
                                     return; //we don't need to check anymore
@@ -340,15 +339,15 @@ public class Graph implements Serializable {
                 if (selectedIndex == -1) {
                     return;
                 }
-                
+
                 //Get the list of edges to remove
                 List<Edge> removeEdges = vertices.get(selectedIndex).getEdges();
-                
+
                 //remove the edges that were attached to this vertex from the list of edges
                 edges.removeAll(removeEdges);
-                
+
                 vertices.remove(selectedIndex); //remove the vertex
-                
+
                 //Remove the edges that were attached to this vertex 
                 //from all the other vertices associated with them
                 for (Edge eg : removeEdges) { //cycle through all the edges to remove
@@ -356,13 +355,13 @@ public class Graph implements Serializable {
                         v.removeEdge(eg); //remove each edge from each vertex
                     }
                 }
-                
+
                 updateVerticesListModel();
                 updateEdgesListModel();
                 //Deselect the vertex:
                 selectedIndex = -1;
                 setSelectedVertex();
-                
+
                 canvas.repaint();
                 isModified = true;
             }
@@ -420,7 +419,7 @@ public class Graph implements Serializable {
                 isModified = true;
             }
         });
-        
+
         //Set up list models:
         //set them to their respective JLists
         frame.getVerticesList().setModel(graph.getVerticesListModel());
@@ -471,9 +470,9 @@ public class Graph implements Serializable {
                         oistr.close();
 
                         //if this object is a graph
-                        if (theObject instanceof Graph) {
+                        if (theObject instanceof GraphController) {
                             //cast the loaded object to a graph
-                            Graph loadedGraph = (Graph) theObject;
+                            GraphController loadedGraph = (GraphController) theObject;
 
                             //replace the old graph with the new one
                             graph.replace(loadedGraph);
@@ -481,11 +480,11 @@ public class Graph implements Serializable {
                             canvas.repaint();
                         }
                     } catch (IOException ex) {
-                        JOptionPane.showMessageDialog(frame, "Unable to read selected file.\n" + 
-                                ex.getMessage(), "Oops!", JOptionPane.ERROR_MESSAGE);
+                        JOptionPane.showMessageDialog(frame, "Unable to read selected file.\n"
+                                + ex.getMessage(), "Oops!", JOptionPane.ERROR_MESSAGE);
                     } catch (ClassNotFoundException ex) {
-                        JOptionPane.showMessageDialog(frame, "File is not a figures file.\n" + 
-                                ex.getMessage(), "Oops!", JOptionPane.ERROR_MESSAGE);
+                        JOptionPane.showMessageDialog(frame, "File is not a figures file.\n"
+                                + ex.getMessage(), "Oops!", JOptionPane.ERROR_MESSAGE);
                     }
 
                     saveFile = loadFile; //update the save file
@@ -504,7 +503,7 @@ public class Graph implements Serializable {
                 }
             }
         });
-        
+
         frame.getNewMenuItem().addActionListener(new ActionListener() {
             @Override
             public void actionPerformed(ActionEvent e) {
@@ -513,29 +512,29 @@ public class Graph implements Serializable {
                         return;
                     }
                 }
-                
+
                 saveFile = null; //we no longer have a file to save
-                
+
                 graph.clear();
-                
+
                 graph.setIsModified(true); //we have not yet saved the new file
             }
         });
-        
+
         frame.getAddVerticesMenuItem().addActionListener(new ActionListener() {
             @Override
             public void actionPerformed(ActionEvent e) {
                 addGraphDialog.setLocationRelativeTo(null);
                 addGraphDialog.setTitle("Add Vertices");
-                
+
                 addGraphDialog.setFocusToTextField();
-                
+
                 addGraphDialog.getRootPane().setDefaultButton(addGraphDialog.getAddButton());
-                
+
                 addGraphDialog.setVisible(true);
             }
         });
-        
+
         frame.getFormatVerticesMenuItem().addActionListener(new ActionListener() {
             @Override
             public void actionPerformed(ActionEvent e) {
@@ -544,9 +543,9 @@ public class Graph implements Serializable {
                 System.out.println("Currently only lines them up");
             }
         });
-        
+
         Helpers.addGraphDialogEventHandlers(addGraphDialog, graph, frame, canvas);
-        
+
     }
 
     //MARK: Other methods--------------------
@@ -605,7 +604,7 @@ public class Graph implements Serializable {
         }
         return newTitle; //by this point, we've found a unique vertex name (be it V or V+(some number)). 
     }
-    
+
     /**
      * Positions all vertices in the graph in an evenly spaced circle
      */
@@ -620,12 +619,12 @@ public class Graph implements Serializable {
      * exist in the graph)
      */
     public void formatVertices(List<Vertex> vs) {
-        int xCent = canvas.getWidth()/2;
-        int yCent = canvas.getHeight()/2;
+        int xCent = canvas.getWidth() / 2;
+        int yCent = canvas.getHeight() / 2;
         final double radius = Helpers.FORMAT_RADIUS;
-        final double delta = (2*Math.PI) / vs.size(); //the change in angle between each vertex
+        final double delta = (2 * Math.PI) / vs.size(); //the change in angle between each vertex
         double angle = 0.0; //the angle that changes to position each vertex
-        
+
         for (Vertex v : vs) {
             //calculate the positions
             double x = xCent + radius * Math.cos(angle);
@@ -701,7 +700,7 @@ public class Graph implements Serializable {
      *
      * @param g
      */
-    public void replace(Graph g) {
+    public void replace(GraphController g) {
         this.title = g.title;
 
         List<Vertex> newVertices = g.getVertices();
@@ -760,12 +759,12 @@ public class Graph implements Serializable {
         //Assign the canAddEdges values of all the vertices and get the number of vertices
         //that can't have edges added to them
         int numberOfFalses = assignCanAddEdges();
-        
+
         if (numberOfFalses == vertices.size()) { //if none of the vertices can have edges added to them
             exitAddEdgeState(); //exit the state
             return; //do not continue
         }
-        
+
         //Highglight appropriate vertices
         highlightAvailableVertices();
 
@@ -788,8 +787,9 @@ public class Graph implements Serializable {
      * assigns their canAddEdges value) when the user enters the addEdgeState.
      * (A vertex is available if its degree is less than (order-1), where order
      * is the number of vertices in the graph.
-     * @return The number of vertexes that were assigned a canAddEdges value
-     * of false
+     *
+     * @return The number of vertexes that were assigned a canAddEdges value of
+     * false
      */
     private int assignCanAddEdges() {
         int numberOfFalses = 0;
@@ -835,16 +835,16 @@ public class Graph implements Serializable {
             edgesListModel.addElement(eg);
         }
     }
-    
+
     /**
-     * Updates the visual JLists that show the user what vertices and edges
-     * are in the graph.
+     * Updates the visual JLists that show the user what vertices and edges are
+     * in the graph.
      */
     public void updateListModels() {
         updateVerticesListModel();
         updateEdgesListModel();
     }
-    
+
     /**
      * Convenience method that asks a user if they want to continue if they try
      * to 1) open a file without saving 2) create a new file without saving 3)
@@ -866,50 +866,50 @@ public class Graph implements Serializable {
         return true;
 
     }
-    
+
     private void saveGraphAs() {
         if (graph.isEmpty()) {
-                    JOptionPane.showMessageDialog(frame, "Cannot save an empty graph.");
+            JOptionPane.showMessageDialog(frame, "Cannot save an empty graph.");
+            return;
+        }
+
+        chooser.setDialogTitle("Save");
+
+        //Open the save dialogue and let the user choose 
+        //where to save the file:
+        int chooserResult = chooser.showSaveDialog(frame);
+        //if the user successfully saved the file
+        if (chooserResult == JFileChooser.APPROVE_OPTION) {
+
+            //get the path of the file that the user selected
+            Path path = chooser.getSelectedFile().toPath();
+
+            //check if the file has an extension already
+            String fileName = path.getFileName().toString(); //the name of the file
+            if (!fileName.matches(".*\\.\\w+")) { //if the file name has NO extension
+                //add .fig
+                String fileNameWithExtension = fileName + ".graph";
+                //use the resolveSibling method to change the old, 
+                //extensionless file name to the new filename created above
+                path = path.resolveSibling(fileNameWithExtension);
+                //e.g. this will replace "curdir/sample2" with "curdir/sample2.graph"
+            }
+
+            saveFile = path.toFile(); //convert the path object to a file object
+
+            //check if the file already exists
+            if (Files.exists(path)) { //if the file already exists
+                //ask the user if they want to continue
+                if (!shouldContinue("OK to overwrite existing file?")) {
+                    //if the user does not want to overwrite a pre-existing file
                     return;
                 }
+            }
 
-                chooser.setDialogTitle("Save");
+            //Save the graph
+            saveGraph();
 
-                //Open the save dialogue and let the user choose 
-                //where to save the file:
-                int chooserResult = chooser.showSaveDialog(frame);
-                //if the user successfully saved the file
-                if (chooserResult == JFileChooser.APPROVE_OPTION) {
-
-                    //get the path of the file that the user selected
-                    Path path = chooser.getSelectedFile().toPath();
-
-                    //check if the file has an extension already
-                    String fileName = path.getFileName().toString(); //the name of the file
-                    if (!fileName.matches(".*\\.\\w+")) { //if the file name has NO extension
-                        //add .fig
-                        String fileNameWithExtension = fileName + ".graph";
-                        //use the resolveSibling method to change the old, 
-                        //extensionless file name to the new filename created above
-                        path = path.resolveSibling(fileNameWithExtension);
-                        //e.g. this will replace "curdir/sample2" with "curdir/sample2.graph"
-                    }
-
-                    saveFile = path.toFile(); //convert the path object to a file object
-
-                    //check if the file already exists
-                    if (Files.exists(path)) { //if the file already exists
-                        //ask the user if they want to continue
-                        if (!shouldContinue("OK to overwrite existing file?")) {
-                            //if the user does not want to overwrite a pre-existing file
-                            return;
-                        }
-                    }
-
-                    //Save the graph
-                    saveGraph();
-
-                }
+        }
     }
 
     private void saveGraph() {
@@ -928,16 +928,15 @@ public class Graph implements Serializable {
             oostr.close(); //must do this to ensure completion
         } catch (IOException ex) {
 
-            JOptionPane.showMessageDialog(frame, "Unable to save file.\n" + 
-                    ex.getMessage(), "Oops!", JOptionPane.ERROR_MESSAGE);
+            JOptionPane.showMessageDialog(frame, "Unable to save file.\n"
+                    + ex.getMessage(), "Oops!", JOptionPane.ERROR_MESSAGE);
 
         }
 
         graph.setIsModified(false);
     }
-    
-    //MARK: Getters and Setters
 
+    //MARK: Getters and Setters
     public List<Vertex> getVertices() {
         return vertices;
     }
@@ -965,7 +964,6 @@ public class Graph implements Serializable {
 //    public void setCanvas(Canvas canvas) {
 //        this.canvas = canvas;
 //    }
-
     /**
      * The graph is empty if vertices is empty (doesn't matter whether edges is
      * full or not)
@@ -999,9 +997,9 @@ public class Graph implements Serializable {
         strB.append("}");
         return strB.toString();
     }
-    
+
     public static void main(String[] args) {
-        Graph app = new Graph();
+        GraphController app = new GraphController();
         app.frame.setVisible(true);
     }
 

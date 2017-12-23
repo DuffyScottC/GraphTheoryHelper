@@ -5,7 +5,7 @@
  */
 package views;
 
-import controller.Graph;
+import controller.GraphController;
 import java.awt.Graphics;
 import java.awt.Graphics2D;
 import java.awt.RenderingHints;
@@ -17,13 +17,13 @@ import javax.swing.JTextArea;
  */
 public class Canvas extends JTextArea {
 
-    private Graph graph = null;
+    private GraphController graph = null;
     /**
      * True if we are in the edge adding state
      */
     private boolean addingEdge = false;
 
-    public void setGraph(Graph graph) {
+    public void setGraph(GraphController graph) {
         this.graph = graph;
     }
 

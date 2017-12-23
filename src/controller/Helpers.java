@@ -41,7 +41,7 @@ public class Helpers {
      * @param vertices
      * @param edges
      */
-    public static void setSampleElements(Graph graph) {
+    public static void setSampleElements(GraphController graph) {
         List<Vertex> vertices = graph.getVertices();
         List<Edge> edges = graph.getEdges();
         Vertex vertex1 = new Vertex(DIAMETER);
@@ -83,7 +83,7 @@ public class Helpers {
 
     public static void addGraphDialogEventHandlers(
             AddGraphDialog addGraphDialog,
-            Graph graph,
+            GraphController graph,
             GraphFrame frame,
             Canvas canvas
     ) {
