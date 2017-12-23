@@ -97,7 +97,8 @@ public class GraphController {
      * which is used for deleting and changing titles.
      */
     private Vertex clickedVertex;
-
+    
+    private boolean shouldChange = true;
     private boolean showTitles = false;
     private boolean isModified = false;
     private JTextField modifiedTextField;
@@ -396,7 +397,7 @@ public class GraphController {
         verticesList.addListSelectionListener(new ListSelectionListener() {
             @Override
             public void valueChanged(ListSelectionEvent e) {
-                if (!e.getValueIsAdjusting()) { //this prevents chains of calls to this listener
+                if (shouldChange) { //this prevents chains of calls to this listener
                     //Deselect the edge (if it was selected)
                     selectedEdgeIndex = -1;
                     setSelectedEdge();
@@ -406,13 +407,14 @@ public class GraphController {
                     setSelectedVertex();
                     canvas.repaint();
                 }
+                shouldChange = true;
             }
         });
 
         edgesList.addListSelectionListener(new ListSelectionListener() {
             @Override
             public void valueChanged(ListSelectionEvent e) {
-                if (!e.getValueIsAdjusting()) { //this prevents chains of calls to this listener
+                if (shouldChange) { //this prevents chains of calls to this listener
                     //Deselect the vertex (if it was selected)
                     selectedVertexIndex = -1;
                     setSelectedVertex();
@@ -422,6 +424,7 @@ public class GraphController {
                     setSelectedEdge();
                     canvas.repaint();
                 }
+                shouldChange = true;
             }
         }
         );
@@ -743,6 +746,7 @@ public class GraphController {
             selectedVertex = null;
             titleTextField.setText("");
             titleTextField.setEditable(false);
+            shouldChange = false;
             verticesList.clearSelection(); //unselect the vertex in the JList
         } else { //if the user selected a vertex
             selectedVertex = vertices.get(selectedVertexIndex); //store the selected vertex
@@ -766,6 +770,7 @@ public class GraphController {
         //Programatically and visually select the new edge (or deselect entirely)
         if (selectedEdgeIndex == -1) { //if the user deselected the edge
             selectedEdge = null;
+            shouldChange = false;
             edgesList.clearSelection(); //unselect the edge in the JList
         } else { //if the user selected an edge
             selectedEdge = edges.get(selectedEdgeIndex);
