@@ -49,7 +49,7 @@ import views.GraphFrame;
  * @author Scott
  */
 public class GraphController {
-    
+
     /**
      * the last selected vertex in the vertices JList (Used for things like
      * setting the title text field, updating the title, changing the color,
@@ -97,21 +97,21 @@ public class GraphController {
      * which is used for deleting and changing titles.
      */
     private Vertex clickedVertex;
-    
+
     private boolean showTitles = false;
     private boolean isModified = false;
     private JTextField modifiedTextField;
-    
+
     //MARK: From controller
     private final GraphFrame frame = new GraphFrame();
     private final Canvas canvas = frame.getCanvas();
     private final AddGraphDialog addGraphDialog = new AddGraphDialog(frame, true);
-    
+
     private final Graph graph = new Graph();
-    
+
     private final List<Vertex> vertices = graph.getVertices();
     private final List<Edge> edges = graph.getEdges();
-    
+
     //File I/O:
     private final JFileChooser chooser = new JFileChooser(System.getProperty("user.dir"));
     private File saveFile;
@@ -128,7 +128,7 @@ public class GraphController {
         verticesList = frame.getVerticesList(); //the visual JList that the user sees and interacts with
         edgesList = frame.getEdgesList(); //the visual JList that the user sees and interacts with
         modifiedTextField = frame.getModifiedTextField();
-        
+
         canvas.addMouseListener(new MouseAdapter() {
             @Override
             public void mousePressed(MouseEvent e) {
@@ -185,7 +185,6 @@ public class GraphController {
 
                                     isModified = true; //Note that this is not saved
                                     modifiedTextField.setText("*");
-                                    
 
                                     return; //we don't need to check anymore
                                 }
@@ -398,33 +397,40 @@ public class GraphController {
             @Override
             public void valueChanged(ListSelectionEvent e) {
                 if (!e.getValueIsAdjusting()) { //this prevents chains of calls to this listener
-                    //If this is not one in a series of multiple events:
-                    //Select (or deselect) the vertex
+                    //Deselect the edge (if it was selected)
                     selectedEdgeIndex = -1;
+                    setSelectedEdge();
+
+                    //Select (or deselect) the vertex
                     selectedVertexIndex = verticesList.getSelectedIndex(); //get the index of the selected item
                     setSelectedVertex();
                     canvas.repaint();
                 }
             }
         });
-        
+
         edgesList.addListSelectionListener(new ListSelectionListener() {
             @Override
             public void valueChanged(ListSelectionEvent e) {
                 if (!e.getValueIsAdjusting()) { //this prevents chains of calls to this listener
-                    //If this is not one in a series of multiple events:
-                    //Select (or deselect) the edge
+                    //Deselect the vertex (if it was selected)
                     selectedVertexIndex = -1;
-                    selectedEdgeIndex = edgesList.getSelectedIndex(); //get the index of the selected item
                     setSelectedVertex();
+
+                    //Select (or deselect) the edge
+                    selectedEdgeIndex = edgesList.getSelectedIndex(); //get the index of the selected item
+                    setSelectedEdge();
                     canvas.repaint();
                 }
             }
-        });
+        }
+        );
 
-        titleTextField.addActionListener(new ActionListener() {
+        titleTextField.addActionListener(
+                new ActionListener() {
             @Override
-            public void actionPerformed(ActionEvent e) {
+            public void actionPerformed(ActionEvent e
+            ) {
                 //The title of the vertex should be updated and the JList should be repainted
                 if (selectedVertex == null) {
                     return;
@@ -445,248 +451,276 @@ public class GraphController {
                 isModified = true;
                 modifiedTextField.setText("*");
             }
-        });
+        }
+        );
 
         //Set up list models:
         //set them to their respective JLists
-        frame.getVerticesList().setModel(verticesListModel);
-        frame.getEdgesList().setModel(edgesListModel);
+        frame.getVerticesList()
+                .setModel(verticesListModel);
+        frame.getEdgesList()
+                .setModel(edgesListModel);
         //set their selection modes
-        frame.getVerticesList().setSelectionMode(ListSelectionModel.SINGLE_SELECTION);
-        frame.getEdgesList().setSelectionMode(ListSelectionModel.SINGLE_SELECTION);
+        frame.getVerticesList()
+                .setSelectionMode(ListSelectionModel.SINGLE_SELECTION);
+        frame.getEdgesList()
+                .setSelectionMode(ListSelectionModel.SINGLE_SELECTION);
 
         //Action listeners:
-        frame.getLoadSamplesMenuItem().addActionListener(new ActionListener() {
-            @Override
-            public void actionPerformed(ActionEvent e) {
-                Helpers.setSampleElements(graph, verticesListModel, edgesListModel);
-                canvas.repaint();
-            }
-        });
-
-        frame.getSaveAsMenuItem().addActionListener(new ActionListener() {
-            @Override
-            public void actionPerformed(ActionEvent e) {
-                saveGraphAs();
-            }
-        });
-
-        frame.getOpenMenuItem().addActionListener(new ActionListener() {
-            @Override
-            public void actionPerformed(ActionEvent e) {
-                if (isModified) {
-                    if (!shouldContinue("OK to discard changes?")) {
-                        return;
+        frame.getLoadSamplesMenuItem()
+                .addActionListener(new ActionListener() {
+                    @Override
+                    public void actionPerformed(ActionEvent e
+                    ) {
+                        Helpers.setSampleElements(graph, verticesListModel, edgesListModel);
+                        canvas.repaint();
                     }
                 }
+                );
 
-                isModified= false;
-                modifiedTextField.setText("");
+        frame.getSaveAsMenuItem()
+                .addActionListener(new ActionListener() {
+                    @Override
+                    public void actionPerformed(ActionEvent e
+                    ) {
+                        saveGraphAs();
+                    }
+                }
+                );
 
-                chooser.setDialogTitle("Open");
-                int chooserResult = chooser.showOpenDialog(frame);
-                if (chooserResult == JFileChooser.APPROVE_OPTION) {
-                    File loadFile = chooser.getSelectedFile();
-
-                    try {
-                        //create an input stream from the selected file
-                        FileInputStream istr = new FileInputStream(loadFile);
-                        ObjectInputStream oistr = new ObjectInputStream(istr);
-
-                        //load the object from the serialized file
-                        Object theObject = oistr.readObject();
-                        oistr.close();
-
-                        //if this object is a graph
-                        if (theObject instanceof Graph) {
-                            //cast the loaded object to a graph
-                            Graph loadedGraph = (Graph) theObject;
-
-                            //replace the old graph with the new one
-                            replace(loadedGraph);
-
-                            canvas.repaint();
+        frame.getOpenMenuItem()
+                .addActionListener(new ActionListener() {
+                    @Override
+                    public void actionPerformed(ActionEvent e
+                    ) {
+                        if (isModified) {
+                            if (!shouldContinue("OK to discard changes?")) {
+                                return;
+                            }
                         }
-                    } catch (IOException ex) {
-                        JOptionPane.showMessageDialog(frame, "Unable to read selected file.\n"
-                                + ex.getMessage(), "Oops!", JOptionPane.ERROR_MESSAGE);
-                    } catch (ClassNotFoundException ex) {
-                        JOptionPane.showMessageDialog(frame, "File is not a figures file.\n"
-                                + ex.getMessage(), "Oops!", JOptionPane.ERROR_MESSAGE);
+
+                        isModified = false;
+                        modifiedTextField.setText("");
+
+                        chooser.setDialogTitle("Open");
+                        int chooserResult = chooser.showOpenDialog(frame);
+                        if (chooserResult == JFileChooser.APPROVE_OPTION) {
+                            File loadFile = chooser.getSelectedFile();
+
+                            try {
+                                //create an input stream from the selected file
+                                FileInputStream istr = new FileInputStream(loadFile);
+                                ObjectInputStream oistr = new ObjectInputStream(istr);
+
+                                //load the object from the serialized file
+                                Object theObject = oistr.readObject();
+                                oistr.close();
+
+                                //if this object is a graph
+                                if (theObject instanceof Graph) {
+                                    //cast the loaded object to a graph
+                                    Graph loadedGraph = (Graph) theObject;
+
+                                    //replace the old graph with the new one
+                                    replace(loadedGraph);
+
+                                    canvas.repaint();
+                                }
+                            } catch (IOException ex) {
+                                JOptionPane.showMessageDialog(frame, "Unable to read selected file.\n"
+                                        + ex.getMessage(), "Oops!", JOptionPane.ERROR_MESSAGE);
+                            } catch (ClassNotFoundException ex) {
+                                JOptionPane.showMessageDialog(frame, "File is not a figures file.\n"
+                                        + ex.getMessage(), "Oops!", JOptionPane.ERROR_MESSAGE);
+                            }
+
+                            saveFile = loadFile; //update the save file
+
+                        }
                     }
-
-                    saveFile = loadFile; //update the save file
-
                 }
-            }
-        });
+                );
 
-        frame.getSaveMenuItem().addActionListener(new ActionListener() {
-            @Override
-            public void actionPerformed(ActionEvent e) {
-                if (saveFile == null) {
-                    saveGraphAs();
-                } else {
-                    saveGraph();
-                }
-            }
-        });
-
-        frame.getNewMenuItem().addActionListener(new ActionListener() {
-            @Override
-            public void actionPerformed(ActionEvent e) {
-                if (isModified) {
-                    if (!shouldContinue("OK to discard changes?")) {
-                        return;
+        frame.getSaveMenuItem()
+                .addActionListener(new ActionListener() {
+                    @Override
+                    public void actionPerformed(ActionEvent e
+                    ) {
+                        if (saveFile == null) {
+                            saveGraphAs();
+                        } else {
+                            saveGraph();
+                        }
                     }
                 }
+                );
 
-                saveFile = null; //we no longer have a file to save
+        frame.getNewMenuItem()
+                .addActionListener(new ActionListener() {
+                    @Override
+                    public void actionPerformed(ActionEvent e
+                    ) {
+                        if (isModified) {
+                            if (!shouldContinue("OK to discard changes?")) {
+                                return;
+                            }
+                        }
 
-                clear();
+                        saveFile = null; //we no longer have a file to save
 
-                isModified = true; //we have not yet saved the new file
-                modifiedTextField.setText("*");
-            }
-        });
+                        clear();
 
-        frame.getAddVerticesMenuItem().addActionListener(new ActionListener() {
-            @Override
-            public void actionPerformed(ActionEvent e) {
-                addGraphDialog.setLocationRelativeTo(null);
-                addGraphDialog.setTitle("Add Vertices");
+                        isModified = true; //we have not yet saved the new file
+                        modifiedTextField.setText("*");
+                    }
+                }
+                );
 
-                addGraphDialog.setFocusToTextField();
+        frame.getAddVerticesMenuItem()
+                .addActionListener(new ActionListener() {
+                    @Override
+                    public void actionPerformed(ActionEvent e
+                    ) {
+                        addGraphDialog.setLocationRelativeTo(null);
+                        addGraphDialog.setTitle("Add Vertices");
 
-                addGraphDialog.getRootPane().setDefaultButton(addGraphDialog.getAddButton());
+                        addGraphDialog.setFocusToTextField();
 
-                addGraphDialog.setVisible(true);
-            }
-        });
+                        addGraphDialog.getRootPane().setDefaultButton(addGraphDialog.getAddButton());
 
-        frame.getFormatVerticesMenuItem().addActionListener(new ActionListener() {
-            @Override
-            public void actionPerformed(ActionEvent e) {
-                formatAllVertices();
-                canvas.repaint();
-            }
-        });
+                        addGraphDialog.setVisible(true);
+                    }
+                }
+                );
+
+        frame.getFormatVerticesMenuItem()
+                .addActionListener(new ActionListener() {
+                    @Override
+                    public void actionPerformed(ActionEvent e
+                    ) {
+                        formatAllVertices();
+                        canvas.repaint();
+                    }
+                }
+                );
 
         //MARK: addGraphDialog event handlers:
         //The add button
-        addGraphDialog.getAddButton().addActionListener(new ActionListener() {
-            @Override
-            public void actionPerformed(ActionEvent e) {
-                List<Vertex> toBeFormatted = new ArrayList();
-                List<Vertex> vertices = graph.getVertices();
-                List<Edge> edges = graph.getEdges();
-                
-                //This regex checks if the graph is properly formatted
-                //(e.g. {{A,B},{B,A},{C,D}} )
-                String properFormat = "\\{(\\{\\w+,\\w+\\})(,\\s*\\{\\w+,\\w+\\})*\\}";
-                
-                //Get the user's input
-                String input = addGraphDialog.getGraphTextField().getText();
-                
-                //Check if it's properly formatted:
-                if (!input.matches(properFormat)) { //if it's NOT properly formatted
-                    addGraphDialog.getErrorLabel().setText("Incorrect format. "
-                            + "Please add one or more edges sepparated by commas.");
-                    return; //cancel the adding and let the user try again
-                }
-                //If it is properly formatted
-                
-                //Convert the input to a list of edges:
-                
-                //will be set to true if anything was actually changed
-                boolean wasModified = false;
-                
-                //this will grab the titles of the vertices
-                String titleRegex = "(\\w+),(\\w+)";
-                
-                Pattern p = Pattern.compile(titleRegex);
-                Matcher m = p.matcher(input);
-                
-                //cycle through all of the edges entered by the user
-                while (m.find()) {
-                    //Get the two titles of the vertices of the next edge
-                    String title1 = m.group(1); //the first title
-                    String title2 = m.group(2); //the second title
-                    
-                    //Create new vertex objects using the titles entered
-                    //(these are used to 1. Search the vertices list to check if
-                    //they exist in the graph or not and 2. Add a new vertex to
-                    //the list if this is a new vertex)
-                    Vertex newVertex1 = new Vertex(title1, DIAMETER);
-                    Vertex newVertex2 = new Vertex(title2, DIAMETER);
-                    
-                    //Get the indexes of the vertexes named title1 and title2
-                    //(if they exist):
-                    int index1 = vertices.indexOf(newVertex1);
-                    int index2 = vertices.indexOf(newVertex2);
-                    
-                    if (index1 == -1) { //if this is a new vertex
-                        vertices.add(newVertex1); //add this vertex to the list
-                        toBeFormatted.add(newVertex1);
-                        wasModified = true;
-                    } else { //if this vertex is already contained in the graph
-                        //reassign the reference newVertex1 to the vertex that
-                        //is already in the graph but has the same name:
-                        newVertex1 = vertices.get(index1);
-                    }
-                    
-                    if (index2 == -1) { //if this is a new vertex
-                        vertices.add(newVertex2); //add this vertex to the list
-                        toBeFormatted.add(newVertex2);
-                        wasModified = true;
-                    } else { //if this vertex is already contained in the graph
-                        //reassign the reference newVertex2 to the vertex that
-                        //is already in the graph but has the same name:
-                        newVertex2 = vertices.get(index2);
-                    }
-                    
-                    //At this point, newVertex1 and newVertex2 are the vertices
-                    //in the graph that we want to work with (whether their new
-                    //or already existed in the graph).
-                    
-                    //Check if the edge already exists:
-                    
-                    //If newVertex1 is NOT already connected to newVertex2
-                    if (!newVertex1.isAdjacentTo(newVertex2)) {
-                        //create a new edge between newVertex1 and newVertex2
-                        Edge newEdge = new Edge(newVertex1, newVertex2);
-                        edges.add(newEdge); //add the edge to the list
-                        wasModified = true;
-                    }
-                    
-                    //if newVertex1 not already connected to newVertex2, then
-                    //it must already be in edges and we don't need to do anything else
-                    
-                    //if there was at least one new vertex or edge
-                    if (wasModified) {
-                        isModified = true;
-                        modifiedTextField.setText("*");
-                    }
-                    
-                    //update the list models
-                    updateVerticesListModel();
-                    updateEdgesListModel();
-                    
-                    //Formate the new vertices
-                    formatVertices(toBeFormatted);
-                    canvas.repaint();
-                }
-                
-                addGraphDialog.setVisible(false); //close the dialog
-            }
-        });
+        addGraphDialog.getAddButton()
+                .addActionListener(new ActionListener() {
+                    @Override
+                    public void actionPerformed(ActionEvent e
+                    ) {
+                        List<Vertex> toBeFormatted = new ArrayList();
+                        List<Vertex> vertices = graph.getVertices();
+                        List<Edge> edges = graph.getEdges();
 
-        addGraphDialog.getCancelButton().addActionListener(new ActionListener() {
-            @Override
-            public void actionPerformed(ActionEvent e) {
-                addGraphDialog.setVisible(false); //close the dialog
-            }
-        });
+                        //This regex checks if the graph is properly formatted
+                        //(e.g. {{A,B},{B,A},{C,D}} )
+                        String properFormat = "\\{(\\{\\w+,\\w+\\})(,\\s*\\{\\w+,\\w+\\})*\\}";
+
+                        //Get the user's input
+                        String input = addGraphDialog.getGraphTextField().getText();
+
+                        //Check if it's properly formatted:
+                        if (!input.matches(properFormat)) { //if it's NOT properly formatted
+                            addGraphDialog.getErrorLabel().setText("Incorrect format. "
+                                    + "Please add one or more edges sepparated by commas.");
+                            return; //cancel the adding and let the user try again
+                        }
+                        //If it is properly formatted
+
+                        //Convert the input to a list of edges:
+                        //will be set to true if anything was actually changed
+                        boolean wasModified = false;
+
+                        //this will grab the titles of the vertices
+                        String titleRegex = "(\\w+),(\\w+)";
+
+                        Pattern p = Pattern.compile(titleRegex);
+                        Matcher m = p.matcher(input);
+
+                        //cycle through all of the edges entered by the user
+                        while (m.find()) {
+                            //Get the two titles of the vertices of the next edge
+                            String title1 = m.group(1); //the first title
+                            String title2 = m.group(2); //the second title
+
+                            //Create new vertex objects using the titles entered
+                            //(these are used to 1. Search the vertices list to check if
+                            //they exist in the graph or not and 2. Add a new vertex to
+                            //the list if this is a new vertex)
+                            Vertex newVertex1 = new Vertex(title1, DIAMETER);
+                            Vertex newVertex2 = new Vertex(title2, DIAMETER);
+
+                            //Get the indexes of the vertexes named title1 and title2
+                            //(if they exist):
+                            int index1 = vertices.indexOf(newVertex1);
+                            int index2 = vertices.indexOf(newVertex2);
+
+                            if (index1 == -1) { //if this is a new vertex
+                                vertices.add(newVertex1); //add this vertex to the list
+                                toBeFormatted.add(newVertex1);
+                                wasModified = true;
+                            } else { //if this vertex is already contained in the graph
+                                //reassign the reference newVertex1 to the vertex that
+                                //is already in the graph but has the same name:
+                                newVertex1 = vertices.get(index1);
+                            }
+
+                            if (index2 == -1) { //if this is a new vertex
+                                vertices.add(newVertex2); //add this vertex to the list
+                                toBeFormatted.add(newVertex2);
+                                wasModified = true;
+                            } else { //if this vertex is already contained in the graph
+                                //reassign the reference newVertex2 to the vertex that
+                                //is already in the graph but has the same name:
+                                newVertex2 = vertices.get(index2);
+                            }
+
+                            //At this point, newVertex1 and newVertex2 are the vertices
+                            //in the graph that we want to work with (whether their new
+                            //or already existed in the graph).
+                            //Check if the edge already exists:
+                            //If newVertex1 is NOT already connected to newVertex2
+                            if (!newVertex1.isAdjacentTo(newVertex2)) {
+                                //create a new edge between newVertex1 and newVertex2
+                                Edge newEdge = new Edge(newVertex1, newVertex2);
+                                edges.add(newEdge); //add the edge to the list
+                                wasModified = true;
+                            }
+
+                            //if newVertex1 not already connected to newVertex2, then
+                            //it must already be in edges and we don't need to do anything else
+                            //if there was at least one new vertex or edge
+                            if (wasModified) {
+                                isModified = true;
+                                modifiedTextField.setText("*");
+                            }
+
+                            //update the list models
+                            updateVerticesListModel();
+                            updateEdgesListModel();
+
+                            //Formate the new vertices
+                            formatVertices(toBeFormatted);
+                            canvas.repaint();
+                        }
+
+                        addGraphDialog.setVisible(false); //close the dialog
+                    }
+                }
+                );
+
+        addGraphDialog.getCancelButton()
+                .addActionListener(new ActionListener() {
+                    @Override
+                    public void actionPerformed(ActionEvent e
+                    ) {
+                        addGraphDialog.setVisible(false); //close the dialog
+                    }
+                }
+                );
 
     }
 
@@ -703,7 +737,7 @@ public class GraphController {
             selectedVertex.setStrokeColor(Helpers.VERTEX_STROKE_COLOR);
             selectedVertex.setStrokeWidth(Helpers.VERTEX_STROKE_WIDTH);
         }
-        
+
         //Programattically select the new selectedVertex (or deselect entirely)
         if (selectedVertexIndex == -1) { //if the user deselected a vertex
             selectedVertex = null;
@@ -720,6 +754,22 @@ public class GraphController {
             titleTextField.requestFocus();
             titleTextField.setSelectionStart(0);
             titleTextField.setSelectionEnd(titleTextField.getText().length());
+        }
+    }
+
+    private void setSelectedEdge() {
+        //Visually deselect the old selected edge
+        if (selectedEdge != null) {
+            selectedEdge.setStrokeWidth(Helpers.EDGE_STROKE_WIDTH);
+        }
+
+        //Programatically and visually select the new edge (or deselect entirely)
+        if (selectedEdgeIndex == -1) { //if the user deselected the edge
+            selectedEdge = null;
+            edgesList.clearSelection(); //unselect the edge in the JList
+        } else { //if the user selected an edge
+            selectedEdge = edges.get(selectedEdgeIndex);
+            selectedEdge.setStrokeWidth(Helpers.EDGE_HIGHLIGHT_STROKE_WIDTH);
         }
     }
 
@@ -788,7 +838,7 @@ public class GraphController {
         //Get a reverence to the new graph's vertices and edges
         List<Vertex> newVertices = g.getVertices();
         List<Edge> newEdges = g.getEdges();
-        
+
         vertices.clear(); //remove all elements from the current vertices
         for (Vertex v : newVertices) { //loop through new list
             vertices.add(v); //add each vertex to the vertices list
@@ -992,7 +1042,7 @@ public class GraphController {
         if (saveFile == null) {
             return;
         }
-        
+
         try {
             //Create an output stream from the file
             FileOutputStream ostr = new FileOutputStream(saveFile);
@@ -1008,7 +1058,7 @@ public class GraphController {
                     + ex.getMessage(), "Oops!", JOptionPane.ERROR_MESSAGE);
 
         }
-        
+
         isModified = false;
         modifiedTextField.setText("");
     }
