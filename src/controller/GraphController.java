@@ -383,9 +383,9 @@ public class GraphController implements Serializable {
             public void valueChanged(ListSelectionEvent e) {
                 selectedIndex = verticesList.getSelectedIndex(); //get the index of the selected item
 
-                if (selectedIndex == -1) { //if the user is deselecting something, do nothing
-                    return;
-                }
+//                if (selectedIndex == -1) { //if the user is deselecting something, do nothing
+//                    return;
+//                }
 
                 setSelectedVertex();
 
