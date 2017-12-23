@@ -399,10 +399,21 @@ public class GraphController {
             }
         });
         
-        frame.getAddEdgeButton().addActionListener(new ActionListener() {
+        frame.getRemoveEdgeButton().addActionListener(new ActionListener() {
             @Override
             public void actionPerformed(ActionEvent e) {
+                //If the user did not choose an edge
+                if (selectedEdgeIndex == -1) {
+                    return;
+                }
+                //Get a reference to the edge
+                Edge edgeToRemove = edges.get(selectedEdgeIndex);
                 
+                //Remove the edge from the vertices that the edges were attached to
+                edgeToRemove.getEndpoint1().removeEdge(edgeToRemove);
+                edgeToRemove.getEndpoint2().removeEdge(edgeToRemove);
+                
+                edges.remove(selectedEdgeIndex);
             }
         });
 
