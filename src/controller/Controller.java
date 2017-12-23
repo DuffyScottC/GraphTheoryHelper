@@ -78,13 +78,13 @@ public class Controller {
         frame.getOpenMenuItem().addActionListener(new ActionListener() {
             @Override
             public void actionPerformed(ActionEvent e) {
-                if (!graph.isSaved()) {
+                if (graph.isModified()) {
                     if (!shouldContinue("OK to discard changes?")) {
                         return;
                     }
                 }
 
-                graph.setIsModified(true);
+                graph.setIsModified(false);
 
                 chooser.setDialogTitle("Open");
                 int chooserResult = chooser.showOpenDialog(frame);
@@ -138,7 +138,7 @@ public class Controller {
         frame.getNewMenuItem().addActionListener(new ActionListener() {
             @Override
             public void actionPerformed(ActionEvent e) {
-                if (!graph.isSaved()) {
+                if (graph.isModified()) {
                     if (!shouldContinue("OK to discard changes?")) {
                         return;
                     }
@@ -148,7 +148,7 @@ public class Controller {
                 
                 graph.clear();
                 
-                graph.setIsModified(false); //we have not yet saved the new file
+                graph.setIsModified(true); //we have not yet saved the new file
             }
         });
         
@@ -269,7 +269,7 @@ public class Controller {
 
         }
 
-        graph.setIsModified(true);
+        graph.setIsModified(false);
     }
 
     public static void main(String[] args) {
