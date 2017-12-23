@@ -63,6 +63,7 @@ public class GraphController implements Serializable {
     private int selectedIndex;
     private JTextField titleTextField;
     private JList verticesList;
+    private JList edgesList;
 
     //MARK: Adding edge state:
     /**
@@ -115,6 +116,7 @@ public class GraphController implements Serializable {
 
         titleTextField = frame.getTitleTextField();
         verticesList = frame.getVerticesList(); //the visual JList that the user sees and interacts with
+        edgesList = frame.getEdgesList(); //the visual JList that the user sees and interacts with
         
         canvas.addMouseListener(new MouseAdapter() {
             @Override
@@ -378,6 +380,14 @@ public class GraphController implements Serializable {
             public void valueChanged(ListSelectionEvent e) {
                 selectedIndex = verticesList.getSelectedIndex(); //get the index of the selected item
 
+                setSelectedVertex();
+            }
+        });
+        
+        edgesList.addListSelectionListener(new ListSelectionListener() {
+            @Override
+            public void valueChanged(ListSelectionEvent e) {
+                selectedIndex = -1;
                 setSelectedVertex();
             }
         });
