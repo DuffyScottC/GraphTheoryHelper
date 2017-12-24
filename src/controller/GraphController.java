@@ -73,6 +73,7 @@ public class GraphController {
      */
     private int selectedEdgeIndex;
     private JTextField titleTextField;
+    private JTextField statusTextField;
     private JList verticesList;
     private JList edgesList;
 
@@ -136,7 +137,8 @@ public class GraphController {
 
         canvas.setGraph(graph); //pass the graph to the canvas
         canvas.setGraphOutputTextField(frame.getGraphOutputTextField());
-
+        
+        statusTextField = frame.getStatusTextField();
         titleTextField = frame.getTitleTextField();
         verticesList = frame.getVerticesList(); //the visual JList that the user sees and interacts with
         edgesList = frame.getEdgesList(); //the visual JList that the user sees and interacts with
@@ -285,6 +287,7 @@ public class GraphController {
                 canvas.repaint();
                 isModified = true;
                 modifiedTextField.setText("*");
+                statusTextField.setText("Vertex added.");
             }
         });
 
@@ -320,6 +323,7 @@ public class GraphController {
                 canvas.repaint();
                 isModified = true;
                 modifiedTextField.setText("*");
+                statusTextField.setText("Removed vertex.");
             }
         });
 
@@ -357,6 +361,7 @@ public class GraphController {
                 updateEdgesListModel();
 
                 canvas.repaint();
+                statusTextField.setText("Removed edge.");
             }
         });
 
@@ -397,11 +402,9 @@ public class GraphController {
         }
         );
 
-        titleTextField.addActionListener(
-                new ActionListener() {
+        titleTextField.addActionListener(new ActionListener() {
             @Override
-            public void actionPerformed(ActionEvent e
-            ) {
+            public void actionPerformed(ActionEvent e) {
                 //The title of the vertex should be updated and the JList should be repainted
                 if (selectedVertex == null) {
                     return;
@@ -422,8 +425,7 @@ public class GraphController {
                 isModified = true;
                 modifiedTextField.setText("*");
             }
-        }
-        );
+        });
 
         //Set up list models:
         //set them to their respective JLists
@@ -491,28 +493,24 @@ public class GraphController {
                     saveFile = loadFile; //update the save file
 
                 }
+                statusTextField.setText("Graph openned.");
             }
         });
 
-        frame.getSaveMenuItem()
-                .addActionListener(new ActionListener() {
+        frame.getSaveMenuItem().addActionListener(new ActionListener() {
                     @Override
-                    public void actionPerformed(ActionEvent e
-                    ) {
+                    public void actionPerformed(ActionEvent e) {
                         if (saveFile == null) {
                             saveGraphAs();
                         } else {
                             saveGraph();
                         }
                     }
-                }
-                );
+                });
 
-        frame.getNewMenuItem()
-                .addActionListener(new ActionListener() {
+        frame.getNewMenuItem().addActionListener(new ActionListener() {
                     @Override
-                    public void actionPerformed(ActionEvent e
-                    ) {
+                    public void actionPerformed(ActionEvent e) {
                         if (isModified) {
                             if (!shouldContinue("OK to discard changes?")) {
                                 return;
@@ -525,15 +523,13 @@ public class GraphController {
 
                         isModified = true; //we have not yet saved the new file
                         modifiedTextField.setText("*");
+                        statusTextField.setText("New graph created.");
                     }
-                }
-                );
+                });
 
-        frame.getAddVerticesMenuItem()
-                .addActionListener(new ActionListener() {
+        frame.getAddVerticesMenuItem().addActionListener(new ActionListener() {
                     @Override
-                    public void actionPerformed(ActionEvent e
-                    ) {
+                    public void actionPerformed(ActionEvent e) {
                         addGraphDialog.setLocationRelativeTo(null);
                         addGraphDialog.setTitle("Add Vertices");
 
@@ -556,6 +552,7 @@ public class GraphController {
                     }
                 }
                 canvas.repaint();
+                statusTextField.setText("Vertices formatted.");
             }
         });
 
@@ -661,6 +658,7 @@ public class GraphController {
                 }
 
                 addGraphDialog.setVisible(false); //close the dialog
+                statusTextField.setText("Graph added.");
             }
         });
 
@@ -668,6 +666,7 @@ public class GraphController {
             @Override
             public void actionPerformed(ActionEvent e) {
                 addGraphDialog.setVisible(false); //close the dialog
+                statusTextField.setText("Cancelled.");
             }
         });
 
@@ -728,7 +727,7 @@ public class GraphController {
 
     private String generateVertexTitle() {
         if (vertices == null) {
-            return "V1";
+            return "V" + vertices.size() + 1;
         }
         /*
         Loop through 1 to n = vertices.size(). Worst comes to worst, 
@@ -1169,6 +1168,7 @@ public class GraphController {
     }
 
     private void enterAddEdgeState() {
+        statusTextField.setText("Click two vertices to add an edge between.");
         addingEdge = true; //enter the edge adding state
         //highlight all of the vertexes to provide a visual cue that the user is supposed
         //to click one to add the edge
@@ -1205,6 +1205,7 @@ public class GraphController {
     }
 
     private void exitAddEdgeState() {
+        statusTextField.setText("");
         addingEdge = false;
         firstSelectedVertex = null; //prepare for the next edge
         canvas.setFirstSelectedVertex(null);
@@ -1360,6 +1361,7 @@ public class GraphController {
 
         isModified = false;
         modifiedTextField.setText("");
+        statusTextField.setText("Saved.");
     }
 
     //MARK: Getters and Setters
