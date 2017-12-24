@@ -1022,7 +1022,11 @@ public class GraphController {
         //To allow for small errors in rounding, the difference between the two
         //should be less than marginOfError
         double diff = sumOfDist - epDist;
-        double marginOfError = .1;
+        //find the absolute value
+        if (diff < 0) {
+            diff *= -1;
+        }
+        double marginOfError = 0.00001;
         if (diff < marginOfError) {
             return true;
         }
@@ -1042,7 +1046,11 @@ public class GraphController {
         Point2D.Double b = e.getEndpoint2().getLocation();
         //A line is vertical if its slope is undefined, ?/0, where x1-x2=0
         double diff = a.x - b.x;
-        double marginOfError = 0.1; //allows for rounding errors
+        //get the absolute value
+        if (diff < 0) {
+            diff *= -1;
+        }
+        double marginOfError = 0.00001; //allows for rounding errors
         //if the diff is 0, then the slope is undefined and the edge is verical:
         return (diff <= marginOfError);
     }
