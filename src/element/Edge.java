@@ -5,7 +5,7 @@
  */
 package element;
 
-import controller.Helpers;
+import controller.Values;
 import java.awt.BasicStroke;
 import java.awt.Graphics2D;
 import java.awt.Shape;
@@ -42,7 +42,7 @@ public class Edge extends Element {
         endpoint2.addEdge(this);
         
         //Default stroke width
-        this.strokeWidth = Helpers.EDGE_STROKE_WIDTH;
+        this.strokeWidth = Values.EDGE_STROKE_WIDTH;
     }
     
     @Override

@@ -5,7 +5,7 @@
  */
 package views;
 
-import controller.Helpers;
+import controller.Values;
 import element.Edge;
 import element.Graph;
 import element.Vertex;
@@ -125,7 +125,7 @@ public class Canvas extends JTextArea {
         int y1 = (int) firstSelectedVertex.getCenter().getY();
         int x2 = lastX;
         int y2 = lastY;
-        g2.setStroke(new BasicStroke(Helpers.EDGE_STROKE_WIDTH));
+        g2.setStroke(new BasicStroke(Values.EDGE_STROKE_WIDTH));
         g2.setColor(Color.BLACK);
         g2.drawLine(x1, y1, x2, y2); //draw the line
     }

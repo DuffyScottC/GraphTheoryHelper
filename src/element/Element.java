@@ -5,7 +5,7 @@
  */
 package element;
 
-import controller.Helpers;
+import controller.Values;
 import java.awt.Color;
 import java.awt.Graphics2D;
 import java.awt.Shape;
@@ -19,7 +19,7 @@ import java.io.Serializable;
  */
 public abstract class Element implements Serializable {
 
-    protected float strokeWidth = Helpers.VERTEX_STROKE_WIDTH;
+    protected float strokeWidth = Values.VERTEX_STROKE_WIDTH;
     protected Shape shape;
     protected Color strokeColor = Color.BLACK;
     protected Color fillColor = Color.RED;

@@ -5,7 +5,7 @@
  */
 package controller;
 
-import static controller.Helpers.DIAMETER;
+import static controller.Values.DIAMETER;
 import element.Edge;
 import element.Graph;
 import element.Vertex;
@@ -254,11 +254,11 @@ public class GraphController {
                 int xPos = canvas.getWidth() / 2;
                 int yPos = canvas.getHeight() / 2;
 
-                Vertex newVertex = new Vertex(Helpers.DIAMETER);
+                Vertex newVertex = new Vertex(Values.DIAMETER);
                 newVertex.setLocation(xPos, yPos);
-                newVertex.setStrokeColor(Helpers.VERTEX_STROKE_COLOR);
-                newVertex.setFillColor(Helpers.VERTEX_FILL_COLOR);
-                newVertex.setStrokeWidth(Helpers.VERTEX_STROKE_WIDTH);
+                newVertex.setStrokeColor(Values.VERTEX_STROKE_COLOR);
+                newVertex.setFillColor(Values.VERTEX_FILL_COLOR);
+                newVertex.setStrokeWidth(Values.VERTEX_STROKE_WIDTH);
                 String newTitle = generateVertexTitle();
                 newVertex.setTitle(newTitle);
                 vertices.add(newVertex);
@@ -678,8 +678,8 @@ public class GraphController {
     private void setSelectedVertex() {
         //Visually deselect the old selectedVertex
         if (selectedVertex != null) { //if there was a previously selected vertex
-            selectedVertex.setStrokeColor(Helpers.VERTEX_STROKE_COLOR);
-            selectedVertex.setStrokeWidth(Helpers.VERTEX_STROKE_WIDTH);
+            selectedVertex.setStrokeColor(Values.VERTEX_STROKE_COLOR);
+            selectedVertex.setStrokeWidth(Values.VERTEX_STROKE_WIDTH);
         }
 
         //Programattically select the new selectedVertex (or deselect entirely)
@@ -691,8 +691,8 @@ public class GraphController {
             verticesList.clearSelection(); //unselect the vertex in the JList
         } else { //if the user selected a vertex
             selectedVertex = vertices.get(selectedVertexIndex); //store the selected vertex
-            selectedVertex.setStrokeColor(Helpers.HIGHLIGHT_COLOR); //highlight the vertex
-            selectedVertex.setStrokeWidth(Helpers.VERTEX_HIGHLIGHT_STROKE_WIDTH);
+            selectedVertex.setStrokeColor(Values.HIGHLIGHT_COLOR); //highlight the vertex
+            selectedVertex.setStrokeWidth(Values.VERTEX_HIGHLIGHT_STROKE_WIDTH);
             titleTextField.setText(selectedVertex.getTitle());
             titleTextField.setEditable(true);
             //Set the focus to be in the titleTextField
@@ -705,7 +705,7 @@ public class GraphController {
     private void setSelectedEdge() {
         //Visually deselect the old selected edge
         if (selectedEdge != null) {
-            selectedEdge.setStrokeWidth(Helpers.EDGE_STROKE_WIDTH);
+            selectedEdge.setStrokeWidth(Values.EDGE_STROKE_WIDTH);
         }
 
         //Programatically and visually select the new edge (or deselect entirely)
@@ -715,7 +715,7 @@ public class GraphController {
             edgesList.clearSelection(); //unselect the edge in the JList
         } else { //if the user selected an edge
             selectedEdge = edges.get(selectedEdgeIndex);
-            selectedEdge.setStrokeWidth(Helpers.EDGE_HIGHLIGHT_STROKE_WIDTH);
+            selectedEdge.setStrokeWidth(Values.EDGE_HIGHLIGHT_STROKE_WIDTH);
         }
     }
 
@@ -762,7 +762,7 @@ public class GraphController {
     private void formatVertices(List<Vertex> vs) {
         int xCent = canvas.getWidth() / 2;
         int yCent = canvas.getHeight() / 2;
-        final double radius = Helpers.FORMAT_RADIUS;
+        final double radius = Values.FORMAT_RADIUS;
         final double delta = (2 * Math.PI) / vs.size(); //the change in angle between each vertex
         double angle = 0.0; //the angle that changes to position each vertex
 
@@ -885,7 +885,7 @@ public class GraphController {
                 //Math.sqrt((I.x-Mx)*(I.x-Mx)+(I.y-My)*(I.y-My));
                 System.out.println("edge: " + e + " distance: " + d);
                 //(mx,my) is close enough to the line formed by e
-                if (d <= Helpers.LINE_SELECTION_DISTANCE) {
+                if (d <= Values.LINE_SELECTION_DISTANCE) {
                     //If the intersection, I, is on the edge (not beyond it)
                     if (isPointOnEdge(I.x, I.y, e)) {
                         //store the clicked edge (for moving)
@@ -1062,7 +1062,7 @@ public class GraphController {
                     if (currentVertex.getPositionShape().contains(mx, my)) {
                         //Create a new edge with the two vertices
                         Edge newEdge = new Edge(firstSelectedVertex, currentVertex);
-                        newEdge.setStrokeWidth(Helpers.EDGE_STROKE_WIDTH);
+                        newEdge.setStrokeWidth(Values.EDGE_STROKE_WIDTH);
 
                         edges.add(newEdge); //Add the edge to the graph
 
@@ -1118,8 +1118,8 @@ public class GraphController {
         canvas.setFirstSelectedVertex(null);
         //Unhighlight all vertices
         for (Vertex v : vertices) {
-            v.setStrokeColor(Helpers.VERTEX_STROKE_COLOR);
-            v.setStrokeWidth(Helpers.VERTEX_STROKE_WIDTH);
+            v.setStrokeColor(Values.VERTEX_STROKE_COLOR);
+            v.setStrokeWidth(Values.VERTEX_STROKE_WIDTH);
         }
         canvas.repaint();
     }
@@ -1155,11 +1155,11 @@ public class GraphController {
         for (Vertex v : vertices) {
             //if this vertex is available to add edges to
             if (v.canAddEdges()) {
-                v.setStrokeColor(Helpers.HIGHLIGHT_COLOR);
-                v.setStrokeWidth(Helpers.VERTEX_HIGHLIGHT_STROKE_WIDTH);
+                v.setStrokeColor(Values.HIGHLIGHT_COLOR);
+                v.setStrokeWidth(Values.VERTEX_HIGHLIGHT_STROKE_WIDTH);
             } else { //if this vertex is completely full
-                v.setStrokeColor(Helpers.VERTEX_STROKE_COLOR);
-                v.setStrokeWidth(Helpers.VERTEX_STROKE_WIDTH);
+                v.setStrokeColor(Values.VERTEX_STROKE_COLOR);
+                v.setStrokeWidth(Values.VERTEX_STROKE_WIDTH);
             }
         }
     }
