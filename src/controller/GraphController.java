@@ -1162,11 +1162,19 @@ public class GraphController {
 
         //Update vertex selection
         shouldChange = false; //don't allow clearSelection to run setSelectedVertex again
-        verticesList.clearSelection(); //clear the visual selection
+        verticesList.clearSelection(); //clear the visual selection in the JList
         //deselect the vertex
         selectedVertexIndex = -1;
         setSelectedVertex();
-        canvas.repaint();
+        
+        //Update edge selection
+        shouldChange = false; //don't allow clearSelection to run setSelectedVertex again
+        edgesList.clearSelection(); //clear the visual selection in the JList
+        //deselect the edge
+        selectedEdgeIndex = -1;
+        setSelectedEdge();
+        
+        canvas.repaint(); //repant the canvas
 
         //Assign the canAddEdges values of all the vertices and get the number of vertices
         //that can't have edges added to them
