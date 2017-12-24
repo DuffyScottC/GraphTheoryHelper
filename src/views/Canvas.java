@@ -18,6 +18,7 @@ import java.awt.geom.AffineTransform;
 import java.util.ArrayList;
 import java.util.List;
 import javax.swing.JTextArea;
+import javax.swing.JTextField;
 
 /**
  *
@@ -26,6 +27,7 @@ import javax.swing.JTextArea;
 public class Canvas extends JTextArea {
 
     private Graph graph = null;
+    private JTextField graphOutputTextField;
     /**
      * True if we are in the edge adding state
      */
@@ -65,7 +67,7 @@ public class Canvas extends JTextArea {
         drawEdges(g2);
         drawVertices(g2);
         
-        this.setText(graph.toString());
+        graphOutputTextField.setText(graph.toString());
         
     }
     
@@ -142,6 +144,10 @@ public class Canvas extends JTextArea {
     
     public void setFirstSelectedVertex(Vertex firstSelectedVertex) {
         this.firstSelectedVertex = firstSelectedVertex;
+    }
+    
+    public void setGraphOutputTextField(JTextField graphOutputTextField) {
+        this.graphOutputTextField = graphOutputTextField;
     }
     
 }

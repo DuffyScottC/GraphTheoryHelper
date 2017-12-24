@@ -57,6 +57,8 @@ public class GraphFrame extends javax.swing.JFrame {
         verticesList = new javax.swing.JList<>();
         statusPanel = new javax.swing.JPanel();
         statusTextField = new javax.swing.JTextField();
+        graphOutputPanel = new javax.swing.JPanel();
+        graphOutputTextField = new javax.swing.JTextField();
         modifiedTextField = new javax.swing.JTextField();
         myMenuBar = new javax.swing.JMenuBar();
         fileMenu = new javax.swing.JMenu();
@@ -82,7 +84,7 @@ public class GraphFrame extends javax.swing.JFrame {
 
         gridBagConstraints = new java.awt.GridBagConstraints();
         gridBagConstraints.gridx = 0;
-        gridBagConstraints.gridy = 0;
+        gridBagConstraints.gridy = 1;
         gridBagConstraints.fill = java.awt.GridBagConstraints.BOTH;
         gridBagConstraints.weightx = 0.1;
         gridBagConstraints.weighty = 0.1;
@@ -184,12 +186,19 @@ public class GraphFrame extends javax.swing.JFrame {
         inspectorPanel.add(verticesScrollPane, gridBagConstraints);
 
         gridBagConstraints = new java.awt.GridBagConstraints();
+        gridBagConstraints.gridx = 1;
+        gridBagConstraints.gridy = 1;
         gridBagConstraints.fill = java.awt.GridBagConstraints.BOTH;
         getContentPane().add(inspectorPanel, gridBagConstraints);
 
         statusPanel.setLayout(new java.awt.GridBagLayout());
 
         statusTextField.setEditable(false);
+        statusTextField.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                statusTextFieldActionPerformed(evt);
+            }
+        });
         gridBagConstraints = new java.awt.GridBagConstraints();
         gridBagConstraints.gridx = 0;
         gridBagConstraints.gridy = 0;
@@ -197,19 +206,34 @@ public class GraphFrame extends javax.swing.JFrame {
         gridBagConstraints.weightx = 0.1;
         statusPanel.add(statusTextField, gridBagConstraints);
 
-        modifiedTextField.setEditable(false);
-        modifiedTextField.setColumns(1);
-        gridBagConstraints = new java.awt.GridBagConstraints();
-        gridBagConstraints.gridx = 1;
-        gridBagConstraints.gridy = 0;
-        statusPanel.add(modifiedTextField, gridBagConstraints);
-
         gridBagConstraints = new java.awt.GridBagConstraints();
         gridBagConstraints.gridx = 0;
-        gridBagConstraints.gridy = 1;
+        gridBagConstraints.gridy = 2;
         gridBagConstraints.fill = java.awt.GridBagConstraints.BOTH;
         gridBagConstraints.weightx = 0.1;
         getContentPane().add(statusPanel, gridBagConstraints);
+
+        graphOutputPanel.setLayout(new java.awt.GridBagLayout());
+
+        graphOutputTextField.setEditable(false);
+        gridBagConstraints = new java.awt.GridBagConstraints();
+        gridBagConstraints.gridx = 1;
+        gridBagConstraints.gridy = 0;
+        gridBagConstraints.fill = java.awt.GridBagConstraints.HORIZONTAL;
+        gridBagConstraints.weightx = 0.1;
+        graphOutputPanel.add(graphOutputTextField, gridBagConstraints);
+
+        modifiedTextField.setEditable(false);
+        modifiedTextField.setColumns(1);
+        gridBagConstraints = new java.awt.GridBagConstraints();
+        gridBagConstraints.gridx = 0;
+        gridBagConstraints.gridy = 0;
+        graphOutputPanel.add(modifiedTextField, gridBagConstraints);
+
+        gridBagConstraints = new java.awt.GridBagConstraints();
+        gridBagConstraints.gridwidth = 2;
+        gridBagConstraints.fill = java.awt.GridBagConstraints.HORIZONTAL;
+        getContentPane().add(graphOutputPanel, gridBagConstraints);
 
         fileMenu.setText("File");
 
@@ -267,6 +291,10 @@ public class GraphFrame extends javax.swing.JFrame {
         // TODO add your handling code here:
     }//GEN-LAST:event_rotate90MenuItemActionPerformed
 
+    private void statusTextFieldActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_statusTextFieldActionPerformed
+        // TODO add your handling code here:
+    }//GEN-LAST:event_statusTextFieldActionPerformed
+
 
     // Variables declaration - do not modify//GEN-BEGIN:variables
     private javax.swing.JLabel JLabel3;
@@ -282,6 +310,8 @@ public class GraphFrame extends javax.swing.JFrame {
     private javax.swing.JMenu editMenu;
     private javax.swing.JMenu fileMenu;
     private javax.swing.JMenuItem formatVerticesMenuItem;
+    private javax.swing.JPanel graphOutputPanel;
+    private javax.swing.JTextField graphOutputTextField;
     private views.InspectorPanel inspectorPanel;
     private javax.swing.JTextField modifiedTextField;
     private javax.swing.JMenuBar myMenuBar;
@@ -391,5 +421,9 @@ public class GraphFrame extends javax.swing.JFrame {
      */
     public JMenuItem getAddVerticesMenuItem() {
         return addVerticesMenuItem;
+    }
+    
+    public JTextField getGraphOutputTextField() {
+        return graphOutputTextField;
     }
 }

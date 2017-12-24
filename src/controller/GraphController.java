@@ -135,6 +135,7 @@ public class GraphController {
         frame.setSize(600, 500);
 
         canvas.setGraph(graph); //pass the graph to the canvas
+        canvas.setGraphOutputTextField(frame.getGraphOutputTextField());
 //        graph.setCanvas(canvas); //pass the canvas to the graph
 
         titleTextField = frame.getTitleTextField();
