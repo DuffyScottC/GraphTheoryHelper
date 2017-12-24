@@ -20,6 +20,7 @@ import java.awt.event.MouseMotionListener;
 import java.awt.event.WindowAdapter;
 import java.awt.event.WindowEvent;
 import java.awt.geom.AffineTransform;
+import java.awt.geom.Point2D;
 import java.io.File;
 import java.io.FileInputStream;
 import java.io.FileOutputStream;
@@ -863,8 +864,8 @@ public class GraphController {
             for (int i = edges.size() - 1; i >= 0; --i) {
                 Edge currentEdge = edges.get(i);
                 //if this edge contains the mouse click:
-                if (currentEdge.getPositionShape().contains(mx, my)) {
-                    System.out.println("clicked edge");
+                if (getDistancePointEdge(mx, my, currentEdge) <= Helpers.LINE_SELECTION_DISTANCE) {
+                    
                 }
             }
         }
@@ -883,6 +884,62 @@ public class GraphController {
         //update the last position
         lastX = mx;
         lastY = my;
+    }
+    
+    /**
+     * Finds the minimum distance between the given point and the given edge
+     * @param Mx The x coordinate of the point
+     * @param My The y coordinate of the point
+     * @param e The edge
+     * @return The distance between point and edge.<>-1 if the point is past the
+     * endpoints of the line.
+     */
+    private double getDistancePointEdge(int Mx, int My, Edge e) {
+        //Find the point on edge e that is closest to M = (Mx,My)
+        Point2D.Double I = getClosestPointOnEdge(Mx, My, e);
+        
+        double d = distance(I.x, I.y, Mx, My); //the distance between I and M
+        //Math.sqrt((I.x-Mx)*(I.x-Mx)+(I.y-My)*(I.y-My));
+        
+        if (d <= Helpers.LINE_SELECTION_DISTANCE) {
+            
+        }
+        
+        return d;
+    }
+    
+    private Point2D.Double getClosestPointOnEdge(int Mx, int My, Edge e) {
+        //Get the endpoints of the edge
+        Vertex A = e.getEndpoint1();
+        Vertex B = e.getEndpoint2();
+        
+        //get the positions of the endpoints
+        double Ax = A.getLocation().x;
+        double Ay = A.getLocation().y;
+        double Bx = B.getLocation().x;
+        double By = B.getLocation().y;
+        
+        double m = (Ay-By)/(Ax-Bx); //the slope
+        double m2 = m*m; //the slope squared
+        
+        //The position of the closest point on the edge to the point (Mx,My) = M
+        //(Ix,Iy) = I
+        double Ix = (m*My+Mx-m*Ay+m2*Ax)/(m2 + 1);
+        double Iy = m*(Ix-Ax)+Ay;
+        
+        return new Point2D.Double(Ix, Iy);
+    }
+    
+    /**
+     * The distance between two points
+     * @param x1 The x-value of the first point
+     * @param y1 The y-value of the first point
+     * @param x2 The x-value of the second point
+     * @param y2 The y-value of the second point
+     * @return The distance between the two points
+     */
+    private double distance(double x1, double y1, double x2, double y2) {
+        return Math.sqrt((x1-x2)*(x1-x2)+(y1-y2)*(y1-y2));
     }
 
     private void addEdge(int mx, int my) {

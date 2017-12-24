@@ -35,4 +35,5 @@ public class Helpers {
     public static final Color HIGHLIGHT_COLOR = Color.GREEN;
     public static final int DIAMETER = 15;
     public static final double FORMAT_RADIUS = 150;
+    public static final double LINE_SELECTION_DISTANCE = 2;
 }
