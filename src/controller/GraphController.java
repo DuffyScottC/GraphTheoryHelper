@@ -97,13 +97,18 @@ public class GraphController {
     private int lastY;
     /**
      * This is used for moving a vertex, not to be confused with selectedVertex,
-     * which is used for deleting and changing titles.
+     * which is used for deleting vertices and changing titles.
      */
     private Vertex clickedVertex;
+    /**
+     * This is used for moving an edge, not to be confused with selectedEdge,
+     * which is used for deleting edges.
+     */
+    private Edge clickedEdge;
 
     /**
-     * Used to make sure clearSelection() does not redundantly call the change
-     * listeners on the JLists.
+     * Used to make sure clearSelection() or setSelectedIndex() do not 
+     * redundantly call the change listeners on the JLists.
      */
     private boolean shouldChange = true;
     private boolean showTitles = false;
@@ -263,6 +268,7 @@ public class GraphController {
                 //Update selection:
                 int bottomIndex = vertices.size() - 1;
                 //Set the selection of the visual JList to the bottom
+                shouldChange = false;
                 verticesList.setSelectedIndex(bottomIndex);
                 selectedVertexIndex = bottomIndex;
                 setSelectedVertex();
@@ -795,6 +801,7 @@ public class GraphController {
 
         //Update the list selection
         int newIndex = vertices.size() - 1;
+        shouldChange = false;
         verticesList.setSelectedIndex(newIndex);
         selectedVertexIndex = newIndex;
         setSelectedVertex();
@@ -848,7 +855,12 @@ public class GraphController {
             if (currentVertex.getPositionShape().contains(mx, my)) {
                 //store the clicked vertex (for moving)
                 clickedVertex = currentVertex;
-                //Update the selection
+                //Update the selection:
+                //deselect the edge
+                selectedEdgeIndex = -1;
+                setSelectedEdge();
+                //select the vertex
+                shouldChange = false;
                 verticesList.setSelectedIndex(i);
                 selectedVertexIndex = i;
                 setSelectedVertex();
@@ -871,8 +883,22 @@ public class GraphController {
 
                 //(mx,my) is close enough to the line formed by e
                 if (d <= Helpers.LINE_SELECTION_DISTANCE) {
-                    if (isPointOnEdge()) {
-
+                    //If the intersection, I, is on the edge (not beyond it)
+                    if (isPointOnEdge(I.x, I.y, e)) {
+                        //store the clicked edge (for moving)
+                        clickedEdge = e;
+                        //Update the selection:
+                        //deselect the vertex
+                        selectedVertexIndex = -1;
+                        setSelectedVertex();
+                        //select the edge
+                        shouldChange = false;
+                        edgesList.setSelectedIndex(i);
+                        selectedEdgeIndex = i;
+                        setSelectedEdge();
+                        canvas.repaint();
+                        clickedBlankSpace = false; //the user didn't click blank space
+                        break; //exit the loop (we don't need to check the rest)
                     }
                 }
             }
@@ -881,10 +907,18 @@ public class GraphController {
 
         //MARK: Select canvas
         if (clickedBlankSpace) { //if the user clicked the canvas, not a vertex/edge
+            //Deselect the vertex
             shouldChange = false; //don't allow clearSelection to run setSelectedVertex again
             verticesList.clearSelection(); //deselect vertex in the list
             selectedVertexIndex = -1;
             setSelectedVertex();
+            
+            //Deselect the edge
+            shouldChange = false; //don't allow clearSelection to run setSelectedEdge again
+            edgesList.clearSelection();; //deselect edge in the list
+            selectedEdgeIndex = -1;
+            setSelectedEdge();
+            
             canvas.repaint();
         }
 
@@ -914,7 +948,14 @@ public class GraphController {
 
         return new Point2D.Double(Ix, Iy);
     }
-
+    
+    /**
+     * Checks to see if a given point is on the given edge (not beyond it).
+     * @param x The x-value of the given point
+     * @param y The y-value of the given point
+     * @param e The edge
+     * @return true of the point is on the edge, false if the point is beyond it
+     */
     private boolean isPointOnEdge(double x, double y, Edge e) {
         //Check if the point is actually within the bounds of e:
         //The distance between the intersection, I, and endpoint1
