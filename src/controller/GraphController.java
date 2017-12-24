@@ -10,7 +10,6 @@ import element.Edge;
 import element.Graph;
 import element.Vertex;
 import java.awt.BasicStroke;
-import java.awt.Color;
 import java.awt.Graphics2D;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
@@ -691,7 +690,7 @@ public class GraphController {
             verticesList.clearSelection(); //unselect the vertex in the JList
         } else { //if the user selected a vertex
             selectedVertex = vertices.get(selectedVertexIndex); //store the selected vertex
-            selectedVertex.setStrokeColor(Values.HIGHLIGHT_COLOR); //highlight the vertex
+            selectedVertex.setStrokeColor(Values.VERTEX_HIGHLIGHT_COLOR); //highlight the vertex
             selectedVertex.setStrokeWidth(Values.VERTEX_HIGHLIGHT_STROKE_WIDTH);
             titleTextField.setText(selectedVertex.getTitle());
             titleTextField.setEditable(true);
@@ -706,6 +705,7 @@ public class GraphController {
         //Visually deselect the old selected edge
         if (selectedEdge != null) {
             selectedEdge.setStrokeWidth(Values.EDGE_STROKE_WIDTH);
+            selectedEdge.setStrokeColor(Values.EDGE_STROKE_COLOR);
         }
 
         //Programatically and visually select the new edge (or deselect entirely)
@@ -716,6 +716,7 @@ public class GraphController {
         } else { //if the user selected an edge
             selectedEdge = edges.get(selectedEdgeIndex);
             selectedEdge.setStrokeWidth(Values.EDGE_HIGHLIGHT_STROKE_WIDTH);
+            selectedEdge.setStrokeColor(Values.EDGE_HIGHLIGHT_COLOR);
         }
     }
 
@@ -1155,7 +1156,7 @@ public class GraphController {
         for (Vertex v : vertices) {
             //if this vertex is available to add edges to
             if (v.canAddEdges()) {
-                v.setStrokeColor(Values.HIGHLIGHT_COLOR);
+                v.setStrokeColor(Values.VERTEX_HIGHLIGHT_COLOR);
                 v.setStrokeWidth(Values.VERTEX_HIGHLIGHT_STROKE_WIDTH);
             } else { //if this vertex is completely full
                 v.setStrokeColor(Values.VERTEX_STROKE_COLOR);
