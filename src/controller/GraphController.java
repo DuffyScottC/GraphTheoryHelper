@@ -848,6 +848,7 @@ public class GraphController {
         //clicked in the first place. 
 
         boolean clickedBlankSpace = true;
+        boolean didSelectVertex = false;
 
         for (int i = vertices.size() - 1; i >= 0; --i) {
             Vertex currentVertex = vertices.get(i);
@@ -866,12 +867,14 @@ public class GraphController {
                 setSelectedVertex();
                 canvas.repaint();
                 clickedBlankSpace = false; //user didn't click blank space
+                didSelectVertex = true; //the user did click a vertex
                 break; //exit the loop (we don't need to check the rest)
             }
         }
 
         //MARK: Select edge
-        if (edges != null) {
+        //if edges is not null and the user did NOT select a vertex
+        if (edges != null && didSelectVertex == false) {
             for (int i = edges.size() - 1; i >= 0; --i) {
                 Edge e = edges.get(i);
                 //Find the point on edge e that is closest to (mx,my) (the intersection, I)
@@ -880,7 +883,7 @@ public class GraphController {
                 //Find the distance between I and (mx,my)
                 double d = distance(I.x, I.y, mx, my);
                 //Math.sqrt((I.x-Mx)*(I.x-Mx)+(I.y-My)*(I.y-My));
-
+                
                 //(mx,my) is close enough to the line formed by e
                 if (d <= Helpers.LINE_SELECTION_DISTANCE) {
                     //If the intersection, I, is on the edge (not beyond it)
