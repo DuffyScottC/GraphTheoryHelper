@@ -213,15 +213,19 @@ public class GraphFrame extends javax.swing.JFrame {
 
         fileMenu.setText("File");
 
+        openMenuItem.setAccelerator(javax.swing.KeyStroke.getKeyStroke(java.awt.event.KeyEvent.VK_O, java.awt.event.InputEvent.META_MASK));
         openMenuItem.setText("Open");
         fileMenu.add(openMenuItem);
 
+        saveMenuItem.setAccelerator(javax.swing.KeyStroke.getKeyStroke(java.awt.event.KeyEvent.VK_S, java.awt.event.InputEvent.META_MASK));
         saveMenuItem.setText("Save");
         fileMenu.add(saveMenuItem);
 
+        saveAsMenuItem.setAccelerator(javax.swing.KeyStroke.getKeyStroke(java.awt.event.KeyEvent.VK_S, java.awt.event.InputEvent.SHIFT_MASK | java.awt.event.InputEvent.META_MASK));
         saveAsMenuItem.setText("Save As");
         fileMenu.add(saveAsMenuItem);
 
+        newMenuItem.setAccelerator(javax.swing.KeyStroke.getKeyStroke(java.awt.event.KeyEvent.VK_N, java.awt.event.InputEvent.META_MASK));
         newMenuItem.setText("New");
         fileMenu.add(newMenuItem);
 
@@ -244,9 +248,11 @@ public class GraphFrame extends javax.swing.JFrame {
 
         viewMenu.setText("View");
 
+        showVertexNamesMenuItem.setAccelerator(javax.swing.KeyStroke.getKeyStroke(java.awt.event.KeyEvent.VK_N, java.awt.event.InputEvent.SHIFT_MASK | java.awt.event.InputEvent.META_MASK));
         showVertexNamesMenuItem.setText("Show Vertex Names");
         viewMenu.add(showVertexNamesMenuItem);
 
+        formatVerticesMenuItem.setAccelerator(javax.swing.KeyStroke.getKeyStroke(java.awt.event.KeyEvent.VK_F, java.awt.event.InputEvent.META_MASK));
         formatVerticesMenuItem.setText("Format Vertices");
         viewMenu.add(formatVerticesMenuItem);
 
