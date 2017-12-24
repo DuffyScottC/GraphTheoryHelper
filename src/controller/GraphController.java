@@ -861,18 +861,19 @@ public class GraphController {
         //MARK: Select edge
         if (edges != null) {
             for (int i = edges.size() - 1; i >= 0; --i) {
-                Edge currentEdge = edges.get(i);
-                //Find the point on edge e that is closest to (mx,my)
+                Edge e = edges.get(i);
+                //Find the point on edge e that is closest to (mx,my) (the intersection, I)
                 Point2D.Double I = getClosestPointOnEdge(mx, my, e);
-                
+
                 //Find the distance between I and (mx,my)
                 double d = distance(I.x, I.y, mx, my);
                 //Math.sqrt((I.x-Mx)*(I.x-Mx)+(I.y-My)*(I.y-My));
-                
-                //(mx,my) is close enough to the line formed by currentEdge
+
+                //(mx,my) is close enough to the line formed by e
                 if (d <= Helpers.LINE_SELECTION_DISTANCE) {
-                    //Check if the point is actually within the bounds of currentEdge:
-                    double 
+                    if (isPointOnEdge()) {
+
+                    }
                 }
             }
         }
@@ -914,6 +915,25 @@ public class GraphController {
         return new Point2D.Double(Ix, Iy);
     }
 
+    private boolean isPointOnEdge(double x, double y, Edge e) {
+        //Check if the point is actually within the bounds of e:
+        //The distance between the intersection, I, and endpoint1
+        double ep1Dist = distance(x, y, e.getEndpoint1());
+        //The distance between the intersection, I, and endpoint2
+        double ep2Dist = distance(x, y, e.getEndpoint2());
+        //The sum of the two distances
+        double sumOfDist = ep1Dist + ep2Dist;
+        //The distance between endpoint1 and endpoint2
+        double epDist = distance(e.getEndpoint1(), e.getEndpoint2());
+        //If the distance between the endpoints equals to sum of the distances
+        //between each endpoint and the point in question, then the point in
+        //question is on the edge (not beyond it)
+        if (sumOfDist == epDist) {
+            return true;
+        }
+        return false;
+    }
+
     /**
      * The distance between two points
      *
@@ -926,9 +946,10 @@ public class GraphController {
     private double distance(double x1, double y1, double x2, double y2) {
         return Math.sqrt((x1 - x2) * (x1 - x2) + (y1 - y2) * (y1 - y2));
     }
-    
+
     /**
      * The distance between a given point and a vertex
+     *
      * @param x The x-value of the given point
      * @param y The y-value of the given point
      * @param v The vertex
@@ -938,9 +959,10 @@ public class GraphController {
         Point2D.Double p = v.getLocation();
         return distance(x, y, p.x, p.y);
     }
-    
+
     /**
      * The distance between two vertices
+     *
      * @param v1 The first vertex
      * @param v2 The second vertex
      * @return The distance between the two vertices locations
