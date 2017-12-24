@@ -144,7 +144,7 @@ public class GraphController {
                 if (addingEdge) { //if we are in the edge adding state, we don't want to be able to move any vertices
                     addEdge(mx, my);
                 } else { //if we are not in the edge adding state, then we can move the vertices
-                    moveVertex(mx, my);
+                    selectVertexOrEdge(mx, my);
                 }
             }
 
@@ -816,23 +816,34 @@ public class GraphController {
         setSelectedVertex();
         canvas.repaint();
     }
-
-    private void moveVertex(int mx, int my) {
+    
+    /**
+     * Holds the code that checks what vertex/edge the user clicked (if any)
+     * and updates the lastX and lastY variables in preparation for moving
+     * the vertex (which happens in the mouseMotionListener). 
+     * @param mx
+     * @param my 
+     */
+    private void selectVertexOrEdge(int mx, int my) {
+        //MARK: Select vertex
+        
         //Find the topmost vertex that 
         //contains the mouse click (if any):
 
-        //if vertices is null, then there are definitely no
-        //edges and we can stop here. (A graph can't have
-        //edges without vertices.)
+        //if vertices is null, then there are definitely no edges and we can 
+        //stop here. (A graph can't have edges without vertices.)
         if (vertices == null) {
             return;
-        }
+        } 
+        //If vertices is null, then edges is definitly null, and we don't have
+        //to worry about clicking the canvas because nothing could have been
+        //clicked in the first place. 
 
         boolean clickedBlankSpace = true;
 
         for (int i = vertices.size() - 1; i >= 0; --i) {
             Vertex currentVertex = vertices.get(i);
-            //if this figure contains the mouse click:
+            //if this vertex contains the mouse click:
             if (currentVertex.getPositionShape().contains(mx, my)) {
                 //store the clicked vertex (for moving)
                 clickedVertex = currentVertex;
@@ -845,8 +856,23 @@ public class GraphController {
                 break; //exit the loop (we don't need to check the rest)
             }
         }
-
-        if (clickedBlankSpace) {
+        
+        //MARK: Select edge
+        
+        if (edges != null) {
+            for (int i = edges.size() - 1; i >= 0; --i) {
+                Edge currentEdge = edges.get(i);
+                //if this edge contains the mouse click:
+                if (currentEdge.getPositionShape().contains(mx, my)) {
+                    System.out.println("clicked edge");
+                }
+            }
+        }
+        //If edges is null, then the user might still be clicking blank canvas
+        
+        //MARK: Select canvas
+        
+        if (clickedBlankSpace) { //if the user clicked the canvas, not a vertex/edge
             shouldChange = false; //don't allow clearSelection to run setSelectedVertex again
             verticesList.clearSelection(); //deselect vertex in the list
             selectedVertexIndex = -1;
