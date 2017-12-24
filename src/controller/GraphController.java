@@ -549,8 +549,12 @@ public class GraphController {
             @Override
             public void actionPerformed(ActionEvent e) {
                 formatAllVertices();
-                isModified = true;
-                modifiedTextField.setText("*");
+                if (vertices != null) {
+                    if (!vertices.isEmpty()) {
+                        isModified = true;
+                        modifiedTextField.setText("*");
+                    }
+                }
                 canvas.repaint();
             }
         });
@@ -881,6 +885,7 @@ public class GraphController {
             boolean clickedAnEdge = false;
             for (int i = edges.size() - 1; i >= 0; --i) {
                 Edge e = edges.get(i);
+                System.out.println(e);
                 if (isEdgeVertical(e)) { //if the edge is verticle
                     //All we need to do is check if mx is close enough to e's x-position:
 
@@ -1037,8 +1042,9 @@ public class GraphController {
         Point2D.Double b = e.getEndpoint2().getLocation();
         //A line is vertical if its slope is undefined, ?/0, where x1-x2=0
         double diff = a.x - b.x;
+        double marginOfError = 0.1; //allows for rounding errors
         //if the diff is 0, then the slope is undefined and the edge is verical:
-        return (diff == 0);
+        return (diff <= marginOfError);
     }
 
     /**
