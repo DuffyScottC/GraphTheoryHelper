@@ -969,10 +969,15 @@ public class GraphController {
         double sumOfDist = ep1Dist + ep2Dist;
         //The distance between endpoint1 and endpoint2
         double epDist = distance(e.getEndpoint1(), e.getEndpoint2());
+        
         //If the distance between the endpoints equals to sum of the distances
         //between each endpoint and the point in question, then the point in
         //question is on the edge (not beyond it)
-        if (sumOfDist == epDist) {
+        //To allow for small errors in rounding, the difference between the two
+        //should be less than marginOfError
+        double diff = sumOfDist - epDist;
+        double marginOfError = .1;
+        if (diff < marginOfError) {
             return true;
         }
         return false;
