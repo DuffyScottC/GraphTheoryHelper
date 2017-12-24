@@ -107,7 +107,7 @@ public class GraphController {
     private Edge clickedEdge;
 
     /**
-     * Used to make sure clearSelection() or setSelectedIndex() do not 
+     * Used to make sure clearSelection() or setSelectedIndex() do not
      * redundantly call the change listeners on the JLists.
      */
     private boolean shouldChange = true;
@@ -482,8 +482,7 @@ public class GraphController {
 
                 }
             }
-        }
-        );
+        });
 
         frame.getSaveMenuItem()
                 .addActionListener(new ActionListener() {
@@ -534,137 +533,129 @@ public class GraphController {
 
                         addGraphDialog.setVisible(true);
                     }
-                }
-                );
+                });
 
-        frame.getFormatVerticesMenuItem()
-                .addActionListener(new ActionListener() {
-                    @Override
-                    public void actionPerformed(ActionEvent e
-                    ) {
-                        formatAllVertices();
-                        canvas.repaint();
-                    }
-                }
-                );
+        frame.getFormatVerticesMenuItem().addActionListener(new ActionListener() {
+            @Override
+            public void actionPerformed(ActionEvent e) {
+                formatAllVertices();
+                isModified = true;
+                modifiedTextField.setText("*");
+                canvas.repaint();
+            }
+        });
 
         //MARK: addGraphDialog event handlers:
         //The add button
-        addGraphDialog.getAddButton()
-                .addActionListener(new ActionListener() {
-                    @Override
-                    public void actionPerformed(ActionEvent e
-                    ) {
-                        List<Vertex> toBeFormatted = new ArrayList();
-                        List<Vertex> vertices = graph.getVertices();
-                        List<Edge> edges = graph.getEdges();
+        addGraphDialog.getAddButton().addActionListener(new ActionListener() {
+            @Override
+            public void actionPerformed(ActionEvent e) {
+                List<Vertex> toBeFormatted = new ArrayList();
+                List<Vertex> vertices = graph.getVertices();
+                List<Edge> edges = graph.getEdges();
 
-                        //This regex checks if the graph is properly formatted
-                        //(e.g. {{A,B},{B,A},{C,D}} )
-                        String properFormat = "\\{(\\{\\w+,\\w+\\})(,\\s*\\{\\w+,\\w+\\})*\\}";
+                //This regex checks if the graph is properly formatted
+                //(e.g. {{A,B},{B,A},{C,D}} )
+                String properFormat = "\\{(\\{\\w+,\\w+\\})(,\\s*\\{\\w+,\\w+\\})*\\}";
 
-                        //Get the user's input
-                        String input = addGraphDialog.getGraphTextField().getText();
+                //Get the user's input
+                String input = addGraphDialog.getGraphTextField().getText();
 
-                        //Check if it's properly formatted:
-                        if (!input.matches(properFormat)) { //if it's NOT properly formatted
-                            addGraphDialog.getErrorLabel().setText("Incorrect format. "
-                                    + "Please add one or more edges sepparated by commas.");
-                            return; //cancel the adding and let the user try again
-                        }
-                        //If it is properly formatted
-
-                        //Convert the input to a list of edges:
-                        //will be set to true if anything was actually changed
-                        boolean wasModified = false;
-
-                        //this will grab the titles of the vertices
-                        String titleRegex = "(\\w+),(\\w+)";
-
-                        Pattern p = Pattern.compile(titleRegex);
-                        Matcher m = p.matcher(input);
-
-                        //cycle through all of the edges entered by the user
-                        while (m.find()) {
-                            //Get the two titles of the vertices of the next edge
-                            String title1 = m.group(1); //the first title
-                            String title2 = m.group(2); //the second title
-
-                            //Create new vertex objects using the titles entered
-                            //(these are used to 1. Search the vertices list to check if
-                            //they exist in the graph or not and 2. Add a new vertex to
-                            //the list if this is a new vertex)
-                            Vertex newVertex1 = new Vertex(title1, DIAMETER);
-                            Vertex newVertex2 = new Vertex(title2, DIAMETER);
-
-                            //Get the indexes of the vertexes named title1 and title2
-                            //(if they exist):
-                            int index1 = vertices.indexOf(newVertex1);
-                            int index2 = vertices.indexOf(newVertex2);
-
-                            if (index1 == -1) { //if this is a new vertex
-                                vertices.add(newVertex1); //add this vertex to the list
-                                toBeFormatted.add(newVertex1);
-                                wasModified = true;
-                            } else { //if this vertex is already contained in the graph
-                                //reassign the reference newVertex1 to the vertex that
-                                //is already in the graph but has the same name:
-                                newVertex1 = vertices.get(index1);
-                            }
-
-                            if (index2 == -1) { //if this is a new vertex
-                                vertices.add(newVertex2); //add this vertex to the list
-                                toBeFormatted.add(newVertex2);
-                                wasModified = true;
-                            } else { //if this vertex is already contained in the graph
-                                //reassign the reference newVertex2 to the vertex that
-                                //is already in the graph but has the same name:
-                                newVertex2 = vertices.get(index2);
-                            }
-
-                            //At this point, newVertex1 and newVertex2 are the vertices
-                            //in the graph that we want to work with (whether their new
-                            //or already existed in the graph).
-                            //Check if the edge already exists:
-                            //If newVertex1 is NOT already connected to newVertex2
-                            if (!newVertex1.isAdjacentTo(newVertex2)) {
-                                //create a new edge between newVertex1 and newVertex2
-                                Edge newEdge = new Edge(newVertex1, newVertex2);
-                                edges.add(newEdge); //add the edge to the list
-                                wasModified = true;
-                            }
-
-                            //if newVertex1 not already connected to newVertex2, then
-                            //it must already be in edges and we don't need to do anything else
-                            //if there was at least one new vertex or edge
-                            if (wasModified) {
-                                isModified = true;
-                                modifiedTextField.setText("*");
-                            }
-
-                            //update the list models
-                            updateVerticesListModel();
-                            updateEdgesListModel();
-
-                            //Formate the new vertices
-                            formatVertices(toBeFormatted);
-                            canvas.repaint();
-                        }
-
-                        addGraphDialog.setVisible(false); //close the dialog
-                    }
+                //Check if it's properly formatted:
+                if (!input.matches(properFormat)) { //if it's NOT properly formatted
+                    addGraphDialog.getErrorLabel().setText("Incorrect format. "
+                            + "Please add one or more edges sepparated by commas.");
+                    return; //cancel the adding and let the user try again
                 }
-                );
+                //If it is properly formatted
 
-        addGraphDialog.getCancelButton()
-                .addActionListener(new ActionListener() {
-                    @Override
-                    public void actionPerformed(ActionEvent e
-                    ) {
-                        addGraphDialog.setVisible(false); //close the dialog
+                //Convert the input to a list of edges:
+                //will be set to true if anything was actually changed
+                boolean wasModified = false;
+
+                //this will grab the titles of the vertices
+                String titleRegex = "(\\w+),(\\w+)";
+
+                Pattern p = Pattern.compile(titleRegex);
+                Matcher m = p.matcher(input);
+
+                //cycle through all of the edges entered by the user
+                while (m.find()) {
+                    //Get the two titles of the vertices of the next edge
+                    String title1 = m.group(1); //the first title
+                    String title2 = m.group(2); //the second title
+
+                    //Create new vertex objects using the titles entered
+                    //(these are used to 1. Search the vertices list to check if
+                    //they exist in the graph or not and 2. Add a new vertex to
+                    //the list if this is a new vertex)
+                    Vertex newVertex1 = new Vertex(title1, DIAMETER);
+                    Vertex newVertex2 = new Vertex(title2, DIAMETER);
+
+                    //Get the indexes of the vertexes named title1 and title2
+                    //(if they exist):
+                    int index1 = vertices.indexOf(newVertex1);
+                    int index2 = vertices.indexOf(newVertex2);
+
+                    if (index1 == -1) { //if this is a new vertex
+                        vertices.add(newVertex1); //add this vertex to the list
+                        toBeFormatted.add(newVertex1);
+                        wasModified = true;
+                    } else { //if this vertex is already contained in the graph
+                        //reassign the reference newVertex1 to the vertex that
+                        //is already in the graph but has the same name:
+                        newVertex1 = vertices.get(index1);
                     }
+
+                    if (index2 == -1) { //if this is a new vertex
+                        vertices.add(newVertex2); //add this vertex to the list
+                        toBeFormatted.add(newVertex2);
+                        wasModified = true;
+                    } else { //if this vertex is already contained in the graph
+                        //reassign the reference newVertex2 to the vertex that
+                        //is already in the graph but has the same name:
+                        newVertex2 = vertices.get(index2);
+                    }
+
+                    //At this point, newVertex1 and newVertex2 are the vertices
+                    //in the graph that we want to work with (whether their new
+                    //or already existed in the graph).
+                    //Check if the edge already exists:
+                    //If newVertex1 is NOT already connected to newVertex2
+                    if (!newVertex1.isAdjacentTo(newVertex2)) {
+                        //create a new edge between newVertex1 and newVertex2
+                        Edge newEdge = new Edge(newVertex1, newVertex2);
+                        edges.add(newEdge); //add the edge to the list
+                        wasModified = true;
+                    }
+
+                    //if newVertex1 not already connected to newVertex2, then
+                    //it must already be in edges and we don't need to do anything else
+                    //if there was at least one new vertex or edge
+                    if (wasModified) {
+                        isModified = true;
+                        modifiedTextField.setText("*");
+                    }
+
+                    //update the list models
+                    updateVerticesListModel();
+                    updateEdgesListModel();
+
+                    //Formate the new vertices
+                    formatVertices(toBeFormatted);
+                    canvas.repaint();
                 }
-                );
+
+                addGraphDialog.setVisible(false); //close the dialog
+            }
+        });
+
+        addGraphDialog.getCancelButton().addActionListener(new ActionListener() {
+            @Override
+            public void actionPerformed(ActionEvent e) {
+                addGraphDialog.setVisible(false); //close the dialog
+            }
+        });
 
     }
 
@@ -808,7 +799,6 @@ public class GraphController {
         selectedVertexIndex = newIndex;
         setSelectedVertex();
         canvas.repaint();
-
     }
 
     /**
@@ -917,13 +907,13 @@ public class GraphController {
             verticesList.clearSelection(); //deselect vertex in the list
             selectedVertexIndex = -1;
             setSelectedVertex();
-            
+
             //Deselect the edge
             shouldChange = false; //don't allow clearSelection to run setSelectedEdge again
             edgesList.clearSelection();; //deselect edge in the list
             selectedEdgeIndex = -1;
             setSelectedEdge();
-            
+
             canvas.repaint();
         }
 
@@ -953,9 +943,10 @@ public class GraphController {
 
         return new Point2D.Double(Ix, Iy);
     }
-    
+
     /**
      * Checks to see if a given point is on the given edge (not beyond it).
+     *
      * @param x The x-value of the given point
      * @param y The y-value of the given point
      * @param e The edge
@@ -971,7 +962,7 @@ public class GraphController {
         double sumOfDist = ep1Dist + ep2Dist;
         //The distance between endpoint1 and endpoint2
         double epDist = distance(e.getEndpoint1(), e.getEndpoint2());
-        
+
         //If the distance between the endpoints equals to sum of the distances
         //between each endpoint and the point in question, then the point in
         //question is on the edge (not beyond it)
@@ -1071,17 +1062,17 @@ public class GraphController {
                         updateEdgesListModel(); //update the visual JList
 
                         exitAddEdgeState(); //exit the add edge state
-                        
+
                         //Update selection
                         int lastIndex = edges.size() - 1; //last index in edges
                         shouldChange = false;
                         edgesList.setSelectedIndex(lastIndex);
                         selectedEdgeIndex = lastIndex;
                         setSelectedEdge();
-                        
+
                         isModified = true; //Note that this is not saved
                         modifiedTextField.setText("*");
-                        
+
                         return; //we don't need to check anymore
                     }
                 }
