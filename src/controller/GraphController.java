@@ -136,7 +136,6 @@ public class GraphController {
 
         canvas.setGraph(graph); //pass the graph to the canvas
         canvas.setGraphOutputTextField(frame.getGraphOutputTextField());
-//        graph.setCanvas(canvas); //pass the canvas to the graph
 
         titleTextField = frame.getTitleTextField();
         verticesList = frame.getVerticesList(); //the visual JList that the user sees and interacts with
@@ -201,26 +200,26 @@ public class GraphController {
 
             @Override
             public void mouseMoved(MouseEvent e) {
-                    if (addingEdge) { //if we are in the edge adding state
-                        //MARK: Update position for drawing live edge
-                        //If null, user hasn't selected first vertex
-                        //(or we're not in the adding edge state
-                        if (firstSelectedVertex == null) {
-                            return;
-                        }
-                        //If firstSelectedVertex is not null, we are in the edge adding state
-                        //and the user has clicked the first edge.
-                        //The actual drawing happends in this.drawLiveEdge(Graphics2D g2), which
-                        //gets called in canvas's paint method
-
-                        //I use these variables to store the 
-                        //location of the mouse for drawing the lines
-                        lastX = e.getX();
-                        lastY = e.getY();
-                        canvas.setLastPosition(lastX, lastY);
-
-                        canvas.repaint();
+                if (addingEdge) { //if we are in the edge adding state
+                    //MARK: Update position for drawing live edge
+                    //If null, user hasn't selected first vertex
+                    //(or we're not in the adding edge state
+                    if (firstSelectedVertex == null) {
+                        return;
                     }
+                    //If firstSelectedVertex is not null, we are in the edge adding state
+                    //and the user has clicked the first edge.
+                    //The actual drawing happends in this.drawLiveEdge(Graphics2D g2), which
+                    //gets called in canvas's paint method
+
+                    //I use these variables to store the 
+                    //location of the mouse for drawing the lines
+                    lastX = e.getX();
+                    lastY = e.getY();
+                    canvas.setLastPosition(lastX, lastY);
+
+                    canvas.repaint();
+                }
             }
 
         });
@@ -878,35 +877,73 @@ public class GraphController {
         //MARK: Select edge
         //if edges is not null and the user did NOT select a vertex
         if (edges != null && didSelectVertex == false) {
+            //true if edge "e" was clicked in loop, false if no edge was clicked
+            boolean clickedAnEdge = false;
             for (int i = edges.size() - 1; i >= 0; --i) {
                 Edge e = edges.get(i);
-                //Find the point on edge e that is closest to (mx,my) (the intersection, I)
-                Point2D.Double I = getClosestPointOnEdge(mx, my, e);
+                if (isEdgeVertical(e)) { //if the edge is verticle
+                    //All we need to do is check if mx is close enough to e's x-position:
 
-                //Find the distance between I and (mx,my)
-                double d = distance(I.x, I.y, mx, my);
-                //Math.sqrt((I.x-Mx)*(I.x-Mx)+(I.y-My)*(I.y-My));
-                System.out.println("edge: " + e + " distance: " + d);
-                //(mx,my) is close enough to the line formed by e
-                if (d <= Values.LINE_SELECTION_DISTANCE) {
-                    //If the intersection, I, is on the edge (not beyond it)
-                    if (isPointOnEdge(I.x, I.y, e)) {
-                        //store the clicked edge (for moving)
-                        clickedEdge = e;
-                        //Update the selection:
-                        //deselect the vertex
-                        selectedVertexIndex = -1;
-                        setSelectedVertex();
-                        //select the edge
-                        shouldChange = false;
-                        edgesList.setSelectedIndex(i);
-                        selectedEdgeIndex = i;
-                        setSelectedEdge();
-                        canvas.repaint();
-                        clickedBlankSpace = false; //the user didn't click blank space
-                        break; //exit the loop (we don't need to check the rest)
+                    //get an endpoint (arbitrary)
+                    Point2D.Double ep1 = e.getEndpoint1().getCenter();
+                    //the difference between mx and e's x-position
+                    double diff = ep1.x - mx;
+                    //find the absolute value
+                    if (diff < 0) {
+                        diff *= -1;
+                    }
+                    if (diff <= Values.LINE_SELECTION_DISTANCE) {
+                        //check if the point is on the edge (which is much simpler if the
+                        //edge is vertical (only have to check y-values)
+
+                        //get the other endpoint (we already have ep1 from above)
+                        Point2D.Double ep2 = e.getEndpoint2().getCenter();
+                        //Note: greater y is lower on canvas, smaller y is higher on canvas
+                        if (ep1.y < ep2.y) { //if ep1 is higher than ep2
+                            //ep1.y<my<ep2.y
+                            if (ep1.y < my && my < ep2.y) { //if my is between ep1.y and ep2.y
+                                clickedAnEdge = true; //we clicked edge e
+                            }
+                        } else { //if ep2 is higher than ep1
+                            //ep2.y<my<ep1.y
+                            if (ep2.y < my && my < ep1.y) { //if my is between ep2.y and ep1.y
+                                clickedAnEdge = true; //we clicked edge e
+                            }
+                        }
+                    }
+                } else { //if the edge is not verticle
+                    //Find the point on edge e that is closest to (mx,my) (the intersection, I)
+                    Point2D.Double I = getClosestPointOnEdge(mx, my, e);
+                    
+                    //Find the distance between I and (mx,my)
+                    double d = distance(I.x, I.y, mx, my);
+                    //(mx,my) is close enough to the line formed by e
+                    if (d <= Values.LINE_SELECTION_DISTANCE) {
+                        //If the intersection, I, is on the edge (not beyond it)
+                        if (isPointOnEdge(I.x, I.y, e)) {
+                            clickedAnEdge = true; //we clicked edge e
+                        }
                     }
                 }
+                
+                //if we clicked edge e
+                if (clickedAnEdge) {
+                    //store the clicked edge (for moving)
+                    clickedEdge = e;
+                    //Update the selection:
+                    //deselect the vertex
+                    selectedVertexIndex = -1;
+                    setSelectedVertex();
+                    //select the edge
+                    shouldChange = false;
+                    edgesList.setSelectedIndex(i);
+                    selectedEdgeIndex = i;
+                    setSelectedEdge();
+                    canvas.repaint();
+                    clickedBlankSpace = false; //the user didn't click blank space
+                    break; //exit the loop (we don't need to check the rest)
+                }
+                //otherwise check next edge
             }
         }
         //If edges is null, then the user might still be clicking blank canvas
@@ -985,6 +1022,23 @@ public class GraphController {
             return true;
         }
         return false;
+    }
+
+    /**
+     * Checks to see if a given edge is perfectly vertical.
+     *
+     * @param e The edge to be checked
+     * @return True if the edge is vertical, false if not
+     */
+    private boolean isEdgeVertical(Edge e) {
+        //Use location not center, because center takes more calculation and
+        //if the centers are perfectly aligned then the locations are as well:
+        Point2D.Double a = e.getEndpoint1().getLocation();
+        Point2D.Double b = e.getEndpoint2().getLocation();
+        //A line is vertical if its slope is undefined, ?/0, where x1-x2=0
+        double diff = a.x - b.x;
+        //if the diff is 0, then the slope is undefined and the edge is verical:
+        return (diff == 0);
     }
 
     /**

@@ -26,7 +26,7 @@ import views.GraphFrame;
  */
 public class Values {
     public static final float EDGE_STROKE_WIDTH = 2.5f;
-    public static final float EDGE_HIGHLIGHT_STROKE_WIDTH = 3.0f;
+    public static final float EDGE_HIGHLIGHT_STROKE_WIDTH = 3.5f;
     public static final float VERTEX_STROKE_WIDTH = 1.0f;
     public static final float VERTEX_HIGHLIGHT_STROKE_WIDTH = 2.0f;
     public static final Color VERTEX_FILL_COLOR = Color.RED;
