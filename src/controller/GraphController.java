@@ -883,7 +883,7 @@ public class GraphController {
                 //Find the distance between I and (mx,my)
                 double d = distance(I.x, I.y, mx, my);
                 //Math.sqrt((I.x-Mx)*(I.x-Mx)+(I.y-My)*(I.y-My));
-                
+                System.out.println("edge: " + e + " distance: " + d);
                 //(mx,my) is close enough to the line formed by e
                 if (d <= Helpers.LINE_SELECTION_DISTANCE) {
                     //If the intersection, I, is on the edge (not beyond it)
@@ -936,10 +936,10 @@ public class GraphController {
         Vertex B = e.getEndpoint2();
 
         //get the positions of the endpoints
-        double Ax = A.getLocation().x;
-        double Ay = A.getLocation().y;
-        double Bx = B.getLocation().x;
-        double By = B.getLocation().y;
+        double Ax = A.getCenter().x;
+        double Ay = A.getCenter().y;
+        double Bx = B.getCenter().x;
+        double By = B.getCenter().y;
 
         double m = (Ay - By) / (Ax - Bx); //the slope
         double m2 = m * m; //the slope squared
@@ -1000,7 +1000,7 @@ public class GraphController {
      * @return The distance between the point and the vertex location
      */
     private double distance(double x, double y, Vertex v) {
-        Point2D.Double p = v.getLocation();
+        Point2D.Double p = v.getCenter();
         return distance(x, y, p.x, p.y);
     }
 
@@ -1012,8 +1012,8 @@ public class GraphController {
      * @return The distance between the two vertices locations
      */
     private double distance(Vertex v1, Vertex v2) {
-        Point2D.Double p1 = v1.getLocation();
-        Point2D.Double p2 = v2.getLocation();
+        Point2D.Double p1 = v1.getCenter();
+        Point2D.Double p2 = v2.getCenter();
         return distance(p1.x, p1.y, p2.x, p2.y);
     }
 
