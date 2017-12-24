@@ -817,25 +817,25 @@ public class GraphController {
         setSelectedVertex();
         canvas.repaint();
     }
-    
+
     /**
-     * Holds the code that checks what vertex/edge the user clicked (if any)
-     * and updates the lastX and lastY variables in preparation for moving
-     * the vertex (which happens in the mouseMotionListener). 
+     * Holds the code that checks what vertex/edge the user clicked (if any) and
+     * updates the lastX and lastY variables in preparation for moving the
+     * vertex (which happens in the mouseMotionListener).
+     *
      * @param mx
-     * @param my 
+     * @param my
      */
     private void selectVertexOrEdge(int mx, int my) {
         //MARK: Select vertex
-        
+
         //Find the topmost vertex that 
         //contains the mouse click (if any):
-
         //if vertices is null, then there are definitely no edges and we can 
         //stop here. (A graph can't have edges without vertices.)
         if (vertices == null) {
             return;
-        } 
+        }
         //If vertices is null, then edges is definitly null, and we don't have
         //to worry about clicking the canvas because nothing could have been
         //clicked in the first place. 
@@ -857,22 +857,28 @@ public class GraphController {
                 break; //exit the loop (we don't need to check the rest)
             }
         }
-        
+
         //MARK: Select edge
-        
         if (edges != null) {
             for (int i = edges.size() - 1; i >= 0; --i) {
                 Edge currentEdge = edges.get(i);
-                //if this edge contains the mouse click:
-                if (getDistancePointEdge(mx, my, currentEdge) <= Helpers.LINE_SELECTION_DISTANCE) {
-                    
+                //Find the point on edge e that is closest to (mx,my)
+                Point2D.Double I = getClosestPointOnEdge(mx, my, e);
+                
+                //Find the distance between I and (mx,my)
+                double d = distance(I.x, I.y, mx, my);
+                //Math.sqrt((I.x-Mx)*(I.x-Mx)+(I.y-My)*(I.y-My));
+                
+                //(mx,my) is close enough to the line formed by currentEdge
+                if (d <= Helpers.LINE_SELECTION_DISTANCE) {
+                    //Check if the point is actually within the bounds of currentEdge:
+                    double 
                 }
             }
         }
         //If edges is null, then the user might still be clicking blank canvas
-        
+
         //MARK: Select canvas
-        
         if (clickedBlankSpace) { //if the user clicked the canvas, not a vertex/edge
             shouldChange = false; //don't allow clearSelection to run setSelectedVertex again
             verticesList.clearSelection(); //deselect vertex in the list
@@ -885,53 +891,32 @@ public class GraphController {
         lastX = mx;
         lastY = my;
     }
-    
-    /**
-     * Finds the minimum distance between the given point and the given edge
-     * @param Mx The x coordinate of the point
-     * @param My The y coordinate of the point
-     * @param e The edge
-     * @return The distance between point and edge.<>-1 if the point is past the
-     * endpoints of the line.
-     */
-    private double getDistancePointEdge(int Mx, int My, Edge e) {
-        //Find the point on edge e that is closest to M = (Mx,My)
-        Point2D.Double I = getClosestPointOnEdge(Mx, My, e);
-        
-        double d = distance(I.x, I.y, Mx, My); //the distance between I and M
-        //Math.sqrt((I.x-Mx)*(I.x-Mx)+(I.y-My)*(I.y-My));
-        
-        if (d <= Helpers.LINE_SELECTION_DISTANCE) {
-            
-        }
-        
-        return d;
-    }
-    
+
     private Point2D.Double getClosestPointOnEdge(int Mx, int My, Edge e) {
         //Get the endpoints of the edge
         Vertex A = e.getEndpoint1();
         Vertex B = e.getEndpoint2();
-        
+
         //get the positions of the endpoints
         double Ax = A.getLocation().x;
         double Ay = A.getLocation().y;
         double Bx = B.getLocation().x;
         double By = B.getLocation().y;
-        
-        double m = (Ay-By)/(Ax-Bx); //the slope
-        double m2 = m*m; //the slope squared
-        
+
+        double m = (Ay - By) / (Ax - Bx); //the slope
+        double m2 = m * m; //the slope squared
+
         //The position of the closest point on the edge to the point (Mx,My) = M
         //(Ix,Iy) = I
-        double Ix = (m*My+Mx-m*Ay+m2*Ax)/(m2 + 1);
-        double Iy = m*(Ix-Ax)+Ay;
-        
+        double Ix = (m * My + Mx - m * Ay + m2 * Ax) / (m2 + 1);
+        double Iy = m * (Ix - Ax) + Ay;
+
         return new Point2D.Double(Ix, Iy);
     }
-    
+
     /**
      * The distance between two points
+     *
      * @param x1 The x-value of the first point
      * @param y1 The y-value of the first point
      * @param x2 The x-value of the second point
@@ -939,7 +924,31 @@ public class GraphController {
      * @return The distance between the two points
      */
     private double distance(double x1, double y1, double x2, double y2) {
-        return Math.sqrt((x1-x2)*(x1-x2)+(y1-y2)*(y1-y2));
+        return Math.sqrt((x1 - x2) * (x1 - x2) + (y1 - y2) * (y1 - y2));
+    }
+    
+    /**
+     * The distance between a given point and a vertex
+     * @param x The x-value of the given point
+     * @param y The y-value of the given point
+     * @param v The vertex
+     * @return The distance between the point and the vertex location
+     */
+    private double distance(double x, double y, Vertex v) {
+        Point2D.Double p = v.getLocation();
+        return distance(x, y, p.x, p.y);
+    }
+    
+    /**
+     * The distance between two vertices
+     * @param v1 The first vertex
+     * @param v2 The second vertex
+     * @return The distance between the two vertices locations
+     */
+    private double distance(Vertex v1, Vertex v2) {
+        Point2D.Double p1 = v1.getLocation();
+        Point2D.Double p2 = v2.getLocation();
+        return distance(p1.x, p1.y, p2.x, p2.y);
     }
 
     private void addEdge(int mx, int my) {
