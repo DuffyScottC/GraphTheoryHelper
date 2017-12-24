@@ -17,6 +17,8 @@ import java.awt.event.ActionListener;
 import java.awt.event.MouseAdapter;
 import java.awt.event.MouseEvent;
 import java.awt.event.MouseMotionListener;
+import java.awt.event.WindowAdapter;
+import java.awt.event.WindowEvent;
 import java.awt.geom.AffineTransform;
 import java.io.File;
 import java.io.FileInputStream;
@@ -299,6 +301,23 @@ public class GraphController {
                 canvas.setLastPosition(lastX, lastY);
 
                 canvas.repaint();
+            }
+
+        });
+        
+        frame.addWindowListener(new WindowAdapter() {
+
+            @Override
+            public void windowClosing(WindowEvent e) {
+                if (isModified) { //if the user tried to close without saving
+                    if (!shouldContinue("OK to discard changes?")) { //if the user does not want to close the window without saving
+                        System.out.println("Do not close the window.");
+                    } else { //if the user does want to close the window
+                        System.exit(0); //the window should close
+                    }
+                } else { //if the user has closed the program after saving
+                    System.exit(0); //the window should close
+                }
             }
 
         });
