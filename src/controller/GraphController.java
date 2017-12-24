@@ -1001,28 +1001,6 @@ public class GraphController {
     }
 
     /**
-     * Checks to see if a given edge is perfectly vertical.
-     *
-     * @param e The edge to be checked
-     * @return True if the edge is vertical, false if not
-     */
-    private boolean isEdgeVertical(Edge e) {
-        //Use location not center, because center takes more calculation and
-        //if the centers are perfectly aligned then the locations are as well:
-        Point2D.Double a = e.getEndpoint1().getLocation();
-        Point2D.Double b = e.getEndpoint2().getLocation();
-        //A line is vertical if its slope is undefined, ?/0, where x1-x2=0
-        double diff = a.x - b.x;
-        //get the absolute value
-        if (diff < 0) {
-            diff *= -1;
-        }
-        double marginOfError = 0.00001; //allows for rounding errors
-        //if the diff is 0, then the slope is undefined and the edge is verical:
-        return (diff <= marginOfError);
-    }
-
-    /**
      * The distance between two points
      *
      * @param x1 The x-value of the first point
