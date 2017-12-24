@@ -142,48 +142,9 @@ public class GraphController {
                 int mx = e.getX(); //x-coord of mouse click
                 int my = e.getY(); //y-coord of mouse click
                 if (addingEdge) { //if we are in the edge adding state, we don't want to be able to move any vertices
-
-                    
+                    addEdge(mx, my);
                 } else { //if we are not in the edge adding state, then we can move the vertices
-                    //Find the topmost vertex that 
-                    //contains the mouse click (if any):
-
-                    //if vertices is null, then there are definitely no
-                    //edges and we can stop here. (A graph can't have
-                    //edges without vertices.)
-                    if (vertices == null) {
-                        return;
-                    }
-
-                    boolean clickedBlankSpace = true;
-
-                    for (int i = vertices.size() - 1; i >= 0; --i) {
-                        Vertex currentVertex = vertices.get(i);
-                        //if this figure contains the mouse click:
-                        if (currentVertex.getPositionShape().contains(mx, my)) {
-                            //store the clicked vertex (for moving)
-                            clickedVertex = currentVertex;
-                            //Update the selection
-                            verticesList.setSelectedIndex(i);
-                            selectedVertexIndex = i;
-                            setSelectedVertex();
-                            canvas.repaint();
-                            clickedBlankSpace = false; //user didn't click blank space
-                            break; //exit the loop (we don't need to check the rest)
-                        }
-                    }
-
-                    if (clickedBlankSpace) {
-                        shouldChange = false; //don't allow clearSelection to run setSelectedVertex again
-                        verticesList.clearSelection(); //deselect vertex in the list
-                        selectedVertexIndex = -1;
-                        setSelectedVertex();
-                        canvas.repaint();
-                    }
-
-                    //update the last position
-                    lastX = mx;
-                    lastY = my;
+                    moveVertex(mx, my);
                 }
             }
 
@@ -246,7 +207,7 @@ public class GraphController {
             }
 
         });
-        
+
         frame.addWindowListener(new WindowAdapter() {
 
             @Override
@@ -279,7 +240,7 @@ public class GraphController {
                 canvas.repaint();
             }
         });
-        
+
         frame.getAddVertexButton().addActionListener(new ActionListener() {
             @Override
             public void actionPerformed(ActionEvent e) {
@@ -359,7 +320,7 @@ public class GraphController {
                 enterAddEdgeState();
             }
         });
-        
+
         frame.getRemoveEdgeButton().addActionListener(new ActionListener() {
             @Override
             public void actionPerformed(ActionEvent e) {
@@ -369,15 +330,15 @@ public class GraphController {
                 }
                 //Get a reference to the edge
                 Edge edgeToRemove = edges.get(selectedEdgeIndex);
-                
+
                 //Remove the edge from the vertices that the edges were attached to
                 edgeToRemove.getEndpoint1().removeEdge(edgeToRemove);
                 edgeToRemove.getEndpoint2().removeEdge(edgeToRemove);
-                
+
                 edges.remove(selectedEdgeIndex);
-                
+
                 updateEdgesListModel();
-                
+
                 canvas.repaint();
             }
         });
@@ -466,58 +427,56 @@ public class GraphController {
             }
         });
 
-        frame.getOpenMenuItem()
-                .addActionListener(new ActionListener() {
-                    @Override
-                    public void actionPerformed(ActionEvent e
-                    ) {
-                        if (isModified) {
-                            if (!shouldContinue("OK to discard changes?")) {
-                                return;
-                            }
-                        }
-
-                        isModified = false;
-                        modifiedTextField.setText("");
-
-                        chooser.setDialogTitle("Open");
-                        int chooserResult = chooser.showOpenDialog(frame);
-                        if (chooserResult == JFileChooser.APPROVE_OPTION) {
-                            File loadFile = chooser.getSelectedFile();
-
-                            try {
-                                //create an input stream from the selected file
-                                FileInputStream istr = new FileInputStream(loadFile);
-                                ObjectInputStream oistr = new ObjectInputStream(istr);
-
-                                //load the object from the serialized file
-                                Object theObject = oistr.readObject();
-                                oistr.close();
-
-                                //if this object is a graph
-                                if (theObject instanceof Graph) {
-                                    //cast the loaded object to a graph
-                                    Graph loadedGraph = (Graph) theObject;
-
-                                    //replace the old graph with the new one
-                                    replace(loadedGraph);
-
-                                    canvas.repaint();
-                                }
-                            } catch (IOException ex) {
-                                JOptionPane.showMessageDialog(frame, "Unable to read selected file.\n"
-                                        + ex.getMessage(), "Oops!", JOptionPane.ERROR_MESSAGE);
-                            } catch (ClassNotFoundException ex) {
-                                JOptionPane.showMessageDialog(frame, "File is not a figures file.\n"
-                                        + ex.getMessage(), "Oops!", JOptionPane.ERROR_MESSAGE);
-                            }
-
-                            saveFile = loadFile; //update the save file
-
-                        }
+        frame.getOpenMenuItem().addActionListener(new ActionListener() {
+            @Override
+            public void actionPerformed(ActionEvent e) {
+                if (isModified) {
+                    if (!shouldContinue("OK to discard changes?")) {
+                        return;
                     }
                 }
-                );
+
+                isModified = false;
+                modifiedTextField.setText("");
+
+                chooser.setDialogTitle("Open");
+                int chooserResult = chooser.showOpenDialog(frame);
+                if (chooserResult == JFileChooser.APPROVE_OPTION) {
+                    File loadFile = chooser.getSelectedFile();
+
+                    try {
+                        //create an input stream from the selected file
+                        FileInputStream istr = new FileInputStream(loadFile);
+                        ObjectInputStream oistr = new ObjectInputStream(istr);
+
+                        //load the object from the serialized file
+                        Object theObject = oistr.readObject();
+                        oistr.close();
+
+                        //if this object is a graph
+                        if (theObject instanceof Graph) {
+                            //cast the loaded object to a graph
+                            Graph loadedGraph = (Graph) theObject;
+
+                            //replace the old graph with the new one
+                            replace(loadedGraph);
+
+                            canvas.repaint();
+                        }
+                    } catch (IOException ex) {
+                        JOptionPane.showMessageDialog(frame, "Unable to read selected file.\n"
+                                + ex.getMessage(), "Oops!", JOptionPane.ERROR_MESSAGE);
+                    } catch (ClassNotFoundException ex) {
+                        JOptionPane.showMessageDialog(frame, "File is not a figures file.\n"
+                                + ex.getMessage(), "Oops!", JOptionPane.ERROR_MESSAGE);
+                    }
+
+                    saveFile = loadFile; //update the save file
+
+                }
+            }
+        }
+        );
 
         frame.getSaveMenuItem()
                 .addActionListener(new ActionListener() {
@@ -857,67 +816,109 @@ public class GraphController {
         setSelectedVertex();
         canvas.repaint();
     }
-    
-    private void addEdge() {
+
+    private void moveVertex(int mx, int my) {
+        //Find the topmost vertex that 
+        //contains the mouse click (if any):
+
+        //if vertices is null, then there are definitely no
+        //edges and we can stop here. (A graph can't have
+        //edges without vertices.)
+        if (vertices == null) {
+            return;
+        }
+
+        boolean clickedBlankSpace = true;
+
+        for (int i = vertices.size() - 1; i >= 0; --i) {
+            Vertex currentVertex = vertices.get(i);
+            //if this figure contains the mouse click:
+            if (currentVertex.getPositionShape().contains(mx, my)) {
+                //store the clicked vertex (for moving)
+                clickedVertex = currentVertex;
+                //Update the selection
+                verticesList.setSelectedIndex(i);
+                selectedVertexIndex = i;
+                setSelectedVertex();
+                canvas.repaint();
+                clickedBlankSpace = false; //user didn't click blank space
+                break; //exit the loop (we don't need to check the rest)
+            }
+        }
+
+        if (clickedBlankSpace) {
+            shouldChange = false; //don't allow clearSelection to run setSelectedVertex again
+            verticesList.clearSelection(); //deselect vertex in the list
+            selectedVertexIndex = -1;
+            setSelectedVertex();
+            canvas.repaint();
+        }
+
+        //update the last position
+        lastX = mx;
+        lastY = my;
+    }
+
+    private void addEdge(int mx, int my) {
         //Find out which vertex was clicked (if any):
-                    if (firstSelectedVertex == null) { //if this is null, the user hasn't chosen their first vertex
-                        //(If we reach this point, vertices.size() is at least 2)
-                        for (Vertex currentVertex : vertices) { //loop through the vertices
-                            //if we can add edges to this vertex in the first place
-                            //(don't bother checking if shape contains mouse position if not):
-                            if (currentVertex.canAddEdges()) {
-                                //Check if this vertex contains the mouse click:
-                                if (currentVertex.getPositionShape().contains(mx, my)) {
-                                    firstSelectedVertex = currentVertex; //assign the first vertex
-                                    canvas.setFirstSelectedVertex(firstSelectedVertex);
-                                    //Make it so that user can't add edge from a vertex to itself:
-                                    firstSelectedVertex.setCanAddEdges(false);
-                                    //Make it so that user can't add an edge to vertices that are already
-                                    //connected to the firstSelectedVertex:
-                                    firstSelectedVertex.assignCanAddEdgesToConnectedVertices();
-                                    //Reset the highlights
-                                    highlightAvailableVertices();
-                                    lastX = mx;
-                                    lastY = my;
-                                    canvas.setLastPosition(lastX, lastY);
-                                    canvas.repaint();
-                                    return; //we've assigned the first selected vertex and we're done
-                                }
-                            }
-                        }
-                        //if we reach this point, the user hasn't selected and vertex.
-                        //Instead, they clicked empty space. We should cancel the process
-                        exitAddEdgeState();
-                    } else { //The user has already chosen their first vertex
-                        //(If we reach this point, vertices.size() is at least 2)
-                        for (Vertex currentVertex : vertices) { //loop through the vertices
-                            //If this vertex can have edges added to it (no use checking if
-                            //its shape contains the mouse click if not):
-                            if (currentVertex.canAddEdges()) {
-                                //If this figure contains the mouse click:
-                                if (currentVertex.getPositionShape().contains(mx, my)) {
-                                    //Create a new edge with the two vertices
-                                    Edge newEdge = new Edge(firstSelectedVertex, currentVertex);
-                                    newEdge.setStrokeWidth(Helpers.EDGE_STROKE_WIDTH);
-
-                                    edges.add(newEdge); //Add the edge to the graph
-
-                                    updateEdgesListModel(); //update the visual JList
-
-                                    exitAddEdgeState(); //exit the add edge state
-
-                                    isModified = true; //Note that this is not saved
-                                    modifiedTextField.setText("*");
-
-                                    return; //we don't need to check anymore
-                                }
-                            }
-
-                        }
-                        //If we reach this point, we want to cancel the edge
-                        exitAddEdgeState();
-
+        if (firstSelectedVertex == null) { //if this is null, the user hasn't chosen their first vertex
+            //(If we reach this point, vertices.size() is at least 2)
+            for (Vertex currentVertex : vertices) { //loop through the vertices
+                //if we can add edges to this vertex in the first place
+                //(don't bother checking if shape contains mouse position if not):
+                if (currentVertex.canAddEdges()) {
+                    //Check if this vertex contains the mouse click:
+                    if (currentVertex.getPositionShape().contains(mx, my)) {
+                        firstSelectedVertex = currentVertex; //assign the first vertex
+                        canvas.setFirstSelectedVertex(firstSelectedVertex);
+                        //Make it so that user can't add edge from a vertex to itself:
+                        firstSelectedVertex.setCanAddEdges(false);
+                        //Make it so that user can't add an edge to vertices that are already
+                        //connected to the firstSelectedVertex:
+                        firstSelectedVertex.assignCanAddEdgesToConnectedVertices();
+                        //Reset the highlights
+                        highlightAvailableVertices();
+                        lastX = mx;
+                        lastY = my;
+                        canvas.setLastPosition(lastX, lastY);
+                        canvas.repaint();
+                        return; //we've assigned the first selected vertex and we're done
                     }
+                }
+            }
+            //if we reach this point, the user hasn't selected and vertex.
+            //Instead, they clicked empty space. We should cancel the process
+            exitAddEdgeState();
+        } else { //The user has already chosen their first vertex
+            //(If we reach this point, vertices.size() is at least 2)
+            for (Vertex currentVertex : vertices) { //loop through the vertices
+                //If this vertex can have edges added to it (no use checking if
+                //its shape contains the mouse click if not):
+                if (currentVertex.canAddEdges()) {
+                    //If this figure contains the mouse click:
+                    if (currentVertex.getPositionShape().contains(mx, my)) {
+                        //Create a new edge with the two vertices
+                        Edge newEdge = new Edge(firstSelectedVertex, currentVertex);
+                        newEdge.setStrokeWidth(Helpers.EDGE_STROKE_WIDTH);
+
+                        edges.add(newEdge); //Add the edge to the graph
+
+                        updateEdgesListModel(); //update the visual JList
+
+                        exitAddEdgeState(); //exit the add edge state
+
+                        isModified = true; //Note that this is not saved
+                        modifiedTextField.setText("*");
+
+                        return; //we don't need to check anymore
+                    }
+                }
+
+            }
+            //If we reach this point, we want to cancel the edge
+            exitAddEdgeState();
+
+        }
     }
 
     private void enterAddEdgeState() {
