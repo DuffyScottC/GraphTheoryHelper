@@ -156,7 +156,8 @@ public class GraphController {
 
             @Override
             public void mouseReleased(MouseEvent e) {
-                clickedVertex = null; //we don't want to move a figure after the user lets go
+                clickedVertex = null; //we don't want to move a vertex after the user lets go
+                clickedEdge = null; //we don't want to move an edge after the user lets go
             }
 
         });
@@ -178,38 +179,47 @@ public class GraphController {
                 lastX = mx;
                 lastY = my;
 
-                if (clickedVertex == null) { //if the user clicked open space
-                    //move all nodes
-                    for (Vertex v : vertices) {
-                        v.incLocation(incX, incY);
+                if (clickedVertex == null) { //if the user did not click a vertex
+                    if (clickedEdge == null) { //if the user did not click an edge
+                        //Then the user clicked open space
+                        //Move all nodes at once
+                        for (Vertex v : vertices) {
+                            v.incLocation(incX, incY);
+                        }
+                    } else { //if the user clicked an edge
+                        //move both nodes attached to the edge
+                        clickedEdge.getEndpoint1().incLocation(incY, incY);
+                        clickedEdge.getEndpoint2().incLocation(incY, incY);
                     }
-                    canvas.repaint();
                 } else { //if the user clicked a vertex
                     //move the chosen node
                     clickedVertex.incLocation(incX, incY);
-                    canvas.repaint();
                 }
+                canvas.repaint();
             }
 
             @Override
             public void mouseMoved(MouseEvent e) {
-                //If null, user hasn't selected first vertex
-                //(or we're not in the adding edge state
-                if (firstSelectedVertex == null) {
-                    return;
-                }
-                //If firstSelectedVertex is not null, we are in the edge adding state
-                //and the user has clicked the first edge.
-                //The actual drawing happends in this.drawLiveEdge(Graphics2D g2), which
-                //gets called in canvas's paint method
+                    if (addingEdge) { //if we are in the edge adding state
+                        //MARK: Update position for drawing live edge
+                        //If null, user hasn't selected first vertex
+                        //(or we're not in the adding edge state
+                        if (firstSelectedVertex == null) {
+                            return;
+                        }
+                        //If firstSelectedVertex is not null, we are in the edge adding state
+                        //and the user has clicked the first edge.
+                        //The actual drawing happends in this.drawLiveEdge(Graphics2D g2), which
+                        //gets called in canvas's paint method
 
-                //I use these variables to store the 
-                //location of the mouse for drawing the lines
-                lastX = e.getX();
-                lastY = e.getY();
-                canvas.setLastPosition(lastX, lastY);
+                        //I use these variables to store the 
+                        //location of the mouse for drawing the lines
+                        lastX = e.getX();
+                        lastY = e.getY();
+                        canvas.setLastPosition(lastX, lastY);
 
-                canvas.repaint();
+                        canvas.repaint();
+                    }
             }
 
         });
