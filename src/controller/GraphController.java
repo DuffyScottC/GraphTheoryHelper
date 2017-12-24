@@ -188,8 +188,8 @@ public class GraphController {
                         }
                     } else { //if the user clicked an edge
                         //move both nodes attached to the edge
-                        clickedEdge.getEndpoint1().incLocation(incY, incY);
-                        clickedEdge.getEndpoint2().incLocation(incY, incY);
+                        clickedEdge.getEndpoint1().incLocation(incX, incY);
+                        clickedEdge.getEndpoint2().incLocation(incX, incY);
                     }
                 } else { //if the user clicked a vertex
                     //move the chosen node
