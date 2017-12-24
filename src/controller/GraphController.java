@@ -83,7 +83,8 @@ public class GraphController {
     private boolean addingEdge = false;
     /**
      * If this is not null, we want to start drawing an edge between this vertex
-     * and the mouse
+     * and the mouse. Not to be confused with selectedVertex, which is used for
+     * deleting vertices and changing titles.
      */
     private Vertex firstSelectedVertex;
 
@@ -1070,10 +1071,17 @@ public class GraphController {
                         updateEdgesListModel(); //update the visual JList
 
                         exitAddEdgeState(); //exit the add edge state
-
+                        
+                        //Update selection
+                        int lastIndex = edges.size() - 1; //last index in edges
+                        shouldChange = false;
+                        edgesList.setSelectedIndex(lastIndex);
+                        selectedEdgeIndex = lastIndex;
+                        setSelectedEdge();
+                        
                         isModified = true; //Note that this is not saved
                         modifiedTextField.setText("*");
-
+                        
                         return; //we don't need to check anymore
                     }
                 }
