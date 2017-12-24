@@ -841,7 +841,7 @@ public class GraphController {
      */
     private void selectVertexOrEdge(int mx, int my) {
         //MARK: Select vertex
-
+        
         //Find the topmost vertex that 
         //contains the mouse click (if any):
         //if vertices is null, then there are definitely no edges and we can 
