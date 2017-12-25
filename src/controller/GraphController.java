@@ -137,7 +137,7 @@ public class GraphController {
 
         canvas.setGraph(graph); //pass the graph to the canvas
         canvas.setGraphOutputTextField(frame.getGraphOutputTextField());
-        
+
         statusTextField = frame.getStatusTextField();
         titleTextField = frame.getTitleTextField();
         verticesList = frame.getVerticesList(); //the visual JList that the user sees and interacts with
@@ -262,32 +262,8 @@ public class GraphController {
         frame.getAddVertexButton().addActionListener(new ActionListener() {
             @Override
             public void actionPerformed(ActionEvent e) {
-                //For now, each new vertex is simply added to the center
-                int xPos = canvas.getWidth() / 2;
-                int yPos = canvas.getHeight() / 2;
 
-                Vertex newVertex = new Vertex(Values.DIAMETER);
-                newVertex.setLocation(xPos, yPos);
-                newVertex.setStrokeColor(Values.VERTEX_STROKE_COLOR);
-                newVertex.setFillColor(Values.VERTEX_FILL_COLOR);
-                newVertex.setStrokeWidth(Values.VERTEX_STROKE_WIDTH);
-                String newTitle = generateVertexTitle();
-                newVertex.setTitle(newTitle);
-                vertices.add(newVertex);
-
-                updateVerticesListModel();
-
-                //Update selection:
-                int bottomIndex = vertices.size() - 1;
-                //Set the selection of the visual JList to the bottom
-                shouldChange = false;
-                verticesList.setSelectedIndex(bottomIndex);
-                selectedVertexIndex = bottomIndex;
-                setSelectedVertex();
-                canvas.repaint();
-                isModified = true;
-                modifiedTextField.setText("*");
-                statusTextField.setText("Vertex added.");
+                statusTextField.setText("Click in the canvas to add vertices.");
             }
         });
 
@@ -498,48 +474,48 @@ public class GraphController {
         });
 
         frame.getSaveMenuItem().addActionListener(new ActionListener() {
-                    @Override
-                    public void actionPerformed(ActionEvent e) {
-                        if (saveFile == null) {
-                            saveGraphAs();
-                        } else {
-                            saveGraph();
-                        }
-                    }
-                });
+            @Override
+            public void actionPerformed(ActionEvent e) {
+                if (saveFile == null) {
+                    saveGraphAs();
+                } else {
+                    saveGraph();
+                }
+            }
+        });
 
         frame.getNewMenuItem().addActionListener(new ActionListener() {
-                    @Override
-                    public void actionPerformed(ActionEvent e) {
-                        if (isModified) {
-                            if (!shouldContinue("OK to discard changes?")) {
-                                return;
-                            }
-                        }
-
-                        saveFile = null; //we no longer have a file to save
-
-                        clear();
-
-                        isModified = true; //we have not yet saved the new file
-                        modifiedTextField.setText("*");
-                        statusTextField.setText("New graph created.");
+            @Override
+            public void actionPerformed(ActionEvent e) {
+                if (isModified) {
+                    if (!shouldContinue("OK to discard changes?")) {
+                        return;
                     }
-                });
+                }
+
+                saveFile = null; //we no longer have a file to save
+
+                clear();
+
+                isModified = true; //we have not yet saved the new file
+                modifiedTextField.setText("*");
+                statusTextField.setText("New graph created.");
+            }
+        });
 
         frame.getAddVerticesMenuItem().addActionListener(new ActionListener() {
-                    @Override
-                    public void actionPerformed(ActionEvent e) {
-                        addGraphDialog.setLocationRelativeTo(null);
-                        addGraphDialog.setTitle("Add Vertices");
+            @Override
+            public void actionPerformed(ActionEvent e) {
+                addGraphDialog.setLocationRelativeTo(null);
+                addGraphDialog.setTitle("Add Vertices");
 
-                        addGraphDialog.setFocusToTextField();
+                addGraphDialog.setFocusToTextField();
 
-                        addGraphDialog.getRootPane().setDefaultButton(addGraphDialog.getAddButton());
+                addGraphDialog.getRootPane().setDefaultButton(addGraphDialog.getAddButton());
 
-                        addGraphDialog.setVisible(true);
-                    }
-                });
+                addGraphDialog.setVisible(true);
+            }
+        });
 
         frame.getFormatVerticesMenuItem().addActionListener(new ActionListener() {
             @Override
@@ -840,7 +816,7 @@ public class GraphController {
      */
     private void selectVertexOrEdge(int mx, int my) {
         //MARK: Select vertex
-        
+
         //Find the topmost vertex that 
         //contains the mouse click (if any):
         //if vertices is null, then there are definitely no edges and we can 
@@ -908,17 +884,16 @@ public class GraphController {
                             if (ep1.y < my && my < ep2.y) { //if my is between ep1.y and ep2.y
                                 clickedAnEdge = true; //we clicked edge e
                             }
-                        } else { //if ep2 is higher than ep1
-                            //ep2.y<my<ep1.y
-                            if (ep2.y < my && my < ep1.y) { //if my is between ep2.y and ep1.y
-                                clickedAnEdge = true; //we clicked edge e
-                            }
+                        } else //if ep2 is higher than ep1
+                        //ep2.y<my<ep1.y
+                        if (ep2.y < my && my < ep1.y) { //if my is between ep2.y and ep1.y
+                            clickedAnEdge = true; //we clicked edge e
                         }
                     }
                 } else { //if the edge is not verticle
                     //Find the point on edge e that is closest to (mx,my) (the intersection, I)
                     Point2D.Double I = getClosestPointOnEdge(mx, my, e);
-                    
+
                     //Find the distance between I and (mx,my)
                     double d = distance(I.x, I.y, mx, my);
                     //(mx,my) is close enough to the line formed by e
@@ -929,7 +904,7 @@ public class GraphController {
                         }
                     }
                 }
-                
+
                 //if we clicked edge e
                 if (clickedAnEdge) {
                     //store the clicked edge (for moving)
@@ -984,7 +959,7 @@ public class GraphController {
         double Ay = A.getCenter().y;
         double Bx = B.getCenter().x;
         double By = B.getCenter().y;
-        
+
         //Handle undefined slope 
         //(if their exactly the same, make one slightly different)
         if (Ax == Bx) {
@@ -1085,6 +1060,30 @@ public class GraphController {
         return distance(x, y, p.x, p.y);
     }
 
+    private void addVertex(int mx, int my) {
+        Vertex newVertex = new Vertex(Values.DIAMETER);
+        newVertex.setLocation(mx, my);
+        newVertex.setStrokeColor(Values.VERTEX_STROKE_COLOR);
+        newVertex.setFillColor(Values.VERTEX_FILL_COLOR);
+        newVertex.setStrokeWidth(Values.VERTEX_STROKE_WIDTH);
+        String newTitle = generateVertexTitle();
+        newVertex.setTitle(newTitle);
+        vertices.add(newVertex);
+
+        updateVerticesListModel();
+
+        //Update selection:
+        int bottomIndex = vertices.size() - 1;
+        //Set the selection of the visual JList to the bottom
+        shouldChange = false;
+        verticesList.setSelectedIndex(bottomIndex);
+        selectedVertexIndex = bottomIndex;
+        setSelectedVertex();
+        canvas.repaint();
+        isModified = true;
+        modifiedTextField.setText("*");
+    }
+
     /**
      * The distance between two vertices
      *
@@ -1180,14 +1179,14 @@ public class GraphController {
         //deselect the vertex
         selectedVertexIndex = -1;
         setSelectedVertex();
-        
+
         //Update edge selection
         shouldChange = false; //don't allow clearSelection to run setSelectedVertex again
         edgesList.clearSelection(); //clear the visual selection in the JList
         //deselect the edge
         selectedEdgeIndex = -1;
         setSelectedEdge();
-        
+
         canvas.repaint(); //repant the canvas
 
         //Assign the canAddEdges values of all the vertices and get the number of vertices
