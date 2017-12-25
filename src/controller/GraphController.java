@@ -73,7 +73,6 @@ public class GraphController {
      */
     private int selectedEdgeIndex;
     private JTextField titleTextField;
-    private JTextField statusTextField;
     private JList verticesList;
     private JList edgesList;
 
@@ -88,6 +87,12 @@ public class GraphController {
      * deleting vertices and changing titles.
      */
     private Vertex firstSelectedVertex;
+    //MARK: Adding vertex state
+    /**
+     * Only true if the user is in the vertex adding state.
+     */
+    private boolean addingVertex = false;
+    
 
     // models for vertex and edge selection lists
     private final DefaultListModel verticesListModel = new DefaultListModel();
@@ -137,8 +142,7 @@ public class GraphController {
 
         canvas.setGraph(graph); //pass the graph to the canvas
         canvas.setGraphOutputTextField(frame.getGraphOutputTextField());
-
-        statusTextField = frame.getStatusTextField();
+        
         titleTextField = frame.getTitleTextField();
         verticesList = frame.getVerticesList(); //the visual JList that the user sees and interacts with
         edgesList = frame.getEdgesList(); //the visual JList that the user sees and interacts with
@@ -262,8 +266,7 @@ public class GraphController {
         frame.getAddVertexButton().addActionListener(new ActionListener() {
             @Override
             public void actionPerformed(ActionEvent e) {
-
-                statusTextField.setText("Click in the canvas to add vertices.");
+                enterAddVerticesState();
             }
         });
 
@@ -299,7 +302,6 @@ public class GraphController {
                 canvas.repaint();
                 isModified = true;
                 modifiedTextField.setText("*");
-                statusTextField.setText("Removed vertex.");
             }
         });
 
@@ -337,7 +339,6 @@ public class GraphController {
                 updateEdgesListModel();
 
                 canvas.repaint();
-                statusTextField.setText("Removed edge.");
             }
         });
 
@@ -469,7 +470,6 @@ public class GraphController {
                     saveFile = loadFile; //update the save file
 
                 }
-                statusTextField.setText("Graph openned.");
             }
         });
 
@@ -499,7 +499,6 @@ public class GraphController {
 
                 isModified = true; //we have not yet saved the new file
                 modifiedTextField.setText("*");
-                statusTextField.setText("New graph created.");
             }
         });
 
@@ -528,7 +527,6 @@ public class GraphController {
                     }
                 }
                 canvas.repaint();
-                statusTextField.setText("Vertices formatted.");
             }
         });
 
@@ -634,7 +632,6 @@ public class GraphController {
                 }
 
                 addGraphDialog.setVisible(false); //close the dialog
-                statusTextField.setText("Graph added.");
             }
         });
 
@@ -642,7 +639,6 @@ public class GraphController {
             @Override
             public void actionPerformed(ActionEvent e) {
                 addGraphDialog.setVisible(false); //close the dialog
-                statusTextField.setText("Cancelled.");
             }
         });
 
@@ -1059,10 +1055,29 @@ public class GraphController {
         Point2D.Double p = v.getCenter();
         return distance(x, y, p.x, p.y);
     }
-
-    private void addVertex(int mx, int my) {
+    
+    /**
+     * The distance between two vertices
+     *
+     * @param v1 The first vertex
+     * @param v2 The second vertex
+     * @return The distance between the two vertices locations
+     */
+    private double distance(Vertex v1, Vertex v2) {
+        Point2D.Double p1 = v1.getCenter();
+        Point2D.Double p2 = v2.getCenter();
+        return distance(p1.x, p1.y, p2.x, p2.y);
+    }
+    
+    /**
+     * Adds a vertex to the canvas at the specified location.
+     * @param x The x-position of the new vertex
+     * @param y The y-position of the new vertex
+     */
+    private void addVertex(int x, int y) {
+        //Create a new vertex object
         Vertex newVertex = new Vertex(Values.DIAMETER);
-        newVertex.setLocation(mx, my);
+        newVertex.setLocation(x, y);
         newVertex.setStrokeColor(Values.VERTEX_STROKE_COLOR);
         newVertex.setFillColor(Values.VERTEX_FILL_COLOR);
         newVertex.setStrokeWidth(Values.VERTEX_STROKE_WIDTH);
@@ -1083,20 +1098,24 @@ public class GraphController {
         isModified = true;
         modifiedTextField.setText("*");
     }
-
+    
     /**
-     * The distance between two vertices
-     *
-     * @param v1 The first vertex
-     * @param v2 The second vertex
-     * @return The distance between the two vertices locations
+     * Used to enter the state in which a user can add vertices to the canvas
+     * by clicking anywhere as many times as they want.
      */
-    private double distance(Vertex v1, Vertex v2) {
-        Point2D.Double p1 = v1.getCenter();
-        Point2D.Double p2 = v2.getCenter();
-        return distance(p1.x, p1.y, p2.x, p2.y);
+    private void enterAddVerticesState() {
+        addingVertex = true; //enter the vertex adding state
     }
-
+    
+    /**
+     * Used to exit the state in which a user can add vertices to the canvas by
+     * clicking anywhere. Called when the user enters selection state or add
+     * edge state. 
+     */
+    private void exitAddVerticesState() {
+        
+    }
+    
     private void addEdge(int mx, int my) {
         //Find out which vertex was clicked (if any):
         if (firstSelectedVertex == null) { //if this is null, the user hasn't chosen their first vertex
@@ -1154,7 +1173,6 @@ public class GraphController {
 
                         isModified = true; //Note that this is not saved
                         modifiedTextField.setText("*");
-                        statusTextField.setText("Edge added.");
 
                         return; //we don't need to check anymore
                     }
@@ -1168,7 +1186,6 @@ public class GraphController {
     }
 
     private void enterAddEdgeState() {
-        statusTextField.setText("Click two vertices to add an edge between.");
         addingEdge = true; //enter the edge adding state
         //highlight all of the vertexes to provide a visual cue that the user is supposed
         //to click one to add the edge
@@ -1360,7 +1377,6 @@ public class GraphController {
 
         isModified = false;
         modifiedTextField.setText("");
-        statusTextField.setText("Saved.");
     }
 
     //MARK: Getters and Setters

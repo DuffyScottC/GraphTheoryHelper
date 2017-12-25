@@ -55,8 +55,6 @@ public class GraphFrame extends javax.swing.JFrame {
         edgesList = new javax.swing.JList<>();
         verticesScrollPane = new javax.swing.JScrollPane();
         verticesList = new javax.swing.JList<>();
-        statusPanel = new javax.swing.JPanel();
-        statusTextField = new javax.swing.JTextField();
         graphOutputPanel = new javax.swing.JPanel();
         graphOutputTextField = new javax.swing.JTextField();
         modifiedTextField = new javax.swing.JTextField();
@@ -191,28 +189,6 @@ public class GraphFrame extends javax.swing.JFrame {
         gridBagConstraints.fill = java.awt.GridBagConstraints.BOTH;
         getContentPane().add(inspectorPanel, gridBagConstraints);
 
-        statusPanel.setLayout(new java.awt.GridBagLayout());
-
-        statusTextField.setEditable(false);
-        statusTextField.addActionListener(new java.awt.event.ActionListener() {
-            public void actionPerformed(java.awt.event.ActionEvent evt) {
-                statusTextFieldActionPerformed(evt);
-            }
-        });
-        gridBagConstraints = new java.awt.GridBagConstraints();
-        gridBagConstraints.gridx = 0;
-        gridBagConstraints.gridy = 0;
-        gridBagConstraints.fill = java.awt.GridBagConstraints.HORIZONTAL;
-        gridBagConstraints.weightx = 0.1;
-        statusPanel.add(statusTextField, gridBagConstraints);
-
-        gridBagConstraints = new java.awt.GridBagConstraints();
-        gridBagConstraints.gridx = 0;
-        gridBagConstraints.gridy = 2;
-        gridBagConstraints.fill = java.awt.GridBagConstraints.BOTH;
-        gridBagConstraints.weightx = 0.1;
-        getContentPane().add(statusPanel, gridBagConstraints);
-
         graphOutputPanel.setLayout(new java.awt.GridBagLayout());
 
         graphOutputTextField.setEditable(false);
@@ -291,10 +267,6 @@ public class GraphFrame extends javax.swing.JFrame {
         // TODO add your handling code here:
     }//GEN-LAST:event_rotate90MenuItemActionPerformed
 
-    private void statusTextFieldActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_statusTextFieldActionPerformed
-        // TODO add your handling code here:
-    }//GEN-LAST:event_statusTextFieldActionPerformed
-
 
     // Variables declaration - do not modify//GEN-BEGIN:variables
     private javax.swing.JLabel JLabel3;
@@ -324,8 +296,6 @@ public class GraphFrame extends javax.swing.JFrame {
     private javax.swing.JMenuItem saveAsMenuItem;
     private javax.swing.JMenuItem saveMenuItem;
     private javax.swing.JCheckBoxMenuItem showVertexNamesMenuItem;
-    private javax.swing.JPanel statusPanel;
-    private javax.swing.JTextField statusTextField;
     private javax.swing.JTextField titleTextField;
     private javax.swing.JPanel verticesButtonPanel;
     private javax.swing.JLabel verticesLabel;
@@ -391,10 +361,6 @@ public class GraphFrame extends javax.swing.JFrame {
     
     public JMenuItem getShowVertexNamesMenuItem() {
         return showVertexNamesMenuItem;
-    }
-    
-    public JTextField getStatusTextField() {
-        return statusTextField;
     }
     
     public JMenu getFileMenu() {
