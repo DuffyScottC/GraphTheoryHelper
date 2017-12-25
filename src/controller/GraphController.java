@@ -1155,6 +1155,7 @@ public class GraphController {
 
                         isModified = true; //Note that this is not saved
                         modifiedTextField.setText("*");
+                        statusTextField.setText("Edge added.");
 
                         return; //we don't need to check anymore
                     }
@@ -1205,7 +1206,6 @@ public class GraphController {
     }
 
     private void exitAddEdgeState() {
-        statusTextField.setText("");
         addingEdge = false;
         firstSelectedVertex = null; //prepare for the next edge
         canvas.setFirstSelectedVertex(null);
