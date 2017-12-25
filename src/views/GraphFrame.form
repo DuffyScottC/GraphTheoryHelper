@@ -187,11 +187,13 @@
             <Component class="javax.swing.JButton" name="addVertexButton">
               <Properties>
                 <Property name="text" type="java.lang.String" value="+"/>
+                <Property name="toolTipText" type="java.lang.String" value="Add vertices"/>
               </Properties>
             </Component>
             <Component class="javax.swing.JButton" name="removeVertexButton">
               <Properties>
                 <Property name="text" type="java.lang.String" value="-"/>
+                <Property name="toolTipText" type="java.lang.String" value="Remove vertices"/>
               </Properties>
             </Component>
           </SubComponents>
@@ -208,11 +210,13 @@
             <Component class="javax.swing.JButton" name="addEdgeButton">
               <Properties>
                 <Property name="text" type="java.lang.String" value="+"/>
+                <Property name="toolTipText" type="java.lang.String" value="Add edges"/>
               </Properties>
             </Component>
             <Component class="javax.swing.JButton" name="removeEdgeButton">
               <Properties>
                 <Property name="text" type="java.lang.String" value="-"/>
+                <Property name="toolTipText" type="java.lang.String" value="Remove edges"/>
               </Properties>
             </Component>
           </SubComponents>

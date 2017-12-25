@@ -114,9 +114,11 @@ public class GraphFrame extends javax.swing.JFrame {
         verticesButtonPanel.setLayout(new javax.swing.BoxLayout(verticesButtonPanel, javax.swing.BoxLayout.LINE_AXIS));
 
         addVertexButton.setText("+");
+        addVertexButton.setToolTipText("Add vertices");
         verticesButtonPanel.add(addVertexButton);
 
         removeVertexButton.setText("-");
+        removeVertexButton.setToolTipText("Remove vertices");
         verticesButtonPanel.add(removeVertexButton);
 
         gridBagConstraints = new java.awt.GridBagConstraints();
@@ -127,9 +129,11 @@ public class GraphFrame extends javax.swing.JFrame {
         edgesButtonPanel.setLayout(new javax.swing.BoxLayout(edgesButtonPanel, javax.swing.BoxLayout.LINE_AXIS));
 
         addEdgeButton.setText("+");
+        addEdgeButton.setToolTipText("Add edges");
         edgesButtonPanel.add(addEdgeButton);
 
         removeEdgeButton.setText("-");
+        removeEdgeButton.setToolTipText("Remove edges");
         edgesButtonPanel.add(removeEdgeButton);
 
         gridBagConstraints = new java.awt.GridBagConstraints();
