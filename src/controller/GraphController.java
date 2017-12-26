@@ -1114,6 +1114,7 @@ public class GraphController {
      */
     private void enterAddVerticesState() {
         addingVertex = true; //enter the vertex adding state
+        canvas.setAddingVertex(true);
     }
     
     /**

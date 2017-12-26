@@ -32,6 +32,7 @@ public class Canvas extends JTextArea {
      * True if we are in the edge adding state
      */
     private boolean showTitles = false;
+    private boolean addingVertex = false;
     
     private List<Vertex> vertices;
     private List<Edge> edges;
@@ -127,12 +128,15 @@ public class Canvas extends JTextArea {
      * @param g2 
      */
     public void drawLiveVertex(Graphics2D g2) {
-        AffineTransform t = g2.getTransform(); // save the transform settings
-        
-        liveVertex.setLocation(lastX, lastY);
-        g2.translate(lastX, lastY);
-        liveVertex.draw(g2);
-        g2.setTransform(t); //restore each after drawing
+        if (addingVertex) {
+            AffineTransform t = g2.getTransform(); // save the transform settings
+            int x = lastX - Values.DIAMETER/3;
+            int y = lastY - Values.DIAMETER/3;
+            liveVertex.setLocation(x, y);
+            g2.translate(x, y);
+            liveVertex.draw(g2);
+            g2.setTransform(t); //restore each after drawing
+        }
     }
     
     /**
@@ -172,6 +176,10 @@ public class Canvas extends JTextArea {
     
     public void setGraphOutputTextField(JTextField graphOutputTextField) {
         this.graphOutputTextField = graphOutputTextField;
+    }
+    
+    public void setAddingVertex(boolean addingVertex) {
+        this.addingVertex = addingVertex;
     }
     
 }
