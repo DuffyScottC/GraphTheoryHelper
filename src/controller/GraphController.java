@@ -13,6 +13,7 @@ import java.awt.BasicStroke;
 import java.awt.Graphics2D;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
+import java.awt.event.KeyAdapter;
 import java.awt.event.KeyEvent;
 import java.awt.event.KeyListener;
 import java.awt.event.MouseAdapter;
@@ -53,7 +54,7 @@ import views.GraphFrame;
  * @author Scott
  */
 public class GraphController {
-
+    
     /**
      * the last selected vertex in the vertices JList (Used for things like
      * setting the title text field, updating the title, changing the color,
@@ -246,22 +247,12 @@ public class GraphController {
 
         });
         
-        frame.addKeyListener(new KeyListener() {
-            @Override
-            public void keyTyped(KeyEvent e) {
-                throw new UnsupportedOperationException("Not supported yet."); //To change body of generated methods, choose Tools | Templates.
-            }
-
+        frame.addKeyListener(new KeyAdapter() {
             @Override
             public void keyPressed(KeyEvent e) {
                 if (e.getKeyCode() == KeyEvent.VK_BACK_SPACE) {
-                    
+                    deleteSelection();
                 }
-            }
-
-            @Override
-            public void keyReleased(KeyEvent e) {
-                throw new UnsupportedOperationException("Not supported yet."); //To change body of generated methods, choose Tools | Templates.
             }
         });
 
@@ -1065,6 +1056,15 @@ public class GraphController {
     
     private void enterSelectionState() {
         selecting = true;
+    }
+    
+    private void deleteSelection() {
+        if (selectedVertexIndex != -1) {
+            removeVertex();
+        }
+        if (selectedEdgeIndex != -1) {
+            removeEdge();
+        }
     }
 
     /**
