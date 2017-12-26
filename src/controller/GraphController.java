@@ -80,7 +80,7 @@ public class GraphController {
     /**
      * Only true if the user is in the edge adding state.
      */
-    private boolean addingEdge = false;
+    private boolean addingEdges = false;
     /**
      * If this is not null, we want to start drawing an edge between this vertex
      * and the mouse. Not to be confused with selectedVertex, which is used for
@@ -91,7 +91,12 @@ public class GraphController {
     /**
      * Only true if the user is in the vertex adding state.
      */
-    private boolean addingVertex = false;
+    private boolean addingVertices = false;
+    //MARK: Selection state
+    /**
+     * Only true if the user is in the selection state.
+     */
+    private boolean selecting = false;
 
     // models for vertex and edge selection lists
     private final DefaultListModel verticesListModel = new DefaultListModel();
@@ -152,9 +157,9 @@ public class GraphController {
             public void mousePressed(MouseEvent e) {
                 int mx = e.getX(); //x-coord of mouse click
                 int my = e.getY(); //y-coord of mouse click
-                if (addingEdge) { //if we are in the edge adding state, we don't want to be able to move any vertices
+                if (addingEdges) { //if we are in the edge adding state, we don't want to be able to move any vertices
                     addEdge(mx, my);
-                } else if (addingVertex) {
+                } else if (addingVertices) {
                     addVertex(mx - Values.DIAMETER / 2, my - Values.DIAMETER / 2);
                 } else { //if we are not in the edge adding state, then we can move the vertices
                     selectVertexOrEdge(mx, my);
@@ -207,7 +212,7 @@ public class GraphController {
 
             @Override
             public void mouseMoved(MouseEvent e) {
-                if (addingEdge) { //if we are in the edge adding state
+                if (addingEdges) { //if we are in the edge adding state
                     //MARK: Update position for drawing live edge
                     //If null, user hasn't selected first vertex
                     //(or we're not in the adding edge state
@@ -227,7 +232,7 @@ public class GraphController {
 
                     canvas.repaint();
                 }
-                if (addingVertex) { //if we are in the adding vertex state
+                if (addingVertices) { //if we are in the adding vertex state
 
                     lastX = e.getX();
                     lastY = e.getY();
@@ -275,7 +280,7 @@ public class GraphController {
         frame.getAddVertexButton().addActionListener(new ActionListener() {
             @Override
             public void actionPerformed(ActionEvent e) {
-                exitAddEdgeState(); //leave the add edge state
+                exitAddEdgesState(); //leave the add edge state
                 enterAddVerticesState(); //enter the add vertices state
             }
         });
@@ -283,7 +288,13 @@ public class GraphController {
         frame.getSelectionButton().addActionListener(new ActionListener() {
             @Override
             public void actionPerformed(ActionEvent e) {
-
+                if (addingVertices) {
+                    exitAddVerticesState();
+                }
+                if (addingEdges) {
+                    exitAddEdgesState();
+                }
+                enterSelectionState();
             }
         });
 
@@ -1028,6 +1039,12 @@ public class GraphController {
         Point2D.Double p2 = v2.getCenter();
         return distance(p1.x, p1.y, p2.x, p2.y);
     }
+    
+    //MARK: States
+    
+    private void enterSelectionState() {
+        selecting = true;
+    }
 
     /**
      * Adds a vertex to the canvas at the specified location.
@@ -1097,7 +1114,7 @@ public class GraphController {
      * clicking anywhere as many times as they want.
      */
     private void enterAddVerticesState() {
-        addingVertex = true; //enter the vertex adding state
+        addingVertices = true; //enter the vertex adding state
         canvas.setAddingVertex(true);
     }
 
@@ -1107,7 +1124,7 @@ public class GraphController {
      * edge state.
      */
     private void exitAddVerticesState() {
-        addingVertex = false; //exit the state
+        addingVertices = false; //exit the state
         canvas.setAddingVertex(false);
     }
 
@@ -1158,7 +1175,7 @@ public class GraphController {
 
                         updateEdgesListModel(); //update the visual JList
 
-                        exitAddEdgeState(); //exit the add edge state
+                        exitAddEdgesState(); //exit the add edge state
                         //reenter the add edge state (allow user to add more edges)
                         enterAddEdgeState();
 
@@ -1177,7 +1194,7 @@ public class GraphController {
                 }
             }
             //If we reach this point, we want to cancel the edge
-            exitAddEdgeState();
+            exitAddEdgesState();
             //reenter the add edge state (allow user to add more edges)
             enterAddEdgeState();
         }
@@ -1199,7 +1216,7 @@ public class GraphController {
 
         updateEdgesListModel();
 
-        exitAddEdgeState();
+        exitAddEdgesState();
         //reenter the add edge state (allow user to add more edges)
         enterAddEdgeState();
 
@@ -1207,7 +1224,7 @@ public class GraphController {
     }
 
     private void enterAddEdgeState() {
-        addingEdge = true; //enter the edge adding state
+        addingEdges = true; //enter the edge adding state
         //highlight all of the vertexes to provide a visual cue that the user is supposed
         //to click one to add the edge
 
@@ -1232,7 +1249,7 @@ public class GraphController {
         int numberOfFalses = assignCanAddEdges();
 
         if (numberOfFalses == vertices.size()) { //if none of the vertices can have edges added to them
-            exitAddEdgeState(); //exit the state because there are no available edges
+            exitAddEdgesState(); //exit the state because there are no available edges
             return; //do not continue
         }
 
@@ -1242,8 +1259,8 @@ public class GraphController {
         canvas.repaint();
     }
 
-    private void exitAddEdgeState() {
-        addingEdge = false;
+    private void exitAddEdgesState() {
+        addingEdges = false;
         firstSelectedVertex = null; //prepare for the next edge
         canvas.setFirstSelectedVertex(null);
         //Unhighlight all vertices
