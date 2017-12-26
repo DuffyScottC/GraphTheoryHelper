@@ -277,6 +277,7 @@ public class GraphController {
         frame.getAddVertexButton().addActionListener(new ActionListener() {
             @Override
             public void actionPerformed(ActionEvent e) {
+                exitAddEdgeState();
                 enterAddVerticesState();
             }
         });
@@ -327,6 +328,7 @@ public class GraphController {
                     JOptionPane.showMessageDialog(frame, "Need at least two vertices to add an edge.");
                     return;
                 }
+                exitAddVerticesState();
                 enterAddEdgeState();
             }
         });
@@ -867,7 +869,6 @@ public class GraphController {
             boolean clickedAnEdge = false;
             for (int i = edges.size() - 1; i >= 0; --i) {
                 Edge e = edges.get(i);
-                System.out.println(e);
                 if (isEdgeVertical(e)) { //if the edge is verticle
                     //All we need to do is check if mx is close enough to e's x-position:
 
@@ -1125,7 +1126,8 @@ public class GraphController {
      * edge state. 
      */
     private void exitAddVerticesState() {
-        
+        addingVertex = false; //exit the state
+        canvas.setAddingVertex(false);
     }
     
     private void addEdge(int mx, int my) {
@@ -1155,9 +1157,6 @@ public class GraphController {
                     }
                 }
             }
-            //if we reach this point, the user hasn't selected and vertex.
-            //Instead, they clicked empty space. We should cancel the process
-            exitAddEdgeState();
         } else { //The user has already chosen their first vertex
             //(If we reach this point, vertices.size() is at least 2)
             for (Vertex currentVertex : vertices) { //loop through the vertices
@@ -1174,8 +1173,6 @@ public class GraphController {
 
                         updateEdgesListModel(); //update the visual JList
 
-                        exitAddEdgeState(); //exit the add edge state
-
                         //Update selection
                         int lastIndex = edges.size() - 1; //last index in edges
                         shouldChange = false;
@@ -1189,11 +1186,7 @@ public class GraphController {
                         return; //we don't need to check anymore
                     }
                 }
-
             }
-            //If we reach this point, we want to cancel the edge
-            exitAddEdgeState();
-
         }
     }
 
