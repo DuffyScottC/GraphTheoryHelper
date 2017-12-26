@@ -1159,8 +1159,9 @@ public class GraphController {
                     }
                 }
             }
-            //if we've clicked the canvas, not a vertex
-            advanceAddEdgeState(); //allow the user to add another edge
+            //if we reach this point, the user hasn't selected and vertex.
+            //Instead, they clicked empty space. We should cancel the process
+            exitAddEdgeState();
         } else { //The user has already chosen their first vertex
             //(If we reach this point, vertices.size() is at least 2)
             for (Vertex currentVertex : vertices) { //loop through the vertices
@@ -1176,14 +1177,15 @@ public class GraphController {
                         edges.add(newEdge); //Add the edge to the graph
 
                         updateEdgesListModel(); //update the visual JList
-
+                        
+                        exitAddEdgeState(); //exit the add edge state
+                        
                         //Update selection
                         int lastIndex = edges.size() - 1; //last index in edges
                         shouldChange = false;
                         edgesList.setSelectedIndex(lastIndex);
                         selectedEdgeIndex = lastIndex;
                         setSelectedEdge();
-                        advanceAddEdgeState(); //allow the user to add another edge
 
                         isModified = true; //Note that this is not saved
                         modifiedTextField.setText("*");
@@ -1192,6 +1194,8 @@ public class GraphController {
                     }
                 }
             }
+            //If we reach this point, we want to cancel the edge
+            exitAddEdgeState();
         }
     }
 
@@ -1230,20 +1234,11 @@ public class GraphController {
 
         canvas.repaint();
     }
-    
-    /**
-     * Allows the user to add another edge once they've added an edge successfully
-     * (chosen their second vertex) or once they've canceled an edge that they were 
-     * going to add before choosing a second vertex
-     */
-    private void advanceAddEdgeState() {
-        firstSelectedVertex = null; //prepare for the next edge
-        canvas.setFirstSelectedVertex(null);
-    }
 
     private void exitAddEdgeState() {
         addingEdge = false;
-        advanceAddEdgeState();
+        firstSelectedVertex = null; //prepare for the next edge
+        canvas.setFirstSelectedVertex(null);
         //Unhighlight all vertices
         for (Vertex v : vertices) {
             v.setStrokeColor(Values.VERTEX_STROKE_COLOR);
