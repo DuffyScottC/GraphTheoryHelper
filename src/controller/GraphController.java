@@ -350,6 +350,8 @@ public class GraphController {
                 edges.remove(selectedEdgeIndex);
 
                 updateEdgesListModel();
+                
+                exitAddEdgeState();
 
                 canvas.repaint();
             }
