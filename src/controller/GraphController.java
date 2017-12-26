@@ -155,6 +155,8 @@ public class GraphController {
                 int my = e.getY(); //y-coord of mouse click
                 if (addingEdge) { //if we are in the edge adding state, we don't want to be able to move any vertices
                     addEdge(mx, my);
+                } else if (addingVertex) {
+                    addVertex(mx - Values.DIAMETER/2, my - Values.DIAMETER/2);
                 } else { //if we are not in the edge adding state, then we can move the vertices
                     selectVertexOrEdge(mx, my);
                 }

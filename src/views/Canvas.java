@@ -130,8 +130,8 @@ public class Canvas extends JTextArea {
     public void drawLiveVertex(Graphics2D g2) {
         if (addingVertex) {
             AffineTransform t = g2.getTransform(); // save the transform settings
-            int x = lastX - Values.DIAMETER/3;
-            int y = lastY - Values.DIAMETER/3;
+            int x = lastX - Values.DIAMETER/2;
+            int y = lastY - Values.DIAMETER/2;
             liveVertex.setLocation(x, y);
             g2.translate(x, y);
             liveVertex.draw(g2);
