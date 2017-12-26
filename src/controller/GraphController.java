@@ -1116,6 +1116,7 @@ public class GraphController {
     private void enterAddVerticesState() {
         addingVertices = true; //enter the vertex adding state
         canvas.setAddingVertex(true);
+        canvas.repaint();
     }
 
     /**
@@ -1126,6 +1127,7 @@ public class GraphController {
     private void exitAddVerticesState() {
         addingVertices = false; //exit the state
         canvas.setAddingVertex(false);
+        canvas.repaint();
     }
 
     private void addEdge(int mx, int my) {
