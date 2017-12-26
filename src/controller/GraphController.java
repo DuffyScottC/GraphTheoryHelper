@@ -277,8 +277,8 @@ public class GraphController {
         frame.getAddVertexButton().addActionListener(new ActionListener() {
             @Override
             public void actionPerformed(ActionEvent e) {
-                exitAddEdgeState();
-                enterAddVerticesState();
+                exitAddEdgeState(); //leave the add edge state
+                enterAddVerticesState(); //enter the add vertices state
             }
         });
 
@@ -352,6 +352,8 @@ public class GraphController {
                 updateEdgesListModel();
                 
                 exitAddEdgeState();
+                //reenter the add edge state (allow user to add more edges)
+                enterAddEdgeState();
 
                 canvas.repaint();
             }
@@ -1160,8 +1162,9 @@ public class GraphController {
                 }
             }
             //if we reach this point, the user hasn't selected and vertex.
-            //Instead, they clicked empty space. We should cancel the process
-            exitAddEdgeState();
+            //and we want to stay in the add edge state so that they can choose another vertex
+//            //Instead, they clicked empty space. We should cancel the process
+//            exitAddEdgeState();
         } else { //The user has already chosen their first vertex
             //(If we reach this point, vertices.size() is at least 2)
             for (Vertex currentVertex : vertices) { //loop through the vertices
@@ -1179,6 +1182,8 @@ public class GraphController {
                         updateEdgesListModel(); //update the visual JList
                         
                         exitAddEdgeState(); //exit the add edge state
+                        //reenter the add edge state (allow user to add more edges)
+                        enterAddEdgeState();
                         
                         //Update selection
                         int lastIndex = edges.size() - 1; //last index in edges
@@ -1196,6 +1201,8 @@ public class GraphController {
             }
             //If we reach this point, we want to cancel the edge
             exitAddEdgeState();
+            //reenter the add edge state (allow user to add more edges)
+            enterAddEdgeState();
         }
     }
 
@@ -1225,7 +1232,7 @@ public class GraphController {
         int numberOfFalses = assignCanAddEdges();
 
         if (numberOfFalses == vertices.size()) { //if none of the vertices can have edges added to them
-            exitAddEdgeState(); //exit the state
+            exitAddEdgeState(); //exit the state because there are no available edges
             return; //do not continue
         }
 
