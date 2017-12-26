@@ -92,7 +92,6 @@ public class GraphController {
      * Only true if the user is in the vertex adding state.
      */
     private boolean addingVertex = false;
-    
 
     // models for vertex and edge selection lists
     private final DefaultListModel verticesListModel = new DefaultListModel();
@@ -142,7 +141,7 @@ public class GraphController {
 
         canvas.setGraph(graph); //pass the graph to the canvas
         canvas.setGraphOutputTextField(frame.getGraphOutputTextField());
-        
+
         titleTextField = frame.getTitleTextField();
         verticesList = frame.getVerticesList(); //the visual JList that the user sees and interacts with
         edgesList = frame.getEdgesList(); //the visual JList that the user sees and interacts with
@@ -156,7 +155,7 @@ public class GraphController {
                 if (addingEdge) { //if we are in the edge adding state, we don't want to be able to move any vertices
                     addEdge(mx, my);
                 } else if (addingVertex) {
-                    addVertex(mx - Values.DIAMETER/2, my - Values.DIAMETER/2);
+                    addVertex(mx - Values.DIAMETER / 2, my - Values.DIAMETER / 2);
                 } else { //if we are not in the edge adding state, then we can move the vertices
                     selectVertexOrEdge(mx, my);
                 }
@@ -229,8 +228,7 @@ public class GraphController {
                     canvas.repaint();
                 }
                 if (addingVertex) { //if we are in the adding vertex state
-                    
-                    
+
                     lastX = e.getX();
                     lastY = e.getY();
                     canvas.setLastPosition(lastX, lastY);
@@ -282,38 +280,10 @@ public class GraphController {
             }
         });
 
-        frame.getRemoveVertexButton().addActionListener(new ActionListener() {
+        frame.getSelectionButton().addActionListener(new ActionListener() {
             @Override
             public void actionPerformed(ActionEvent e) {
-                if (selectedVertexIndex == -1) {
-                    return;
-                }
 
-                //Get the list of edges to remove
-                List<Edge> removeEdges = vertices.get(selectedVertexIndex).getEdges();
-
-                //remove the edges that were attached to this vertex from the list of edges
-                edges.removeAll(removeEdges);
-
-                vertices.remove(selectedVertexIndex); //remove the vertex
-
-                //Remove the edges that were attached to this vertex 
-                //from all the other vertices associated with them
-                for (Edge eg : removeEdges) { //cycle through all the edges to remove
-                    for (Vertex v : vertices) { //cycle through all the vertices
-                        v.removeEdge(eg); //remove each edge from each vertex
-                    }
-                }
-
-                updateVerticesListModel();
-                updateEdgesListModel();
-                //Deselect the vertex:
-                selectedVertexIndex = -1;
-                setSelectedVertex();
-
-                canvas.repaint();
-                isModified = true;
-                modifiedTextField.setText("*");
             }
         });
 
@@ -330,32 +300,6 @@ public class GraphController {
                 }
                 exitAddVerticesState();
                 enterAddEdgeState();
-            }
-        });
-
-        frame.getRemoveEdgeButton().addActionListener(new ActionListener() {
-            @Override
-            public void actionPerformed(ActionEvent e) {
-                //If the user did not choose an edge
-                if (selectedEdgeIndex == -1) {
-                    return;
-                }
-                //Get a reference to the edge
-                Edge edgeToRemove = edges.get(selectedEdgeIndex);
-
-                //Remove the edge from the vertices that the edges were attached to
-                edgeToRemove.getEndpoint1().removeEdge(edgeToRemove);
-                edgeToRemove.getEndpoint2().removeEdge(edgeToRemove);
-
-                edges.remove(selectedEdgeIndex);
-
-                updateEdgesListModel();
-                
-                exitAddEdgeState();
-                //reenter the add edge state (allow user to add more edges)
-                enterAddEdgeState();
-
-                canvas.repaint();
             }
         });
 
@@ -898,9 +842,9 @@ public class GraphController {
                             }
                         } else //if ep2 is higher than ep1
                         //ep2.y<my<ep1.y
-                        if (ep2.y < my && my < ep1.y) { //if my is between ep2.y and ep1.y
-                            clickedAnEdge = true; //we clicked edge e
-                        }
+                         if (ep2.y < my && my < ep1.y) { //if my is between ep2.y and ep1.y
+                                clickedAnEdge = true; //we clicked edge e
+                            }
                     }
                 } else { //if the edge is not verticle
                     //Find the point on edge e that is closest to (mx,my) (the intersection, I)
@@ -1071,7 +1015,7 @@ public class GraphController {
         Point2D.Double p = v.getCenter();
         return distance(x, y, p.x, p.y);
     }
-    
+
     /**
      * The distance between two vertices
      *
@@ -1084,9 +1028,10 @@ public class GraphController {
         Point2D.Double p2 = v2.getCenter();
         return distance(p1.x, p1.y, p2.x, p2.y);
     }
-    
+
     /**
      * Adds a vertex to the canvas at the specified location.
+     *
      * @param x The x-position of the new vertex
      * @param y The y-position of the new vertex
      */
@@ -1114,26 +1059,58 @@ public class GraphController {
         isModified = true;
         modifiedTextField.setText("*");
     }
-    
+
+    private void removeVertex() {
+        if (selectedVertexIndex == -1) {
+            return;
+        }
+
+        //Get the list of edges to remove
+        List<Edge> removeEdges = vertices.get(selectedVertexIndex).getEdges();
+
+        //remove the edges that were attached to this vertex from the list of edges
+        edges.removeAll(removeEdges);
+
+        vertices.remove(selectedVertexIndex); //remove the vertex
+
+        //Remove the edges that were attached to this vertex 
+        //from all the other vertices associated with them
+        for (Edge eg : removeEdges) { //cycle through all the edges to remove
+            for (Vertex v : vertices) { //cycle through all the vertices
+                v.removeEdge(eg); //remove each edge from each vertex
+            }
+        }
+
+        updateVerticesListModel();
+        updateEdgesListModel();
+        //Deselect the vertex:
+        selectedVertexIndex = -1;
+        setSelectedVertex();
+
+        canvas.repaint();
+        isModified = true;
+        modifiedTextField.setText("*");
+    }
+
     /**
-     * Used to enter the state in which a user can add vertices to the canvas
-     * by clicking anywhere as many times as they want.
+     * Used to enter the state in which a user can add vertices to the canvas by
+     * clicking anywhere as many times as they want.
      */
     private void enterAddVerticesState() {
         addingVertex = true; //enter the vertex adding state
         canvas.setAddingVertex(true);
     }
-    
+
     /**
      * Used to exit the state in which a user can add vertices to the canvas by
      * clicking anywhere. Called when the user enters selection state or add
-     * edge state. 
+     * edge state.
      */
     private void exitAddVerticesState() {
         addingVertex = false; //exit the state
         canvas.setAddingVertex(false);
     }
-    
+
     private void addEdge(int mx, int my) {
         //Find out which vertex was clicked (if any):
         if (firstSelectedVertex == null) { //if this is null, the user hasn't chosen their first vertex
@@ -1180,11 +1157,11 @@ public class GraphController {
                         edges.add(newEdge); //Add the edge to the graph
 
                         updateEdgesListModel(); //update the visual JList
-                        
+
                         exitAddEdgeState(); //exit the add edge state
                         //reenter the add edge state (allow user to add more edges)
                         enterAddEdgeState();
-                        
+
                         //Update selection
                         int lastIndex = edges.size() - 1; //last index in edges
                         shouldChange = false;
@@ -1204,6 +1181,29 @@ public class GraphController {
             //reenter the add edge state (allow user to add more edges)
             enterAddEdgeState();
         }
+    }
+
+    private void removeEdge() {
+        //If the user did not choose an edge
+        if (selectedEdgeIndex == -1) {
+            return;
+        }
+        //Get a reference to the edge
+        Edge edgeToRemove = edges.get(selectedEdgeIndex);
+
+        //Remove the edge from the vertices that the edges were attached to
+        edgeToRemove.getEndpoint1().removeEdge(edgeToRemove);
+        edgeToRemove.getEndpoint2().removeEdge(edgeToRemove);
+
+        edges.remove(selectedEdgeIndex);
+
+        updateEdgesListModel();
+
+        exitAddEdgeState();
+        //reenter the add edge state (allow user to add more edges)
+        enterAddEdgeState();
+
+        canvas.repaint();
     }
 
     private void enterAddEdgeState() {
