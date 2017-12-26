@@ -36,16 +36,26 @@ public class Canvas extends JTextArea {
     private List<Vertex> vertices;
     private List<Edge> edges;
     
+    /**
+     * used for drawing a live edge
+     */
     Vertex firstSelectedVertex = null;
+    Vertex liveVertex;
     
     //used for calculating the position of the endpoint of a live edge
     int lastX;
     int lastY;
-
+    
     public void setGraph(Graph graph) {
         this.graph = graph;
         this.vertices = graph.getVertices();
         this.edges = graph.getEdges();
+        
+        //initialize the live vertex
+        liveVertex = new Vertex("", Values.DIAMETER);
+        liveVertex.setFillColor(Values.VERTEX_FILL_COLOR);
+        liveVertex.setStrokeColor(Values.VERTEX_STROKE_COLOR);
+        liveVertex.setStrokeWidth(Values.VERTEX_STROKE_WIDTH);
     }
 
     @Override
@@ -66,6 +76,7 @@ public class Canvas extends JTextArea {
         drawLiveEdge(g2); //used for when we're adding an edge
         drawEdges(g2);
         drawVertices(g2);
+        drawLiveVertex(g2); //used for when we're adding a vertex
         
         graphOutputTextField.setText(graph.toString());
         
@@ -109,6 +120,19 @@ public class Canvas extends JTextArea {
             edge.draw(g2); //actually draw the edge
 //            g2.setTransform(t); //restore each after drawing
         }
+    }
+    
+    /**
+     * We want to draw a vertex under the mouse
+     * @param g2 
+     */
+    public void drawLiveVertex(Graphics2D g2) {
+        AffineTransform t = g2.getTransform(); // save the transform settings
+        
+        liveVertex.setLocation(lastX, lastY);
+        g2.translate(lastX, lastY);
+        liveVertex.draw(g2);
+        g2.setTransform(t); //restore each after drawing
     }
     
     /**

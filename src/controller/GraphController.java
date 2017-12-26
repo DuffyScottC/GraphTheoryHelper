@@ -226,6 +226,15 @@ public class GraphController {
 
                     canvas.repaint();
                 }
+                if (addingVertex) { //if we are in the adding vertex state
+                    
+                    
+                    lastX = e.getX();
+                    lastY = e.getY();
+                    canvas.setLastPosition(lastX, lastY);
+
+                    canvas.repaint();
+                }
             }
 
         });
@@ -497,8 +506,8 @@ public class GraphController {
 
                 clear();
 
-                isModified = true; //we have not yet saved the new file
-                modifiedTextField.setText("*");
+                isModified = false;
+                modifiedTextField.setText("");
             }
         });
 
