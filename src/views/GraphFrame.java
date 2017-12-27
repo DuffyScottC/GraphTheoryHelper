@@ -257,7 +257,7 @@ public class GraphFrame extends javax.swing.JFrame {
         addVerticesMenuItem.setText("Add Vertices");
         editMenu.add(addVerticesMenuItem);
 
-        deleteElementMenuItem.setAccelerator(javax.swing.KeyStroke.getKeyStroke(java.awt.event.KeyEvent.VK_BACK_SPACE, 0));
+        deleteElementMenuItem.setAccelerator(javax.swing.KeyStroke.getKeyStroke(java.awt.event.KeyEvent.VK_G, java.awt.event.InputEvent.META_MASK));
         deleteElementMenuItem.setText("Delete");
         editMenu.add(deleteElementMenuItem);
 
