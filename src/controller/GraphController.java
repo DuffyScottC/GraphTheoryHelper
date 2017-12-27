@@ -42,6 +42,7 @@ import javax.swing.JFileChooser;
 import javax.swing.JList;
 import javax.swing.JOptionPane;
 import javax.swing.JTextField;
+import javax.swing.JToggleButton;
 import javax.swing.ListSelectionModel;
 import javax.swing.event.ListSelectionEvent;
 import javax.swing.event.ListSelectionListener;
@@ -78,6 +79,9 @@ public class GraphController {
     private JTextField titleTextField;
     private JList verticesList;
     private JList edgesList;
+    private JToggleButton addVertexButton;
+    private JToggleButton addEdgeButton;
+    private JToggleButton selectionButton;
 
     //MARK: Adding edge state:
     /**
@@ -154,6 +158,9 @@ public class GraphController {
         verticesList = frame.getVerticesList(); //the visual JList that the user sees and interacts with
         edgesList = frame.getEdgesList(); //the visual JList that the user sees and interacts with
         modifiedTextField = frame.getModifiedTextField();
+        addVertexButton = frame.getAddVertexButton();
+        addEdgeButton = frame.getAddEdgeButton();
+        selectionButton = frame.getSelectionButton();
 
         canvas.addMouseListener(new MouseAdapter() {
             @Override
@@ -280,15 +287,16 @@ public class GraphController {
             }
         });
 
-        frame.getAddVertexButton().addActionListener(new ActionListener() {
+        addVertexButton.addActionListener(new ActionListener() {
             @Override
             public void actionPerformed(ActionEvent e) {
+                
                 exitAddEdgesState(); //leave the add edge state
                 enterAddVerticesState(); //enter the add vertices state
             }
         });
 
-        frame.getSelectionButton().addActionListener(new ActionListener() {
+        selectionButton.addActionListener(new ActionListener() {
             @Override
             public void actionPerformed(ActionEvent e) {
                 if (addingVertices) {
@@ -301,7 +309,7 @@ public class GraphController {
             }
         });
 
-        frame.getAddEdgeButton().addActionListener(new ActionListener() {
+        addEdgeButton.addActionListener(new ActionListener() {
             @Override
             public void actionPerformed(ActionEvent e) {
                 if (vertices == null) {
