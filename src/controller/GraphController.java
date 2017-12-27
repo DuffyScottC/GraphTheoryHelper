@@ -315,16 +315,18 @@ public class GraphController {
         addEdgeButton.addActionListener(new ActionListener() {
             @Override
             public void actionPerformed(ActionEvent e) {
-                addVertexButton.setSelected(false);
-                selectionButton.setSelected(false);
                 if (vertices == null) {
                     JOptionPane.showMessageDialog(frame, "Need at least two vertices to add an edge.");
+                    addEdgeButton.setSelected(false);
                     return;
                 }
                 if (vertices.isEmpty() || vertices.size() == 1) {
                     JOptionPane.showMessageDialog(frame, "Need at least two vertices to add an edge.");
+                    addEdgeButton.setSelected(false);
                     return;
                 }
+                addVertexButton.setSelected(false);
+                selectionButton.setSelected(false);
                 exitAddVerticesState();
                 enterAddEdgeState();
             }
@@ -1263,6 +1265,20 @@ public class GraphController {
 
         canvas.repaint();
     }
+    
+    
+
+    private void exitAddEdgesState() {
+        addingEdges = false;
+        firstSelectedVertex = null; //prepare for the next edge
+        canvas.setFirstSelectedVertex(null);
+        //Unhighlight all vertices
+        for (Vertex v : vertices) {
+            v.setStrokeColor(Values.VERTEX_STROKE_COLOR);
+            v.setStrokeWidth(Values.VERTEX_STROKE_WIDTH);
+        }
+        canvas.repaint();
+    }
 
     private void enterAddEdgeState() {
         addingEdges = true; //enter the edge adding state
@@ -1283,13 +1299,12 @@ public class GraphController {
         selectedEdgeIndex = -1;
         setSelectedEdge();
 
-        canvas.repaint(); //repant the canvas
-
         //Assign the canAddEdges values of all the vertices and get the number of vertices
         //that can't have edges added to them
         int numberOfFalses = assignCanAddEdges();
 
         if (numberOfFalses == vertices.size()) { //if none of the vertices can have edges added to them
+            addEdgeButton.setSelected(false);
             exitAddEdgesState(); //exit the state because there are no available edges
             return; //do not continue
         }
@@ -1297,18 +1312,6 @@ public class GraphController {
         //Highglight appropriate vertices
         highlightAvailableVertices();
 
-        canvas.repaint();
-    }
-
-    private void exitAddEdgesState() {
-        addingEdges = false;
-        firstSelectedVertex = null; //prepare for the next edge
-        canvas.setFirstSelectedVertex(null);
-        //Unhighlight all vertices
-        for (Vertex v : vertices) {
-            v.setStrokeColor(Values.VERTEX_STROKE_COLOR);
-            v.setStrokeWidth(Values.VERTEX_STROKE_WIDTH);
-        }
         canvas.repaint();
     }
 
