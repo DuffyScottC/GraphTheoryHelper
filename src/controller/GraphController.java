@@ -246,15 +246,6 @@ public class GraphController {
             }
 
         });
-        
-        frame.addKeyListener(new KeyAdapter() {
-            @Override
-            public void keyPressed(KeyEvent e) {
-                if (e.getKeyCode() == KeyEvent.VK_BACK_SPACE) {
-                    deleteSelection();
-                }
-            }
-        });
 
         frame.addWindowListener(new WindowAdapter() {
 
@@ -323,6 +314,20 @@ public class GraphController {
                 }
                 exitAddVerticesState();
                 enterAddEdgeState();
+            }
+        });
+        
+        frame.getDeleteButton().addActionListener(new ActionListener() {
+            @Override
+            public void actionPerformed(ActionEvent e) {
+                deleteSelectedElement();
+            }
+        });
+        
+        frame.getDeleteElementMenuItem().addActionListener(new ActionListener() {
+            @Override
+            public void actionPerformed(ActionEvent e) {
+                deleteSelectedElement();
             }
         });
 
@@ -1058,7 +1063,7 @@ public class GraphController {
         selecting = true;
     }
     
-    private void deleteSelection() {
+    private void deleteSelectedElement() {
         if (selectedVertexIndex != -1) {
             removeVertex();
         }
