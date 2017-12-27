@@ -49,7 +49,7 @@ import views.GraphFrame;
  * @author Scott
  */
 public class GraphController {
-    
+
     /**
      * the last selected vertex in the vertices JList (Used for things like
      * setting the title text field, updating the title, changing the color,
@@ -139,7 +139,8 @@ public class GraphController {
     //File I/O:
     private final JFileChooser chooser = new JFileChooser(System.getProperty("user.dir"));
     private File saveFile;
-private int sum = 0;
+    private int sum = 0;
+
     public GraphController() {
         frame.setTitle("Graph Theory Helper");
         frame.setLocationRelativeTo(null);
@@ -181,42 +182,41 @@ private int sum = 0;
         canvas.addMouseMotionListener(new MouseMotionListener() {
             @Override
             public void mouseDragged(MouseEvent e) {
-                if (!selecting) { //if we're not in the selection state
-                    return; //we don't want anything to be movable
-                }
-                
-                isModified = true;
-                modifiedTextField.setText("*");
+                if (selecting) { //if we're not in the selection state
 
-                int mx = e.getX(); //x-coord of mouse click
-                int my = e.getY(); //y-coord of mouse click
+                    isModified = true;
+                    modifiedTextField.setText("*");
 
-                // find the difference between the last position and the current position (used for moving the figure)
-                int incX = mx - lastX;
-                int incY = my - lastY;
+                    int mx = e.getX(); //x-coord of mouse click
+                    int my = e.getY(); //y-coord of mouse click
 
-                //update the last position
-                lastX = mx;
-                lastY = my;
-                canvas.setLastPosition(lastX, lastY);
+                    // find the difference between the last position and the current position (used for moving the figure)
+                    int incX = mx - lastX;
+                    int incY = my - lastY;
 
-                if (clickedVertex == null) { //if the user did not click a vertex
-                    if (clickedEdge == null) { //if the user did not click an edge
-                        //Then the user clicked open space
-                        //Move all nodes at once
-                        for (Vertex v : vertices) {
-                            v.incLocation(incX, incY);
+                    //update the last position
+                    lastX = mx;
+                    lastY = my;
+                    canvas.setLastPosition(lastX, lastY);
+
+                    if (clickedVertex == null) { //if the user did not click a vertex
+                        if (clickedEdge == null) { //if the user did not click an edge
+                            //Then the user clicked open space
+                            //Move all nodes at once
+                            for (Vertex v : vertices) {
+                                v.incLocation(incX, incY);
+                            }
+                        } else { //if the user clicked an edge
+                            //move both nodes attached to the edge
+                            clickedEdge.getEndpoint1().incLocation(incX, incY);
+                            clickedEdge.getEndpoint2().incLocation(incX, incY);
                         }
-                    } else { //if the user clicked an edge
-                        //move both nodes attached to the edge
-                        clickedEdge.getEndpoint1().incLocation(incX, incY);
-                        clickedEdge.getEndpoint2().incLocation(incX, incY);
+                    } else { //if the user clicked a vertex
+                        //move the chosen node
+                        clickedVertex.incLocation(incX, incY);
                     }
-                } else { //if the user clicked a vertex
-                    //move the chosen node
-                    clickedVertex.incLocation(incX, incY);
+                    canvas.repaint();
                 }
-                canvas.repaint();
             }
 
             @Override
@@ -252,7 +252,7 @@ private int sum = 0;
             }
 
         });
-        
+
         canvas.addKeyListener(new KeyAdapter() {
             @Override
             public void keyPressed(KeyEvent e) {
@@ -338,14 +338,14 @@ private int sum = 0;
                 enterAddEdgeState();
             }
         });
-        
+
         frame.getDeleteButton().addActionListener(new ActionListener() {
             @Override
             public void actionPerformed(ActionEvent e) {
                 deleteSelectedElement();
             }
         });
-        
+
         frame.getDeleteElementMenuItem().addActionListener(new ActionListener() {
             @Override
             public void actionPerformed(ActionEvent e) {
@@ -893,9 +893,11 @@ private int sum = 0;
                             }
                         } else //if ep2 is higher than ep1
                         //ep2.y<my<ep1.y
-                         if (ep2.y < my && my < ep1.y) { //if my is between ep2.y and ep1.y
+                        {
+                            if (ep2.y < my && my < ep1.y) { //if my is between ep2.y and ep1.y
                                 clickedAnEdge = true; //we clicked edge e
                             }
+                        }
                     }
                 } else { //if the edge is not verticle
                     //Find the point on edge e that is closest to (mx,my) (the intersection, I)
@@ -1079,13 +1081,12 @@ private int sum = 0;
         Point2D.Double p2 = v2.getCenter();
         return distance(p1.x, p1.y, p2.x, p2.y);
     }
-    
+
     //MARK: States
-    
     private void enterSelectionState() {
         selecting = true;
     }
-    
+
     private void deleteSelectedElement() {
         if (selectedVertexIndex != -1) {
             removeVertex();
@@ -1273,8 +1274,6 @@ private int sum = 0;
 
         canvas.repaint();
     }
-    
-    
 
     private void exitAddEdgesState() {
         addingEdges = false;
