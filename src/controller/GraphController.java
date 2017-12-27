@@ -290,7 +290,8 @@ public class GraphController {
         addVertexButton.addActionListener(new ActionListener() {
             @Override
             public void actionPerformed(ActionEvent e) {
-                
+                selectionButton.setSelected(false);
+                addEdgeButton.setSelected(false);
                 exitAddEdgesState(); //leave the add edge state
                 enterAddVerticesState(); //enter the add vertices state
             }
@@ -299,6 +300,8 @@ public class GraphController {
         selectionButton.addActionListener(new ActionListener() {
             @Override
             public void actionPerformed(ActionEvent e) {
+                addVertexButton.setSelected(false);
+                addEdgeButton.setSelected(false);
                 if (addingVertices) {
                     exitAddVerticesState();
                 }
@@ -312,6 +315,8 @@ public class GraphController {
         addEdgeButton.addActionListener(new ActionListener() {
             @Override
             public void actionPerformed(ActionEvent e) {
+                addVertexButton.setSelected(false);
+                selectionButton.setSelected(false);
                 if (vertices == null) {
                     JOptionPane.showMessageDialog(frame, "Need at least two vertices to add an edge.");
                     return;
