@@ -228,7 +228,6 @@ public class GraphController {
                 lastY = e.getY();
                 canvas.setLastPosition(lastX, lastY);
                 if (addingEdges) { //if we are in the edge adding state
-                    
                     if (firstSelectedVertex == null) {
                         return;
                     }
@@ -1357,7 +1356,7 @@ public class GraphController {
             //if this vertex is available to add edges to
             if (v.canAddEdges()) {
                 v.setStrokeColor(Values.VERTEX_HIGHLIGHT_COLOR);
-                v.setStrokeWidth(Values.VERTEX_HIGHLIGHT_STROKE_WIDTH);
+                v.setStrokeWidth(Values.VERTEX_AVAILABLE_STROKE_WIDTH);
             } else { //if this vertex is completely full
                 v.setStrokeColor(Values.VERTEX_STROKE_COLOR);
                 v.setStrokeWidth(Values.VERTEX_STROKE_WIDTH);
