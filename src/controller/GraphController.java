@@ -61,21 +61,21 @@ public class GraphController {
      * setting the title text field, updating the title, changing the color,
      * etc.)
      */
-    private Vertex selectedVertex;
+    private Vertex selectedVertex = null;
     /**
      * The last selected edge in the edges JList
      */
-    private Edge selectedEdge;
+    private Edge selectedEdge = null;
     /**
      * the last selected index in the vertices JList (Used for things like
      * setting the title text field, updating the title, changing the color,
      * etc.)
      */
-    private int selectedVertexIndex;
+    private int selectedVertexIndex = -1;
     /**
      * The last selected index in the edges JList
      */
-    private int selectedEdgeIndex;
+    private int selectedEdgeIndex = -1;
     private JTextField titleTextField;
     private JList verticesList;
     private JList edgesList;
@@ -342,6 +342,7 @@ public class GraphController {
         frame.getDeleteElementMenuItem().addActionListener(new ActionListener() {
             @Override
             public void actionPerformed(ActionEvent e) {
+                System.out.println("delleted");
                 deleteSelectedElement();
             }
         });
@@ -1079,6 +1080,7 @@ public class GraphController {
     }
     
     private void deleteSelectedElement() {
+        System.out.println(selectedVertexIndex + " " + selectedEdgeIndex);
         if (selectedVertexIndex != -1) {
             removeVertex();
         }
