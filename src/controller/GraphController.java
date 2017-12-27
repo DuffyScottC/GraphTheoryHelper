@@ -676,9 +676,9 @@ public class GraphController {
             titleTextField.setText(selectedVertex.getTitle());
             titleTextField.setEditable(true);
             //Set the focus to be in the titleTextField
-            titleTextField.requestFocus();
-            titleTextField.setSelectionStart(0);
-            titleTextField.setSelectionEnd(titleTextField.getText().length());
+//            titleTextField.requestFocus();
+//            titleTextField.setSelectionStart(0);
+//            titleTextField.setSelectionEnd(titleTextField.getText().length());
         }
     }
 
