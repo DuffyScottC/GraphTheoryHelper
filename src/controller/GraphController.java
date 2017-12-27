@@ -196,7 +196,6 @@ public class GraphController {
                 canvas.setLastPosition(lastX, lastY);
                 
                 if (selecting) { //if we're not in the selection state
-
                     isModified = true;
                     modifiedTextField.setText("*");
                     
@@ -223,7 +222,6 @@ public class GraphController {
             @Override
             public void mouseMoved(MouseEvent e) {
                 //Update position for drawing live edge
-                
                 lastX = e.getX();
                 lastY = e.getY();
                 canvas.setLastPosition(lastX, lastY);
@@ -231,6 +229,7 @@ public class GraphController {
                     if (firstSelectedVertex == null) {
                         return;
                     }
+                    hoverOverVertex();
                     canvas.repaint();
                 }
                 if (addingVertices) { //if we are in the adding vertex state
@@ -1356,10 +1355,23 @@ public class GraphController {
             //if this vertex is available to add edges to
             if (v.canAddEdges()) {
                 v.setStrokeColor(Values.VERTEX_HIGHLIGHT_COLOR);
-                v.setStrokeWidth(Values.VERTEX_AVAILABLE_STROKE_WIDTH);
+//                v.setStrokeWidth(Values.VERTEX_HOVER_STROKE_WIDTH);
             } else { //if this vertex is completely full
                 v.setStrokeColor(Values.VERTEX_STROKE_COLOR);
                 v.setStrokeWidth(Values.VERTEX_STROKE_WIDTH);
+            }
+        }
+    }
+    
+    private void hoverOverVertex() {
+        for (int i = vertices.size() - 1; i >= 0; i--) {
+            Vertex v = vertices.get(i);
+            if (v.canAddEdges()) { //if this vertex can have edges added to it
+                //if the mouse is hovering over this vertex
+                if (v.getPositionShape().contains(lastX, lastY)) {
+                    //update the stroke width
+                    v.setStrokeWidth(Values.VERTEX_HOVER_STROKE_WIDTH);
+                }
             }
         }
     }
