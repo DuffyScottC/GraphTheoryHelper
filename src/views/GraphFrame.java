@@ -13,6 +13,7 @@ import javax.swing.JMenuItem;
 import javax.swing.JPanel;
 import javax.swing.JTextArea;
 import javax.swing.JTextField;
+import javax.swing.JToggleButton;
 
 /**
  *
@@ -50,9 +51,10 @@ public class GraphFrame extends javax.swing.JFrame {
         verticesScrollPane = new javax.swing.JScrollPane();
         verticesList = new javax.swing.JList<>();
         buttonPanel = new javax.swing.JPanel();
-        addEdgeButton = new javax.swing.JButton();
-        addVertexButton = new javax.swing.JButton();
-        selectionButton = new javax.swing.JButton();
+        deleteButton = new javax.swing.JButton();
+        addVertexButton = new javax.swing.JToggleButton();
+        addEdgeButton = new javax.swing.JToggleButton();
+        selectionButton = new javax.swing.JToggleButton();
         graphOutputPanel = new javax.swing.JPanel();
         graphOutputTextField = new javax.swing.JTextField();
         modifiedTextField = new javax.swing.JTextField();
@@ -65,6 +67,7 @@ public class GraphFrame extends javax.swing.JFrame {
         editMenu = new javax.swing.JMenu();
         rotate90MenuItem = new javax.swing.JMenuItem();
         addVerticesMenuItem = new javax.swing.JMenuItem();
+        deleteElementMenuItem = new javax.swing.JMenuItem();
         viewMenu = new javax.swing.JMenu();
         showVertexNamesMenuItem = new javax.swing.JCheckBoxMenuItem();
         formatVerticesMenuItem = new javax.swing.JMenuItem();
@@ -134,6 +137,7 @@ public class GraphFrame extends javax.swing.JFrame {
         gridBagConstraints.gridx = 0;
         gridBagConstraints.gridy = 5;
         gridBagConstraints.fill = java.awt.GridBagConstraints.BOTH;
+        gridBagConstraints.weightx = 0.1;
         gridBagConstraints.weighty = 0.1;
         gridBagConstraints.insets = new java.awt.Insets(0, 4, 0, 4);
         inspectorPanel.add(edgesScrollPane, gridBagConstraints);
@@ -153,25 +157,31 @@ public class GraphFrame extends javax.swing.JFrame {
         gridBagConstraints.gridx = 0;
         gridBagConstraints.gridy = 3;
         gridBagConstraints.fill = java.awt.GridBagConstraints.BOTH;
+        gridBagConstraints.weightx = 0.1;
         gridBagConstraints.weighty = 0.1;
         gridBagConstraints.insets = new java.awt.Insets(0, 4, 0, 4);
         inspectorPanel.add(verticesScrollPane, gridBagConstraints);
 
         buttonPanel.setLayout(new java.awt.GridBagLayout());
 
-        addEdgeButton.setText("Add Edges");
-        addEdgeButton.setToolTipText("Add edges");
+        deleteButton.setText("Delete");
         gridBagConstraints = new java.awt.GridBagConstraints();
+        gridBagConstraints.gridx = 0;
+        gridBagConstraints.gridy = 3;
         gridBagConstraints.fill = java.awt.GridBagConstraints.HORIZONTAL;
-        buttonPanel.add(addEdgeButton, gridBagConstraints);
+        buttonPanel.add(deleteButton, gridBagConstraints);
 
         addVertexButton.setText("Add Vertices");
-        addVertexButton.setToolTipText("Add vertices");
+        gridBagConstraints = new java.awt.GridBagConstraints();
+        gridBagConstraints.fill = java.awt.GridBagConstraints.HORIZONTAL;
+        buttonPanel.add(addVertexButton, gridBagConstraints);
+
+        addEdgeButton.setText("Add Edges");
         gridBagConstraints = new java.awt.GridBagConstraints();
         gridBagConstraints.gridx = 0;
         gridBagConstraints.gridy = 1;
         gridBagConstraints.fill = java.awt.GridBagConstraints.HORIZONTAL;
-        buttonPanel.add(addVertexButton, gridBagConstraints);
+        buttonPanel.add(addEdgeButton, gridBagConstraints);
 
         selectionButton.setText("Selection");
         gridBagConstraints = new java.awt.GridBagConstraints();
@@ -247,6 +257,10 @@ public class GraphFrame extends javax.swing.JFrame {
         addVerticesMenuItem.setText("Add Vertices");
         editMenu.add(addVerticesMenuItem);
 
+        deleteElementMenuItem.setAccelerator(javax.swing.KeyStroke.getKeyStroke(java.awt.event.KeyEvent.VK_X, java.awt.event.InputEvent.META_MASK));
+        deleteElementMenuItem.setText("Delete");
+        editMenu.add(deleteElementMenuItem);
+
         myMenuBar.add(editMenu);
 
         viewMenu.setText("View");
@@ -273,12 +287,14 @@ public class GraphFrame extends javax.swing.JFrame {
 
     // Variables declaration - do not modify//GEN-BEGIN:variables
     private javax.swing.JLabel JLabel3;
-    private javax.swing.JButton addEdgeButton;
-    private javax.swing.JButton addVertexButton;
+    private javax.swing.JToggleButton addEdgeButton;
+    private javax.swing.JToggleButton addVertexButton;
     private javax.swing.JMenuItem addVerticesMenuItem;
     private javax.swing.JPanel buttonPanel;
     private views.Canvas canvas;
     private javax.swing.JScrollPane canvasScrollPane;
+    private javax.swing.JButton deleteButton;
+    private javax.swing.JMenuItem deleteElementMenuItem;
     private javax.swing.JLabel edgesLabel;
     private javax.swing.JList<String> edgesList;
     private javax.swing.JScrollPane edgesScrollPane;
@@ -296,7 +312,7 @@ public class GraphFrame extends javax.swing.JFrame {
     private javax.swing.JMenuItem rotate90MenuItem;
     private javax.swing.JMenuItem saveAsMenuItem;
     private javax.swing.JMenuItem saveMenuItem;
-    private javax.swing.JButton selectionButton;
+    private javax.swing.JToggleButton selectionButton;
     private javax.swing.JCheckBoxMenuItem showVertexNamesMenuItem;
     private javax.swing.JTextField titleTextField;
     private javax.swing.JLabel verticesLabel;
@@ -305,11 +321,11 @@ public class GraphFrame extends javax.swing.JFrame {
     private javax.swing.JMenu viewMenu;
     // End of variables declaration//GEN-END:variables
 
-    public JButton getAddEdgeButton() {
+    public JToggleButton getAddEdgeButton() {
         return addEdgeButton;
     }
 
-    public JButton getAddVertexButton() {
+    public JToggleButton getAddVertexButton() {
         return addVertexButton;
     }
 
@@ -332,7 +348,7 @@ public class GraphFrame extends javax.swing.JFrame {
         return openMenuItem;
     }
 
-    public JButton getSelectionButton() {
+    public JToggleButton getSelectionButton() {
         return selectionButton;
     }
     
@@ -388,5 +404,13 @@ public class GraphFrame extends javax.swing.JFrame {
     
     public JTextField getGraphOutputTextField() {
         return graphOutputTextField;
+    }
+    
+    public JButton getDeleteButton() {
+        return deleteButton;
+    }
+    
+    public JMenuItem getDeleteElementMenuItem() {
+        return deleteElementMenuItem;
     }
 }
