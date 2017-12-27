@@ -182,23 +182,24 @@ public class GraphController {
         canvas.addMouseMotionListener(new MouseMotionListener() {
             @Override
             public void mouseDragged(MouseEvent e) {
+                int mx = e.getX(); //x-coord of mouse click
+                int my = e.getY(); //y-coord of mouse click
+                
+                //Find the difference between the last position and the current 
+                //position (used for moving the figure)
+                int incX = mx - lastX;
+                int incY = my - lastY;
+
+                //update the last position
+                lastX = mx;
+                lastY = my;
+                canvas.setLastPosition(lastX, lastY);
+                
                 if (selecting) { //if we're not in the selection state
 
                     isModified = true;
                     modifiedTextField.setText("*");
-
-                    int mx = e.getX(); //x-coord of mouse click
-                    int my = e.getY(); //y-coord of mouse click
-
-                    // find the difference between the last position and the current position (used for moving the figure)
-                    int incX = mx - lastX;
-                    int incY = my - lastY;
-
-                    //update the last position
-                    lastX = mx;
-                    lastY = my;
-                    canvas.setLastPosition(lastX, lastY);
-
+                    
                     if (clickedVertex == null) { //if the user did not click a vertex
                         if (clickedEdge == null) { //if the user did not click an edge
                             //Then the user clicked open space
@@ -215,12 +216,15 @@ public class GraphController {
                         //move the chosen node
                         clickedVertex.incLocation(incX, incY);
                     }
-                    canvas.repaint();
                 }
+                canvas.repaint();
             }
 
             @Override
             public void mouseMoved(MouseEvent e) {
+                lastX = e.getX();
+                lastY = e.getY();
+                canvas.setLastPosition(lastX, lastY);
                 if (addingEdges) { //if we are in the edge adding state
                     //MARK: Update position for drawing live edge
                     //If null, user hasn't selected first vertex
@@ -232,23 +236,14 @@ public class GraphController {
                     //and the user has clicked the first edge.
                     //The actual drawing happends in this.drawLiveEdge(Graphics2D g2), which
                     //gets called in canvas's paint method
+                    
 
-                    //I use these variables to store the 
-                    //location of the mouse for drawing the lines
-                    lastX = e.getX();
-                    lastY = e.getY();
-                    canvas.setLastPosition(lastX, lastY);
-
-                    canvas.repaint();
                 }
                 if (addingVertices) { //if we are in the adding vertex state
 
-                    lastX = e.getX();
-                    lastY = e.getY();
-                    canvas.setLastPosition(lastX, lastY);
-
-                    canvas.repaint();
+                    
                 }
+                canvas.repaint();
             }
 
         });
