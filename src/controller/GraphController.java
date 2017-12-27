@@ -227,9 +227,6 @@ public class GraphController {
                 canvas.setLastPosition(lastX, lastY);
                 if (addingEdges) { //if we are in the edge adding state
                     hoverOverVertex();
-                    if (firstSelectedVertex == null) {
-                        return;
-                    }
                     canvas.repaint();
                 }
                 if (addingVertices) { //if we are in the adding vertex state
@@ -1313,7 +1310,10 @@ public class GraphController {
 
         if (numberOfFalses == vertices.size()) { //if none of the vertices can have edges added to them
             addEdgeButton.setSelected(false);
+            addEdgeButton.setSelected(false);
+            selectionButton.setSelected(true);
             exitAddEdgesState(); //exit the state because there are no available edges
+            enterSelectionState();
             return; //do not continue
         }
 
@@ -1364,12 +1364,15 @@ public class GraphController {
     }
     
     private void hoverOverVertex() {
+        //loop through all the vertices
         for (int i = vertices.size() - 1; i >= 0; i--) {
             Vertex v = vertices.get(i);
             //(Note: it's faster to check if canAddEdges before contains(x,y))
+            System.out.print(v + " " + v.canAddEdges());
             if (v.canAddEdges()) { //if this vertex can have edges added to it
                 //if the mouse is hovering over this vertex
                 if (v.getPositionShape().contains(lastX, lastY)) {
+                    System.out.print(" hover");
                     //highlight it
                     v.setStrokeWidth(Values.VERTEX_HIGHLIGHT_STROKE_WIDTH);
                 } else { //if the mouse is not hovering over this vertex
@@ -1377,7 +1380,9 @@ public class GraphController {
                     v.setStrokeWidth(Values.VERTEX_AVAILABLE_STROKE_WIDTH);
                 }
             }
+            System.out.print("|||");
         }
+        System.out.println("");
     }
 
     private void updateVerticesListModel() {
