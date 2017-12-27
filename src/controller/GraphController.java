@@ -222,28 +222,22 @@ public class GraphController {
 
             @Override
             public void mouseMoved(MouseEvent e) {
+                //Update position for drawing live edge
+                
                 lastX = e.getX();
                 lastY = e.getY();
                 canvas.setLastPosition(lastX, lastY);
                 if (addingEdges) { //if we are in the edge adding state
-                    //MARK: Update position for drawing live edge
-                    //If null, user hasn't selected first vertex
-                    //(or we're not in the adding edge state
+                    
                     if (firstSelectedVertex == null) {
                         return;
                     }
-                    //If firstSelectedVertex is not null, we are in the edge adding state
-                    //and the user has clicked the first edge.
-                    //The actual drawing happends in this.drawLiveEdge(Graphics2D g2), which
-                    //gets called in canvas's paint method
-                    
-
+                    canvas.repaint();
                 }
                 if (addingVertices) { //if we are in the adding vertex state
-
-                    
+                    canvas.repaint();
                 }
-                canvas.repaint();
+                //don't want to repaint canvas if nothing happened
             }
 
         });
