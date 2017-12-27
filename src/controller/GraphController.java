@@ -226,10 +226,10 @@ public class GraphController {
                 lastY = e.getY();
                 canvas.setLastPosition(lastX, lastY);
                 if (addingEdges) { //if we are in the edge adding state
+                    hoverOverVertex();
                     if (firstSelectedVertex == null) {
                         return;
                     }
-                    hoverOverVertex();
                     canvas.repaint();
                 }
                 if (addingVertices) { //if we are in the adding vertex state
@@ -1374,7 +1374,7 @@ public class GraphController {
                     v.setStrokeWidth(Values.VERTEX_HIGHLIGHT_STROKE_WIDTH);
                 } else { //if the mouse is not hovering over this vertex
                     //unhighlight it
-                    v.setStrokeWidth(Values.VERTEX_STROKE_WIDTH);
+                    v.setStrokeWidth(Values.VERTEX_AVAILABLE_STROKE_WIDTH);
                 }
             }
         }
