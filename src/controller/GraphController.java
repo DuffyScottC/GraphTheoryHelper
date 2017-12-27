@@ -255,6 +255,20 @@ public class GraphController {
                 sum++;
             }
         });
+        verticesList.addKeyListener(new KeyAdapter() {
+            @Override
+            public void keyPressed(KeyEvent e) {
+                System.out.println("Key pressed" + sum);
+                sum++;
+            }
+        });
+        edgesList.addKeyListener(new KeyAdapter() {
+            @Override
+            public void keyPressed(KeyEvent e) {
+                System.out.println("Key pressed" + sum);
+                sum++;
+            }
+        });
 
         frame.addWindowListener(new WindowAdapter() {
 
