@@ -1355,7 +1355,7 @@ public class GraphController {
             //if this vertex is available to add edges to
             if (v.canAddEdges()) {
                 v.setStrokeColor(Values.VERTEX_HIGHLIGHT_COLOR);
-//                v.setStrokeWidth(Values.VERTEX_HOVER_STROKE_WIDTH);
+                v.setStrokeWidth(Values.VERTEX_AVAILABLE_STROKE_WIDTH);
             } else { //if this vertex is completely full
                 v.setStrokeColor(Values.VERTEX_STROKE_COLOR);
                 v.setStrokeWidth(Values.VERTEX_STROKE_WIDTH);
@@ -1366,11 +1366,15 @@ public class GraphController {
     private void hoverOverVertex() {
         for (int i = vertices.size() - 1; i >= 0; i--) {
             Vertex v = vertices.get(i);
+            //(Note: it's faster to check if canAddEdges before contains(x,y))
             if (v.canAddEdges()) { //if this vertex can have edges added to it
                 //if the mouse is hovering over this vertex
                 if (v.getPositionShape().contains(lastX, lastY)) {
-                    //update the stroke width
-                    v.setStrokeWidth(Values.VERTEX_HOVER_STROKE_WIDTH);
+                    //highlight it
+                    v.setStrokeWidth(Values.VERTEX_HIGHLIGHT_STROKE_WIDTH);
+                } else { //if the mouse is not hovering over this vertex
+                    //unhighlight it
+                    v.setStrokeWidth(Values.VERTEX_STROKE_WIDTH);
                 }
             }
         }
