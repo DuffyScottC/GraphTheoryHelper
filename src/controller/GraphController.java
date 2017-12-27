@@ -181,42 +181,42 @@ private int sum = 0;
         canvas.addMouseMotionListener(new MouseMotionListener() {
             @Override
             public void mouseDragged(MouseEvent e) {
-                //update the last position
-                lastX = e.getX();
-                lastY = e.getY();
-                canvas.setLastPosition(lastX, lastY);
-//                System.out.println(selecting);
-                if (selecting) { //if we're in the selection state
-                    //Move the appropriate elements:
-                    
-                    isModified = true;
-                    modifiedTextField.setText("*");
-
-                    int mx = lastX; //x-coord of mouse click
-                    int my = lastY; //y-coord of mouse click
-
-                    // find the difference between the last position and the current position (used for moving the figure)
-                    int incX = mx - lastX;
-                    int incY = my - lastY;
-
-                    if (clickedVertex == null) { //if the user did not click a vertex
-                        if (clickedEdge == null) { //if the user did not click an edge
-                            //Then the user clicked open space
-                            //Move all nodes at once
-                            for (Vertex v : vertices) {
-                                v.incLocation(incX, incY);
-                            }
-                        } else { //if the user clicked an edge
-                            //move both nodes attached to the edge
-                            clickedEdge.getEndpoint1().incLocation(incX, incY);
-                            clickedEdge.getEndpoint2().incLocation(incX, incY);
-                        }
-                    } else { //if the user clicked a vertex
-                        //move the chosen node
-                        clickedVertex.incLocation(incX, incY);
-                    }
+                if (!selecting) { //if we're not in the selection state
+                    return; //we don't want anything to be movable
                 }
-                canvas.repaint(); //repaint the canvas
+                
+                isModified = true;
+                modifiedTextField.setText("*");
+
+                int mx = e.getX(); //x-coord of mouse click
+                int my = e.getY(); //y-coord of mouse click
+
+                // find the difference between the last position and the current position (used for moving the figure)
+                int incX = mx - lastX;
+                int incY = my - lastY;
+
+                //update the last position
+                lastX = mx;
+                lastY = my;
+                canvas.setLastPosition(lastX, lastY);
+
+                if (clickedVertex == null) { //if the user did not click a vertex
+                    if (clickedEdge == null) { //if the user did not click an edge
+                        //Then the user clicked open space
+                        //Move all nodes at once
+                        for (Vertex v : vertices) {
+                            v.incLocation(incX, incY);
+                        }
+                    } else { //if the user clicked an edge
+                        //move both nodes attached to the edge
+                        clickedEdge.getEndpoint1().incLocation(incX, incY);
+                        clickedEdge.getEndpoint2().incLocation(incX, incY);
+                    }
+                } else { //if the user clicked a vertex
+                    //move the chosen node
+                    clickedVertex.incLocation(incX, incY);
+                }
+                canvas.repaint();
             }
 
             @Override
