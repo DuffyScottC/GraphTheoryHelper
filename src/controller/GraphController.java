@@ -165,6 +165,7 @@ public class GraphController {
         selectionMenuItem = frame.getSelectionMenuItem();
 
         selectionButton.setSelected(true);
+        selectionMenuItem.setSelected(true);
         enterSelectionState();
 
         canvas.addMouseListener(new MouseAdapter() {
@@ -1146,7 +1147,9 @@ public class GraphController {
      */
     private void selection() {
         addVerticesButton.setSelected(false);
+        addVerticesMenuItem.setSelected(false);
         addEdgesButton.setSelected(false);
+        addEdgesMenuItem.setSelected(false);
         if (addingVertices) {
             exitAddVerticesState();
             canvas.repaint();
@@ -1181,7 +1184,9 @@ public class GraphController {
      */
     private void addVertices() {
         selectionButton.setSelected(false);
+        selectionMenuItem.setSelected(false);
         addEdgesButton.setSelected(false);
+        addEdgesMenuItem.setSelected(false);
         exitAddEdgesState(); //leave the add edge state
         exitSelectionState();
         enterAddVerticesState(); //enter the add vertices state
@@ -1275,14 +1280,18 @@ public class GraphController {
         if (vertices == null) {
             JOptionPane.showMessageDialog(frame, "Need at least two vertices to add an edge.");
             addEdgesButton.setSelected(false);
+            addEdgesMenuItem.setSelected(false);
             return;
         }
         if (vertices.isEmpty() || vertices.size() == 1) {
             JOptionPane.showMessageDialog(frame, "Need at least two vertices to add an edge.");
             addEdgesButton.setSelected(false);
+            addEdgesMenuItem.setSelected(false);
             return;
         }
         addVerticesButton.setSelected(false);
+        addVerticesMenuItem.setSelected(false);
+        selectionButton.setSelected(false);
         selectionButton.setSelected(false);
         exitAddVerticesState();
         exitSelectionState();
@@ -1441,8 +1450,9 @@ public class GraphController {
 
         if (numberOfFalses == vertices.size()) { //if none of the vertices can have edges added to them
             addEdgesButton.setSelected(false);
-            addEdgesButton.setSelected(false);
+            addEdgesMenuItem.setSelected(false);
             selectionButton.setSelected(true);
+            selectionMenuItem.setSelected(true);
             exitAddEdgesState(); //exit the state because there are no available edges
             enterSelectionState();
             return; //do not continue
