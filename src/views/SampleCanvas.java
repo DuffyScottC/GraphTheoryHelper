@@ -9,13 +9,9 @@ import controller.Values;
 import element.Edge;
 import element.Graph;
 import element.Vertex;
-import java.awt.BasicStroke;
-import java.awt.Color;
 import java.awt.Graphics;
 import java.awt.Graphics2D;
 import java.awt.RenderingHints;
-import java.awt.Shape;
-import java.awt.geom.Ellipse2D;
 import javax.swing.JTextArea;
 
 /**
@@ -29,7 +25,7 @@ public class SampleCanvas extends JTextArea {
     private Vertex v2;
     private Edge e;
     
-    public SampleCanvas(Graph graph) {
+    public void setUp(Graph graph) {
         v1 = new Vertex(Values.DIAMETER);
         v1.setLocation(50, 50);
         v1.setStrokeColor(graph.getStrokeColor());
@@ -64,6 +60,7 @@ public class SampleCanvas extends JTextArea {
         v1.draw(g2);
         v2.draw(g2);
         e.draw(g2);
+        
     }
     
     private void setVertexPositions() {
