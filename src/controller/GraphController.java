@@ -535,6 +535,7 @@ public class GraphController {
                 clear();
                 
                 colorAllElements(Values.VERTEX_FILL_COLOR, Values.VERTEX_STROKE_COLOR, Values.EDGE_STROKE_COLOR);
+                graph.setColors(Values.VERTEX_FILL_COLOR, Values.VERTEX_STROKE_COLOR, Values.EDGE_STROKE_COLOR);
 
                 setIsModified(false);
             }
@@ -745,10 +746,9 @@ public class GraphController {
                 Color newEdgeStrokeColor = graphColorChooserDialog.getEdgeStrokeColor();
                 
                 //set the graph's colors
-                graph.setVertexFillColor(newVertexFillColor);
-                graph.setVertexStrokeColor(newVertexStrokeColor);
-                graph.setEdgeStrokeColor(newEdgeStrokeColor);
+                graph.setColors(newVertexFillColor, newVertexStrokeColor, newEdgeStrokeColor);
                 
+                //Set the colors of the current vertices and edges
                 colorAllElements(newVertexFillColor, newVertexStrokeColor, newEdgeStrokeColor);
                 
                 //dismiss the dialog
