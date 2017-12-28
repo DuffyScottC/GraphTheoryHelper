@@ -173,7 +173,7 @@ public class GraphFrame extends javax.swing.JFrame {
         buttonPanel.setLayout(new java.awt.GridBagLayout());
 
         deleteButton.setText("Delete");
-        deleteButton.setToolTipText("backspace");
+        deleteButton.setToolTipText("Delete (backspace)");
         gridBagConstraints = new java.awt.GridBagConstraints();
         gridBagConstraints.gridx = 0;
         gridBagConstraints.gridy = 3;
@@ -182,13 +182,13 @@ public class GraphFrame extends javax.swing.JFrame {
         buttonPanel.add(deleteButton, gridBagConstraints);
 
         addVerticesButton.setText("Add Vertices");
-        addVerticesButton.setToolTipText("Click to add vertices to the canvas.");
+        addVerticesButton.setToolTipText("Click to add vertices to the canvas (V)");
         gridBagConstraints = new java.awt.GridBagConstraints();
         gridBagConstraints.fill = java.awt.GridBagConstraints.HORIZONTAL;
         buttonPanel.add(addVerticesButton, gridBagConstraints);
 
         addEdgesButton.setText("Add Edges");
-        addEdgesButton.setToolTipText("Add edges between vertices.");
+        addEdgesButton.setToolTipText("Add edges between vertices (E)");
         gridBagConstraints = new java.awt.GridBagConstraints();
         gridBagConstraints.gridx = 0;
         gridBagConstraints.gridy = 1;
@@ -196,7 +196,7 @@ public class GraphFrame extends javax.swing.JFrame {
         buttonPanel.add(addEdgesButton, gridBagConstraints);
 
         selectionButton.setText("Selection");
-        selectionButton.setToolTipText("Select and move vertices and edges.");
+        selectionButton.setToolTipText("Select and move vertices and edges (spacebar)");
         gridBagConstraints = new java.awt.GridBagConstraints();
         gridBagConstraints.gridx = 0;
         gridBagConstraints.gridy = 2;

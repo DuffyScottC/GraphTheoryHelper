@@ -330,7 +330,7 @@
             <Component class="javax.swing.JButton" name="deleteButton">
               <Properties>
                 <Property name="text" type="java.lang.String" value="Delete"/>
-                <Property name="toolTipText" type="java.lang.String" value="backspace"/>
+                <Property name="toolTipText" type="java.lang.String" value="Delete (backspace)"/>
               </Properties>
               <Constraints>
                 <Constraint layoutClass="org.netbeans.modules.form.compat2.layouts.DesignGridBagLayout" value="org.netbeans.modules.form.compat2.layouts.DesignGridBagLayout$GridBagConstraintsDescription">
@@ -341,7 +341,7 @@
             <Component class="javax.swing.JToggleButton" name="addVerticesButton">
               <Properties>
                 <Property name="text" type="java.lang.String" value="Add Vertices"/>
-                <Property name="toolTipText" type="java.lang.String" value="Click to add vertices to the canvas."/>
+                <Property name="toolTipText" type="java.lang.String" value="Click to add vertices to the canvas (V)"/>
               </Properties>
               <Constraints>
                 <Constraint layoutClass="org.netbeans.modules.form.compat2.layouts.DesignGridBagLayout" value="org.netbeans.modules.form.compat2.layouts.DesignGridBagLayout$GridBagConstraintsDescription">
@@ -352,7 +352,7 @@
             <Component class="javax.swing.JToggleButton" name="addEdgesButton">
               <Properties>
                 <Property name="text" type="java.lang.String" value="Add Edges"/>
-                <Property name="toolTipText" type="java.lang.String" value="Add edges between vertices."/>
+                <Property name="toolTipText" type="java.lang.String" value="Add edges between vertices (E)"/>
               </Properties>
               <Constraints>
                 <Constraint layoutClass="org.netbeans.modules.form.compat2.layouts.DesignGridBagLayout" value="org.netbeans.modules.form.compat2.layouts.DesignGridBagLayout$GridBagConstraintsDescription">
@@ -363,7 +363,7 @@
             <Component class="javax.swing.JToggleButton" name="selectionButton">
               <Properties>
                 <Property name="text" type="java.lang.String" value="Selection"/>
-                <Property name="toolTipText" type="java.lang.String" value="Select and move vertices and edges."/>
+                <Property name="toolTipText" type="java.lang.String" value="Select and move vertices and edges (spacebar)"/>
               </Properties>
               <Constraints>
                 <Constraint layoutClass="org.netbeans.modules.form.compat2.layouts.DesignGridBagLayout" value="org.netbeans.modules.form.compat2.layouts.DesignGridBagLayout$GridBagConstraintsDescription">
