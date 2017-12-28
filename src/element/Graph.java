@@ -25,6 +25,7 @@ public class Graph implements Serializable {
     //Start out default
     private Color fillColor = Values.VERTEX_FILL_COLOR;
     private Color strokeColor = Values.VERTEX_STROKE_COLOR;
+    private Color edgeStrokeColor = Values.EDGE_STROKE_COLOR;
     
     //MARK: Getters and setters
     public List<Vertex> getVertices() {
@@ -49,6 +50,14 @@ public class Graph implements Serializable {
 
     public void setStrokeColor(Color strokeColor) {
         this.strokeColor = strokeColor;
+    }
+    
+    public Color getEdgeStrokeColor() {
+        return edgeStrokeColor;
+    }
+    
+    public void setEdgeStrokeColor(Color edgeStrokeColor) {
+        this.edgeStrokeColor = edgeStrokeColor;
     }
     
     //MARK: Other methods

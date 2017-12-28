@@ -122,7 +122,8 @@ public class GraphController {
      * which is used for deleting edges.
      */
     private Edge clickedEdge;
-
+    
+    //MARK: Booleans
     /**
      * Used to make sure clearSelection() or setSelectedIndex() do not
      * redundantly call the change listeners on the JLists.
@@ -141,8 +142,13 @@ public class GraphController {
 
     private final List<Vertex> vertices = graph.getVertices();
     private final List<Edge> edges = graph.getEdges();
-
-    //File I/O:
+    
+    //MARK: Colors
+    private Color vertexFillColor;
+    private Color vertexStrokeColor;
+    private Color edgeStrokeColor;
+    
+    //MARK: File I/O:
     private final JFileChooser chooser = new JFileChooser(System.getProperty("user.dir"));
     private File saveFile;
 
@@ -680,7 +686,7 @@ public class GraphController {
     private void setSelectedVertex() {
         //Visually deselect the old selectedVertex
         if (selectedVertex != null) { //if there was a previously selected vertex
-            selectedVertex.setStrokeColor(Values.VERTEX_STROKE_COLOR);
+            selectedVertex.setStrokeColor(vertexStrokeColor);
             selectedVertex.setStrokeWidth(Values.VERTEX_STROKE_WIDTH);
         }
 
@@ -708,7 +714,7 @@ public class GraphController {
         //Visually deselect the old selected edge
         if (selectedEdge != null) {
             selectedEdge.setStrokeWidth(Values.EDGE_STROKE_WIDTH);
-            selectedEdge.setStrokeColor(Values.EDGE_STROKE_COLOR);
+            selectedEdge.setStrokeColor(edgeStrokeColor);
         }
 
         //Programatically and visually select the new edge (or deselect entirely)
@@ -819,11 +825,13 @@ public class GraphController {
         updateEdgesListModel();
         
         //MARK: Colors
-        Color newFillColor = newGraph.getFillColor();
-        Color newStrokeColor = newGraph.getStrokeColor();
+        vertexFillColor = newGraph.getFillColor();
+        vertexStrokeColor = newGraph.getStrokeColor();
+        edgeStrokeColor = newGraph.getEdgeStrokeColor();
         
-        graph.setFillColor(newFillColor);
-        graph.setStrokeColor(newStrokeColor);
+        graph.setFillColor(vertexFillColor);
+        graph.setStrokeColor(vertexStrokeColor);
+        graph.setEdgeStrokeColor(edgeStrokeColor);
         
         //MARK: Update the list selection
         int newIndex = vertices.size() - 1;
@@ -854,22 +862,22 @@ public class GraphController {
         if (clickedVertex == null) {
             return;
         }
-        clickedVertex.setFillColor(Values.VERTEX_PRESSED_COLOR);
-        clickedVertex.setStrokeColor(Values.EDGE_PRESSED_COLOR);
+        clickedVertex.setFillColor(vertexFillColor.darker());
+        clickedVertex.setStrokeColor(vertexStrokeColor.darker());
     }
 
     private void pressEdge() {
         if (clickedEdge == null) {
             return;
         }
-        clickedEdge.setStrokeColor(Values.EDGE_PRESSED_COLOR);
+        clickedEdge.setStrokeColor(edgeStrokeColor.darker());
     }
 
     private void unpressVertex() {
         if (clickedVertex == null) {
             return;
         }
-        clickedVertex.setFillColor(Values.VERTEX_FILL_COLOR);
+        clickedVertex.setFillColor(vertexFillColor);
         clickedVertex.setStrokeColor(Values.EDGE_HIGHLIGHT_COLOR);
     }
 
@@ -1218,8 +1226,8 @@ public class GraphController {
         //Create a new vertex object
         Vertex newVertex = new Vertex(Values.DIAMETER);
         newVertex.setLocation(x, y);
-        newVertex.setStrokeColor(Values.VERTEX_STROKE_COLOR);
-        newVertex.setFillColor(Values.VERTEX_FILL_COLOR);
+        newVertex.setStrokeColor(vertexStrokeColor);
+        newVertex.setFillColor(vertexFillColor);
         newVertex.setStrokeWidth(Values.VERTEX_STROKE_WIDTH);
         String newTitle = generateVertexTitle();
         newVertex.setTitle(newTitle);
@@ -1467,7 +1475,7 @@ public class GraphController {
         canvas.setFirstSelectedVertex(null);
         //Unhighlight all vertices
         for (Vertex v : vertices) {
-            v.setStrokeColor(Values.VERTEX_STROKE_COLOR);
+            v.setStrokeColor(vertexStrokeColor);
             v.setStrokeWidth(Values.VERTEX_STROKE_WIDTH);
         }
     }
@@ -1506,7 +1514,7 @@ public class GraphController {
                 v.setStrokeColor(Values.EDGE_HIGHLIGHT_COLOR);
                 v.setStrokeWidth(Values.VERTEX_HIGHLIGHT_STROKE_WIDTH);
             } else { //if this vertex is completely full
-                v.setStrokeColor(Values.VERTEX_STROKE_COLOR);
+                v.setStrokeColor(vertexStrokeColor);
                 v.setStrokeWidth(Values.VERTEX_STROKE_WIDTH);
             }
         }

@@ -30,14 +30,14 @@ public class Values {
     public static final float EDGE_HIGHLIGHT_STROKE_WIDTH = 3.5f;
     public static final Color EDGE_STROKE_COLOR = Color.black;
     public static final Color EDGE_HIGHLIGHT_COLOR = Color.green;
-    public static final Color EDGE_PRESSED_COLOR = new Color(0, 200, 0);
+    public static final Color EDGE_PRESSED_COLOR = EDGE_HIGHLIGHT_COLOR.darker();//new Color(0, 200, 0);
     
     //MARK: Vertex properties
     public static final float VERTEX_STROKE_WIDTH = 1.0f;
     public static final float VERTEX_HIGHLIGHT_STROKE_WIDTH = 2.0f;
     public static final Color VERTEX_FILL_COLOR = Color.red;
     public static final Color VERTEX_STROKE_COLOR = Color.black;
-    public static final Color VERTEX_PRESSED_COLOR = new Color(200, 0, 0);
+    public static final Color VERTEX_PRESSED_COLOR = VERTEX_FILL_COLOR.darker();//new Color(200, 0, 0);
     
     //MARK: Misc properties
     public static final int DIAMETER = 15;
