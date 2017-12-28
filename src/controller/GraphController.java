@@ -164,8 +164,7 @@ public class GraphController {
         addEdgesMenuItem = frame.getAddEdgesMenuItem();
         selectionMenuItem = frame.getSelectionMenuItem();
 
-        selectionButton.setSelected(true);
-        selectionMenuItem.setSelected(true);
+        setSelectedSelection(true);
         enterSelectionState();
 
         canvas.addMouseListener(new MouseAdapter() {
@@ -362,6 +361,7 @@ public class GraphController {
             }
         });
         
+        //Delete
         frame.getDeleteButton().addActionListener(new ActionListener() {
             @Override
             public void actionPerformed(ActionEvent e) {
@@ -1139,15 +1139,29 @@ public class GraphController {
         return distance(p1.x, p1.y, p2.x, p2.y);
     }
 
-    //MARK: States
+    //MARK: States methods
+    
+    private void setSelectedVertices(boolean selected) {
+        addVerticesButton.setSelected(false);
+        addVerticesMenuItem.setSelected(false);
+    }
+    
+    private void setSelectedEdges(boolean selected) {
+        addEdgesButton.setSelected(false);
+        addEdgesMenuItem.setSelected(false);
+    }
+    
+    private void setSelectedSelection(boolean selected) {
+        selectionButton.setSelected(false);
+        selectionMenuItem.setSelected(false);
+    }
+    
     /**
      * The code that runs in both the selectionButton and the selectionMenuItem
      */
     private void selection() {
-        addVerticesButton.setSelected(false);
-        addVerticesMenuItem.setSelected(false);
-        addEdgesButton.setSelected(false);
-        addEdgesMenuItem.setSelected(false);
+        setSelectedVertices(false);
+        setSelectedEdges(false);
         if (addingVertices) {
             exitAddVerticesState();
             canvas.repaint();
@@ -1181,10 +1195,8 @@ public class GraphController {
      * addVerticesMenuItem
      */
     private void addVertices() {
-        selectionButton.setSelected(false);
-        selectionMenuItem.setSelected(false);
-        addEdgesButton.setSelected(false);
-        addEdgesMenuItem.setSelected(false);
+        setSelectedSelection(false);
+        setSelectedEdges(false);
         exitAddEdgesState(); //leave the add edge state
         exitSelectionState();
         enterAddVerticesState(); //enter the add vertices state
@@ -1277,20 +1289,16 @@ public class GraphController {
     private void addEdges() {
         if (vertices == null) {
             JOptionPane.showMessageDialog(frame, "Need at least two vertices to add an edge.");
-            addEdgesButton.setSelected(false);
-            addEdgesMenuItem.setSelected(false);
+            setSelectedEdges(false);
             return;
         }
         if (vertices.isEmpty() || vertices.size() == 1) {
             JOptionPane.showMessageDialog(frame, "Need at least two vertices to add an edge.");
-            addEdgesButton.setSelected(false);
-            addEdgesMenuItem.setSelected(false);
+            setSelectedEdges(false);
             return;
         }
-        addVerticesButton.setSelected(false);
-        addVerticesMenuItem.setSelected(false);
-        selectionButton.setSelected(false);
-        selectionButton.setSelected(false);
+        setSelectedVertices(false);
+        setSelectedSelection(false);
         exitAddVerticesState();
         exitSelectionState();
         enterAddEdgeState();
@@ -1447,10 +1455,8 @@ public class GraphController {
         int numberOfFalses = assignCanAddEdges();
 
         if (numberOfFalses == vertices.size()) { //if none of the vertices can have edges added to them
-            addEdgesButton.setSelected(false);
-            addEdgesMenuItem.setSelected(false);
-            selectionButton.setSelected(true);
-            selectionMenuItem.setSelected(true);
+            setSelectedEdges(false);
+            setSelectedSelection(true);
             exitAddEdgesState(); //exit the state because there are no available edges
             enterSelectionState();
             return; //do not continue
