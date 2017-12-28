@@ -699,6 +699,7 @@ public class GraphController {
             @Override
             public void actionPerformed(ActionEvent e) {
                 Color color = JColorChooser.showDialog(frame, "Choose color", graph.getVertexFillColor());
+                
             }
         });
         graphColorChooserDialog.getVertexStrokeColorChooseButton().addActionListener(new ActionListener() {

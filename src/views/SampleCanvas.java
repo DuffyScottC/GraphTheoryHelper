@@ -73,13 +73,17 @@ public class SampleCanvas extends JTextArea {
         v2.setLocation(w - distFromSide, h/2);
     }
     
-    public void setColors(Color vertexFillColor, Color vertexStrokeColor, Color edgeStrokeColor) {
+    public void setVertexFillColor(Color vertexFillColor) {
         v1.setFillColor(vertexFillColor);
-        v1.setStrokeColor(vertexStrokeColor);
-        
         v2.setFillColor(vertexFillColor);
+    }
+    
+    public void setVertexStrokeColor(Color vertexStrokeColor) {
+        v1.setStrokeColor(vertexStrokeColor);
         v2.setStrokeColor(vertexStrokeColor);
-        
+    }
+    
+    public void setEdgeStrokeColor(Color edgeStrokeColor) {
         e.setStrokeColor(edgeStrokeColor);
     }
     
