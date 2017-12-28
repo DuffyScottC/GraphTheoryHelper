@@ -35,6 +35,7 @@ import java.util.regex.Pattern;
 import javax.swing.DefaultListModel;
 import javax.swing.JFileChooser;
 import javax.swing.JList;
+import javax.swing.JMenuItem;
 import javax.swing.JOptionPane;
 import javax.swing.JTextField;
 import javax.swing.JToggleButton;
@@ -77,6 +78,9 @@ public class GraphController {
     private JToggleButton addVerticesButton;
     private JToggleButton addEdgeButton;
     private JToggleButton selectionButton;
+    private JMenuItem addVerticesMenuItem;
+    private JMenuItem addEdgesMenuItem;
+    private JMenuItem selectionMenuItem;
 
     //MARK: Adding edge state:
     /**
@@ -156,7 +160,10 @@ public class GraphController {
         addVerticesButton = frame.getAddVerticesButton();
         addEdgeButton = frame.getAddEdgeButton();
         selectionButton = frame.getSelectionButton();
-        
+        addVerticesMenuItem = frame.getAddVerticesMenuItem();
+        addEdgesMenuItem = frame.getAddEdgesMenuItem();
+        selectionMenuItem = frame.getSelectionMenuItem();
+
         selectionButton.setSelected(true);
         enterSelectionState();
 
@@ -167,12 +174,12 @@ public class GraphController {
                 int my = e.getY(); //y-coord of mouse click
                 if (addingEdges) { //if we are in the edge adding state, we don't want to be able to move any vertices
                     addEdge(mx, my);
-                } 
-                
+                }
+
                 if (addingVertices) {
                     addVertex(mx - Values.DIAMETER / 2, my - Values.DIAMETER / 2);
-                } 
-                
+                }
+
                 if (selecting) { //if we are not in the edge adding state, then we can move the vertices
                     selectVertexOrEdge(mx, my);
                 }
@@ -202,7 +209,7 @@ public class GraphController {
             public void mouseDragged(MouseEvent e) {
                 int mx = e.getX(); //x-coord of mouse click
                 int my = e.getY(); //y-coord of mouse click
-                
+
                 //Find the difference between the last position and the current 
                 //position (used for moving the figure)
                 int incX = mx - lastX;
@@ -212,10 +219,10 @@ public class GraphController {
                 lastX = mx;
                 lastY = my;
                 canvas.setLastPosition(lastX, lastY);
-                
+
                 if (selecting) { //if we're not in the selection state
                     setIsModified(true);
-                    
+
                     if (clickedVertex == null) { //if the user did not click a vertex
                         if (clickedEdge == null) { //if the user did not click an edge
                             //Then the user clicked open space
@@ -312,35 +319,35 @@ public class GraphController {
             }
         });
 
+        //Add vertices
         addVerticesButton.addActionListener(new ActionListener() {
             @Override
             public void actionPerformed(ActionEvent e) {
-                selectionButton.setSelected(false);
-                addEdgeButton.setSelected(false);
-                exitAddEdgesState(); //leave the add edge state
-                exitSelectionState();
-                enterAddVerticesState(); //enter the add vertices state
-                canvas.repaint();
+                addVertices();
+            }
+        });
+        addVerticesMenuItem.addActionListener(new ActionListener() {
+            @Override
+            public void actionPerformed(ActionEvent e) {
+                addVertices();
             }
         });
 
+        //Selection
         selectionButton.addActionListener(new ActionListener() {
             @Override
             public void actionPerformed(ActionEvent e) {
-                addVerticesButton.setSelected(false);
-                addEdgeButton.setSelected(false);
-                if (addingVertices) {
-                    exitAddVerticesState();
-                    canvas.repaint();
-                }
-                if (addingEdges) {
-                    exitAddEdgesState();
-                    canvas.repaint();
-                }
-                enterSelectionState();
+                selection();
             }
         });
-
+        selectionMenuItem.addActionListener(new ActionListener() {
+            @Override
+            public void actionPerformed(ActionEvent e) {
+                selection();
+            }
+        });
+        
+        //Add edges
         addEdgeButton.addActionListener(new ActionListener() {
             @Override
             public void actionPerformed(ActionEvent e) {
@@ -647,7 +654,7 @@ public class GraphController {
                     }
                     //If newVertex1 is already adjacent to newVertex2, then it
                     //must already be in edges and we don't need to do anything else
-                    
+
                     //If there was at least one new vertex or edge
                     if (wasModified) {
                         setIsModified(true);
@@ -746,11 +753,13 @@ public class GraphController {
             }
             i++;
         }
-        return newName; 
+        return newName;
     }
-    
+
     /**
-     * From https://en.wikipedia.org/w/index.php?title=Hexavigesimal&oldid=578218059#Bijective_base-26
+     * From
+     * https://en.wikipedia.org/w/index.php?title=Hexavigesimal&oldid=578218059#Bijective_base-26
+     *
      * @param n
      * @return The number n + 65 in base 26 ((int) 'A' = 65 )
      */
@@ -843,7 +852,7 @@ public class GraphController {
         setSelectedVertex();
         canvas.repaint();
     }
-    
+
     private void pressVertex() {
         if (clickedVertex == null) {
             return;
@@ -851,14 +860,14 @@ public class GraphController {
         clickedVertex.setFillColor(Values.VERTEX_PRESSED_COLOR);
         clickedVertex.setStrokeColor(Values.EDGE_PRESSED_COLOR);
     }
-    
+
     private void pressEdge() {
         if (clickedEdge == null) {
             return;
         }
         clickedEdge.setStrokeColor(Values.EDGE_PRESSED_COLOR);
     }
-    
+
     private void unpressVertex() {
         if (clickedVertex == null) {
             return;
@@ -866,7 +875,7 @@ public class GraphController {
         clickedVertex.setFillColor(Values.VERTEX_FILL_COLOR);
         clickedVertex.setStrokeColor(Values.EDGE_HIGHLIGHT_COLOR);
     }
-    
+
     private void unpressEdge() {
         if (clickedEdge == null) {
             return;
@@ -1143,10 +1152,27 @@ public class GraphController {
     }
 
     //MARK: States
+    /**
+     * The code that runs in both the selectionButton and the selectionMenuItem
+     */
+    private void selection() {
+        addVerticesButton.setSelected(false);
+        addEdgeButton.setSelected(false);
+        if (addingVertices) {
+            exitAddVerticesState();
+            canvas.repaint();
+        }
+        if (addingEdges) {
+            exitAddEdgesState();
+            canvas.repaint();
+        }
+        enterSelectionState();
+    }
+
     private void enterSelectionState() {
         selecting = true;
     }
-    
+
     private void exitSelectionState() {
         selecting = false;
     }
@@ -1158,6 +1184,19 @@ public class GraphController {
         if (selectedEdgeIndex != -1) {
             removeEdge();
         }
+    }
+
+    /**
+     * The code that runs in both the addVerticesButton and the
+     * addVerticesMenuItem
+     */
+    private void addVertices() {
+        selectionButton.setSelected(false);
+        addEdgeButton.setSelected(false);
+        exitAddEdgesState(); //leave the add edge state
+        exitSelectionState();
+        enterAddVerticesState(); //enter the add vertices state
+        canvas.repaint();
     }
 
     /**
@@ -1248,87 +1287,89 @@ public class GraphController {
             selectSecondVertex(mx, my);
         }
     }
-    
+
     /**
      * Part I of the edge adding process. The user must click a vertex to start
-     * from. 
+     * from.
+     *
      * @param mx
-     * @param my 
+     * @param my
      */
     private void selectFirstVertex(int mx, int my) {
         //(If we reach this point, vertices.size() is at least 2)
-            for (Vertex currentVertex : vertices) { //loop through the vertices
-                //if we can add edges to this vertex in the first place
-                //(don't bother checking if shape contains mouse position if not):
-                if (currentVertex.canAddEdges()) {
-                    //Check if this vertex contains the mouse click:
-                    if (currentVertex.getPositionShape().contains(mx, my)) {
-                        firstSelectedVertex = currentVertex; //assign the first vertex
-                        canvas.setFirstSelectedVertex(firstSelectedVertex);
-                        //Make it so that user can't add edge from a vertex to itself:
-                        firstSelectedVertex.setCanAddEdges(false);
-                        //Make it so that user can't add an edge to vertices that are already
-                        //connected to the firstSelectedVertex:
-                        firstSelectedVertex.assignCanAddEdgesToConnectedVertices();
-                        //Reset the highlights
-                        highlightAvailableVertices();
-                        lastX = mx;
-                        lastY = my;
-                        canvas.setLastPosition(lastX, lastY);
-                        canvas.repaint();
-                        return; //we've assigned the first selected vertex and we're done
-                    }
+        for (Vertex currentVertex : vertices) { //loop through the vertices
+            //if we can add edges to this vertex in the first place
+            //(don't bother checking if shape contains mouse position if not):
+            if (currentVertex.canAddEdges()) {
+                //Check if this vertex contains the mouse click:
+                if (currentVertex.getPositionShape().contains(mx, my)) {
+                    firstSelectedVertex = currentVertex; //assign the first vertex
+                    canvas.setFirstSelectedVertex(firstSelectedVertex);
+                    //Make it so that user can't add edge from a vertex to itself:
+                    firstSelectedVertex.setCanAddEdges(false);
+                    //Make it so that user can't add an edge to vertices that are already
+                    //connected to the firstSelectedVertex:
+                    firstSelectedVertex.assignCanAddEdgesToConnectedVertices();
+                    //Reset the highlights
+                    highlightAvailableVertices();
+                    lastX = mx;
+                    lastY = my;
+                    canvas.setLastPosition(lastX, lastY);
+                    canvas.repaint();
+                    return; //we've assigned the first selected vertex and we're done
                 }
             }
-            //if we reach this point, the user hasn't selected and vertex.
-            //and we want to stay in the add edge state so that they can choose another vertex
+        }
+        //if we reach this point, the user hasn't selected and vertex.
+        //and we want to stay in the add edge state so that they can choose another vertex
     }
-    
+
     /**
      * Part II of the edge adding process. The user must choose a second vertex
-     * to draw an edge to. 
+     * to draw an edge to.
+     *
      * @param mx
-     * @param my 
+     * @param my
      */
     private void selectSecondVertex(int mx, int my) {
         //(If we reach this point, vertices.size() is at least 2)
-            for (Vertex currentVertex : vertices) { //loop through the vertices
-                //If this vertex can have edges added to it (no use checking if
-                //its shape contains the mouse click if not):
-                if (currentVertex.canAddEdges()) {
-                    //If this figure contains the mouse click:
-                    if (currentVertex.getPositionShape().contains(mx, my)) {
-                        //Create a new edge with the two vertices
-                        Edge newEdge = new Edge(firstSelectedVertex, currentVertex);
-                        newEdge.setStrokeWidth(Values.EDGE_STROKE_WIDTH);
+        for (Vertex currentVertex : vertices) { //loop through the vertices
+            //If this vertex can have edges added to it (no use checking if
+            //its shape contains the mouse click if not):
+            if (currentVertex.canAddEdges()) {
+                //If this figure contains the mouse click:
+                if (currentVertex.getPositionShape().contains(mx, my)) {
+                    //Create a new edge with the two vertices
+                    Edge newEdge = new Edge(firstSelectedVertex, currentVertex);
+                    newEdge.setStrokeWidth(Values.EDGE_STROKE_WIDTH);
 
-                        edges.add(newEdge); //Add the edge to the graph
+                    edges.add(newEdge); //Add the edge to the graph
 
-                        updateEdgesListModel(); //update the visual JList
+                    updateEdgesListModel(); //update the visual JList
 
-                        exitAddEdgesState(); //exit the add edge state
-                        //reenter the add edge state (allow user to add more edges)
-                        enterAddEdgeState();
-                        canvas.repaint();
+                    exitAddEdgesState(); //exit the add edge state
+                    //reenter the add edge state (allow user to add more edges)
+                    enterAddEdgeState();
+                    canvas.repaint();
 
-                        //Update selection
-                        int lastIndex = edges.size() - 1; //last index in edges
-                        shouldChange = false;
-                        edgesList.setSelectedIndex(lastIndex);
-                        selectedEdgeIndex = lastIndex;
-                        setSelectedEdge();
+                    //Update selection
+                    int lastIndex = edges.size() - 1; //last index in edges
+                    shouldChange = false;
+                    edgesList.setSelectedIndex(lastIndex);
+                    selectedEdgeIndex = lastIndex;
+                    setSelectedEdge();
 
-                        setIsModified(true);
+                    setIsModified(true);
 
-                        return; //we don't need to check anymore
-                    }
+                    return; //we don't need to check anymore
                 }
             }
-            //If we reach this point, we want to cancel the edge
-            exitAddEdgesState();
-            //reenter the add edge state (allow user to add more edges)
-            enterAddEdgeState();
-            canvas.repaint();
+        }
+        //If we reach this point, we want to cancel the edge
+        exitAddEdgesState();
+        //reenter the add edge state (allow user to add more edges)
+        enterAddEdgeState();
+        canvas.repaint();
     }
 
     private void removeEdge() {
@@ -1350,7 +1391,6 @@ public class GraphController {
 //        exitAddEdgesState();
 //        //reenter the add edge state (allow user to add more edges)
 //        enterAddEdgeState();
-
         canvas.repaint();
     }
 
@@ -1440,7 +1480,7 @@ public class GraphController {
             }
         }
     }
-    
+
 //    private void hoverOverVertex() {
 //        //loop through all the vertices
 //        for (int i = vertices.size() - 1; i >= 0; i--) {
@@ -1458,7 +1498,6 @@ public class GraphController {
 //            }
 //        }
 //    }
-
     private void updateVerticesListModel() {
         verticesListModel.removeAllElements();
         for (Vertex v : vertices) {
@@ -1563,11 +1602,12 @@ public class GraphController {
 
         setIsModified(false);
     }
-    
+
     /**
      * Handles everything required to mark the graph as modified or not. This
      * includes setting the isModified boolean, setting the text of the
      * modifiedTextField, etc.
+     *
      * @param isModified True if the graph has been modified, false if the graph
      * is not modified (saved or empty)
      */
