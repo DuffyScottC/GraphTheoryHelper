@@ -60,6 +60,18 @@ public class Graph implements Serializable {
         this.edgeStrokeColor = edgeStrokeColor;
     }
     
+    /**
+     * Convenience method to set the three colors all at once.
+     * @param vertexFillColor
+     * @param vertexStrokeColor
+     * @param edgeStrokeColor 
+     */
+    public void setColors(Color vertexFillColor, Color vertexStrokeColor, Color edgeStrokeColor) {
+        this.vertexFillColor = vertexFillColor;
+        this.vertexStrokeColor = vertexStrokeColor;
+        this.edgeStrokeColor = edgeStrokeColor;
+    }
+    
     //MARK: Other methods
     
     /**

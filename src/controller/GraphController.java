@@ -729,7 +729,7 @@ public class GraphController {
         graphColorChooserDialog.getCancelButton().addActionListener(new ActionListener() {
             @Override
             public void actionPerformed(ActionEvent e) {
-                
+                graphColorChooserDialog.setVisible(false);
             }
         });
         
@@ -737,7 +737,18 @@ public class GraphController {
         graphColorChooserDialog.getOKButton().addActionListener(new ActionListener() {
             @Override
             public void actionPerformed(ActionEvent e) {
+                //update the member colors (for convenience)
+                vertexFillColor = graphColorChooserDialog.getVertexFillColor();
+                vertexStrokeColor = graphColorChooserDialog.getVertexStrokeColor();
+                edgeStrokeColor = graphColorChooserDialog.getEdgeStrokeColor();
                 
+                //set the graph's colors (for saving and loading)
+                graph.setColors(vertexFillColor, vertexStrokeColor, edgeStrokeColor);
+                
+                //dismiss the dialog
+                graphColorChooserDialog.setVisible(false);
+                
+                canvas.repaint(); //repaint the canvas
             }
         });
     }
