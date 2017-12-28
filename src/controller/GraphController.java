@@ -177,7 +177,7 @@ public class GraphController {
         
         SampleCanvas sampleCanvas = graphColorChooserDialog.getSampleCanvas();
         sampleCanvas.setUp(graph); //Set up the sample canvas in the dialog
-
+        
         enterSelectionState();
 
         canvas.addMouseListener(new MouseAdapter() {
@@ -701,8 +701,9 @@ public class GraphController {
             @Override
             public void actionPerformed(ActionEvent e) {
                 //get the color chosen by the user
-                Color newColor = JColorChooser.showDialog(frame, "Choose color", graph.getVertexFillColor());
+                Color newColor = JColorChooser.showDialog(frame, "Choose color", graphColorChooserDialog.getVertexFillColor());
                 sampleCanvas.setVertexFillColor(newColor); //set the sample fill color
+                graphColorChooserDialog.setVertexFillColor(newColor); //set the sample fill color
                 sampleCanvas.repaint(); //repaint the canvas
             }
         });
@@ -710,8 +711,9 @@ public class GraphController {
             @Override
             public void actionPerformed(ActionEvent e) {
                 //get the color chosen by the user
-                Color newColor = JColorChooser.showDialog(frame, "Choose color", graph.getVertexStrokeColor());
+                Color newColor = JColorChooser.showDialog(frame, "Choose color", graphColorChooserDialog.getVertexStrokeColor());
                 sampleCanvas.setVertexStrokeColor(newColor); //set the sample stroke color
+                
                 sampleCanvas.repaint(); //repaint the canvas
             }
         });
@@ -719,7 +721,7 @@ public class GraphController {
             @Override
             public void actionPerformed(ActionEvent e) {
                 //get the color chosen by the user
-                Color newColor = JColorChooser.showDialog(frame, "Choose color", graph.getEdgeStrokeColor());
+                Color newColor = JColorChooser.showDialog(frame, "Choose color", graphColorChooserDialog.getEdgeStrokeColor());
                 sampleCanvas.setEdgeStrokeColor(newColor); //set the sample fill color
                 sampleCanvas.repaint(); //repaint the canvas
             }

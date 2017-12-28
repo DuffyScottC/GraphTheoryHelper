@@ -5,6 +5,7 @@
  */
 package views;
 
+import java.awt.Color;
 import javax.swing.JButton;
 import javax.swing.JTextField;
 
@@ -13,7 +14,11 @@ import javax.swing.JTextField;
  * @author Scott
  */
 public class GraphColorChooserDialog extends javax.swing.JDialog {
-
+    
+    private Color vertexFillColor;
+    private Color vertexStrokeColor;
+    private Color edgeStrokeColor;
+    
     /**
      * Creates new form GraphColorChooserDialog
      */
@@ -244,4 +249,50 @@ public class GraphColorChooserDialog extends javax.swing.JDialog {
     public JTextField getVertexStrokeColorTextField() {
         return vertexStrokeColorTextField;
     }
+    
+    public Color getVertexFillColor() {
+        return vertexFillColor;
+    }
+
+    public Color getVertexStrokeColor() {
+        return vertexStrokeColor;
+    }
+    
+    public Color getEdgeStrokeColor() {
+        return edgeStrokeColor;
+    }
+    
+    /**
+     * Sets the dialog's vertexFillColor, the sampleCanvas's vertexFillColor,
+     * and the text field's vertexFillColor
+     * @param vertexFillColor 
+     */
+    public void setVertexFillColor(Color vertexFillColor) {
+        this.vertexFillColor = vertexFillColor;
+        sampleCanvas.setVertexFillColor(vertexFillColor);
+        vertexFillColorTextField.setBackground(vertexFillColor);
+    }
+
+    /**
+     * Sets the dialog's vertexStrokeColor, the sampleCanvas's vertexStrokeColor,
+     * and the text field's vertexStrokeColor
+     * @param vertexStrokeColor 
+     */
+    public void setVertexStrokeColor(Color vertexStrokeColor) {
+        this.vertexStrokeColor = vertexStrokeColor;
+        sampleCanvas.setVertexStrokeColor(vertexStrokeColor);
+        vertexStrokeColorTextField.setBackground(vertexStrokeColor);
+    }
+    
+    /**
+     * Sets the dialog's edgeStrokeColor, the sampleCanvas's edgeStrokeColor,
+     * and the text field's edgeStrokeColor
+     * @param edgeStrokeColor 
+     */
+    public void setEdgeStrokeColor(Color edgeStrokeColor) {
+        this.edgeStrokeColor = edgeStrokeColor;
+        sampleCanvas.setEdgeStrokeColor(edgeStrokeColor);
+        edgeStrokeColorTextField.setBackground(edgeStrokeColor);
+    }
+    
 }
