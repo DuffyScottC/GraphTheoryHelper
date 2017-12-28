@@ -1276,9 +1276,9 @@ public class GraphController {
 
         updateEdgesListModel();
 
-        exitAddEdgesState();
-        //reenter the add edge state (allow user to add more edges)
-        enterAddEdgeState();
+//        exitAddEdgesState();
+//        //reenter the add edge state (allow user to add more edges)
+//        enterAddEdgeState();
 
         canvas.repaint();
     }
