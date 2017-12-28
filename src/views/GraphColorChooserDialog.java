@@ -48,7 +48,7 @@ public class GraphColorChooserDialog extends javax.swing.JDialog {
 
         jLabel3.setText("Edge stroke color:");
 
-        jButton1.setText("Apply");
+        jButton1.setText("OK");
 
         jButton2.setText("Cancel");
 

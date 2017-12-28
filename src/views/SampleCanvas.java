@@ -19,7 +19,8 @@ import java.awt.geom.Ellipse2D;
 import javax.swing.JTextArea;
 
 /**
- *
+ * Shows the user two sample vertices with a sample edge between them of the
+ * colors they choose.
  * @author Scott
  */
 public class SampleCanvas extends JTextArea {
