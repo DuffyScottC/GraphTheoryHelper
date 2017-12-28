@@ -700,9 +700,8 @@ public class GraphController {
         graphColorChooserDialog.getVertexFillColorChooseButton().addActionListener(new ActionListener() {
             @Override
             public void actionPerformed(ActionEvent e) {
-                //get the color chosen by the user
-                Color newColor = JColorChooser.showDialog(frame, "Choose color", graphColorChooserDialog.getVertexFillColor());
-                sampleCanvas.setVertexFillColor(newColor); //set the sample fill color
+                Color newColor = JColorChooser.showDialog(frame, "Choose color", 
+                        graphColorChooserDialog.getVertexFillColor()); //get the color chosen by the user
                 graphColorChooserDialog.setVertexFillColor(newColor); //set the sample fill color
                 sampleCanvas.repaint(); //repaint the canvas
             }
@@ -710,19 +709,18 @@ public class GraphController {
         graphColorChooserDialog.getVertexStrokeColorChooseButton().addActionListener(new ActionListener() {
             @Override
             public void actionPerformed(ActionEvent e) {
-                //get the color chosen by the user
-                Color newColor = JColorChooser.showDialog(frame, "Choose color", graphColorChooserDialog.getVertexStrokeColor());
-                sampleCanvas.setVertexStrokeColor(newColor); //set the sample stroke color
-                
+                Color newColor = JColorChooser.showDialog(frame, "Choose color", 
+                        graphColorChooserDialog.getVertexStrokeColor()); //get the color chosen by the user
+                graphColorChooserDialog.setVertexStrokeColor(newColor); //set the sample stroke color
                 sampleCanvas.repaint(); //repaint the canvas
             }
         });
         graphColorChooserDialog.getEdgeStrokeColorChooseButton().addActionListener(new ActionListener() {
             @Override
             public void actionPerformed(ActionEvent e) {
-                //get the color chosen by the user
-                Color newColor = JColorChooser.showDialog(frame, "Choose color", graphColorChooserDialog.getEdgeStrokeColor());
-                sampleCanvas.setEdgeStrokeColor(newColor); //set the sample fill color
+                Color newColor = JColorChooser.showDialog(frame, "Choose color", 
+                        graphColorChooserDialog.getEdgeStrokeColor()); //get the color chosen by the user
+                graphColorChooserDialog.setEdgeStrokeColor(newColor); //set the sample fill color
                 sampleCanvas.repaint(); //repaint the canvas
             }
         });

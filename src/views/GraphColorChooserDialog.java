@@ -264,7 +264,7 @@ public class GraphColorChooserDialog extends javax.swing.JDialog {
     
     /**
      * Sets the dialog's vertexFillColor, the sampleCanvas's vertexFillColor,
-     * and the text field's vertexFillColor
+     * and the text field background
      * @param vertexFillColor 
      */
     public void setVertexFillColor(Color vertexFillColor) {
@@ -275,7 +275,7 @@ public class GraphColorChooserDialog extends javax.swing.JDialog {
 
     /**
      * Sets the dialog's vertexStrokeColor, the sampleCanvas's vertexStrokeColor,
-     * and the text field's vertexStrokeColor
+     * and the text field background
      * @param vertexStrokeColor 
      */
     public void setVertexStrokeColor(Color vertexStrokeColor) {
@@ -286,7 +286,7 @@ public class GraphColorChooserDialog extends javax.swing.JDialog {
     
     /**
      * Sets the dialog's edgeStrokeColor, the sampleCanvas's edgeStrokeColor,
-     * and the text field's edgeStrokeColor
+     * and the text field background
      * @param edgeStrokeColor 
      */
     public void setEdgeStrokeColor(Color edgeStrokeColor) {
