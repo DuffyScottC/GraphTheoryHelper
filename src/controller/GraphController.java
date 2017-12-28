@@ -167,17 +167,27 @@ public class GraphController {
                 int my = e.getY(); //y-coord of mouse click
                 if (addingEdges) { //if we are in the edge adding state, we don't want to be able to move any vertices
                     addEdge(mx, my);
-                } else if (addingVertices) {
+                } 
+                
+                if (addingVertices) {
                     addVertex(mx - Values.DIAMETER / 2, my - Values.DIAMETER / 2);
-                } else { //if we are not in the edge adding state, then we can move the vertices
+                } 
+                
+                if (selecting) { //if we are not in the edge adding state, then we can move the vertices
                     selectVertexOrEdge(mx, my);
                 }
             }
 
             @Override
             public void mouseReleased(MouseEvent e) {
-                clickedVertex = null; //we don't want to move a vertex after the user lets go
-                clickedEdge = null; //we don't want to move an edge after the user lets go
+                if (clickedVertex != null) {
+                    unpressVertex();
+                    clickedVertex = null; //we don't want to move a vertex after the user lets go
+                }
+                if (clickedEdge != null) {
+                    unpressEdge();
+                    clickedEdge = null; //we don't want to move an edge after the user lets go
+                }
             }
 
         });
@@ -683,8 +693,8 @@ public class GraphController {
             verticesList.clearSelection(); //unselect the vertex in the JList
         } else { //if the user selected a vertex
             selectedVertex = vertices.get(selectedVertexIndex); //store the selected vertex
-            selectedVertex.setStrokeColor(Values.VERTEX_HIGHLIGHT_COLOR); //highlight the vertex
-            selectedVertex.setStrokeWidth(Values.VERTEX_HIGHLIGHT_STROKE_WIDTH);
+            selectedVertex.setStrokeColor(Values.EDGE_HIGHLIGHT_COLOR); //highlight the vertex
+            selectedVertex.setStrokeWidth(Values.EDGE_HIGHLIGHT_STROKE_WIDTH);
             titleTextField.setText(selectedVertex.getTitle());
             titleTextField.setEditable(true);
             //Set the focus to be in the titleTextField
@@ -737,7 +747,7 @@ public class GraphController {
     /**
      * From https://en.wikipedia.org/w/index.php?title=Hexavigesimal&oldid=578218059#Bijective_base-26
      * @param n
-     * @return 
+     * @return The number n + 65 in base 26 ((int) 'A' = 65 )
      */
     public static String toBase26(int n) {
         StringBuffer ret = new StringBuffer();
@@ -827,6 +837,24 @@ public class GraphController {
         selectedVertexIndex = -1;
         setSelectedVertex();
         canvas.repaint();
+    }
+    
+    private void pressVertex(Vertex v) {
+        v.setFillColor(Values.VERTEX_PRESSED_COLOR);
+        v.setStrokeColor(Values.EDGE_PRESSED_COLOR);
+    }
+    
+    private void pressEdge(Edge e) {
+        e.setStrokeColor(Values.EDGE_PRESSED_COLOR);
+    }
+    
+    private void unpressVertex(Vertex v) {
+        v.setFillColor(Values.VERTEX_FILL_COLOR);
+        v.setStrokeColor(Values.EDGE_HIGHLIGHT_COLOR);
+    }
+    
+    private void unpressEdge(Edge e) {
+        e.setStrokeColor(Values.EDGE_HIGHLIGHT_COLOR);
     }
 
     /**
@@ -1207,6 +1235,7 @@ public class GraphController {
                     if (currentVertex.getPositionShape().contains(mx, my)) {
                         firstSelectedVertex = currentVertex; //assign the first vertex
                         canvas.setFirstSelectedVertex(firstSelectedVertex);
+                        firstSelectedVertex
                         //Make it so that user can't add edge from a vertex to itself:
                         firstSelectedVertex.setCanAddEdges(false);
                         //Make it so that user can't add an edge to vertices that are already
@@ -1369,7 +1398,7 @@ public class GraphController {
         for (Vertex v : vertices) {
             //if this vertex is available to add edges to
             if (v.canAddEdges()) {
-                v.setStrokeColor(Values.VERTEX_HIGHLIGHT_COLOR);
+                v.setStrokeColor(Values.EDGE_HIGHLIGHT_COLOR);
                 v.setStrokeWidth(Values.VERTEX_AVAILABLE_STROKE_WIDTH);
             } else { //if this vertex is completely full
                 v.setStrokeColor(Values.VERTEX_STROKE_COLOR);
@@ -1387,7 +1416,7 @@ public class GraphController {
                 //if the mouse is hovering over this vertex
                 if (v.getPositionShape().contains(lastX, lastY)) {
                     //highlight it
-                    v.setStrokeWidth(Values.VERTEX_HIGHLIGHT_STROKE_WIDTH);
+                    v.setStrokeWidth(Values.EDGE_HIGHLIGHT_STROKE_WIDTH);
                 } else { //if the mouse is not hovering over this vertex
                     //unhighlight it
                     v.setStrokeWidth(Values.VERTEX_AVAILABLE_STROKE_WIDTH);
