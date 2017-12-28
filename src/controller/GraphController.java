@@ -185,11 +185,14 @@ public class GraphController {
                 if (clickedVertex != null) {
                     unpressVertex();
                     clickedVertex = null; //we don't want to move a vertex after the user lets go
+                    canvas.repaint();
                 }
                 if (clickedEdge != null) {
                     unpressEdge();
                     clickedEdge = null; //we don't want to move an edge after the user lets go
+                    canvas.repaint();
                 }
+                //Don't want to repaint canvas if nothing happenned
             }
 
         });
