@@ -176,6 +176,8 @@ public class GraphController {
                 if (selecting) { //if we are not in the edge adding state, then we can move the vertices
                     selectVertexOrEdge(mx, my);
                 }
+                pressVertex();
+                pressEdge();
             }
 
             @Override
