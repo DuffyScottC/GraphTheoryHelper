@@ -1283,7 +1283,7 @@ public class GraphController {
     }
     
     /**
-     * The cod that runs in both the addEdgesButton and the addEdgesMenuItem
+     * The code that runs in both the addEdgesButton and the addEdgesMenuItem
      */
     private void addEdges() {
         if (vertices == null) {
@@ -1453,7 +1453,7 @@ public class GraphController {
     }
     
     private void exitAddEdgesState() {
-        setSelectedEdges(true);
+        setSelectedEdges(false);
         addingEdges = false;
         firstSelectedVertex = null; //prepare for the next edge
         canvas.setFirstSelectedVertex(null);
