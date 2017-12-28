@@ -691,8 +691,8 @@ public class GraphController {
         });
         
         //MARK: Color choosing
+        Helpers.addGraphColorChooserDialogEventHandlers(graphColorChooserDialog);
         
-
     }
 
     //MARK: Other methods--------------------
