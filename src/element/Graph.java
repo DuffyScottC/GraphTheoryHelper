@@ -5,8 +5,8 @@
  */
 package element;
 
-import java.awt.Graphics2D;
-import java.awt.geom.AffineTransform;
+import controller.Values;
+import java.awt.Color;
 import java.io.Serializable;
 import java.util.ArrayList;
 import java.util.List;
@@ -22,6 +22,11 @@ public class Graph implements Serializable {
     //the edges which appear in canvas and the edges JList
     private final List<Edge> edges = new ArrayList<>();
     
+    //Start out default
+    private Color fillColor = Values.VERTEX_FILL_COLOR;
+    private Color strokeColor = Values.VERTEX_STROKE_COLOR;
+    
+    //MARK: Getters and setters
     public List<Vertex> getVertices() {
         return vertices;
     }
@@ -29,6 +34,24 @@ public class Graph implements Serializable {
     public List<Edge> getEdges() {
         return edges;
     }
+    
+    public Color getFillColor() {
+        return fillColor;
+    }
+
+    public void setFillColor(Color fillColor) {
+        this.fillColor = fillColor;
+    }
+
+    public Color getStrokeColor() {
+        return strokeColor;
+    }
+
+    public void setStrokeColor(Color strokeColor) {
+        this.strokeColor = strokeColor;
+    }
+    
+    //MARK: Other methods
     
     /**
      * The graph is empty if vertices is empty (doesn't matter whether edges is

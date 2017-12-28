@@ -256,7 +256,6 @@ public class GraphController {
                 }
                 //don't want to repaint canvas if nothing happened
             }
-
         });
 
         canvas.addKeyListener(new KeyAdapter() {
