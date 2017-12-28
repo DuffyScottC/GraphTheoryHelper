@@ -9,6 +9,7 @@ import controller.Values;
 import element.Edge;
 import element.Graph;
 import element.Vertex;
+import java.awt.Color;
 import java.awt.Graphics;
 import java.awt.Graphics2D;
 import java.awt.RenderingHints;
@@ -60,7 +61,6 @@ public class SampleCanvas extends JTextArea {
         v1.draw(g2);
         v2.draw(g2);
         e.draw(g2);
-        
     }
     
     private void setVertexPositions() {
@@ -71,6 +71,16 @@ public class SampleCanvas extends JTextArea {
         
         v1.setLocation(distFromSide, h/2);
         v2.setLocation(w - distFromSide, h/2);
+    }
+    
+    public void setColors(Color vertexFillColor, Color vertexStrokeColor, Color edgeStrokeColor) {
+        v1.setFillColor(vertexFillColor);
+        v1.setStrokeColor(vertexStrokeColor);
+        
+        v2.setFillColor(vertexFillColor);
+        v2.setStrokeColor(vertexStrokeColor);
+        
+        e.setStrokeColor(edgeStrokeColor);
     }
     
 }
