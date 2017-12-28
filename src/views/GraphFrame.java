@@ -53,7 +53,7 @@ public class GraphFrame extends javax.swing.JFrame {
         buttonPanel = new javax.swing.JPanel();
         deleteButton = new javax.swing.JButton();
         addVerticesButton = new javax.swing.JToggleButton();
-        addEdgeButton = new javax.swing.JToggleButton();
+        addEdgesButton = new javax.swing.JToggleButton();
         selectionButton = new javax.swing.JToggleButton();
         graphOutputPanel = new javax.swing.JPanel();
         graphOutputTextField = new javax.swing.JTextField();
@@ -183,13 +183,13 @@ public class GraphFrame extends javax.swing.JFrame {
         gridBagConstraints.fill = java.awt.GridBagConstraints.HORIZONTAL;
         buttonPanel.add(addVerticesButton, gridBagConstraints);
 
-        addEdgeButton.setText("Add Edges");
-        addEdgeButton.setToolTipText("Add edges between vertices.");
+        addEdgesButton.setText("Add Edges");
+        addEdgesButton.setToolTipText("Add edges between vertices.");
         gridBagConstraints = new java.awt.GridBagConstraints();
         gridBagConstraints.gridx = 0;
         gridBagConstraints.gridy = 1;
         gridBagConstraints.fill = java.awt.GridBagConstraints.HORIZONTAL;
-        buttonPanel.add(addEdgeButton, gridBagConstraints);
+        buttonPanel.add(addEdgesButton, gridBagConstraints);
 
         selectionButton.setText("Selection");
         selectionButton.setToolTipText("Select and move vertices and edges.");
@@ -316,7 +316,7 @@ public class GraphFrame extends javax.swing.JFrame {
 
     // Variables declaration - do not modify//GEN-BEGIN:variables
     private javax.swing.JLabel JLabel3;
-    private javax.swing.JToggleButton addEdgeButton;
+    private javax.swing.JToggleButton addEdgesButton;
     private javax.swing.JMenuItem addEdgesMenuItem;
     private javax.swing.JMenuItem addGraphMenuItem;
     private javax.swing.JToggleButton addVerticesButton;
@@ -355,8 +355,8 @@ public class GraphFrame extends javax.swing.JFrame {
     private javax.swing.JMenu viewMenu;
     // End of variables declaration//GEN-END:variables
 
-    public JToggleButton getAddEdgeButton() {
-        return addEdgeButton;
+    public JToggleButton getAddEdgesButton() {
+        return addEdgesButton;
     }
 
     public JToggleButton getAddVerticesButton() {

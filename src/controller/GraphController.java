@@ -76,7 +76,7 @@ public class GraphController {
     private JList verticesList;
     private JList edgesList;
     private JToggleButton addVerticesButton;
-    private JToggleButton addEdgeButton;
+    private JToggleButton addEdgesButton;
     private JToggleButton selectionButton;
     private JMenuItem addVerticesMenuItem;
     private JMenuItem addEdgesMenuItem;
@@ -158,7 +158,7 @@ public class GraphController {
         edgesList = frame.getEdgesList(); //the visual JList that the user sees and interacts with
         modifiedTextField = frame.getModifiedTextField();
         addVerticesButton = frame.getAddVerticesButton();
-        addEdgeButton = frame.getAddEdgeButton();
+        addEdgesButton = frame.getAddEdgesButton();
         selectionButton = frame.getSelectionButton();
         addVerticesMenuItem = frame.getAddVerticesMenuItem();
         addEdgesMenuItem = frame.getAddEdgesMenuItem();
@@ -348,7 +348,7 @@ public class GraphController {
         });
 
         //Add edges
-        addEdgeButton.addActionListener(new ActionListener() {
+        addEdgesButton.addActionListener(new ActionListener() {
             @Override
             public void actionPerformed(ActionEvent e) {
                 addEdges();
@@ -1146,7 +1146,7 @@ public class GraphController {
      */
     private void selection() {
         addVerticesButton.setSelected(false);
-        addEdgeButton.setSelected(false);
+        addEdgesButton.setSelected(false);
         if (addingVertices) {
             exitAddVerticesState();
             canvas.repaint();
@@ -1181,7 +1181,7 @@ public class GraphController {
      */
     private void addVertices() {
         selectionButton.setSelected(false);
-        addEdgeButton.setSelected(false);
+        addEdgesButton.setSelected(false);
         exitAddEdgesState(); //leave the add edge state
         exitSelectionState();
         enterAddVerticesState(); //enter the add vertices state
@@ -1274,12 +1274,12 @@ public class GraphController {
     private void addEdges() {
         if (vertices == null) {
             JOptionPane.showMessageDialog(frame, "Need at least two vertices to add an edge.");
-            addEdgeButton.setSelected(false);
+            addEdgesButton.setSelected(false);
             return;
         }
         if (vertices.isEmpty() || vertices.size() == 1) {
             JOptionPane.showMessageDialog(frame, "Need at least two vertices to add an edge.");
-            addEdgeButton.setSelected(false);
+            addEdgesButton.setSelected(false);
             return;
         }
         addVerticesButton.setSelected(false);
@@ -1440,8 +1440,8 @@ public class GraphController {
         int numberOfFalses = assignCanAddEdges();
 
         if (numberOfFalses == vertices.size()) { //if none of the vertices can have edges added to them
-            addEdgeButton.setSelected(false);
-            addEdgeButton.setSelected(false);
+            addEdgesButton.setSelected(false);
+            addEdgesButton.setSelected(false);
             selectionButton.setSelected(true);
             exitAddEdgesState(); //exit the state because there are no available edges
             enterSelectionState();

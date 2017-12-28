@@ -347,7 +347,7 @@
                 </Constraint>
               </Constraints>
             </Component>
-            <Component class="javax.swing.JToggleButton" name="addEdgeButton">
+            <Component class="javax.swing.JToggleButton" name="addEdgesButton">
               <Properties>
                 <Property name="text" type="java.lang.String" value="Add Edges"/>
                 <Property name="toolTipText" type="java.lang.String" value="Add edges between vertices."/>
