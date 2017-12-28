@@ -673,6 +673,9 @@ public class GraphController {
                 addGraphDialog.setVisible(false); //close the dialog
             }
         });
+        
+        //MARK: Color choosing
+        
 
     }
 
