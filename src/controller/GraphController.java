@@ -346,27 +346,18 @@ public class GraphController {
                 selection();
             }
         });
-        
+
         //Add edges
         addEdgeButton.addActionListener(new ActionListener() {
             @Override
             public void actionPerformed(ActionEvent e) {
-                if (vertices == null) {
-                    JOptionPane.showMessageDialog(frame, "Need at least two vertices to add an edge.");
-                    addEdgeButton.setSelected(false);
-                    return;
-                }
-                if (vertices.isEmpty() || vertices.size() == 1) {
-                    JOptionPane.showMessageDialog(frame, "Need at least two vertices to add an edge.");
-                    addEdgeButton.setSelected(false);
-                    return;
-                }
-                addVerticesButton.setSelected(false);
-                selectionButton.setSelected(false);
-                exitAddVerticesState();
-                exitSelectionState();
-                enterAddEdgeState();
-                canvas.repaint();
+                addEdges();
+            }
+        });
+        addEdgesMenuItem.addActionListener(new ActionListener() {
+            @Override
+            public void actionPerformed(ActionEvent e) {
+                addEdges();
             }
         });
 
@@ -962,11 +953,9 @@ public class GraphController {
                             }
                         } else //if ep2 is higher than ep1
                         //ep2.y<my<ep1.y
-                        {
-                            if (ep2.y < my && my < ep1.y) { //if my is between ep2.y and ep1.y
+                         if (ep2.y < my && my < ep1.y) { //if my is between ep2.y and ep1.y
                                 clickedAnEdge = true; //we clicked edge e
                             }
-                        }
                     }
                 } else { //if the edge is not verticle
                     //Find the point on edge e that is closest to (mx,my) (the intersection, I)
@@ -1277,6 +1266,28 @@ public class GraphController {
     private void exitAddVerticesState() {
         addingVertices = false; //exit the state
         canvas.setAddingVertex(false);
+    }
+    
+    /**
+     * The cod that runs in both the addEdgesButton and the addEdgesMenuItem
+     */
+    private void addEdges() {
+        if (vertices == null) {
+            JOptionPane.showMessageDialog(frame, "Need at least two vertices to add an edge.");
+            addEdgeButton.setSelected(false);
+            return;
+        }
+        if (vertices.isEmpty() || vertices.size() == 1) {
+            JOptionPane.showMessageDialog(frame, "Need at least two vertices to add an edge.");
+            addEdgeButton.setSelected(false);
+            return;
+        }
+        addVerticesButton.setSelected(false);
+        selectionButton.setSelected(false);
+        exitAddVerticesState();
+        exitSelectionState();
+        enterAddEdgeState();
+        canvas.repaint();
     }
 
     private void addEdge(int mx, int my) {
