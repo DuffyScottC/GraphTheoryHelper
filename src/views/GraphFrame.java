@@ -176,6 +176,7 @@ public class GraphFrame extends javax.swing.JFrame {
         gridBagConstraints.gridx = 0;
         gridBagConstraints.gridy = 3;
         gridBagConstraints.fill = java.awt.GridBagConstraints.HORIZONTAL;
+        gridBagConstraints.insets = new java.awt.Insets(6, 0, 0, 0);
         buttonPanel.add(deleteButton, gridBagConstraints);
 
         addVerticesButton.setText("Add Vertices");

@@ -361,8 +361,14 @@ public class GraphController {
                 addEdges();
             }
         });
-
+        
         frame.getDeleteButton().addActionListener(new ActionListener() {
+            @Override
+            public void actionPerformed(ActionEvent e) {
+                deleteSelectedElement();
+            }
+        });
+        frame.getDeleteMenuItem().addActionListener(new ActionListener() {
             @Override
             public void actionPerformed(ActionEvent e) {
                 deleteSelectedElement();
