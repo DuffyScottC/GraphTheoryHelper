@@ -1172,13 +1172,12 @@ public class GraphController {
     }
 
     private void enterSelectionState() {
-        setSelectedVertices(false);
-        setSelectedEdges(false);
         setSelectedSelection(true);
         selecting = true;
     }
 
     private void exitSelectionState() {
+        setSelectedSelection(false);
         selecting = false;
     }
 
@@ -1268,8 +1267,6 @@ public class GraphController {
      * clicking anywhere as many times as they want.
      */
     private void enterAddVerticesState() {
-        setSelectedEdges(false);
-        setSelectedSelection(false);
         setSelectedVertices(true);
         addingVertices = true; //enter the vertex adding state
         canvas.setAddingVertex(true);
@@ -1281,6 +1278,7 @@ public class GraphController {
      * edge state.
      */
     private void exitAddVerticesState() {
+        setSelectedVertices(false);
         addingVertices = false; //exit the state
         canvas.setAddingVertex(false);
     }
@@ -1421,6 +1419,7 @@ public class GraphController {
     }
 
     private void exitAddEdgesState() {
+        setSelectedEdges(true);
         addingEdges = false;
         firstSelectedVertex = null; //prepare for the next edge
         canvas.setFirstSelectedVertex(null);
@@ -1432,8 +1431,6 @@ public class GraphController {
     }
 
     private void enterAddEdgeState() {
-        setSelectedVertices(false);
-        setSelectedSelection(false);
         setSelectedEdges(true);
         
         addingEdges = true; //enter the edge adding state
