@@ -743,7 +743,11 @@ public class GraphController {
                 Color newEdgeStrokeColor = graphColorChooserDialog.getEdgeStrokeColor();
                 
                 //set the graph's colors
-                graph.setColors(newVertexFillColor, newVertexStrokeColor, newEdgeStrokeColor);
+                graph.setVertexFillColor(newVertexFillColor);
+                graph.setVertexStrokeColor(newVertexStrokeColor);
+                graph.setEdgeStrokeColor(newEdgeStrokeColor);
+                
+                colorAllElements(newVertexFillColor, newVertexStrokeColor, newEdgeStrokeColor);
                 
                 //dismiss the dialog
                 graphColorChooserDialog.setVisible(false);
@@ -1596,6 +1600,23 @@ public class GraphController {
                 v.setStrokeColor(graph.getVertexStrokeColor());
                 v.setStrokeWidth(Values.VERTEX_STROKE_WIDTH);
             }
+        }
+    }
+    
+    /**
+     * Changes the colors of the vertices and edges after the user chooses new ones.
+     * @param newVertexFillColor
+     * @param newVertexStrokeColor
+     * @param newEdgeStrokeColor 
+     */
+    private void colorAllElements(Color newVertexFillColor, Color newVertexStrokeColor, Color newEdgeStrokeColor) {
+        for (Vertex v : vertices) {
+            v.setFillColor(newVertexFillColor);
+            v.setStrokeColor(newVertexStrokeColor);
+        }
+        
+        for (Edge e : edges) {
+            e.setStrokeColor(newEdgeStrokeColor);
         }
     }
     
