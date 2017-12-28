@@ -58,6 +58,7 @@ public class GraphFrame extends javax.swing.JFrame {
         graphOutputPanel = new javax.swing.JPanel();
         graphOutputTextField = new javax.swing.JTextField();
         modifiedTextField = new javax.swing.JTextField();
+        jSeparator1 = new javax.swing.JSeparator();
         myMenuBar = new javax.swing.JMenuBar();
         fileMenu = new javax.swing.JMenu();
         openMenuItem = new javax.swing.JMenuItem();
@@ -67,7 +68,6 @@ public class GraphFrame extends javax.swing.JFrame {
         editMenu = new javax.swing.JMenu();
         rotate90MenuItem = new javax.swing.JMenuItem();
         addGraphMenuItem = new javax.swing.JMenuItem();
-        deleteElementMenuItem = new javax.swing.JMenuItem();
         viewMenu = new javax.swing.JMenu();
         showVertexNamesMenuItem = new javax.swing.JCheckBoxMenuItem();
         formatVerticesMenuItem = new javax.swing.JMenuItem();
@@ -75,6 +75,7 @@ public class GraphFrame extends javax.swing.JFrame {
         addVerticesMenuItem = new javax.swing.JMenuItem();
         addEdgesMenuItem = new javax.swing.JMenuItem();
         selectionMenuItem = new javax.swing.JMenuItem();
+        jSeparator2 = new javax.swing.JPopupMenu.Separator();
         deleteMenuItem = new javax.swing.JMenuItem();
 
         setDefaultCloseOperation(javax.swing.WindowConstants.EXIT_ON_CLOSE);
@@ -232,6 +233,7 @@ public class GraphFrame extends javax.swing.JFrame {
         gridBagConstraints.gridwidth = 2;
         gridBagConstraints.fill = java.awt.GridBagConstraints.HORIZONTAL;
         getContentPane().add(graphOutputPanel, gridBagConstraints);
+        getContentPane().add(jSeparator1, new java.awt.GridBagConstraints());
 
         fileMenu.setText("File");
 
@@ -266,10 +268,6 @@ public class GraphFrame extends javax.swing.JFrame {
         addGraphMenuItem.setText("Add Graph");
         editMenu.add(addGraphMenuItem);
 
-        deleteElementMenuItem.setAccelerator(javax.swing.KeyStroke.getKeyStroke(java.awt.event.KeyEvent.VK_G, java.awt.event.InputEvent.META_MASK));
-        deleteElementMenuItem.setText("Delete");
-        editMenu.add(deleteElementMenuItem);
-
         myMenuBar.add(editMenu);
 
         viewMenu.setText("View");
@@ -297,6 +295,7 @@ public class GraphFrame extends javax.swing.JFrame {
         selectionMenuItem.setAccelerator(javax.swing.KeyStroke.getKeyStroke(java.awt.event.KeyEvent.VK_SPACE, 0));
         selectionMenuItem.setText("Selection");
         toolsMenu.add(selectionMenuItem);
+        toolsMenu.add(jSeparator2);
 
         deleteMenuItem.setAccelerator(javax.swing.KeyStroke.getKeyStroke(java.awt.event.KeyEvent.VK_BACK_SPACE, 0));
         deleteMenuItem.setText("Delete");
@@ -325,7 +324,6 @@ public class GraphFrame extends javax.swing.JFrame {
     private views.Canvas canvas;
     private javax.swing.JScrollPane canvasScrollPane;
     private javax.swing.JButton deleteButton;
-    private javax.swing.JMenuItem deleteElementMenuItem;
     private javax.swing.JMenuItem deleteMenuItem;
     private javax.swing.JLabel edgesLabel;
     private javax.swing.JList<String> edgesList;
@@ -336,6 +334,8 @@ public class GraphFrame extends javax.swing.JFrame {
     private javax.swing.JPanel graphOutputPanel;
     private javax.swing.JTextField graphOutputTextField;
     private views.InspectorPanel inspectorPanel;
+    private javax.swing.JSeparator jSeparator1;
+    private javax.swing.JPopupMenu.Separator jSeparator2;
     private javax.swing.JTextField modifiedTextField;
     private javax.swing.JMenuBar myMenuBar;
     private javax.swing.JMenuItem newMenuItem;
@@ -442,15 +442,6 @@ public class GraphFrame extends javax.swing.JFrame {
     
     public JButton getDeleteButton() {
         return deleteButton;
-    }
-    
-    public JMenuItem getDeleteElementMenuItem() {
-        return deleteElementMenuItem;
-    }
-    
-    
-    public JMenu getToolsMenu() {
-        return toolsMenu;
     }
     
     public JMenuItem getAddVerticesMenuItem() {

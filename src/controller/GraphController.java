@@ -369,14 +369,6 @@ public class GraphController {
             }
         });
 
-        frame.getDeleteElementMenuItem().addActionListener(new ActionListener() {
-            @Override
-            public void actionPerformed(ActionEvent e) {
-                System.out.println("delleted");
-                deleteSelectedElement();
-            }
-        });
-
         verticesList.addListSelectionListener(new ListSelectionListener() {
             @Override
             public void valueChanged(ListSelectionEvent e) {
