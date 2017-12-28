@@ -13,6 +13,7 @@ import java.awt.Color;
 import java.awt.Graphics;
 import java.awt.Graphics2D;
 import java.awt.RenderingHints;
+import java.awt.geom.AffineTransform;
 import javax.swing.JTextArea;
 
 /**
@@ -58,9 +59,25 @@ public class SampleCanvas extends JTextArea {
         
         setVertexPositions(); //position the vertices
         
-        v1.draw(g2);
-        v2.draw(g2);
         e.draw(g2);
+        drawVertex(v1, g2);
+        drawVertex(v2, g2);
+    }
+    
+    /**
+     * Convenience method to improve readability. 
+     * @param vertex
+     * @param g2 
+     */
+    private void drawVertex(Vertex vertex, Graphics2D g2) {
+        AffineTransform t = g2.getTransform(); // save the transform settings
+        //loop from back to front so that the "top" vertext gets chosen
+        //first when the user clicks on it.
+        double x = vertex.getLocation().x;
+        double y = vertex.getLocation().y;
+        g2.translate(x, y);
+        vertex.draw(g2); //actually draw the vertex
+        g2.setTransform(t); //restore each after drawing
     }
     
     private void setVertexPositions() {
