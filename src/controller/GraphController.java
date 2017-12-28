@@ -156,6 +156,9 @@ public class GraphController {
         addVertexButton = frame.getAddVertexButton();
         addEdgeButton = frame.getAddEdgeButton();
         selectionButton = frame.getSelectionButton();
+        
+        selectionButton.setSelected(true);
+        enterSelectionState();
 
         canvas.addMouseListener(new MouseAdapter() {
             @Override
