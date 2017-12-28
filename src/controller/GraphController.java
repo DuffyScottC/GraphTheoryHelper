@@ -164,7 +164,6 @@ public class GraphController {
         addEdgesMenuItem = frame.getAddEdgesMenuItem();
         selectionMenuItem = frame.getSelectionMenuItem();
 
-        setSelectedSelection(true);
         enterSelectionState();
 
         canvas.addMouseListener(new MouseAdapter() {
@@ -1289,12 +1288,12 @@ public class GraphController {
     private void addEdges() {
         if (vertices == null) {
             JOptionPane.showMessageDialog(frame, "Need at least two vertices to add an edge.");
-            setSelectedEdges(false);
+//            setSelectedEdges(false);
             return;
         }
         if (vertices.isEmpty() || vertices.size() == 1) {
             JOptionPane.showMessageDialog(frame, "Need at least two vertices to add an edge.");
-            setSelectedEdges(false);
+//            setSelectedEdges(false);
             return;
         }
         exitAddVerticesState();
@@ -1418,18 +1417,6 @@ public class GraphController {
         canvas.repaint();
     }
 
-    private void exitAddEdgesState() {
-        setSelectedEdges(true);
-        addingEdges = false;
-        firstSelectedVertex = null; //prepare for the next edge
-        canvas.setFirstSelectedVertex(null);
-        //Unhighlight all vertices
-        for (Vertex v : vertices) {
-            v.setStrokeColor(Values.VERTEX_STROKE_COLOR);
-            v.setStrokeWidth(Values.VERTEX_STROKE_WIDTH);
-        }
-    }
-
     private void enterAddEdgeState() {
         setSelectedEdges(true);
         
@@ -1463,6 +1450,18 @@ public class GraphController {
 
         //Highglight appropriate vertices
         highlightAvailableVertices();
+    }
+    
+    private void exitAddEdgesState() {
+        setSelectedEdges(true);
+        addingEdges = false;
+        firstSelectedVertex = null; //prepare for the next edge
+        canvas.setFirstSelectedVertex(null);
+        //Unhighlight all vertices
+        for (Vertex v : vertices) {
+            v.setStrokeColor(Values.VERTEX_STROKE_COLOR);
+            v.setStrokeWidth(Values.VERTEX_STROKE_WIDTH);
+        }
     }
 
     /**
