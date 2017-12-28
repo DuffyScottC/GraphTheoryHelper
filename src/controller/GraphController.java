@@ -196,8 +196,7 @@ public class GraphController {
                 canvas.setLastPosition(lastX, lastY);
                 
                 if (selecting) { //if we're not in the selection state
-                    isModified = true;
-                    modifiedTextField.setText("*");
+                    setIsModified(true);
                     
                     if (clickedVertex == null) { //if the user did not click a vertex
                         if (clickedEdge == null) { //if the user did not click an edge
@@ -417,8 +416,7 @@ public class GraphController {
                 selectedVertex.setTitle(newTitle);
                 verticesList.repaint();
                 canvas.repaint();
-                isModified = true;
-                modifiedTextField.setText("*");
+                setIsModified(true);
             }
         });
 
@@ -450,8 +448,7 @@ public class GraphController {
                     }
                 }
 
-                isModified = false;
-                modifiedTextField.setText("");
+                setIsModified(false);
 
                 chooser.setDialogTitle("Open");
                 int chooserResult = chooser.showOpenDialog(frame);
@@ -515,8 +512,7 @@ public class GraphController {
 
                 clear();
 
-                isModified = false;
-                modifiedTextField.setText("");
+                setIsModified(false);
             }
         });
 
@@ -540,8 +536,7 @@ public class GraphController {
                 formatAllVertices();
                 if (vertices != null) {
                     if (!vertices.isEmpty()) {
-                        isModified = true;
-                        modifiedTextField.setText("*");
+                        setIsModified(true);
                     }
                 }
                 canvas.repaint();
@@ -631,13 +626,12 @@ public class GraphController {
                         edges.add(newEdge); //add the edge to the list
                         wasModified = true;
                     }
-
-                    //if newVertex1 not already connected to newVertex2, then
-                    //it must already be in edges and we don't need to do anything else
-                    //if there was at least one new vertex or edge
+                    //If newVertex1 is already adjacent to newVertex2, then it
+                    //must already be in edges and we don't need to do anything else
+                    
+                    //If there was at least one new vertex or edge
                     if (wasModified) {
-                        isModified = true;
-                        modifiedTextField.setText("*");
+                        setIsModified(true);
                     }
 
                     //update the list models
@@ -1129,8 +1123,7 @@ public class GraphController {
         selectedVertexIndex = bottomIndex;
         setSelectedVertex();
         canvas.repaint();
-        isModified = true;
-        modifiedTextField.setText("*");
+        setIsModified(true);
     }
 
     private void removeVertex() {
@@ -1161,8 +1154,7 @@ public class GraphController {
         setSelectedVertex();
 
         canvas.repaint();
-        isModified = true;
-        modifiedTextField.setText("*");
+        setIsModified(true);
     }
 
     /**
@@ -1243,8 +1235,7 @@ public class GraphController {
                         selectedEdgeIndex = lastIndex;
                         setSelectedEdge();
 
-                        isModified = true; //Note that this is not saved
-                        modifiedTextField.setText("*");
+                        setIsModified(true);
 
                         return; //we don't need to check anymore
                     }
@@ -1488,8 +1479,23 @@ public class GraphController {
 
         }
 
-        isModified = false;
-        modifiedTextField.setText("");
+        setIsModified(false);
+    }
+    
+    /**
+     * Handles everything required to mark the graph as modified or not. This
+     * includes setting the isModified boolean, setting the text of the
+     * modifiedTextField, etc.
+     * @param isModified True if the graph has been modified, false if the graph
+     * is not modified (saved or empty)
+     */
+    private void setIsModified(boolean isModified) {
+        this.isModified = isModified;
+        if (isModified) {
+            modifiedTextField.setText("*");
+        } else {
+            modifiedTextField.setText("");
+        }
     }
 
     //MARK: Getters and Setters
