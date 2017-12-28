@@ -13,6 +13,7 @@ import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 import java.awt.event.KeyAdapter;
 import java.awt.event.KeyEvent;
+import java.awt.event.KeyListener;
 import java.awt.event.MouseAdapter;
 import java.awt.event.MouseEvent;
 import java.awt.event.MouseMotionListener;
@@ -139,7 +140,6 @@ public class GraphController {
     //File I/O:
     private final JFileChooser chooser = new JFileChooser(System.getProperty("user.dir"));
     private File saveFile;
-    private int sum = 0;
 
     public GraphController() {
         frame.setTitle("Graph Theory Helper");
@@ -240,22 +240,25 @@ public class GraphController {
         canvas.addKeyListener(new KeyAdapter() {
             @Override
             public void keyPressed(KeyEvent e) {
-                System.out.println("Key pressed" + sum);
-                sum++;
+                if (e.getKeyCode() == KeyEvent.VK_BACK_SPACE) {
+                    deleteSelectedElement();
+                }
             }
         });
         verticesList.addKeyListener(new KeyAdapter() {
             @Override
             public void keyPressed(KeyEvent e) {
-                System.out.println("Key pressed" + sum);
-                sum++;
+                if (e.getKeyCode() == KeyEvent.VK_BACK_SPACE) {
+                    deleteSelectedElement();
+                }
             }
         });
         edgesList.addKeyListener(new KeyAdapter() {
             @Override
             public void keyPressed(KeyEvent e) {
-                System.out.println("Key pressed" + sum);
-                sum++;
+                if (e.getKeyCode() == KeyEvent.VK_BACK_SPACE) {
+                    deleteSelectedElement();
+                }
             }
         });
 
@@ -1370,11 +1373,9 @@ public class GraphController {
         for (int i = vertices.size() - 1; i >= 0; i--) {
             Vertex v = vertices.get(i);
             //(Note: it's faster to check if canAddEdges before contains(x,y))
-            System.out.print(v + " " + v.canAddEdges());
             if (v.canAddEdges()) { //if this vertex can have edges added to it
                 //if the mouse is hovering over this vertex
                 if (v.getPositionShape().contains(lastX, lastY)) {
-                    System.out.print(" hover");
                     //highlight it
                     v.setStrokeWidth(Values.VERTEX_HIGHLIGHT_STROKE_WIDTH);
                 } else { //if the mouse is not hovering over this vertex
@@ -1382,9 +1383,7 @@ public class GraphController {
                     v.setStrokeWidth(Values.VERTEX_AVAILABLE_STROKE_WIDTH);
                 }
             }
-            System.out.print("|||");
         }
-        System.out.println("");
     }
 
     private void updateVerticesListModel() {
