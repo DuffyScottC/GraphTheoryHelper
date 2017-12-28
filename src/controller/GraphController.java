@@ -303,6 +303,7 @@ public class GraphController {
                 selectionButton.setSelected(false);
                 addEdgeButton.setSelected(false);
                 exitAddEdgesState(); //leave the add edge state
+                exitSelectionState();
                 enterAddVerticesState(); //enter the add vertices state
                 canvas.repaint();
             }
@@ -322,7 +323,6 @@ public class GraphController {
                     canvas.repaint();
                 }
                 enterSelectionState();
-                
             }
         });
 
@@ -342,6 +342,7 @@ public class GraphController {
                 addVertexButton.setSelected(false);
                 selectionButton.setSelected(false);
                 exitAddVerticesState();
+                exitSelectionState();
                 enterAddEdgeState();
                 canvas.repaint();
             }
@@ -1099,6 +1100,10 @@ public class GraphController {
     //MARK: States
     private void enterSelectionState() {
         selecting = true;
+    }
+    
+    private void exitSelectionState() {
+        selecting = false;
     }
 
     private void deleteSelectedElement() {
