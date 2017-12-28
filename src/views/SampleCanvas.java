@@ -29,15 +29,15 @@ public class SampleCanvas extends JTextArea {
     public void setUp(Graph graph) {
         v1 = new Vertex(Values.DIAMETER);
         v1.setLocation(50, 50);
-        v1.setStrokeColor(graph.getStrokeColor());
-        v1.setFillColor(graph.getFillColor());
+        v1.setStrokeColor(graph.getVertexStrokeColor());
+        v1.setFillColor(graph.getVertexFillColor());
         v1.setStrokeWidth(Values.VERTEX_STROKE_WIDTH);
         v1.setTitle("");
         
         v2 = new Vertex(Values.DIAMETER);
         v2.setLocation(150, 50);
-        v2.setStrokeColor(graph.getStrokeColor());
-        v2.setFillColor(graph.getFillColor());
+        v2.setStrokeColor(graph.getVertexStrokeColor());
+        v2.setFillColor(graph.getVertexFillColor());
         v2.setStrokeWidth(Values.VERTEX_STROKE_WIDTH);
         v2.setTitle("");
         

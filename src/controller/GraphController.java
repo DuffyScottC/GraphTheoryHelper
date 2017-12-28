@@ -34,6 +34,7 @@ import java.util.List;
 import java.util.regex.Matcher;
 import java.util.regex.Pattern;
 import javax.swing.DefaultListModel;
+import javax.swing.JColorChooser;
 import javax.swing.JFileChooser;
 import javax.swing.JList;
 import javax.swing.JMenuItem;
@@ -697,17 +698,15 @@ public class GraphController {
         graphColorChooserDialog.getVertexFillColorChooseButton().addActionListener(new ActionListener() {
             @Override
             public void actionPerformed(ActionEvent e) {
-                
+                Color color = JColorChooser.showDialog(frame, "Choose color", graph.getVertexFillColor());
             }
         });
-        
         graphColorChooserDialog.getVertexStrokeColorChooseButton().addActionListener(new ActionListener() {
             @Override
             public void actionPerformed(ActionEvent e) {
                 
             }
         });
-        
         graphColorChooserDialog.getEdgeStrokeColorChooseButton().addActionListener(new ActionListener() {
             @Override
             public void actionPerformed(ActionEvent e) {
@@ -881,12 +880,12 @@ public class GraphController {
         updateEdgesListModel();
         
         //MARK: Colors
-        vertexFillColor = newGraph.getFillColor();
-        vertexStrokeColor = newGraph.getStrokeColor();
+        vertexFillColor = newGraph.getVertexFillColor();
+        vertexStrokeColor = newGraph.getVertexStrokeColor();
         edgeStrokeColor = newGraph.getEdgeStrokeColor();
         
-        graph.setFillColor(vertexFillColor);
-        graph.setStrokeColor(vertexStrokeColor);
+        graph.setVertexFillColor(vertexFillColor);
+        graph.setVertexStrokeColor(vertexStrokeColor);
         graph.setEdgeStrokeColor(edgeStrokeColor);
         
         //MARK: Update the list selection

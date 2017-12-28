@@ -23,8 +23,8 @@ public class Graph implements Serializable {
     private final List<Edge> edges = new ArrayList<>();
     
     //Start out default
-    private Color fillColor = Values.VERTEX_FILL_COLOR;
-    private Color strokeColor = Values.VERTEX_STROKE_COLOR;
+    private Color vertexFillColor = Values.VERTEX_FILL_COLOR;
+    private Color vertexStrokeColor = Values.VERTEX_STROKE_COLOR;
     private Color edgeStrokeColor = Values.EDGE_STROKE_COLOR;
     
     //MARK: Getters and setters
@@ -36,20 +36,20 @@ public class Graph implements Serializable {
         return edges;
     }
     
-    public Color getFillColor() {
-        return fillColor;
+    public Color getVertexFillColor() {
+        return vertexFillColor;
     }
 
-    public void setFillColor(Color fillColor) {
-        this.fillColor = fillColor;
+    public void setVertexFillColor(Color vertexFillColor) {
+        this.vertexFillColor = vertexFillColor;
     }
 
-    public Color getStrokeColor() {
-        return strokeColor;
+    public Color getVertexStrokeColor() {
+        return vertexStrokeColor;
     }
 
-    public void setStrokeColor(Color strokeColor) {
-        this.strokeColor = strokeColor;
+    public void setVertexStrokeColor(Color vertexStrokeColor) {
+        this.vertexStrokeColor = vertexStrokeColor;
     }
     
     public Color getEdgeStrokeColor() {
