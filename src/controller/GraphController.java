@@ -699,7 +699,7 @@ public class GraphController {
         } else { //if the user selected a vertex
             selectedVertex = vertices.get(selectedVertexIndex); //store the selected vertex
             selectedVertex.setStrokeColor(Values.EDGE_HIGHLIGHT_COLOR); //highlight the vertex
-            selectedVertex.setStrokeWidth(Values.EDGE_HIGHLIGHT_STROKE_WIDTH);
+            selectedVertex.setStrokeWidth(Values.VERTEX_HIGHLIGHT_STROKE_WIDTH);
             titleTextField.setText(selectedVertex.getTitle());
             titleTextField.setEditable(true);
             //Set the focus to be in the titleTextField
