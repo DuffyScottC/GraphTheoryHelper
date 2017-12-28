@@ -45,6 +45,7 @@ import javax.swing.event.ListSelectionEvent;
 import javax.swing.event.ListSelectionListener;
 import views.AddGraphDialog;
 import views.Canvas;
+import views.GraphColorChooserDialog;
 import views.GraphFrame;
 
 /**
@@ -137,6 +138,7 @@ public class GraphController {
     private final GraphFrame frame = new GraphFrame();
     private final Canvas canvas = frame.getCanvas();
     private final AddGraphDialog addGraphDialog = new AddGraphDialog(frame, true);
+    private final GraphColorChooserDialog graphColorChooserDialog = new GraphColorChooserDialog(frame, true);
 
     private final Graph graph = new Graph();
 
@@ -541,12 +543,26 @@ public class GraphController {
             public void actionPerformed(ActionEvent e) {
                 addGraphDialog.setLocationRelativeTo(null);
                 addGraphDialog.setTitle("Add Vertices");
-
+                
                 addGraphDialog.setFocusToTextField();
-
+                
+                //Make it so that the user can press enter to press Add
                 addGraphDialog.getRootPane().setDefaultButton(addGraphDialog.getAddButton());
-
+                
                 addGraphDialog.setVisible(true);
+            }
+        });
+        
+        frame.getChangeColorsMenuItem().addActionListener(new ActionListener() {
+            @Override
+            public void actionPerformed(ActionEvent e) {
+                graphColorChooserDialog.setLocationRelativeTo(null);
+                graphColorChooserDialog.setTitle("Choose Colors");
+                
+                //Make it so that the user can press enter to press OK
+                graphColorChooserDialog.getRootPane().setDefaultButton(graphColorChooserDialog.getOKButton());
+                
+                graphColorChooserDialog.setVisible(true);
             }
         });
 

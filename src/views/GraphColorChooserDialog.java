@@ -221,7 +221,7 @@ public class GraphColorChooserDialog extends javax.swing.JDialog {
         return edgeStrokeColorTextField;
     }
 
-    public JButton getOkButton() {
+    public JButton getOKButton() {
         return okButton;
     }
 
@@ -244,6 +244,4 @@ public class GraphColorChooserDialog extends javax.swing.JDialog {
     public JTextField getVertexStrokeColorTextField() {
         return vertexStrokeColorTextField;
     }
-    
-    
 }

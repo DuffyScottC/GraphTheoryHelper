@@ -78,6 +78,7 @@ public class GraphFrame extends javax.swing.JFrame {
         selectionMenuItem = new javax.swing.JCheckBoxMenuItem();
         jSeparator2 = new javax.swing.JPopupMenu.Separator();
         deleteMenuItem = new javax.swing.JMenuItem();
+        changeColorsMenuItem = new javax.swing.JMenuItem();
 
         setDefaultCloseOperation(javax.swing.WindowConstants.EXIT_ON_CLOSE);
         getContentPane().setLayout(new java.awt.GridBagLayout());
@@ -308,6 +309,9 @@ public class GraphFrame extends javax.swing.JFrame {
         deleteMenuItem.setText("Delete");
         toolsMenu.add(deleteMenuItem);
 
+        changeColorsMenuItem.setText("Change Colors");
+        toolsMenu.add(changeColorsMenuItem);
+
         myMenuBar.add(toolsMenu);
 
         setJMenuBar(myMenuBar);
@@ -334,6 +338,7 @@ public class GraphFrame extends javax.swing.JFrame {
     private javax.swing.JPanel buttonPanel;
     private views.Canvas canvas;
     private javax.swing.JScrollPane canvasScrollPane;
+    private javax.swing.JMenuItem changeColorsMenuItem;
     private javax.swing.JButton deleteButton;
     private javax.swing.JMenuItem deleteMenuItem;
     private javax.swing.JLabel edgesLabel;
@@ -469,5 +474,9 @@ public class GraphFrame extends javax.swing.JFrame {
     
     public JMenuItem getDeleteMenuItem() {
         return deleteMenuItem;
+    }
+    
+    public JMenuItem getChangeColorsMenuItem() {
+        return changeColorsMenuItem;
     }
 }
