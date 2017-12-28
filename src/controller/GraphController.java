@@ -839,22 +839,34 @@ public class GraphController {
         canvas.repaint();
     }
     
-    private void pressVertex(Vertex v) {
-        v.setFillColor(Values.VERTEX_PRESSED_COLOR);
-        v.setStrokeColor(Values.EDGE_PRESSED_COLOR);
+    private void pressVertex() {
+        if (clickedVertex == null) {
+            return;
+        }
+        clickedVertex.setFillColor(Values.VERTEX_PRESSED_COLOR);
+        clickedVertex.setStrokeColor(Values.EDGE_PRESSED_COLOR);
     }
     
-    private void pressEdge(Edge e) {
-        e.setStrokeColor(Values.EDGE_PRESSED_COLOR);
+    private void pressEdge() {
+        if (clickedEdge == null) {
+            return;
+        }
+        clickedEdge.setStrokeColor(Values.EDGE_PRESSED_COLOR);
     }
     
-    private void unpressVertex(Vertex v) {
-        v.setFillColor(Values.VERTEX_FILL_COLOR);
-        v.setStrokeColor(Values.EDGE_HIGHLIGHT_COLOR);
+    private void unpressVertex() {
+        if (clickedVertex == null) {
+            return;
+        }
+        clickedVertex.setFillColor(Values.VERTEX_FILL_COLOR);
+        clickedVertex.setStrokeColor(Values.EDGE_HIGHLIGHT_COLOR);
     }
     
-    private void unpressEdge(Edge e) {
-        e.setStrokeColor(Values.EDGE_HIGHLIGHT_COLOR);
+    private void unpressEdge() {
+        if (clickedEdge == null) {
+            return;
+        }
+        clickedEdge.setStrokeColor(Values.EDGE_HIGHLIGHT_COLOR);
     }
 
     /**
@@ -1235,7 +1247,6 @@ public class GraphController {
                     if (currentVertex.getPositionShape().contains(mx, my)) {
                         firstSelectedVertex = currentVertex; //assign the first vertex
                         canvas.setFirstSelectedVertex(firstSelectedVertex);
-                        firstSelectedVertex
                         //Make it so that user can't add edge from a vertex to itself:
                         firstSelectedVertex.setCanAddEdges(false);
                         //Make it so that user can't add an edge to vertices that are already
