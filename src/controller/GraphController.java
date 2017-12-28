@@ -74,7 +74,7 @@ public class GraphController {
     private JTextField titleTextField;
     private JList verticesList;
     private JList edgesList;
-    private JToggleButton addVertexButton;
+    private JToggleButton addVerticesButton;
     private JToggleButton addEdgeButton;
     private JToggleButton selectionButton;
 
@@ -153,7 +153,7 @@ public class GraphController {
         verticesList = frame.getVerticesList(); //the visual JList that the user sees and interacts with
         edgesList = frame.getEdgesList(); //the visual JList that the user sees and interacts with
         modifiedTextField = frame.getModifiedTextField();
-        addVertexButton = frame.getAddVertexButton();
+        addVerticesButton = frame.getAddVerticesButton();
         addEdgeButton = frame.getAddEdgeButton();
         selectionButton = frame.getSelectionButton();
         
@@ -312,7 +312,7 @@ public class GraphController {
             }
         });
 
-        addVertexButton.addActionListener(new ActionListener() {
+        addVerticesButton.addActionListener(new ActionListener() {
             @Override
             public void actionPerformed(ActionEvent e) {
                 selectionButton.setSelected(false);
@@ -327,7 +327,7 @@ public class GraphController {
         selectionButton.addActionListener(new ActionListener() {
             @Override
             public void actionPerformed(ActionEvent e) {
-                addVertexButton.setSelected(false);
+                addVerticesButton.setSelected(false);
                 addEdgeButton.setSelected(false);
                 if (addingVertices) {
                     exitAddVerticesState();
@@ -354,7 +354,7 @@ public class GraphController {
                     addEdgeButton.setSelected(false);
                     return;
                 }
-                addVertexButton.setSelected(false);
+                addVerticesButton.setSelected(false);
                 selectionButton.setSelected(false);
                 exitAddVerticesState();
                 exitSelectionState();

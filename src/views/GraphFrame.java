@@ -52,7 +52,7 @@ public class GraphFrame extends javax.swing.JFrame {
         verticesList = new javax.swing.JList<>();
         buttonPanel = new javax.swing.JPanel();
         deleteButton = new javax.swing.JButton();
-        addVertexButton = new javax.swing.JToggleButton();
+        addVerticesButton = new javax.swing.JToggleButton();
         addEdgeButton = new javax.swing.JToggleButton();
         selectionButton = new javax.swing.JToggleButton();
         graphOutputPanel = new javax.swing.JPanel();
@@ -177,11 +177,11 @@ public class GraphFrame extends javax.swing.JFrame {
         gridBagConstraints.fill = java.awt.GridBagConstraints.HORIZONTAL;
         buttonPanel.add(deleteButton, gridBagConstraints);
 
-        addVertexButton.setText("Add Vertices");
-        addVertexButton.setToolTipText("Click to add vertices to the canvas.");
+        addVerticesButton.setText("Add Vertices");
+        addVerticesButton.setToolTipText("Click to add vertices to the canvas.");
         gridBagConstraints = new java.awt.GridBagConstraints();
         gridBagConstraints.fill = java.awt.GridBagConstraints.HORIZONTAL;
-        buttonPanel.add(addVertexButton, gridBagConstraints);
+        buttonPanel.add(addVerticesButton, gridBagConstraints);
 
         addEdgeButton.setText("Add Edges");
         addEdgeButton.setToolTipText("Add edges between vertices.");
@@ -319,7 +319,7 @@ public class GraphFrame extends javax.swing.JFrame {
     private javax.swing.JToggleButton addEdgeButton;
     private javax.swing.JMenuItem addEdgesMenuItem;
     private javax.swing.JMenuItem addGraphMenuItem;
-    private javax.swing.JToggleButton addVertexButton;
+    private javax.swing.JToggleButton addVerticesButton;
     private javax.swing.JMenuItem addVerticesMenuItem;
     private javax.swing.JPanel buttonPanel;
     private views.Canvas canvas;
@@ -359,8 +359,8 @@ public class GraphFrame extends javax.swing.JFrame {
         return addEdgeButton;
     }
 
-    public JToggleButton getAddVertexButton() {
-        return addVertexButton;
+    public JToggleButton getAddVerticesButton() {
+        return addVerticesButton;
     }
 
     public Canvas getCanvas() {
@@ -447,6 +447,7 @@ public class GraphFrame extends javax.swing.JFrame {
     public JMenuItem getDeleteElementMenuItem() {
         return deleteElementMenuItem;
     }
+    
     
     public JMenu getToolsMenu() {
         return toolsMenu;

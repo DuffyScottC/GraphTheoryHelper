@@ -336,7 +336,7 @@
                 </Constraint>
               </Constraints>
             </Component>
-            <Component class="javax.swing.JToggleButton" name="addVertexButton">
+            <Component class="javax.swing.JToggleButton" name="addVerticesButton">
               <Properties>
                 <Property name="text" type="java.lang.String" value="Add Vertices"/>
                 <Property name="toolTipText" type="java.lang.String" value="Click to add vertices to the canvas."/>
