@@ -6,6 +6,7 @@
 package views;
 
 import javax.swing.JButton;
+import javax.swing.JCheckBoxMenuItem;
 import javax.swing.JList;
 import javax.swing.JMenu;
 import javax.swing.JMenuBar;
@@ -454,15 +455,15 @@ public class GraphFrame extends javax.swing.JFrame {
         return deleteButton;
     }
     
-    public JMenuItem getAddVerticesMenuItem() {
+    public JCheckBoxMenuItem getAddVerticesMenuItem() {
         return addVerticesMenuItem;
     }
     
-    public JMenuItem getAddEdgesMenuItem() {
+    public JCheckBoxMenuItem getAddEdgesMenuItem() {
         return addEdgesMenuItem;
     }
     
-    public JMenuItem getSelectionMenuItem() {
+    public JCheckBoxMenuItem getSelectionMenuItem() {
         return selectionMenuItem;
     }
     
