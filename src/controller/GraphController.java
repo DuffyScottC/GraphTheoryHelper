@@ -243,7 +243,7 @@ public class GraphController {
                 lastY = e.getY();
                 canvas.setLastPosition(lastX, lastY);
                 if (addingEdges) { //if we are in the edge adding state
-                    hoverOverVertex();
+//                    hoverOverVertex();
                     canvas.repaint();
                 }
                 if (addingVertices) { //if we are in the adding vertex state
@@ -1415,7 +1415,7 @@ public class GraphController {
             //if this vertex is available to add edges to
             if (v.canAddEdges()) {
                 v.setStrokeColor(Values.EDGE_HIGHLIGHT_COLOR);
-                v.setStrokeWidth(Values.VERTEX_AVAILABLE_STROKE_WIDTH);
+                v.setStrokeWidth(Values.VERTEX_HIGHLIGHT_STROKE_WIDTH);
             } else { //if this vertex is completely full
                 v.setStrokeColor(Values.VERTEX_STROKE_COLOR);
                 v.setStrokeWidth(Values.VERTEX_STROKE_WIDTH);
@@ -1423,23 +1423,23 @@ public class GraphController {
         }
     }
     
-    private void hoverOverVertex() {
-        //loop through all the vertices
-        for (int i = vertices.size() - 1; i >= 0; i--) {
-            Vertex v = vertices.get(i);
-            //(Note: it's faster to check if canAddEdges before contains(x,y))
-            if (v.canAddEdges()) { //if this vertex can have edges added to it
-                //if the mouse is hovering over this vertex
-                if (v.getPositionShape().contains(lastX, lastY)) {
-                    //highlight it
-                    v.setStrokeWidth(Values.EDGE_HIGHLIGHT_STROKE_WIDTH);
-                } else { //if the mouse is not hovering over this vertex
-                    //unhighlight it
-                    v.setStrokeWidth(Values.VERTEX_AVAILABLE_STROKE_WIDTH);
-                }
-            }
-        }
-    }
+//    private void hoverOverVertex() {
+//        //loop through all the vertices
+//        for (int i = vertices.size() - 1; i >= 0; i--) {
+//            Vertex v = vertices.get(i);
+//            //(Note: it's faster to check if canAddEdges before contains(x,y))
+//            if (v.canAddEdges()) { //if this vertex can have edges added to it
+//                //if the mouse is hovering over this vertex
+//                if (v.getPositionShape().contains(lastX, lastY)) {
+//                    //highlight it
+//                    v.setStrokeWidth(Values.EDGE_HIGHLIGHT_STROKE_WIDTH);
+//                } else { //if the mouse is not hovering over this vertex
+//                    //unhighlight it
+//                    v.setStrokeWidth(Values.VERTEX_HIGHLIGHT_STROKE_WIDTH);
+//                }
+//            }
+//        }
+//    }
 
     private void updateVerticesListModel() {
         verticesListModel.removeAllElements();

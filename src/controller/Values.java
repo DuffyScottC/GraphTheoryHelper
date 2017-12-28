@@ -34,7 +34,7 @@ public class Values {
     
     //MARK: Vertex properties
     public static final float VERTEX_STROKE_WIDTH = 1.0f;
-    public static final float VERTEX_AVAILABLE_STROKE_WIDTH = 2.0f;
+    public static final float VERTEX_HIGHLIGHT_STROKE_WIDTH = 2.0f;
     public static final Color VERTEX_FILL_COLOR = Color.red;
     public static final Color VERTEX_STROKE_COLOR = Color.black;
     public static final Color VERTEX_PRESSED_COLOR = new Color(200, 0, 0);
