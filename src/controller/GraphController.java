@@ -1141,18 +1141,18 @@ public class GraphController {
     //MARK: States methods
     
     private void setSelectedVertices(boolean selected) {
-        addVerticesButton.setSelected(false);
-        addVerticesMenuItem.setSelected(false);
+        addVerticesButton.setSelected(selected);
+        addVerticesMenuItem.setSelected(selected);
     }
     
     private void setSelectedEdges(boolean selected) {
-        addEdgesButton.setSelected(false);
-        addEdgesMenuItem.setSelected(false);
+        addEdgesButton.setSelected(selected);
+        addEdgesMenuItem.setSelected(selected);
     }
     
     private void setSelectedSelection(boolean selected) {
-        selectionButton.setSelected(false);
-        selectionMenuItem.setSelected(false);
+        selectionButton.setSelected(selected);
+        selectionMenuItem.setSelected(selected);
     }
     
     /**
@@ -1288,12 +1288,12 @@ public class GraphController {
     private void addEdges() {
         if (vertices == null) {
             JOptionPane.showMessageDialog(frame, "Need at least two vertices to add an edge.");
-//            setSelectedEdges(false);
+            setSelectedEdges(false);
             return;
         }
         if (vertices.isEmpty() || vertices.size() == 1) {
             JOptionPane.showMessageDialog(frame, "Need at least two vertices to add an edge.");
-//            setSelectedEdges(false);
+            setSelectedEdges(false);
             return;
         }
         exitAddVerticesState();

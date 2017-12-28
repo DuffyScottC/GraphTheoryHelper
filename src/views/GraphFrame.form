@@ -91,7 +91,7 @@
             <Property name="text" type="java.lang.String" value="Tools"/>
           </Properties>
           <SubComponents>
-            <MenuItem class="javax.swing.JMenuItem" name="addVerticesMenuItem">
+            <MenuItem class="javax.swing.JCheckBoxMenuItem" name="addVerticesMenuItem">
               <Properties>
                 <Property name="accelerator" type="javax.swing.KeyStroke" editor="org.netbeans.modules.form.editors.KeyStrokeEditor">
                   <KeyStroke key="V"/>
@@ -99,15 +99,18 @@
                 <Property name="text" type="java.lang.String" value="Add Vertices"/>
               </Properties>
             </MenuItem>
-            <MenuItem class="javax.swing.JMenuItem" name="addEdgesMenuItem">
+            <MenuItem class="javax.swing.JCheckBoxMenuItem" name="addEdgesMenuItem">
               <Properties>
                 <Property name="accelerator" type="javax.swing.KeyStroke" editor="org.netbeans.modules.form.editors.KeyStrokeEditor">
                   <KeyStroke key="E"/>
                 </Property>
                 <Property name="text" type="java.lang.String" value="Add Edges"/>
               </Properties>
+              <Events>
+                <EventHandler event="actionPerformed" listener="java.awt.event.ActionListener" parameters="java.awt.event.ActionEvent" handler="addEdgesMenuItemActionPerformed"/>
+              </Events>
             </MenuItem>
-            <MenuItem class="javax.swing.JMenuItem" name="selectionMenuItem">
+            <MenuItem class="javax.swing.JCheckBoxMenuItem" name="selectionMenuItem">
               <Properties>
                 <Property name="accelerator" type="javax.swing.KeyStroke" editor="org.netbeans.modules.form.editors.KeyStrokeEditor">
                   <KeyStroke key="SPACE"/>

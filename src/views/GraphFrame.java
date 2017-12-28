@@ -72,9 +72,9 @@ public class GraphFrame extends javax.swing.JFrame {
         showVertexNamesMenuItem = new javax.swing.JCheckBoxMenuItem();
         formatVerticesMenuItem = new javax.swing.JMenuItem();
         toolsMenu = new javax.swing.JMenu();
-        addVerticesMenuItem = new javax.swing.JMenuItem();
-        addEdgesMenuItem = new javax.swing.JMenuItem();
-        selectionMenuItem = new javax.swing.JMenuItem();
+        addVerticesMenuItem = new javax.swing.JCheckBoxMenuItem();
+        addEdgesMenuItem = new javax.swing.JCheckBoxMenuItem();
+        selectionMenuItem = new javax.swing.JCheckBoxMenuItem();
         jSeparator2 = new javax.swing.JPopupMenu.Separator();
         deleteMenuItem = new javax.swing.JMenuItem();
 
@@ -291,6 +291,11 @@ public class GraphFrame extends javax.swing.JFrame {
 
         addEdgesMenuItem.setAccelerator(javax.swing.KeyStroke.getKeyStroke(java.awt.event.KeyEvent.VK_E, 0));
         addEdgesMenuItem.setText("Add Edges");
+        addEdgesMenuItem.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                addEdgesMenuItemActionPerformed(evt);
+            }
+        });
         toolsMenu.add(addEdgesMenuItem);
 
         selectionMenuItem.setAccelerator(javax.swing.KeyStroke.getKeyStroke(java.awt.event.KeyEvent.VK_SPACE, 0));
@@ -313,14 +318,18 @@ public class GraphFrame extends javax.swing.JFrame {
         // TODO add your handling code here:
     }//GEN-LAST:event_rotate90MenuItemActionPerformed
 
+    private void addEdgesMenuItemActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_addEdgesMenuItemActionPerformed
+        // TODO add your handling code here:
+    }//GEN-LAST:event_addEdgesMenuItemActionPerformed
+
 
     // Variables declaration - do not modify//GEN-BEGIN:variables
     private javax.swing.JLabel JLabel3;
     private javax.swing.JToggleButton addEdgesButton;
-    private javax.swing.JMenuItem addEdgesMenuItem;
+    private javax.swing.JCheckBoxMenuItem addEdgesMenuItem;
     private javax.swing.JMenuItem addGraphMenuItem;
     private javax.swing.JToggleButton addVerticesButton;
-    private javax.swing.JMenuItem addVerticesMenuItem;
+    private javax.swing.JCheckBoxMenuItem addVerticesMenuItem;
     private javax.swing.JPanel buttonPanel;
     private views.Canvas canvas;
     private javax.swing.JScrollPane canvasScrollPane;
@@ -346,7 +355,7 @@ public class GraphFrame extends javax.swing.JFrame {
     private javax.swing.JMenuItem saveAsMenuItem;
     private javax.swing.JMenuItem saveMenuItem;
     private javax.swing.JToggleButton selectionButton;
-    private javax.swing.JMenuItem selectionMenuItem;
+    private javax.swing.JCheckBoxMenuItem selectionMenuItem;
     private javax.swing.JCheckBoxMenuItem showVertexNamesMenuItem;
     private javax.swing.JTextField titleTextField;
     private javax.swing.JMenu toolsMenu;
