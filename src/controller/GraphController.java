@@ -48,6 +48,7 @@ import views.AddGraphDialog;
 import views.Canvas;
 import views.GraphColorChooserDialog;
 import views.GraphFrame;
+import views.SampleCanvas;
 
 /**
  *
@@ -173,6 +174,9 @@ public class GraphController {
         addVerticesMenuItem = frame.getAddVerticesMenuItem();
         addEdgesMenuItem = frame.getAddEdgesMenuItem();
         selectionMenuItem = frame.getSelectionMenuItem();
+        
+        SampleCanvas sampleCanvas = graphColorChooserDialog.getSampleCanvas();
+        sampleCanvas.setUp(graph); //Set up the sample canvas in the dialog
 
         enterSelectionState();
 
@@ -692,14 +696,12 @@ public class GraphController {
         });
         
         //MARK: Color choosing dialog
-        graphColorChooserDialog.getSampleCanvas().setUp(graph); //Set up the sample canvas in the dialog
-        
         //Choose buttons:
         graphColorChooserDialog.getVertexFillColorChooseButton().addActionListener(new ActionListener() {
             @Override
             public void actionPerformed(ActionEvent e) {
                 Color color = JColorChooser.showDialog(frame, "Choose color", graph.getVertexFillColor());
-                
+                sampleCanvas.setVertexFillColor(vertexFillColor);
             }
         });
         graphColorChooserDialog.getVertexStrokeColorChooseButton().addActionListener(new ActionListener() {
