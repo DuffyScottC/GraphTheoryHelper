@@ -690,9 +690,46 @@ public class GraphController {
             }
         });
         
-        //MARK: Color choosing
-        Helpers.addGraphColorChooserDialogEventHandlers(graphColorChooserDialog);
+        //MARK: Color choosing dialog
+        graphColorChooserDialog.getSampleCanvas().setUp(graph); //Set up the sample canvas in the dialog
         
+        //Choose buttons:
+        graphColorChooserDialog.getVertexFillColorChooseButton().addActionListener(new ActionListener() {
+            @Override
+            public void actionPerformed(ActionEvent e) {
+                
+            }
+        });
+        
+        graphColorChooserDialog.getVertexStrokeColorChooseButton().addActionListener(new ActionListener() {
+            @Override
+            public void actionPerformed(ActionEvent e) {
+                
+            }
+        });
+        
+        graphColorChooserDialog.getEdgeStrokeColorChooseButton().addActionListener(new ActionListener() {
+            @Override
+            public void actionPerformed(ActionEvent e) {
+                
+            }
+        });
+        
+        //cancel button
+        graphColorChooserDialog.getCancelButton().addActionListener(new ActionListener() {
+            @Override
+            public void actionPerformed(ActionEvent e) {
+                
+            }
+        });
+        
+        //ok button
+        graphColorChooserDialog.getOKButton().addActionListener(new ActionListener() {
+            @Override
+            public void actionPerformed(ActionEvent e) {
+                
+            }
+        });
     }
 
     //MARK: Other methods--------------------
