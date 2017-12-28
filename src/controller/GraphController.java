@@ -1160,8 +1160,6 @@ public class GraphController {
      * The code that runs in both the selectionButton and the selectionMenuItem
      */
     private void selection() {
-        setSelectedVertices(false);
-        setSelectedEdges(false);
         if (addingVertices) {
             exitAddVerticesState();
             canvas.repaint();
@@ -1174,6 +1172,9 @@ public class GraphController {
     }
 
     private void enterSelectionState() {
+        setSelectedVertices(false);
+        setSelectedEdges(false);
+        setSelectedSelection(true);
         selecting = true;
     }
 
@@ -1195,8 +1196,6 @@ public class GraphController {
      * addVerticesMenuItem
      */
     private void addVertices() {
-        setSelectedSelection(false);
-        setSelectedEdges(false);
         exitAddEdgesState(); //leave the add edge state
         exitSelectionState();
         enterAddVerticesState(); //enter the add vertices state
@@ -1269,6 +1268,9 @@ public class GraphController {
      * clicking anywhere as many times as they want.
      */
     private void enterAddVerticesState() {
+        setSelectedEdges(false);
+        setSelectedSelection(false);
+        setSelectedVertices(true);
         addingVertices = true; //enter the vertex adding state
         canvas.setAddingVertex(true);
     }
@@ -1297,8 +1299,6 @@ public class GraphController {
             setSelectedEdges(false);
             return;
         }
-        setSelectedVertices(false);
-        setSelectedSelection(false);
         exitAddVerticesState();
         exitSelectionState();
         enterAddEdgeState();
@@ -1432,6 +1432,10 @@ public class GraphController {
     }
 
     private void enterAddEdgeState() {
+        setSelectedVertices(false);
+        setSelectedSelection(false);
+        setSelectedEdges(true);
+        
         addingEdges = true; //enter the edge adding state
         //highlight all of the vertexes to provide a visual cue that the user is supposed
         //to click one to add the edge
@@ -1455,8 +1459,6 @@ public class GraphController {
         int numberOfFalses = assignCanAddEdges();
 
         if (numberOfFalses == vertices.size()) { //if none of the vertices can have edges added to them
-            setSelectedEdges(false);
-            setSelectedSelection(true);
             exitAddEdgesState(); //exit the state because there are no available edges
             enterSelectionState();
             return; //do not continue
