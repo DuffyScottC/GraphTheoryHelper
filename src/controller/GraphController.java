@@ -299,6 +299,7 @@ public class GraphController {
                 addEdgeButton.setSelected(false);
                 exitAddEdgesState(); //leave the add edge state
                 enterAddVerticesState(); //enter the add vertices state
+                canvas.repaint();
             }
         });
 
@@ -309,11 +310,14 @@ public class GraphController {
                 addEdgeButton.setSelected(false);
                 if (addingVertices) {
                     exitAddVerticesState();
+                    canvas.repaint();
                 }
                 if (addingEdges) {
                     exitAddEdgesState();
+                    canvas.repaint();
                 }
                 enterSelectionState();
+                
             }
         });
 
@@ -334,6 +338,7 @@ public class GraphController {
                 selectionButton.setSelected(false);
                 exitAddVerticesState();
                 enterAddEdgeState();
+                canvas.repaint();
             }
         });
 
@@ -1164,7 +1169,6 @@ public class GraphController {
     private void enterAddVerticesState() {
         addingVertices = true; //enter the vertex adding state
         canvas.setAddingVertex(true);
-        canvas.repaint();
     }
 
     /**
@@ -1175,7 +1179,6 @@ public class GraphController {
     private void exitAddVerticesState() {
         addingVertices = false; //exit the state
         canvas.setAddingVertex(false);
-        canvas.repaint();
     }
 
     private void addEdge(int mx, int my) {
@@ -1228,6 +1231,7 @@ public class GraphController {
                         exitAddEdgesState(); //exit the add edge state
                         //reenter the add edge state (allow user to add more edges)
                         enterAddEdgeState();
+                        canvas.repaint();
 
                         //Update selection
                         int lastIndex = edges.size() - 1; //last index in edges
@@ -1247,6 +1251,7 @@ public class GraphController {
             exitAddEdgesState();
             //reenter the add edge state (allow user to add more edges)
             enterAddEdgeState();
+            canvas.repaint();
         }
     }
 
@@ -1282,7 +1287,6 @@ public class GraphController {
             v.setStrokeColor(Values.VERTEX_STROKE_COLOR);
             v.setStrokeWidth(Values.VERTEX_STROKE_WIDTH);
         }
-        canvas.repaint();
     }
 
     private void enterAddEdgeState() {
@@ -1319,8 +1323,6 @@ public class GraphController {
 
         //Highglight appropriate vertices
         highlightAvailableVertices();
-
-        canvas.repaint();
     }
 
     /**
