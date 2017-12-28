@@ -533,6 +533,8 @@ public class GraphController {
                 saveFile = null; //we no longer have a file to save
 
                 clear();
+                
+                colorAllElements(Values.VERTEX_FILL_COLOR, Values.VERTEX_STROKE_COLOR, Values.EDGE_STROKE_COLOR);
 
                 setIsModified(false);
             }
