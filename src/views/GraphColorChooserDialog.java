@@ -5,6 +5,9 @@
  */
 package views;
 
+import javax.swing.JButton;
+import javax.swing.JTextField;
+
 /**
  *
  * @author Scott
@@ -205,4 +208,42 @@ public class GraphColorChooserDialog extends javax.swing.JDialog {
     private javax.swing.JButton vertexStrokeColorChooseButton;
     private javax.swing.JTextField vertexStrokeColorTextField;
     // End of variables declaration//GEN-END:variables
+
+    public JButton getCancelButton() {
+        return cancelButton;
+    }
+
+    public JButton getEdgeStrokeColorChooseButton() {
+        return edgeStrokeColorChooseButton;
+    }
+
+    public JTextField getEdgeStrokeColorTextField() {
+        return edgeStrokeColorTextField;
+    }
+
+    public JButton getOkButton() {
+        return okButton;
+    }
+
+    public SampleCanvas getSampleCanvas() {
+        return sampleCanvas;
+    }
+
+    public JButton getVertexFillColorChooseButton() {
+        return vertexFillColorChooseButton;
+    }
+
+    public JTextField getVertexFillColorTextField() {
+        return vertexFillColorTextField;
+    }
+
+    public JButton getVertexStrokeColorChooseButton() {
+        return vertexStrokeColorChooseButton;
+    }
+
+    public JTextField getVertexStrokeColorTextField() {
+        return vertexStrokeColorTextField;
+    }
+    
+    
 }
