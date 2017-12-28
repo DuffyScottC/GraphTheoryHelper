@@ -710,30 +710,41 @@ public class GraphController {
     }
 
     private String generateVertexTitle() {
-        if (vertices == null) {
-            return "V" + vertices.size() + 1;
+        String newName = "A"; //start with A
+        if (vertices.isEmpty()) { //if names is empty
+            return newName;
         }
-        /*
-        Loop through 1 to n = vertices.size(). Worst comes to worst, 
-        the all the current vertices are named V1, V2,...,Vn
-        And we have to name it V(n+1). If they are named V1, V2,...,V(n-1), V(n+1) 
-        (skipping Vn) then we will name it Vn automattically.
-         */
+        boolean matchFound = true;
         int i = 1;
-        String newTitle = "V"; //Holds the auto-generated name for the new vertex (will never be V)
-        boolean matchFound = true; //true when newTitle is already in the vertices list
-        while (matchFound == true) { //We want to loop again if we found that newTitle is already in the vertices list
-            newTitle = "V" + i; //Combination of the current index and V
-            matchFound = false; //We start by assuming there is no match
-            for (Vertex v : vertices) { //loop through all of the vertices
-                if (v.getTitle().equals(newTitle)) { //If even a single vertex is named the same thing
-                    matchFound = true; //we want to continue the outermost loop and find a different number
-                    break; //and we don't need to keep looking for one that matches this particular name
+        while (matchFound) {
+            matchFound = false;
+            newName = toBase26(i);
+            for (Vertex v : vertices) {
+                if (v.getTitle().equals(newName)) {
+                    matchFound = true;
+                    break;
                 }
             }
             i++;
         }
-        return newTitle; //by this point, we've found a unique vertex name (be it V or V+(some number)). 
+        return newName; 
+    }
+    
+    /**
+     * From https://en.wikipedia.org/w/index.php?title=Hexavigesimal&oldid=578218059#Bijective_base-26
+     * @param n
+     * @return 
+     */
+    public static String toBase26(int n) {
+        StringBuffer ret = new StringBuffer();
+        while (n > 0) {
+            --n;
+            ret.append((char) ('A' + n % 26));
+            n /= 26;
+        }
+        // reverse the result, since its
+        // digits are in the wrong order
+        return ret.reverse().toString();
     }
 
     /**
