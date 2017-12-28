@@ -942,14 +942,14 @@ public class GraphController {
             return;
         }
         clickedVertex.setFillColor(graph.getVertexFillColor().darker());
-        clickedVertex.setStrokeColor(graph.getVertexStrokeColor().darker());
+        clickedVertex.setStrokeColor(Values.EDGE_PRESSED_COLOR);
     }
 
     private void pressEdge() {
         if (clickedEdge == null) {
             return;
         }
-        clickedEdge.setStrokeColor(graph.getEdgeStrokeColor().darker());
+        clickedEdge.setStrokeColor(Values.EDGE_PRESSED_COLOR);
     }
 
     private void unpressVertex() {
