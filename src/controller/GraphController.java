@@ -9,6 +9,7 @@ import static controller.Values.DIAMETER;
 import element.Edge;
 import element.Graph;
 import element.Vertex;
+import java.awt.Color;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 import java.awt.event.KeyAdapter;
@@ -794,12 +795,14 @@ public class GraphController {
     /**
      * Used for loading a graph from a file
      *
-     * @param g
+     * @param newGraph The new graph that will replace the old graph (the graph
+     * we're calling this function on is the old graph)
      */
-    public void replace(Graph g) {
+    public void replace(Graph newGraph) {
+        //MARK: Vertices and edges
         //Get a reverence to the new graph's vertices and edges
-        List<Vertex> newVertices = g.getVertices();
-        List<Edge> newEdges = g.getEdges();
+        List<Vertex> newVertices = newGraph.getVertices();
+        List<Edge> newEdges = newGraph.getEdges();
 
         vertices.clear(); //remove all elements from the current vertices
         for (Vertex v : newVertices) { //loop through new list
@@ -814,8 +817,15 @@ public class GraphController {
         }
 
         updateEdgesListModel();
-
-        //Update the list selection
+        
+        //MARK: Colors
+        Color newFillColor = newGraph.getFillColor();
+        Color newStrokeColor = newGraph.getStrokeColor();
+        
+        graph.setFillColor(newFillColor);
+        graph.setStrokeColor(newStrokeColor);
+        
+        //MARK: Update the list selection
         int newIndex = vertices.size() - 1;
         shouldChange = false;
         verticesList.setSelectedIndex(newIndex);
