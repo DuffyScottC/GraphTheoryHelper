@@ -1243,7 +1243,20 @@ public class GraphController {
     private void addEdge(int mx, int my) {
         //Find out which vertex was clicked (if any):
         if (firstSelectedVertex == null) { //if this is null, the user hasn't chosen their first vertex
-            //(If we reach this point, vertices.size() is at least 2)
+            selectFirstVertex(mx, my);
+        } else { //The user has already chosen their first vertex
+            selectSecondVertex(mx, my);
+        }
+    }
+    
+    /**
+     * Part I of the edge adding process. The user must click a vertex to start
+     * from. 
+     * @param mx
+     * @param my 
+     */
+    private void selectFirstVertex(int mx, int my) {
+        //(If we reach this point, vertices.size() is at least 2)
             for (Vertex currentVertex : vertices) { //loop through the vertices
                 //if we can add edges to this vertex in the first place
                 //(don't bother checking if shape contains mouse position if not):
@@ -1269,10 +1282,16 @@ public class GraphController {
             }
             //if we reach this point, the user hasn't selected and vertex.
             //and we want to stay in the add edge state so that they can choose another vertex
-//            //Instead, they clicked empty space. We should cancel the process
-//            exitAddEdgeState();
-        } else { //The user has already chosen their first vertex
-            //(If we reach this point, vertices.size() is at least 2)
+    }
+    
+    /**
+     * Part II of the edge adding process. The user must choose a second vertex
+     * to draw an edge to. 
+     * @param mx
+     * @param my 
+     */
+    private void selectSecondVertex(int mx, int my) {
+        //(If we reach this point, vertices.size() is at least 2)
             for (Vertex currentVertex : vertices) { //loop through the vertices
                 //If this vertex can have edges added to it (no use checking if
                 //its shape contains the mouse click if not):
@@ -1310,7 +1329,6 @@ public class GraphController {
             //reenter the add edge state (allow user to add more edges)
             enterAddEdgeState();
             canvas.repaint();
-        }
     }
 
     private void removeEdge() {
