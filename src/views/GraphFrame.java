@@ -66,11 +66,16 @@ public class GraphFrame extends javax.swing.JFrame {
         newMenuItem = new javax.swing.JMenuItem();
         editMenu = new javax.swing.JMenu();
         rotate90MenuItem = new javax.swing.JMenuItem();
-        addVerticesMenuItem = new javax.swing.JMenuItem();
+        addGraphMenuItem = new javax.swing.JMenuItem();
         deleteElementMenuItem = new javax.swing.JMenuItem();
         viewMenu = new javax.swing.JMenu();
         showVertexNamesMenuItem = new javax.swing.JCheckBoxMenuItem();
         formatVerticesMenuItem = new javax.swing.JMenuItem();
+        toolsMenu = new javax.swing.JMenu();
+        addVerticesMenuItem = new javax.swing.JMenuItem();
+        addEdgesMenuItem = new javax.swing.JMenuItem();
+        selectionMenuItem = new javax.swing.JMenuItem();
+        deleteMenuItem = new javax.swing.JMenuItem();
 
         setDefaultCloseOperation(javax.swing.WindowConstants.EXIT_ON_CLOSE);
         getContentPane().setLayout(new java.awt.GridBagLayout());
@@ -165,6 +170,7 @@ public class GraphFrame extends javax.swing.JFrame {
         buttonPanel.setLayout(new java.awt.GridBagLayout());
 
         deleteButton.setText("Delete");
+        deleteButton.setToolTipText("backspace");
         gridBagConstraints = new java.awt.GridBagConstraints();
         gridBagConstraints.gridx = 0;
         gridBagConstraints.gridy = 3;
@@ -172,11 +178,13 @@ public class GraphFrame extends javax.swing.JFrame {
         buttonPanel.add(deleteButton, gridBagConstraints);
 
         addVertexButton.setText("Add Vertices");
+        addVertexButton.setToolTipText("Click to add vertices to the canvas.");
         gridBagConstraints = new java.awt.GridBagConstraints();
         gridBagConstraints.fill = java.awt.GridBagConstraints.HORIZONTAL;
         buttonPanel.add(addVertexButton, gridBagConstraints);
 
         addEdgeButton.setText("Add Edges");
+        addEdgeButton.setToolTipText("Add edges between vertices.");
         gridBagConstraints = new java.awt.GridBagConstraints();
         gridBagConstraints.gridx = 0;
         gridBagConstraints.gridy = 1;
@@ -184,6 +192,7 @@ public class GraphFrame extends javax.swing.JFrame {
         buttonPanel.add(addEdgeButton, gridBagConstraints);
 
         selectionButton.setText("Selection");
+        selectionButton.setToolTipText("Select and move vertices and edges.");
         gridBagConstraints = new java.awt.GridBagConstraints();
         gridBagConstraints.gridx = 0;
         gridBagConstraints.gridy = 2;
@@ -254,8 +263,8 @@ public class GraphFrame extends javax.swing.JFrame {
         });
         editMenu.add(rotate90MenuItem);
 
-        addVerticesMenuItem.setText("Add Vertices");
-        editMenu.add(addVerticesMenuItem);
+        addGraphMenuItem.setText("Add Graph");
+        editMenu.add(addGraphMenuItem);
 
         deleteElementMenuItem.setAccelerator(javax.swing.KeyStroke.getKeyStroke(java.awt.event.KeyEvent.VK_G, java.awt.event.InputEvent.META_MASK));
         deleteElementMenuItem.setText("Delete");
@@ -275,6 +284,26 @@ public class GraphFrame extends javax.swing.JFrame {
 
         myMenuBar.add(viewMenu);
 
+        toolsMenu.setText("Tools");
+
+        addVerticesMenuItem.setAccelerator(javax.swing.KeyStroke.getKeyStroke(java.awt.event.KeyEvent.VK_V, 0));
+        addVerticesMenuItem.setText("Add Vertices");
+        toolsMenu.add(addVerticesMenuItem);
+
+        addEdgesMenuItem.setAccelerator(javax.swing.KeyStroke.getKeyStroke(java.awt.event.KeyEvent.VK_E, 0));
+        addEdgesMenuItem.setText("Add Edges");
+        toolsMenu.add(addEdgesMenuItem);
+
+        selectionMenuItem.setAccelerator(javax.swing.KeyStroke.getKeyStroke(java.awt.event.KeyEvent.VK_SPACE, 0));
+        selectionMenuItem.setText("Selection");
+        toolsMenu.add(selectionMenuItem);
+
+        deleteMenuItem.setAccelerator(javax.swing.KeyStroke.getKeyStroke(java.awt.event.KeyEvent.VK_BACK_SPACE, 0));
+        deleteMenuItem.setText("Delete");
+        toolsMenu.add(deleteMenuItem);
+
+        myMenuBar.add(toolsMenu);
+
         setJMenuBar(myMenuBar);
 
         pack();
@@ -288,6 +317,8 @@ public class GraphFrame extends javax.swing.JFrame {
     // Variables declaration - do not modify//GEN-BEGIN:variables
     private javax.swing.JLabel JLabel3;
     private javax.swing.JToggleButton addEdgeButton;
+    private javax.swing.JMenuItem addEdgesMenuItem;
+    private javax.swing.JMenuItem addGraphMenuItem;
     private javax.swing.JToggleButton addVertexButton;
     private javax.swing.JMenuItem addVerticesMenuItem;
     private javax.swing.JPanel buttonPanel;
@@ -295,6 +326,7 @@ public class GraphFrame extends javax.swing.JFrame {
     private javax.swing.JScrollPane canvasScrollPane;
     private javax.swing.JButton deleteButton;
     private javax.swing.JMenuItem deleteElementMenuItem;
+    private javax.swing.JMenuItem deleteMenuItem;
     private javax.swing.JLabel edgesLabel;
     private javax.swing.JList<String> edgesList;
     private javax.swing.JScrollPane edgesScrollPane;
@@ -313,8 +345,10 @@ public class GraphFrame extends javax.swing.JFrame {
     private javax.swing.JMenuItem saveAsMenuItem;
     private javax.swing.JMenuItem saveMenuItem;
     private javax.swing.JToggleButton selectionButton;
+    private javax.swing.JMenuItem selectionMenuItem;
     private javax.swing.JCheckBoxMenuItem showVertexNamesMenuItem;
     private javax.swing.JTextField titleTextField;
+    private javax.swing.JMenu toolsMenu;
     private javax.swing.JLabel verticesLabel;
     private javax.swing.JList<String> verticesList;
     private javax.swing.JScrollPane verticesScrollPane;
@@ -398,8 +432,8 @@ public class GraphFrame extends javax.swing.JFrame {
      * of edges.
      * @return 
      */
-    public JMenuItem getAddVerticesMenuItem() {
-        return addVerticesMenuItem;
+    public JMenuItem getAddGraphMenuItem() {
+        return addGraphMenuItem;
     }
     
     public JTextField getGraphOutputTextField() {
@@ -412,5 +446,25 @@ public class GraphFrame extends javax.swing.JFrame {
     
     public JMenuItem getDeleteElementMenuItem() {
         return deleteElementMenuItem;
+    }
+    
+    public JMenu getToolsMenu() {
+        return toolsMenu;
+    }
+    
+    public JMenuItem getAddVerticesMenuItem() {
+        return addVerticesMenuItem;
+    }
+    
+    public JMenuItem getAddEdgesMenuItem() {
+        return addEdgesMenuItem;
+    }
+    
+    public JMenuItem getSelectionMenuItem() {
+        return selectionMenuItem;
+    }
+    
+    public JMenuItem getDeleteMenuItem() {
+        return deleteMenuItem;
     }
 }

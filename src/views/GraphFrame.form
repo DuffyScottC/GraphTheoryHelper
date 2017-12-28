@@ -56,9 +56,9 @@
                 <EventHandler event="actionPerformed" listener="java.awt.event.ActionListener" parameters="java.awt.event.ActionEvent" handler="rotate90MenuItemActionPerformed"/>
               </Events>
             </MenuItem>
-            <MenuItem class="javax.swing.JMenuItem" name="addVerticesMenuItem">
+            <MenuItem class="javax.swing.JMenuItem" name="addGraphMenuItem">
               <Properties>
-                <Property name="text" type="java.lang.String" value="Add Vertices"/>
+                <Property name="text" type="java.lang.String" value="Add Graph"/>
               </Properties>
             </MenuItem>
             <MenuItem class="javax.swing.JMenuItem" name="deleteElementMenuItem">
@@ -90,6 +90,45 @@
                   <KeyStroke key="Meta+F"/>
                 </Property>
                 <Property name="text" type="java.lang.String" value="Format Vertices"/>
+              </Properties>
+            </MenuItem>
+          </SubComponents>
+        </Menu>
+        <Menu class="javax.swing.JMenu" name="toolsMenu">
+          <Properties>
+            <Property name="text" type="java.lang.String" value="Tools"/>
+          </Properties>
+          <SubComponents>
+            <MenuItem class="javax.swing.JMenuItem" name="addVerticesMenuItem">
+              <Properties>
+                <Property name="accelerator" type="javax.swing.KeyStroke" editor="org.netbeans.modules.form.editors.KeyStrokeEditor">
+                  <KeyStroke key="V"/>
+                </Property>
+                <Property name="text" type="java.lang.String" value="Add Vertices"/>
+              </Properties>
+            </MenuItem>
+            <MenuItem class="javax.swing.JMenuItem" name="addEdgesMenuItem">
+              <Properties>
+                <Property name="accelerator" type="javax.swing.KeyStroke" editor="org.netbeans.modules.form.editors.KeyStrokeEditor">
+                  <KeyStroke key="E"/>
+                </Property>
+                <Property name="text" type="java.lang.String" value="Add Edges"/>
+              </Properties>
+            </MenuItem>
+            <MenuItem class="javax.swing.JMenuItem" name="selectionMenuItem">
+              <Properties>
+                <Property name="accelerator" type="javax.swing.KeyStroke" editor="org.netbeans.modules.form.editors.KeyStrokeEditor">
+                  <KeyStroke key="SPACE"/>
+                </Property>
+                <Property name="text" type="java.lang.String" value="Selection"/>
+              </Properties>
+            </MenuItem>
+            <MenuItem class="javax.swing.JMenuItem" name="deleteMenuItem">
+              <Properties>
+                <Property name="accelerator" type="javax.swing.KeyStroke" editor="org.netbeans.modules.form.editors.KeyStrokeEditor">
+                  <KeyStroke key="BACK_SPACE"/>
+                </Property>
+                <Property name="text" type="java.lang.String" value="Delete"/>
               </Properties>
             </MenuItem>
           </SubComponents>
@@ -289,6 +328,7 @@
             <Component class="javax.swing.JButton" name="deleteButton">
               <Properties>
                 <Property name="text" type="java.lang.String" value="Delete"/>
+                <Property name="toolTipText" type="java.lang.String" value="backspace"/>
               </Properties>
               <Constraints>
                 <Constraint layoutClass="org.netbeans.modules.form.compat2.layouts.DesignGridBagLayout" value="org.netbeans.modules.form.compat2.layouts.DesignGridBagLayout$GridBagConstraintsDescription">
@@ -299,6 +339,7 @@
             <Component class="javax.swing.JToggleButton" name="addVertexButton">
               <Properties>
                 <Property name="text" type="java.lang.String" value="Add Vertices"/>
+                <Property name="toolTipText" type="java.lang.String" value="Click to add vertices to the canvas."/>
               </Properties>
               <Constraints>
                 <Constraint layoutClass="org.netbeans.modules.form.compat2.layouts.DesignGridBagLayout" value="org.netbeans.modules.form.compat2.layouts.DesignGridBagLayout$GridBagConstraintsDescription">
@@ -309,6 +350,7 @@
             <Component class="javax.swing.JToggleButton" name="addEdgeButton">
               <Properties>
                 <Property name="text" type="java.lang.String" value="Add Edges"/>
+                <Property name="toolTipText" type="java.lang.String" value="Add edges between vertices."/>
               </Properties>
               <Constraints>
                 <Constraint layoutClass="org.netbeans.modules.form.compat2.layouts.DesignGridBagLayout" value="org.netbeans.modules.form.compat2.layouts.DesignGridBagLayout$GridBagConstraintsDescription">
@@ -319,6 +361,7 @@
             <Component class="javax.swing.JToggleButton" name="selectionButton">
               <Properties>
                 <Property name="text" type="java.lang.String" value="Selection"/>
+                <Property name="toolTipText" type="java.lang.String" value="Select and move vertices and edges."/>
               </Properties>
               <Constraints>
                 <Constraint layoutClass="org.netbeans.modules.form.compat2.layouts.DesignGridBagLayout" value="org.netbeans.modules.form.compat2.layouts.DesignGridBagLayout$GridBagConstraintsDescription">

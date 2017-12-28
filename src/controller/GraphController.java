@@ -535,7 +535,7 @@ public class GraphController {
             }
         });
 
-        frame.getAddVerticesMenuItem().addActionListener(new ActionListener() {
+        frame.getAddGraphMenuItem().addActionListener(new ActionListener() {
             @Override
             public void actionPerformed(ActionEvent e) {
                 addGraphDialog.setLocationRelativeTo(null);
