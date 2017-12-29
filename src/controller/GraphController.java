@@ -202,7 +202,8 @@ public class GraphController {
                     //Set up the start position for multiple selection
                     startX = mx;
                     startY = mx;
-                    canvas.setStartPosition(startX, startY);
+                    canvas.setStartPosition(mx, my);
+                    canvas.setEndPosition(mx, my);
                 }
                 pressVertex();
                 pressEdge();
@@ -243,12 +244,14 @@ public class GraphController {
                 lastX = mx;
                 lastY = my;
                 canvas.setLastPosition(lastX, lastY);
+                
 
                 if (selecting) { //if we're not in the selection state
 
                     if (clickedVertex == null) { //if the user did not click a vertex
                         if (clickedEdge == null) { //if the user did not click an edge
                             multipleSelection(mx, my);
+                            canvas.setEndPosition(mx, my);
                         } else { //if the user clicked an edge
                             //move both nodes attached to the edge
                             clickedEdge.getEndpoint1().incLocation(incX, incY);
