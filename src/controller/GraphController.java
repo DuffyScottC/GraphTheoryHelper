@@ -844,7 +844,6 @@ public class GraphController {
                 titleTextField.setText(""); //empty the titleTextField
                 titleTextField.setEditable(false); //disable editing of titles
             }
-            System.out.println(selectedVertices);
         }
     }
 
@@ -1205,8 +1204,8 @@ public class GraphController {
             y2 = startY - lastY;
         }
         
-//        //start by clearing out the old selected vertices (if needed)
-//        selectedVertexIndices.clear();
+        //start by clearing out the old selected vertices (if needed)
+        selectedVertexIndices.clear();
         //cycle through the vertices
         for (int i = vertices.size() - 1; i >= 0; i--) {
             //get the current vertex in the loop
