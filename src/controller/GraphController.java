@@ -10,6 +10,7 @@ import element.Edge;
 import element.Graph;
 import element.Vertex;
 import java.awt.Color;
+import java.awt.Shape;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 import java.awt.event.KeyAdapter;
@@ -21,6 +22,7 @@ import java.awt.event.MouseMotionListener;
 import java.awt.event.WindowAdapter;
 import java.awt.event.WindowEvent;
 import java.awt.geom.Point2D;
+import java.awt.geom.Rectangle2D;
 import java.io.File;
 import java.io.FileInputStream;
 import java.io.FileOutputStream;
@@ -350,7 +352,7 @@ public class GraphController {
                     showTitles = true;
                     canvas.setShowTitles(true);
                 }
-                
+
                 canvas.repaint();
             }
         });
@@ -410,7 +412,7 @@ public class GraphController {
                 deleteSelectedElements();
             }
         });
-        
+
         verticesList.addMouseListener(new MouseAdapter() {
             @Override
             public void mouseClicked(MouseEvent e) {
@@ -1183,26 +1185,28 @@ public class GraphController {
 
         //MARK: Select vertices
         //initialize the properties of the rectangle (to stop errors)
-        int x1 = 0;
-        int y1 = 0;
-        int x2 = 0;
-        int y2 = 0;
+        int x = 0;
+        int y = 0;
+        int height = 0;
+        int width = 0;
         //Decide what x and width should be
         if (startX < lastX) {
-            x1 = startX;
-            x2 = lastX - startX;
+            x = startX;
+            width = lastX - startX;
         } else {
-            x1 = lastX;
-            x2 = startX - lastX;
+            x = lastX;
+            width = startX - lastX;
         }
         //Decide what y and height should be
         if (startY < lastY) {
-            y1 = startY;
-            y2 = lastY - startY;
+            y = startY;
+            height = lastY - startY;
         } else {
-            y1 = lastY;
-            y2 = startY - lastY;
+            y = lastY;
+            height = startY - lastY;
         }
+        //Create a new rectangle shape representing the bounding box
+        Shape boundingBox = new Rectangle2D.Double(x, y, width, height);
         
         //start by clearing out the old selected vertices (if needed)
         selectedVertexIndices.clear();
@@ -1211,27 +1215,22 @@ public class GraphController {
             //get the current vertex in the loop
             Vertex vertex = vertices.get(i);
             //get the center position of the vertex
-            Point2D.Double pos = vertex.getCenter();
-            //if the center x is within the x bounds of the box
-            if (x1 < pos.x && pos.x < x2) {
-                //if the center y is within the y bounds of the box
-                if (y1 < pos.y && pos.y < y2) {
-                    //add this vertex's index to the selection
-                    selectedVertexIndices.add(i);
-                    //Highlight the vertex
-                    highlightVertex(vertex);
-                } else {
-                    unhighlightVertex(vertex); //unhighlight deselected vertices
-                }
-            } else {
+            Point2D.Double vertexCenterPos = vertex.getCenter();
+            //if the center is within the boundingBox
+            if (boundingBox.contains(vertexCenterPos)) {
+                //add this vertex's index to the selection
+                selectedVertexIndices.add(i);
+                //Highlight the vertex
+                highlightVertex(vertex);
+            } else { //if the center is not withing the boundingBox
                 unhighlightVertex(vertex); //unhighlight deselected vertices
             }
         }
         //now we have a list of selected vertices
-        
+
         //Update the selection using the new indices:
         //first convert the selectedVertexIndices to an array of ints:
-        int [] tempIndices = new int[selectedVertexIndices.size()]; //initialize the array
+        int[] tempIndices = new int[selectedVertexIndices.size()]; //initialize the array
         int i = 0; //array index iterator
         for (int index : selectedVertexIndices) { //cycle through the indices
             tempIndices[i] = index;
@@ -1470,7 +1469,7 @@ public class GraphController {
 
         //remove the edges that were attached to this vertex from the list of edges
         edges.removeAll(removeEdges);
-        
+
         //Cycle trhough the vertices to remove
         //Note: can't remove vertices by index, 
         //since indices change with each removal
@@ -1736,12 +1735,12 @@ public class GraphController {
             }
         }
     }
-    
+
     private void highlightVertex(Vertex vertex) {
         vertex.setStrokeColor(Values.EDGE_HIGHLIGHT_COLOR);
         vertex.setStrokeWidth(Values.VERTEX_HIGHLIGHT_STROKE_WIDTH);
     }
-    
+
     private void unhighlightVertex(Vertex vertex) {
         vertex.setStrokeColor(graph.getVertexStrokeColor());
         vertex.setStrokeWidth(Values.VERTEX_STROKE_WIDTH);
