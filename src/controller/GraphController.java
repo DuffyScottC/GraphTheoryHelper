@@ -810,22 +810,26 @@ public class GraphController {
      * This also repaints the canvas.
      */
     private void setSelectedVertices() {
-        //Visually deselect the old selectedVertex
-        if (selectedVertices != null) { //if there was a previously selected vertex
+        //Visually deselect the old selectedVertices
+        if (!selectedVertices.isEmpty()) { //if there were previously selected vertices
+            //loop through the old vertices
             for (Vertex selectedVertex : selectedVertices) {
+                //unhighlight each one
                 selectedVertex.setStrokeColor(graph.getVertexStrokeColor());
                 selectedVertex.setStrokeWidth(Values.VERTEX_STROKE_WIDTH);
             }
         }
 
-        //Programattically select the new selectedVertex (or deselect entirely)
+        //Programattically select the new selectedVertices (or deselect all)
         if (selectedVertexIndices.isEmpty()) { //if the user deselected all vertices
             selectedVertices.clear(); //remove all elements from selectedVertices
             titleTextField.setText("");
             titleTextField.setEditable(false);
             shouldChange = false;
             verticesList.clearSelection(); //unselect the vertex in the JList
-        } else { //if the user selected a vertices
+        } else { //if the user selected vertices
+            selectedVertices.clear(); //clear the old selected indices
+            //store the new selected vertices:
             for (int i : selectedVertexIndices) { //loop through the selected indices
                 Vertex selectedVertex = vertices.get(i); //store this selected vertex
                 selectedVertex.setStrokeColor(Values.EDGE_HIGHLIGHT_COLOR); //highlight the vertex
