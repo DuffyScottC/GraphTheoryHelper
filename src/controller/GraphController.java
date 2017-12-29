@@ -350,7 +350,7 @@ public class GraphController {
                     showTitles = true;
                     canvas.setShowTitles(true);
                 }
-
+                
                 canvas.repaint();
             }
         });
@@ -410,6 +410,7 @@ public class GraphController {
                 deleteSelectedElement();
             }
         });
+        
         verticesList.addMouseListener(new MouseAdapter() {
             @Override
             public void mouseClicked(MouseEvent e) {
@@ -419,6 +420,8 @@ public class GraphController {
                 setSelectedEdge();
 
                 //Select (or deselect) the vertices:
+                //remove all previous selected vertices 
+                selectedVertexIndices.clear();
                 //get the list of selected vertices
                 int[] tempIndices = verticesList.getSelectedIndices();
                 //loop through the selected indices
@@ -431,16 +434,6 @@ public class GraphController {
                 canvas.repaint();
             }
         });
-
-//        verticesList.addListSelectionListener(new ListSelectionListener() {
-//            @Override
-//            public void valueChanged(ListSelectionEvent e) {
-//                if (shouldChange) { //if we did not just call clearSelection() 
-//
-//                }
-//                shouldChange = true;
-//            }
-//        });
 
         edgesList.addListSelectionListener(new ListSelectionListener() {
             @Override
@@ -835,7 +828,7 @@ public class GraphController {
             shouldChange = false;
             verticesList.clearSelection(); //unselect the vertex in the JList
         } else { //if the user selected vertices
-            selectedVertices.clear(); //clear the old selected indices
+            selectedVertices.clear(); //clear the old selected vertices
             //store the new selected vertices:
             for (int i : selectedVertexIndices) { //loop through the selected indices
                 Vertex selectedVertex = vertices.get(i); //store this selected vertex
