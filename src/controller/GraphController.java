@@ -1184,31 +1184,45 @@ public class GraphController {
 
         //MARK: Select vertices
         //initialize the properties of the rectangle (to stop errors)
-        int x = 0;
-        int y = 0;
-        int height = 0;
-        int width = 0;
+        int x1 = 0;
+        int y1 = 0;
+        int x2 = 0;
+        int y2 = 0;
         //Decide what x and width should be
         if (startX < lastX) {
-            x = startX;
-            width = lastX - startX;
+            x1 = startX;
+            x2 = lastX - startX;
         } else {
-            x = lastX;
-            width = startX - lastX;
+            x1 = lastX;
+            x2 = startX - lastX;
         }
         //Decide what y and height should be
         if (startY < lastY) {
-            y = startY;
-            height = lastY - startY;
+            y1 = startY;
+            y2 = lastY - startY;
         } else {
-            y = lastY;
-            height = startY - lastY;
+            y1 = lastY;
+            y2 = startY - lastY;
         }
-        for (Vertex v : vertices) {
-            if (v.getPositionShape().intersects(x, y, width, height)) {
-                //add it to the selection
+        
+        for (int i = vertices.size() - 1; i >= 0; i--) { //cycle through the vertices
+            Point2D.Double pos = vertices.get(i).getCenter(); //get the center position
+            if (x1 < pos.x && pos.x < x2) { //if the center x is within the x bounds of the box
+                if (y1 < pos.y && pos.y < y2) { //if the center y is within the y bounds of the box
+                    selectedVertexIndices.add(i); //add this vertex's index to the selection
+                }
             }
         }
+        //Update the selection using the new indices:
+        //first convert the selectedVertexIndices to an array of ints:
+        int [] tempIndices = new int[selectedVertexIndices.size()]; //initialize the array
+        int i = 0; //array index iterator
+        for (int index : selectedVertexIndices) { //cycle through the indices
+            tempIndices[i] = index;
+            i++; //increment the iterator
+        }
+        //set the selection to the indices of the selected vertices
+        verticesList.setSelectedIndices(tempIndices);
     }
 
     private Point2D.Double getClosestPointOnEdge(int Mx, int My, Edge e) {
