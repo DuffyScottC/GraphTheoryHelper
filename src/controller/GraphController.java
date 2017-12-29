@@ -1185,26 +1185,36 @@ public class GraphController {
 
         //MARK: Select vertices
         //initialize the properties of the rectangle (to stop errors)
-        int x = 0;
-        int y = 0;
-        int height = 0;
-        int width = 0;
+        int x = startX;
+        int y = startY;
+        int height = endX - startX;
+        int width = endY - startY;
         //Decide what x and width should be
-        if (startX < lastX) {
+        if (endX < startX && endY < startY) {
+            x = endX;
+            y = endY;
+            width = startX - endX;
+            height = startY - endY;
+        }
+        else if (endX > startX && endY < startY) {
             x = startX;
-            width = lastX - startX;
-        } else {
-            x = lastX;
-            width = startX - lastX;
+            y = endY;
+            width = endX - startX;
+            height = startY - endY;
         }
-        //Decide what y and height should be
-        if (startY < lastY) {
+        else if (endX > startX && endY > startY) {
+            x = startX;
             y = startY;
-            height = lastY - startY;
-        } else {
-            y = lastY;
-            height = startY - lastY;
+            width = endX - startX;
+            height = endY - startY;
         }
+        else if (endX < startX && endY > startY) {
+            x = endX;
+            y = startY;
+            width = startX - endX;
+            height = endY - startY;
+        }
+        
         //Create a new rectangle shape representing the bounding box
         Shape boundingBox = new Rectangle2D.Double(x, y, width, height);
         
