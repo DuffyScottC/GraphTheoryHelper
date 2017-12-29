@@ -14,7 +14,9 @@ import java.awt.Color;
 import java.awt.Graphics;
 import java.awt.Graphics2D;
 import java.awt.RenderingHints;
+import java.awt.Shape;
 import java.awt.geom.AffineTransform;
+import java.awt.geom.Rectangle2D;
 import java.util.ArrayList;
 import java.util.List;
 import javax.swing.JTextArea;
@@ -42,9 +44,18 @@ public class Canvas extends JTextArea {
      */
     Vertex firstSelectedVertex = null;
     
+    /**
+     * The x-coordinate of the start point of the multiple-selection box.
+     */
+    private int startX;
+    /**
+     * The y-coordinate of the start point of the multiple-selection box.
+     */
+    private int startY;
+    
     //used for calculating the position of the endpoint of a live edge
-    int lastX;
-    int lastY;
+    private int lastX;
+    private int lastY;
     
     public void setGraph(Graph graph) {
         this.graph = graph;
@@ -134,6 +145,48 @@ public class Canvas extends JTextArea {
         g2.setStroke(new BasicStroke(Values.EDGE_STROKE_WIDTH));
         g2.setColor(Color.BLACK);
         g2.drawLine(x1, y1, x2, y2); //draw the line
+    }
+    
+    /**
+     * We want to draw a box between the start point and the mouse location 
+     * @param g2 
+     */
+    private void drawSelectionBox(Graphics2D g2) {
+        int x = 0;
+        int y = 0;
+        int height = 0;
+        int width = 0;
+        //Decide what x and width should be
+        if (startX < lastX) {
+            x = startX;
+            width = lastX - startX;
+        } else {
+            x = lastX;
+            width = startX - lastX;
+        }
+        //Decide what y and height should be
+        if (startY < lastY) {
+            y = startY;
+            height = lastY - startY;
+        } else {
+            y = lastY;
+            height = startY - lastY;
+        }
+        //Create a new rectangle shape
+        Shape shape = new Rectangle2D.Double(x, y, height, width);
+        
+        //Fill the rectangle
+        g2.setStroke(new BasicStroke(Values.SELECTION_STROKE));
+        g2.setColor(Values.SELECTION_FILL_COLOR);
+        g2.fill(shape);
+        
+        g2.setColor(Values.SELECTION_STROKE_COLOR);
+        g2.draw(shape);
+    }
+    
+    public void setStartPosition(int startX, int startY) {
+        this.startX = startX;
+        this.startY = startY;
     }
     
     //MARK: Getters and Setters

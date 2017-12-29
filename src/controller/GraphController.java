@@ -111,7 +111,16 @@ public class GraphController {
     // models for vertex and edge selection lists
     private final DefaultListModel verticesListModel = new DefaultListModel();
     private final DefaultListModel edgesListModel = new DefaultListModel();
-
+    
+    /**
+     * The x-coordinate of the start point of the multiple-selection box.
+     */
+    private int startX;
+    /**
+     * The y-coordinate of the start point of the multiple-selection box.
+     */
+    private int startY;
+    
     //Used for moving objects. Holds the last point the mouse was at.
     private int lastX;
     private int lastY;
@@ -241,11 +250,7 @@ public class GraphController {
 
                     if (clickedVertex == null) { //if the user did not click a vertex
                         if (clickedEdge == null) { //if the user did not click an edge
-                            //Then the user clicked open space
-                            //Move all nodes at once
-                            for (Vertex v : vertices) {
-                                v.incLocation(incX, incY);
-                            }
+                            multipleSelection(mx, my);
                         } else { //if the user clicked an edge
                             //move both nodes attached to the edge
                             clickedEdge.getEndpoint1().incLocation(incX, incY);
@@ -1131,6 +1136,14 @@ public class GraphController {
         //update the last position
         lastX = mx;
         lastY = my;
+    }
+    
+    /**
+     * Contains the code that allows the user to click and drag to select 
+     * multiple vertices at once.
+     */
+    private void multipleSelection(int mx, int my) {
+        canvas
     }
 
     private Point2D.Double getClosestPointOnEdge(int Mx, int My, Edge e) {
