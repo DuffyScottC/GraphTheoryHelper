@@ -245,7 +245,6 @@ public class GraphController {
                 canvas.setLastPosition(lastX, lastY);
 
                 if (selecting) { //if we're not in the selection state
-                    setIsModified(true);
 
                     if (clickedVertex == null) { //if the user did not click a vertex
                         if (clickedEdge == null) { //if the user did not click an edge
@@ -254,10 +253,12 @@ public class GraphController {
                             //move both nodes attached to the edge
                             clickedEdge.getEndpoint1().incLocation(incX, incY);
                             clickedEdge.getEndpoint2().incLocation(incX, incY);
+                            setIsModified(true);
                         }
                     } else { //if the user clicked a vertex
                         //move the chosen node
                         clickedVertex.incLocation(incX, incY);
+                        setIsModified(true);
                     }
                 }
                 canvas.repaint();
