@@ -1205,18 +1205,22 @@ public class GraphController {
             y2 = startY - lastY;
         }
         
-        //start by clearing out the old selected vertices (if needed)
-        selectedVertexIndices.clear();
+//        //start by clearing out the old selected vertices (if needed)
+//        selectedVertexIndices.clear();
         //cycle through the vertices
         for (int i = vertices.size() - 1; i >= 0; i--) {
-            //get the center position of the current vertex in the loop
-            Point2D.Double pos = vertices.get(i).getCenter();
+            //get the current vertex in the loop
+            Vertex vertex = vertices.get(i);
+            //get the center position of the vertex
+            Point2D.Double pos = vertex.getCenter();
             //if the center x is within the x bounds of the box
             if (x1 < pos.x && pos.x < x2) {
                 //if the center y is within the y bounds of the box
                 if (y1 < pos.y && pos.y < y2) {
                     //add this vertex's index to the selection
                     selectedVertexIndices.add(i);
+                    //Highlight the vertex
+                    highlightVertex(vertex);
                 }
             }
         }
@@ -1723,13 +1727,21 @@ public class GraphController {
         for (Vertex v : vertices) {
             //if this vertex is available to add edges to
             if (v.canAddEdges()) {
-                v.setStrokeColor(Values.EDGE_HIGHLIGHT_COLOR);
-                v.setStrokeWidth(Values.VERTEX_HIGHLIGHT_STROKE_WIDTH);
+                highlightVertex(v);
             } else { //if this vertex is completely full
-                v.setStrokeColor(graph.getVertexStrokeColor());
-                v.setStrokeWidth(Values.VERTEX_STROKE_WIDTH);
+                unhighlightVertex(v);
             }
         }
+    }
+    
+    private void highlightVertex(Vertex vertex) {
+        vertex.setStrokeColor(Values.EDGE_HIGHLIGHT_COLOR);
+        vertex.setStrokeWidth(Values.VERTEX_HIGHLIGHT_STROKE_WIDTH);
+    }
+    
+    private void unhighlightVertex(Vertex vertex) {
+        vertex.setStrokeColor(graph.getVertexStrokeColor());
+        vertex.setStrokeWidth(Values.VERTEX_STROKE_WIDTH);
     }
 
     /**
