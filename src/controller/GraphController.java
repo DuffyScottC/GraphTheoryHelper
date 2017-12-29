@@ -199,6 +199,10 @@ public class GraphController {
 
                 if (selecting) { //if we are not in the edge adding state, then we can move the vertices
                     selectVertexOrEdge(mx, my);
+                    //Set up the start position for multiple selection
+                    startX = mx;
+                    startY = mx;
+                    canvas.setStartPosition(startX, startY);
                 }
                 pressVertex();
                 pressEdge();
@@ -215,6 +219,9 @@ public class GraphController {
                     unpressEdge();
                     clickedEdge = null; //we don't want to move an edge after the user lets go
                     canvas.repaint();
+                }
+                if (selecting) {
+                    canvas.setMultipleSelecting(false);
                 }
                 //Don't want to repaint canvas if nothing happenned
             }
@@ -1143,7 +1150,11 @@ public class GraphController {
      * multiple vertices at once.
      */
     private void multipleSelection(int mx, int my) {
-        canvas
+        //If we get to this point, we already are multiple-selecting and dragging
+        //the mouse around the screen and startX and startY are already set for
+        //both this and the canvas.
+        canvas.setMultipleSelecting(true);
+        
     }
 
     private Point2D.Double getClosestPointOnEdge(int Mx, int My, Edge e) {

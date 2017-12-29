@@ -35,6 +35,10 @@ public class Canvas extends JTextArea {
      */
     private boolean showTitles = false;
     private boolean addingVertex = false;
+    /**
+     * True if we are drawing a multiple selection.
+     */
+    private boolean multipleSelecting = false;
     
     private List<Vertex> vertices;
     private List<Edge> edges;
@@ -81,6 +85,7 @@ public class Canvas extends JTextArea {
         drawLiveEdge(g2); //used for when we're adding an edge
         drawEdges(g2);
         drawVertices(g2);
+        drawSelectionBox(g2);
         
         graphOutputTextField.setText(graph.toString());
         
@@ -152,36 +157,43 @@ public class Canvas extends JTextArea {
      * @param g2 
      */
     private void drawSelectionBox(Graphics2D g2) {
-        int x = 0;
-        int y = 0;
-        int height = 0;
-        int width = 0;
-        //Decide what x and width should be
-        if (startX < lastX) {
-            x = startX;
-            width = lastX - startX;
-        } else {
-            x = lastX;
-            width = startX - lastX;
+        if (multipleSelecting) { //if we are multiple-selecting
+            //initialize the properties of the rectangle (to stop errors)
+            int x = 0;
+            int y = 0;
+            int height = 0;
+            int width = 0;
+            //Decide what x and width should be
+            if (startX < lastX) {
+                x = startX;
+                width = lastX - startX;
+            } else {
+                x = lastX;
+                width = startX - lastX;
+            }
+            //Decide what y and height should be
+            if (startY < lastY) {
+                y = startY;
+                height = lastY - startY;
+            } else {
+                y = lastY;
+                height = startY - lastY;
+            }
+            //Create a new rectangle shape
+            Shape shape = new Rectangle2D.Double(x, y, height, width);
+            //Fill the rectangle
+            g2.setStroke(new BasicStroke(Values.SELECTION_STROKE));
+            g2.setColor(Values.SELECTION_FILL_COLOR);
+            g2.fill(shape);
+            
+            //Draw the stroke outer stroke
+            g2.setColor(Values.SELECTION_STROKE_COLOR);
+            g2.draw(shape);
         }
-        //Decide what y and height should be
-        if (startY < lastY) {
-            y = startY;
-            height = lastY - startY;
-        } else {
-            y = lastY;
-            height = startY - lastY;
-        }
-        //Create a new rectangle shape
-        Shape shape = new Rectangle2D.Double(x, y, height, width);
-        
-        //Fill the rectangle
-        g2.setStroke(new BasicStroke(Values.SELECTION_STROKE));
-        g2.setColor(Values.SELECTION_FILL_COLOR);
-        g2.fill(shape);
-        
-        g2.setColor(Values.SELECTION_STROKE_COLOR);
-        g2.draw(shape);
+    }
+    
+    public void setMultipleSelecting(boolean multipleSelecting) {
+        this.multipleSelecting = multipleSelecting;
     }
     
     public void setStartPosition(int startX, int startY) {
