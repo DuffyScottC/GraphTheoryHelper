@@ -223,6 +223,7 @@ public class GraphController {
                 }
                 if (selecting) {
                     canvas.setMultipleSelecting(false);
+                    canvas.repaint();
                 }
                 //Don't want to repaint canvas if nothing happenned
             }
