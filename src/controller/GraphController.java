@@ -231,14 +231,6 @@ public class GraphController {
         canvas.addMouseMotionListener(new MouseMotionListener() {
             @Override
             public void mouseDragged(MouseEvent e) {
-                //if vertices is null or empty, no need to move anything
-                if (vertices == null) {
-                    return;
-                }
-                if (vertices.isEmpty()) {
-                    return;
-                }
-                
                 int mx = e.getX(); //x-coord of mouse click
                 int my = e.getY(); //y-coord of mouse click
 
