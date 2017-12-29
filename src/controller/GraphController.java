@@ -536,7 +536,17 @@ public class GraphController {
                 
                 colorAllElements(Values.VERTEX_FILL_COLOR, Values.VERTEX_STROKE_COLOR, Values.EDGE_STROKE_COLOR);
                 graph.setColors(Values.VERTEX_FILL_COLOR, Values.VERTEX_STROKE_COLOR, Values.EDGE_STROKE_COLOR);
-
+                
+                if (addingEdges) {
+                    exitAddEdgesState();
+                }
+                if (addingVertices) {
+                    exitAddVerticesState();
+                }
+                if (!selecting) {
+                    enterSelectionState();
+                }
+                
                 setIsModified(false);
             }
         });
