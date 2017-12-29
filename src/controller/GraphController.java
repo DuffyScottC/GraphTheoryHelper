@@ -71,7 +71,7 @@ public class GraphController {
      * no selected vertices.
      * (Used for things like setting the title text field or updating the title)
      */
-    private int [] selectedVertexIndices = null;
+    private List<Integer> selectedVertexIndices = new ArrayList();
     /**
      * The last selected index in the edges JList
      */
@@ -419,8 +419,15 @@ public class GraphController {
                     selectedEdgeIndex = -1;
                     setSelectedEdge();
 
-                    //Select (or deselect) the vertices
-                    selectedVertexIndices = verticesList.getSelectedIndices(); //get the index of the selected item
+                    //Select (or deselect) the vertices:
+                    //get the list of selected vertices
+                    int [] tempIndices = verticesList.getSelectedIndices();
+                    //loop through the selected indices
+                    for (int i : tempIndices) {
+                        //add each one to the main ArrayList
+                        selectedVertexIndices.add(i);
+                    }
+                    
                     setSelectedVertices();
                     canvas.repaint();
                 }
@@ -433,8 +440,8 @@ public class GraphController {
             public void valueChanged(ListSelectionEvent e) {
                 if (shouldChange) { //if we did not just call clearSelection() 
                     //(which would redundantly run this again)
-                    //Deselect the vertex (if it was selected)
-                    selectedVertexIndices = null;
+                    //Deselect the vertices (if any were selected)
+                    selectedVertexIndices.clear();
                     setSelectedVertices();
 
                     //Select (or deselect) the edge
@@ -812,7 +819,7 @@ public class GraphController {
         }
 
         //Programattically select the new selectedVertex (or deselect entirely)
-        if (selectedVertexIndices == null) { //if the user deselected all vertices
+        if (selectedVertexIndices.isEmpty()) { //if the user deselected all vertices
             selectedVertices.clear(); //remove all elements from selectedVertices
             titleTextField.setText("");
             titleTextField.setEditable(false);
@@ -964,8 +971,8 @@ public class GraphController {
         int newIndex = vertices.size() - 1;
         shouldChange = false;
         verticesList.setSelectedIndex(newIndex);
-        int [] newIndices = {newIndex}; //create a new array with one element
-        selectedVertexIndices = newIndices; //make the only selected index be the last
+        selectedVertexIndices.clear(); //clear all elements
+        selectedVertexIndices.add(newIndex); //set the selected index
         setSelectedVertices();
         canvas.repaint();
     }
@@ -981,7 +988,7 @@ public class GraphController {
         updateEdgesListModel();
 
         //deselect the vertices
-        selectedVertexIndices = null;
+        selectedVertexIndices.clear();
         setSelectedVertices();
         canvas.repaint();
     }
@@ -1054,8 +1061,8 @@ public class GraphController {
                 //select the vertex
                 shouldChange = false;
                 verticesList.setSelectedIndex(i);
-                int [] newIndices = {i}; //create a new array with the selected index
-                selectedVertexIndices = newIndices; //update selected indices
+                selectedVertexIndices.clear(); //empty the old selected indices
+                selectedVertexIndices.add(i); //update selected indices
                 setSelectedVertices();
                 canvas.repaint();
                 clickedBlankSpace = false; //user didn't click blank space
@@ -1123,7 +1130,7 @@ public class GraphController {
                     clickedEdge = e;
                     //Update the selection:
                     //deselect the vertex
-                    selectedVertexIndices = null;
+                    selectedVertexIndices.clear();
                     setSelectedVertices();
                     //select the edge
                     shouldChange = false;
@@ -1144,7 +1151,7 @@ public class GraphController {
             //Deselect the vertex
             shouldChange = false; //don't allow clearSelection to run setSelectedVertex again
             verticesList.clearSelection(); //deselect vertex in the list
-            selectedVertexIndices = null;
+            selectedVertexIndices.clear();
             setSelectedVertices();
 
             //Deselect the edge
@@ -1366,7 +1373,7 @@ public class GraphController {
     }
 
     private void deleteSelectedElement() {
-        if (selectedVertexIndices != null) {
+        if (!selectedVertexIndices.isEmpty()) {
             removeVertices();
         }
         if (selectedEdgeIndex != -1) {
@@ -1409,15 +1416,15 @@ public class GraphController {
         //Set the selection of the visual JList to the bottom
         shouldChange = false;
         verticesList.setSelectedIndex(bottomIndex);
-        int [] newIndices = {bottomIndex};
-        selectedVertexIndices = newIndices;
+        selectedVertexIndices.clear(); //clear the selection
+        selectedVertexIndices.add(bottomIndex); //select the new index
         setSelectedVertices();
         canvas.repaint();
         setIsModified(true);
     }
 
     private void removeVertices() {
-        if (selectedVertexIndices == null) {
+        if (selectedVertexIndices.isEmpty()) {
             return;
         }
 
@@ -1425,11 +1432,11 @@ public class GraphController {
         List<Edge> removeEdges = new ArrayList();
         //Get all the edges from all the selected vertices:
         //first loop through all selected vertices
-        for (int selectedVertexIndex : selectedVertexIndices) {
+        for (int i : selectedVertexIndices) {
             //then add the list of edges from each selected vertices
-            removeEdges.addAll(vertices.get(selectedVertexIndex).getEdges());
+            removeEdges.addAll(vertices.get(i).getEdges());
             //finally, remove the vertex from the vertices list
-            vertices.remove(selectedVertexIndex); //remove each vertex
+            vertices.remove(i); //remove each vertex
         }
 
         //remove the edges that were attached to this vertex from the list of edges
@@ -1446,7 +1453,7 @@ public class GraphController {
         updateVerticesListModel();
         updateEdgesListModel();
         //Deselect the vertices:
-        selectedVertexIndices = null;
+        selectedVertexIndices.clear();
         setSelectedVertices();
 
         canvas.repaint();
@@ -1620,7 +1627,7 @@ public class GraphController {
         shouldChange = false; //don't allow clearSelection to run setSelectedVertex again
         verticesList.clearSelection(); //clear the visual selection in the JList
         //deselect the vertex
-        selectedVertexIndices = null;
+        selectedVertexIndices.clear();
         setSelectedVertices();
 
         //Update edge selection

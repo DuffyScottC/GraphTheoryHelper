@@ -96,10 +96,6 @@ public class Canvas extends JTextArea {
         drawSelectionBox(g2);
         
         graphOutputTextField.setText(graph.toString());
-        System.out.println("startX: " + startX
-                + " startY: " + startY
-                + " lastX: " + lastX
-                + " lastY:" + lastY);
     }
     
     public void drawVertices(Graphics2D g2) {
