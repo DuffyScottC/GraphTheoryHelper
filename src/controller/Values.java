@@ -44,7 +44,7 @@ public class Values {
     public static final double FORMAT_RADIUS = 150;
     public static final double LINE_SELECTION_DISTANCE = 4;
     public static final float SELECTION_STROKE = 2.0f;
-    private static final int SELECTION_TRANSPARENCY = 128;
+    private static final int SELECTION_TRANSPARENCY = 90;
     public static final Color SELECTION_STROKE_COLOR = new Color(128, 128, 128, SELECTION_TRANSPARENCY);
     public static final Color SELECTION_FILL_COLOR = new Color(192, 192, 192, SELECTION_TRANSPARENCY);
 }

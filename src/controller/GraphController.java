@@ -36,6 +36,7 @@ import java.util.regex.Pattern;
 import javax.swing.DefaultListModel;
 import javax.swing.JColorChooser;
 import javax.swing.JFileChooser;
+import javax.swing.JFrame;
 import javax.swing.JList;
 import javax.swing.JMenuItem;
 import javax.swing.JOptionPane;
@@ -163,6 +164,7 @@ public class GraphController {
     public GraphController() {
         frame.setTitle("Graph Theory Helper");
         frame.setLocationRelativeTo(null);
+        frame.setDefaultCloseOperation(JFrame.DO_NOTHING_ON_CLOSE); //this is neccessary to prevent the user from closing without saving
         frame.setSize(600, 500);
 
         canvas.setGraph(graph); //pass the graph to the canvas
@@ -1684,8 +1686,7 @@ public class GraphController {
      * out of the method
      */
     private boolean shouldContinue(String message) {
-        //ask the user if they want to continue
-        int selection = JOptionPane.showConfirmDialog(frame, message);
+        int selection = JOptionPane.showConfirmDialog(frame, message); //ask the user if they want to continue
 
         if (selection != JOptionPane.YES_OPTION) { //if the user did not choose "yes"
             return false; //cancel the operation
