@@ -301,7 +301,7 @@ public class GraphController {
             @Override
             public void keyPressed(KeyEvent e) {
                 if (e.getKeyCode() == KeyEvent.VK_BACK_SPACE) {
-                    deleteSelectedElement();
+                    deleteSelectedElements();
                 }
             }
         });
@@ -309,7 +309,7 @@ public class GraphController {
             @Override
             public void keyPressed(KeyEvent e) {
                 if (e.getKeyCode() == KeyEvent.VK_BACK_SPACE) {
-                    deleteSelectedElement();
+                    deleteSelectedElements();
                 }
             }
         });
@@ -317,7 +317,7 @@ public class GraphController {
             @Override
             public void keyPressed(KeyEvent e) {
                 if (e.getKeyCode() == KeyEvent.VK_BACK_SPACE) {
-                    deleteSelectedElement();
+                    deleteSelectedElements();
                 }
             }
         });
@@ -401,13 +401,13 @@ public class GraphController {
         frame.getDeleteButton().addActionListener(new ActionListener() {
             @Override
             public void actionPerformed(ActionEvent e) {
-                deleteSelectedElement();
+                deleteSelectedElements();
             }
         });
         frame.getDeleteMenuItem().addActionListener(new ActionListener() {
             @Override
             public void actionPerformed(ActionEvent e) {
-                deleteSelectedElement();
+                deleteSelectedElements();
             }
         });
         
@@ -1376,7 +1376,7 @@ public class GraphController {
         selecting = false;
     }
 
-    private void deleteSelectedElement() {
+    private void deleteSelectedElements() {
         if (!selectedVertexIndices.isEmpty()) {
             removeVertices();
         }
@@ -1428,23 +1428,25 @@ public class GraphController {
     }
 
     private void removeVertices() {
-        if (selectedVertexIndices.isEmpty()) {
-            return;
-        }
-
         //The list of edges to remove
         List<Edge> removeEdges = new ArrayList();
         //Get all the edges from all the selected vertices:
         //first loop through all selected vertices
-        for (int i : selectedVertexIndices) {
+        for (Vertex v : selectedVertices) {
             //then add the list of edges from each selected vertices
-            removeEdges.addAll(vertices.get(i).getEdges());
+            removeEdges.addAll(v.getEdges());
             //finally, remove the vertex from the vertices list
-            vertices.remove(i); //remove each vertex
         }
 
         //remove the edges that were attached to this vertex from the list of edges
         edges.removeAll(removeEdges);
+        
+        //Cycle trhough the vertices to remove
+        //Note: can't remove vertices by index, 
+        //since indices change with each removal
+        for (Vertex v : selectedVertices) {
+            vertices.remove(v); //remove the matching vertex from the vertices
+        }
 
         //Remove the edges that were attached to this vertex 
         //from all the other vertices associated with them
