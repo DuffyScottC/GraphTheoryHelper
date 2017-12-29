@@ -16,6 +16,7 @@ import java.awt.event.KeyAdapter;
 import java.awt.event.KeyEvent;
 import java.awt.event.MouseAdapter;
 import java.awt.event.MouseEvent;
+import java.awt.event.MouseListener;
 import java.awt.event.MouseMotionListener;
 import java.awt.event.WindowAdapter;
 import java.awt.event.WindowEvent;
@@ -68,8 +69,8 @@ public class GraphController {
     private Edge selectedEdge = null;
     /**
      * A list of the selected indices in the vertices JList. null if there are
-     * no selected vertices.
-     * (Used for things like setting the title text field or updating the title)
+     * no selected vertices. (Used for things like setting the title text field
+     * or updating the title)
      */
     private List<Integer> selectedVertexIndices = new ArrayList();
     /**
@@ -409,31 +410,37 @@ public class GraphController {
                 deleteSelectedElement();
             }
         });
-
-        verticesList.addListSelectionListener(new ListSelectionListener() {
+        verticesList.addMouseListener(new MouseAdapter() {
             @Override
-            public void valueChanged(ListSelectionEvent e) {
-                if (shouldChange) { //if we did not just call clearSelection() 
-                    //(which would redundantly run this again)
-                    //Deselect the edge (if it was selected)
-                    selectedEdgeIndex = -1;
-                    setSelectedEdge();
+            public void mouseClicked(MouseEvent e) {
+                //(which would redundantly run this again)
+                //Deselect the edge (if it was selected)
+                selectedEdgeIndex = -1;
+                setSelectedEdge();
 
-                    //Select (or deselect) the vertices:
-                    //get the list of selected vertices
-                    int [] tempIndices = verticesList.getSelectedIndices();
-                    //loop through the selected indices
-                    for (int i : tempIndices) {
-                        //add each one to the main ArrayList
-                        selectedVertexIndices.add(i);
-                    }
-                    
-                    setSelectedVertices();
-                    canvas.repaint();
+                //Select (or deselect) the vertices:
+                //get the list of selected vertices
+                int[] tempIndices = verticesList.getSelectedIndices();
+                //loop through the selected indices
+                for (int i : tempIndices) {
+                    //add each one to the main ArrayList
+                    selectedVertexIndices.add(i);
                 }
-                shouldChange = true;
+
+                setSelectedVertices();
+                canvas.repaint();
             }
         });
+
+//        verticesList.addListSelectionListener(new ListSelectionListener() {
+//            @Override
+//            public void valueChanged(ListSelectionEvent e) {
+//                if (shouldChange) { //if we did not just call clearSelection() 
+//
+//                }
+//                shouldChange = true;
+//            }
+//        });
 
         edgesList.addListSelectionListener(new ListSelectionListener() {
             @Override
@@ -1109,11 +1116,9 @@ public class GraphController {
                             }
                         } else //if ep2 is higher than ep1
                         //ep2.y<my<ep1.y
-                        {
-                            if (ep2.y < my && my < ep1.y) { //if my is between ep2.y and ep1.y
+                         if (ep2.y < my && my < ep1.y) { //if my is between ep2.y and ep1.y
                                 clickedAnEdge = true; //we clicked edge e
                             }
-                        }
                     }
                 } else { //if the edge is not verticle
                     //Find the point on edge e that is closest to (mx,my) (the intersection, I)
@@ -1183,7 +1188,7 @@ public class GraphController {
         //the mouse around the screen and startX and startY are already set for
         //both this and the canvas.
         canvas.setMultipleSelecting(true);
-        
+
         //MARK: Select vertices
         //initialize the properties of the rectangle (to stop errors)
         int x = 0;
