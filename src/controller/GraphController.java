@@ -1174,7 +1174,7 @@ public class GraphController {
 
     /**
      * Contains the code that allows the user to click and drag to select
-     * multiple vertices at once.
+     * multiple vertices at once. Constantly updates.
      */
     private void multipleSelection(int mx, int my) {
         //If we get to this point, we already are multiple-selecting and dragging
@@ -1205,14 +1205,23 @@ public class GraphController {
             y2 = startY - lastY;
         }
         
-        for (int i = vertices.size() - 1; i >= 0; i--) { //cycle through the vertices
-            Point2D.Double pos = vertices.get(i).getCenter(); //get the center position
-            if (x1 < pos.x && pos.x < x2) { //if the center x is within the x bounds of the box
-                if (y1 < pos.y && pos.y < y2) { //if the center y is within the y bounds of the box
-                    selectedVertexIndices.add(i); //add this vertex's index to the selection
+        //start by clearing out the old selected vertices (if needed)
+        selectedVertexIndices.clear();
+        //cycle through the vertices
+        for (int i = vertices.size() - 1; i >= 0; i--) {
+            //get the center position of the current vertex in the loop
+            Point2D.Double pos = vertices.get(i).getCenter();
+            //if the center x is within the x bounds of the box
+            if (x1 < pos.x && pos.x < x2) {
+                //if the center y is within the y bounds of the box
+                if (y1 < pos.y && pos.y < y2) {
+                    //add this vertex's index to the selection
+                    selectedVertexIndices.add(i);
                 }
             }
         }
+        //now we have a list of selected vertices
+        
         //Update the selection using the new indices:
         //first convert the selectedVertexIndices to an array of ints:
         int [] tempIndices = new int[selectedVertexIndices.size()]; //initialize the array
