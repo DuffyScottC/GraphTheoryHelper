@@ -1221,7 +1221,11 @@ public class GraphController {
                     selectedVertexIndices.add(i);
                     //Highlight the vertex
                     highlightVertex(vertex);
+                } else {
+                    unhighlightVertex(vertex); //unhighlight deselected vertices
                 }
+            } else {
+                unhighlightVertex(vertex); //unhighlight deselected vertices
             }
         }
         //now we have a list of selected vertices
