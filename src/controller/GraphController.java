@@ -1110,9 +1110,11 @@ public class GraphController {
                             }
                         } else //if ep2 is higher than ep1
                         //ep2.y<my<ep1.y
-                         if (ep2.y < my && my < ep1.y) { //if my is between ep2.y and ep1.y
+                        {
+                            if (ep2.y < my && my < ep1.y) { //if my is between ep2.y and ep1.y
                                 clickedAnEdge = true; //we clicked edge e
                             }
+                        }
                     }
                 } else { //if the edge is not verticle
                     //Find the point on edge e that is closest to (mx,my) (the intersection, I)
@@ -1185,39 +1187,31 @@ public class GraphController {
 
         //MARK: Select vertices
         //initialize the properties of the rectangle (to stop errors)
-        int x = startX;
-        int y = startY;
-        int height = endX - startX;
-        int width = endY - startY;
+        int x = 0;
+        int y = 0;
+        int height = 0;
+        int width = 0;
         //Decide what x and width should be
-        if (endX < startX && endY < startY) {
-            x = endX;
-            y = endY;
-            width = startX - endX;
-            height = startY - endY;
-        }
-        else if (endX > startX && endY < startY) {
+        if (startX < lastX) {
             x = startX;
-            y = endY;
-            width = endX - startX;
-            height = startY - endY;
+            width = lastX - startX;
+        } else {
+            x = lastX;
+            width = startX - lastX;
         }
-        else if (endX > startX && endY > startY) {
-            x = startX;
+        //Decide what y and height should be
+        if (startY < lastY) {
             y = startY;
-            width = endX - startX;
-            height = endY - startY;
+            height = lastY - startY;
+        } else {
+            y = lastY;
+            height = startY - lastY;
         }
-        else if (endX < startX && endY > startY) {
-            x = endX;
-            y = startY;
-            width = startX - endX;
-            height = endY - startY;
-        }
-        
+
         //Create a new rectangle shape representing the bounding box
         Shape boundingBox = new Rectangle2D.Double(x, y, width, height);
-        
+        System.out.println("GraphController" + boundingBox);
+
         //start by clearing out the old selected vertices (if needed)
         selectedVertexIndices.clear();
         //cycle through the vertices
@@ -1248,6 +1242,7 @@ public class GraphController {
         }
         //set the selection to the indices of the selected vertices
         verticesList.setSelectedIndices(tempIndices);
+        setSelectedVertices();
     }
 
     private Point2D.Double getClosestPointOnEdge(int Mx, int My, Edge e) {

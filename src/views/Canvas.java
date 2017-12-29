@@ -188,6 +188,7 @@ public class Canvas extends JTextArea {
             }
             //Create a new rectangle shape
             Shape shape = new Rectangle2D.Double(x, y, width, height);
+            System.out.println("Canvas: " + shape + "\n");
             //Fill the rectangle
             g2.setStroke(new BasicStroke(Values.SELECTION_STROKE));
             g2.setColor(Values.SELECTION_FILL_COLOR);
