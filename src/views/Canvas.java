@@ -88,7 +88,10 @@ public class Canvas extends JTextArea {
         drawSelectionBox(g2);
         
         graphOutputTextField.setText(graph.toString());
-        
+        System.out.println("startX: " + startX
+                + " startY: " + startY
+                + " lastX: " + lastX
+                + " lastY:" + lastY);
     }
     
     public void drawVertices(Graphics2D g2) {
@@ -180,7 +183,7 @@ public class Canvas extends JTextArea {
                 height = startY - lastY;
             }
             //Create a new rectangle shape
-            Shape shape = new Rectangle2D.Double(x, y, height, width);
+            Shape shape = new Rectangle2D.Double(x, y, width, height);
             //Fill the rectangle
             g2.setStroke(new BasicStroke(Values.SELECTION_STROKE));
             g2.setColor(Values.SELECTION_FILL_COLOR);
