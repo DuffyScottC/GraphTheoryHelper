@@ -834,6 +834,7 @@ public class GraphController {
                 Vertex selectedVertex = vertices.get(i); //store this selected vertex
                 selectedVertex.setStrokeColor(Values.EDGE_HIGHLIGHT_COLOR); //highlight the vertex
                 selectedVertex.setStrokeWidth(Values.VERTEX_HIGHLIGHT_STROKE_WIDTH);
+                selectedVertices.add(selectedVertex); //add the new selection
             }
             if (selectedVertices.size() == 1) { //if exactly one vertex was selected
                 //Get the title and put it in the titleTextField
@@ -843,6 +844,7 @@ public class GraphController {
                 titleTextField.setText(""); //empty the titleTextField
                 titleTextField.setEditable(false); //disable editing of titles
             }
+            System.out.println(selectedVertices);
         }
     }
 
