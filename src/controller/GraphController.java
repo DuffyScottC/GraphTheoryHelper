@@ -120,6 +120,14 @@ public class GraphController {
      * The y-coordinate of the start point of the multiple-selection box.
      */
     private int startY;
+    /**
+     * The x-coordinate of the end point of the multiple-selection box.
+     */
+    private int endX;
+    /**
+     * The y-coordinate of the end point of the multiple-selection box.
+     */
+    private int endY;
     
     //Used for moving objects. Holds the last point the mouse was at.
     private int lastX;
@@ -204,7 +212,9 @@ public class GraphController {
                     startX = mx;
                     startY = mx;
                     canvas.setStartPosition(mx, my);
-                    canvas.setEndPosition(mx, my);
+                    endX = mx;
+                    endY = my;
+                    canvas.setEndPosition(endX, endY);
                 }
                 pressVertex();
                 pressEdge();
@@ -1152,6 +1162,15 @@ public class GraphController {
         //the mouse around the screen and startX and startY are already set for
         //both this and the canvas.
         canvas.setMultipleSelecting(true);
+        
+    }
+    
+    /**
+     * Convenience method to improve readability
+     * @param v
+     * @return 
+     */
+    private boolean isInSelectionBox(Vertex v) {
         
     }
 
