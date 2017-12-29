@@ -56,6 +56,14 @@ public class Canvas extends JTextArea {
      * The y-coordinate of the start point of the multiple-selection box.
      */
     private int startY;
+    /**
+     * The x-coordinate of the end point of the multiple-selection box.
+     */
+    private int endX;
+    /**
+     * The y-coordinate of the end point of the multiple-selection box.
+     */
+    private int endY;
     
     //used for calculating the position of the endpoint of a live edge
     private int lastX;
@@ -202,6 +210,11 @@ public class Canvas extends JTextArea {
     public void setStartPosition(int startX, int startY) {
         this.startX = startX;
         this.startY = startY;
+    }
+    
+    public void setEndPosition(int endX, int endY) {
+        this.endX = endX;
+        this.endY = endY;
     }
     
     //MARK: Getters and Setters
