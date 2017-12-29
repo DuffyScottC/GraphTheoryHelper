@@ -111,7 +111,7 @@ public class GraphController {
     // models for vertex and edge selection lists
     private final DefaultListModel verticesListModel = new DefaultListModel();
     private final DefaultListModel edgesListModel = new DefaultListModel();
-    
+
     /**
      * The x-coordinate of the start point of the multiple-selection box.
      */
@@ -128,7 +128,7 @@ public class GraphController {
      * The y-coordinate of the end point of the multiple-selection box.
      */
     private int endY;
-    
+
     //Used for moving objects. Holds the last point the mouse was at.
     private int lastX;
     private int lastY;
@@ -142,7 +142,7 @@ public class GraphController {
      * which is used for deleting edges.
      */
     private Edge clickedEdge;
-    
+
     //MARK: Booleans
     /**
      * Used to make sure clearSelection() or setSelectedIndex() do not
@@ -163,7 +163,7 @@ public class GraphController {
 
     private final List<Vertex> vertices = graph.getVertices();
     private final List<Edge> edges = graph.getEdges();
-    
+
     //MARK: File I/O:
     private final JFileChooser chooser = new JFileChooser(System.getProperty("user.dir"));
     private File saveFile;
@@ -187,10 +187,10 @@ public class GraphController {
         addVerticesMenuItem = frame.getAddVerticesMenuItem();
         addEdgesMenuItem = frame.getAddEdgesMenuItem();
         selectionMenuItem = frame.getSelectionMenuItem();
-        
+
         SampleCanvas sampleCanvas = graphColorChooserDialog.getSampleCanvas();
         sampleCanvas.setUp(graph); //Set up the sample canvas in the dialog
-        
+
         enterSelectionState();
 
         canvas.addMouseListener(new MouseAdapter() {
@@ -256,13 +256,14 @@ public class GraphController {
                 lastX = mx;
                 lastY = my;
                 canvas.setLastPosition(lastX, lastY);
-                
 
                 if (selecting) { //if we're not in the selection state
 
                     if (clickedVertex == null) { //if the user did not click a vertex
                         if (clickedEdge == null) { //if the user did not click an edge
                             multipleSelection(mx, my);
+                            endX = mx;
+                            endY = my;
                             canvas.setEndPosition(mx, my);
                         } else { //if the user clicked an edge
                             //move both nodes attached to the edge
@@ -394,7 +395,7 @@ public class GraphController {
                 addEdges();
             }
         });
-        
+
         //Delete
         frame.getDeleteButton().addActionListener(new ActionListener() {
             @Override
@@ -561,10 +562,10 @@ public class GraphController {
                 saveFile = null; //we no longer have a file to save
 
                 clear();
-                
+
                 colorAllElements(Values.VERTEX_FILL_COLOR, Values.VERTEX_STROKE_COLOR, Values.EDGE_STROKE_COLOR);
                 graph.setColors(Values.VERTEX_FILL_COLOR, Values.VERTEX_STROKE_COLOR, Values.EDGE_STROKE_COLOR);
-                
+
                 if (addingEdges) {
                     exitAddEdgesState();
                 }
@@ -574,7 +575,7 @@ public class GraphController {
                 if (!selecting) {
                     enterSelectionState();
                 }
-                
+
                 setIsModified(false);
             }
         });
@@ -584,30 +585,30 @@ public class GraphController {
             public void actionPerformed(ActionEvent e) {
                 addGraphDialog.setLocationRelativeTo(null);
                 addGraphDialog.setTitle("Add Vertices");
-                
+
                 addGraphDialog.setFocusToTextField();
-                
+
                 //Make it so that the user can press enter to press Add
                 addGraphDialog.getRootPane().setDefaultButton(addGraphDialog.getAddButton());
-                
+
                 addGraphDialog.setVisible(true);
             }
         });
-        
+
         frame.getChangeColorsMenuItem().addActionListener(new ActionListener() {
             @Override
             public void actionPerformed(ActionEvent e) {
                 graphColorChooserDialog.setLocationRelativeTo(null);
                 graphColorChooserDialog.setTitle("Choose Colors");
-                
+
                 //Make it so that the user can press enter to press OK
                 graphColorChooserDialog.getRootPane().setDefaultButton(graphColorChooserDialog.getOKButton());
-                
+
                 //Initialize the dialog with the graph's current colors
                 graphColorChooserDialog.setVertexFillColor(graph.getVertexFillColor());
                 graphColorChooserDialog.setVertexStrokeColor(graph.getVertexStrokeColor());
                 graphColorChooserDialog.setEdgeStrokeColor(graph.getEdgeStrokeColor());
-                
+
                 graphColorChooserDialog.setVisible(true);
             }
         });
@@ -735,13 +736,13 @@ public class GraphController {
                 addGraphDialog.setVisible(false); //close the dialog
             }
         });
-        
+
         //MARK: Color choosing dialog
         //Choose buttons:
         graphColorChooserDialog.getVertexFillColorChooseButton().addActionListener(new ActionListener() {
             @Override
             public void actionPerformed(ActionEvent e) {
-                Color newColor = JColorChooser.showDialog(frame, "Choose color", 
+                Color newColor = JColorChooser.showDialog(frame, "Choose color",
                         graphColorChooserDialog.getVertexFillColor()); //get the color chosen by the user
                 graphColorChooserDialog.setVertexFillColor(newColor); //set the sample fill color
                 sampleCanvas.repaint(); //repaint the canvas
@@ -750,7 +751,7 @@ public class GraphController {
         graphColorChooserDialog.getVertexStrokeColorChooseButton().addActionListener(new ActionListener() {
             @Override
             public void actionPerformed(ActionEvent e) {
-                Color newColor = JColorChooser.showDialog(frame, "Choose color", 
+                Color newColor = JColorChooser.showDialog(frame, "Choose color",
                         graphColorChooserDialog.getVertexStrokeColor()); //get the color chosen by the user
                 graphColorChooserDialog.setVertexStrokeColor(newColor); //set the sample stroke color
                 sampleCanvas.repaint(); //repaint the canvas
@@ -759,13 +760,13 @@ public class GraphController {
         graphColorChooserDialog.getEdgeStrokeColorChooseButton().addActionListener(new ActionListener() {
             @Override
             public void actionPerformed(ActionEvent e) {
-                Color newColor = JColorChooser.showDialog(frame, "Choose color", 
+                Color newColor = JColorChooser.showDialog(frame, "Choose color",
                         graphColorChooserDialog.getEdgeStrokeColor()); //get the color chosen by the user
                 graphColorChooserDialog.setEdgeStrokeColor(newColor); //set the sample fill color
                 sampleCanvas.repaint(); //repaint the canvas
             }
         });
-        
+
         //cancel button
         graphColorChooserDialog.getCancelButton().addActionListener(new ActionListener() {
             @Override
@@ -773,7 +774,7 @@ public class GraphController {
                 graphColorChooserDialog.setVisible(false);
             }
         });
-        
+
         //ok button
         graphColorChooserDialog.getOKButton().addActionListener(new ActionListener() {
             @Override
@@ -782,16 +783,16 @@ public class GraphController {
                 Color newVertexFillColor = graphColorChooserDialog.getVertexFillColor();
                 Color newVertexStrokeColor = graphColorChooserDialog.getVertexStrokeColor();
                 Color newEdgeStrokeColor = graphColorChooserDialog.getEdgeStrokeColor();
-                
+
                 //set the graph's colors
                 graph.setColors(newVertexFillColor, newVertexStrokeColor, newEdgeStrokeColor);
-                
+
                 //Set the colors of the current vertices and edges
                 colorAllElements(newVertexFillColor, newVertexStrokeColor, newEdgeStrokeColor);
-                
+
                 //dismiss the dialog
                 graphColorChooserDialog.setVisible(false);
-                
+
                 canvas.repaint(); //repaint the canvas
             }
         });
@@ -944,18 +945,18 @@ public class GraphController {
         }
 
         updateEdgesListModel();
-        
+
         //MARK: Colors
         //get the new graph's colors
         Color newVertexFillColor = newGraph.getVertexFillColor();
         Color newVertexStrokeColor = newGraph.getVertexStrokeColor();
         Color newEdgeStrokeColor = newGraph.getEdgeStrokeColor();
-        
+
         //update the graph's colors
         graph.setVertexFillColor(newVertexFillColor);
         graph.setVertexStrokeColor(newVertexStrokeColor);
         graph.setEdgeStrokeColor(newEdgeStrokeColor);
-        
+
         //MARK: Update the list selection
         int newIndex = vertices.size() - 1;
         shouldChange = false;
@@ -1090,9 +1091,11 @@ public class GraphController {
                             }
                         } else //if ep2 is higher than ep1
                         //ep2.y<my<ep1.y
-                         if (ep2.y < my && my < ep1.y) { //if my is between ep2.y and ep1.y
+                        {
+                            if (ep2.y < my && my < ep1.y) { //if my is between ep2.y and ep1.y
                                 clickedAnEdge = true; //we clicked edge e
                             }
+                        }
                     }
                 } else { //if the edge is not verticle
                     //Find the point on edge e that is closest to (mx,my) (the intersection, I)
@@ -1152,9 +1155,9 @@ public class GraphController {
         lastX = mx;
         lastY = my;
     }
-    
+
     /**
-     * Contains the code that allows the user to click and drag to select 
+     * Contains the code that allows the user to click and drag to select
      * multiple vertices at once.
      */
     private void multipleSelection(int mx, int my) {
@@ -1163,15 +1166,33 @@ public class GraphController {
         //both this and the canvas.
         canvas.setMultipleSelecting(true);
         
-    }
-    
-    /**
-     * Convenience method to improve readability
-     * @param v
-     * @return 
-     */
-    private boolean isInSelectionBox(Vertex v) {
-        
+        //MARK: Select vertices
+        //initialize the properties of the rectangle (to stop errors)
+        int x = 0;
+        int y = 0;
+        int height = 0;
+        int width = 0;
+        //Decide what x and width should be
+        if (startX < lastX) {
+            x = startX;
+            width = lastX - startX;
+        } else {
+            x = lastX;
+            width = startX - lastX;
+        }
+        //Decide what y and height should be
+        if (startY < lastY) {
+            y = startY;
+            height = lastY - startY;
+        } else {
+            y = lastY;
+            height = startY - lastY;
+        }
+        for (Vertex v : vertices) {
+            if (v.getPositionShape().intersects(x, y, width, height)) {
+                //add it to the selection
+            }
+        }
     }
 
     private Point2D.Double getClosestPointOnEdge(int Mx, int My, Edge e) {
@@ -1299,22 +1320,21 @@ public class GraphController {
     }
 
     //MARK: States methods
-    
     private void setSelectedVertices(boolean selected) {
         addVerticesButton.setSelected(selected);
         addVerticesMenuItem.setSelected(selected);
     }
-    
+
     private void setSelectedEdges(boolean selected) {
         addEdgesButton.setSelected(selected);
         addEdgesMenuItem.setSelected(selected);
     }
-    
+
     private void setSelectedSelection(boolean selected) {
         selectionButton.setSelected(selected);
         selectionMenuItem.setSelected(selected);
     }
-    
+
     /**
      * The code that runs in both the selectionButton and the selectionMenuItem
      */
@@ -1441,7 +1461,7 @@ public class GraphController {
         addingVertices = false; //exit the state
         canvas.setAddingVertex(false);
     }
-    
+
     /**
      * The code that runs in both the addEdgesButton and the addEdgesMenuItem
      */
@@ -1579,7 +1599,7 @@ public class GraphController {
 
     private void enterAddEdgeState() {
         setSelectedEdges(true);
-        
+
         addingEdges = true; //enter the edge adding state
         //highlight all of the vertexes to provide a visual cue that the user is supposed
         //to click one to add the edge
@@ -1611,7 +1631,7 @@ public class GraphController {
         //Highglight appropriate vertices
         highlightAvailableVertices();
     }
-    
+
     private void exitAddEdgesState() {
         setSelectedEdges(false);
         addingEdges = false;
@@ -1663,24 +1683,26 @@ public class GraphController {
             }
         }
     }
-    
+
     /**
-     * Changes the colors of the vertices and edges after the user chooses new ones.
+     * Changes the colors of the vertices and edges after the user chooses new
+     * ones.
+     *
      * @param newVertexFillColor
      * @param newVertexStrokeColor
-     * @param newEdgeStrokeColor 
+     * @param newEdgeStrokeColor
      */
     private void colorAllElements(Color newVertexFillColor, Color newVertexStrokeColor, Color newEdgeStrokeColor) {
         for (Vertex v : vertices) {
             v.setFillColor(newVertexFillColor);
             v.setStrokeColor(newVertexStrokeColor);
         }
-        
+
         for (Edge e : edges) {
             e.setStrokeColor(newEdgeStrokeColor);
         }
     }
-    
+
     private void updateVerticesListModel() {
         verticesListModel.removeAllElements();
         for (Vertex v : vertices) {
