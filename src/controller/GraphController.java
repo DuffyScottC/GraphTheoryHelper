@@ -213,7 +213,7 @@ public class GraphController {
                     selectVertexOrEdge(mx, my);
                     //Set up the start position for multiple selection
                     startX = mx;
-                    startY = mx;
+                    startY = my;
                     canvas.setStartPosition(mx, my);
                     endX = mx;
                     endY = my;
@@ -375,6 +375,12 @@ public class GraphController {
         selectionButton.addActionListener(new ActionListener() {
             @Override
             public void actionPerformed(ActionEvent e) {
+                System.out.print("Vertex center positions: ");
+                for (Vertex v : vertices) {
+                    int x = (int) v.getCenter().x;
+                    int y = (int) v.getCenter().y;
+                    System.out.print(v.getTitle() + ": (" + x + "," + y + "); ");
+                }
                 selection();
             }
         });
@@ -1214,6 +1220,11 @@ public class GraphController {
                 } //not in bounding box
             } //not in bounding box
         }
+        System.out.println("selectedVertexIndices: " + selectedVertexIndices + " " 
+                + "startX: " + startX + " "
+                + "startY: " + startY + " " 
+                + "endX: " + endX  + " "
+                + "endY: " + endY);
         //now we have a list of selected vertices
 
         //Update the selection using the new indices:
