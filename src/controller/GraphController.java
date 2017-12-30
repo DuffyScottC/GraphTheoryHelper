@@ -817,8 +817,9 @@ public class GraphController {
             //loop through the old vertices
             for (Vertex selectedVertex : selectedVertices) {
                 //unhighlight each one
-                selectedVertex.setStrokeColor(graph.getVertexStrokeColor());
-                selectedVertex.setStrokeWidth(Values.VERTEX_STROKE_WIDTH);
+                unhighlightVertex(selectedVertex);
+//                selectedVertex.setStrokeColor(graph.getVertexStrokeColor());
+//                selectedVertex.setStrokeWidth(Values.VERTEX_STROKE_WIDTH);
             }
         }
 
@@ -834,8 +835,9 @@ public class GraphController {
             //store the new selected vertices:
             for (int i : selectedVertexIndices) { //loop through the selected indices
                 Vertex selectedVertex = vertices.get(i); //store this selected vertex
-                selectedVertex.setStrokeColor(Values.EDGE_HIGHLIGHT_COLOR); //highlight the vertex
-                selectedVertex.setStrokeWidth(Values.VERTEX_HIGHLIGHT_STROKE_WIDTH);
+                highlightVertex(selectedVertex);
+//                selectedVertex.setStrokeColor(Values.EDGE_HIGHLIGHT_COLOR); //highlight the vertex
+//                selectedVertex.setStrokeWidth(Values.VERTEX_HIGHLIGHT_STROKE_WIDTH);
                 selectedVertices.add(selectedVertex); //add the new selection
             }
             if (selectedVertices.size() == 1) { //if exactly one vertex was selected
@@ -1186,31 +1188,6 @@ public class GraphController {
         canvas.setMultipleSelecting(true);
 
         //MARK: Select vertices
-        //initialize the properties of the rectangle (to stop errors)
-        int x = 0;
-        int y = 0;
-        int height = 0;
-        int width = 0;
-        //Decide what x and width should be
-        if (startX < lastX) {
-            x = startX;
-            width = lastX - startX;
-        } else {
-            x = lastX;
-            width = startX - lastX;
-        }
-        //Decide what y and height should be
-        if (startY < lastY) {
-            y = startY;
-            height = lastY - startY;
-        } else {
-            y = lastY;
-            height = startY - lastY;
-        }
-
-        //Create a new rectangle shape representing the bounding box
-        Shape boundingBox = new Rectangle2D.Double(x, y, width, height);
-        System.out.println("GraphController" + boundingBox);
 
         //start by clearing out the old selected vertices (if needed)
         selectedVertexIndices.clear();
@@ -1219,16 +1196,23 @@ public class GraphController {
             //get the current vertex in the loop
             Vertex vertex = vertices.get(i);
             //get the center position of the vertex
-            Point2D.Double vertexCenterPos = vertex.getCenter();
+            Point2D.Double pos = vertex.getCenter();
+            int px = (int) pos.x;
+            int py = (int) pos.y;
             //if the center is within the boundingBox
-            if (boundingBox.contains(vertexCenterPos)) {
-                //add this vertex's index to the selection
-                selectedVertexIndices.add(i);
-                //Highlight the vertex
-                highlightVertex(vertex);
-            } else { //if the center is not withing the boundingBox
-                unhighlightVertex(vertex); //unhighlight deselected vertices
-            }
+            if (ltlt(endX, px, startX)) { //a or d
+                if (ltlt(endY, py, startY)) { //a
+                    selectedVertexIndices.add(i);
+                } else if (ltlt(startY, py, endY)) { //d
+                    selectedVertexIndices.add(i);
+                } //not in bounding box
+            } else if (ltlt(startX, px, endX)) { //b or c
+                if (ltlt(endY, py, startY)) { //b
+                    selectedVertexIndices.add(i);
+                } else if (ltlt(startY, py, endY)) { //c
+                    selectedVertexIndices.add(i);
+                } //not in bounding box
+            } //not in bounding box
         }
         //now we have a list of selected vertices
 
@@ -1243,6 +1227,18 @@ public class GraphController {
         //set the selection to the indices of the selected vertices
         verticesList.setSelectedIndices(tempIndices);
         setSelectedVertices();
+    }
+    
+    /**
+     * Convenience method (ltlt stands for less-than-less-than). 
+     * Checks if (a is less than b is less than c)
+     * @param a
+     * @param b
+     * @param c
+     * @return 
+     */
+    private boolean ltlt(int a, int b, int c) {
+        return (a < b && b < c);
     }
 
     private Point2D.Double getClosestPointOnEdge(int Mx, int My, Edge e) {
