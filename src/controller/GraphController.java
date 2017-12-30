@@ -260,13 +260,17 @@ public class GraphController {
                 lastY = my;
                 canvas.setLastPosition(lastX, lastY);
 
-                if (selecting) { //if we're not in the selection state
+                if (selecting) { //if we're in the selection state
 
-                    if (clickedVertex == null) { //if the user did not click a vertex
-                        if (clickedEdge == null) { //if the user did not click an edge
+                    //if the user did not click any vertices (or is not moving any vertices)
+                    if (clickedVertices.isEmpty()) {
+                        //if the user did not click an edge (or is not moving any edges)
+                        if (clickedEdge == null) {
+                            //update the endpoint of the selection box
                             endX = mx;
                             endY = my;
                             canvas.setEndPosition(mx, my);
+                            //select the appropriate vertices
                             multipleSelection(mx, my);
                         } else { //if the user clicked an edge
                             //move both nodes attached to the edge
@@ -274,9 +278,13 @@ public class GraphController {
                             clickedEdge.getEndpoint2().incLocation(incX, incY);
                             setIsModified(true);
                         }
-                    } else { //if the user clicked a vertex
-                        //move the chosen node
-                        clickedVertex.incLocation(incX, incY);
+                    } else { //if the user clicked any vertices
+                        //Move all the clicked vertices:
+                        //cycle through all clicked vertices
+                        for (Vertex clickedVertex : clickedVertices) {
+                            //move each vertex
+                            clickedVertex.incLocation(incX, incY);
+                        }
                         setIsModified(true);
                     }
                 }
