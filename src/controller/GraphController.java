@@ -190,7 +190,7 @@ public class GraphController {
         addVerticesMenuItem = frame.getAddVerticesMenuItem();
         addEdgesMenuItem = frame.getAddEdgesMenuItem();
         selectionMenuItem = frame.getSelectionMenuItem();
-
+        
         SampleCanvas sampleCanvas = graphColorChooserDialog.getSampleCanvas();
         sampleCanvas.setUp(graph); //Set up the sample canvas in the dialog
 
@@ -1076,7 +1076,7 @@ public class GraphController {
             //if this vertex contains the mouse click:
             if (currentVertex.getPositionShape().contains(mx, my)) {
                 //store the clicked vertex (for moving)
-                clickedVertex = currentVertex;
+                clickedVertices.add(currentVertex);
                 //Update the selection:
                 //deselect the edge
                 selectedEdgeIndex = -1;
@@ -1919,6 +1919,10 @@ public class GraphController {
     }
 
     public static void main(String[] args) {
+        
+        //handle Command-Q on Mac through window-closing
+        System.setProperty("apple.eawt.quitStrategy", "CLOSE_ALL_WINDOWS");
+        
         GraphController app = new GraphController();
         app.frame.setVisible(true);
     }
