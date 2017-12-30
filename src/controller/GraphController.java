@@ -219,7 +219,7 @@ public class GraphController {
                     endY = my;
                     canvas.setEndPosition(endX, endY);
                 }
-                pressVertex();
+                pressVertices();
                 pressEdge();
             }
 
@@ -1010,12 +1010,15 @@ public class GraphController {
         canvas.repaint();
     }
 
-    private void pressVertex() {
-        if (clickedVertex == null) {
+    private void pressVertices() {
+        if (clickedVertices.isEmpty()) {
             return;
         }
-        clickedVertex.setFillColor(graph.getVertexFillColor().darker());
-        clickedVertex.setStrokeColor(Values.EDGE_PRESSED_COLOR);
+        //cycle through all the clicked vertices
+        for (Vertex clickedVertex : clickedVertices) {
+            clickedVertex.setFillColor(graph.getVertexFillColor().darker());
+            clickedVertex.setStrokeColor(Values.EDGE_PRESSED_COLOR);
+        }
     }
 
     private void pressEdge() {
