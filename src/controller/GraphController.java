@@ -264,10 +264,10 @@ public class GraphController {
 
                     if (clickedVertex == null) { //if the user did not click a vertex
                         if (clickedEdge == null) { //if the user did not click an edge
-                            multipleSelection(mx, my);
                             endX = mx;
                             endY = my;
                             canvas.setEndPosition(mx, my);
+                            multipleSelection(mx, my);
                         } else { //if the user clicked an edge
                             //move both nodes attached to the edge
                             clickedEdge.getEndpoint1().incLocation(incX, incY);
@@ -375,12 +375,6 @@ public class GraphController {
         selectionButton.addActionListener(new ActionListener() {
             @Override
             public void actionPerformed(ActionEvent e) {
-                System.out.print("Vertex center positions: ");
-                for (Vertex v : vertices) {
-                    int x = (int) v.getCenter().x;
-                    int y = (int) v.getCenter().y;
-                    System.out.print(v.getTitle() + ": (" + x + "," + y + "); ");
-                }
                 selection();
             }
         });
@@ -1220,11 +1214,6 @@ public class GraphController {
                 } //not in bounding box
             } //not in bounding box
         }
-        System.out.println("selectedVertexIndices: " + selectedVertexIndices + " " 
-                + "startX: " + startX + " "
-                + "startY: " + startY + " " 
-                + "endX: " + endX  + " "
-                + "endY: " + endY);
         //now we have a list of selected vertices
 
         //Update the selection using the new indices:
