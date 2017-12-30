@@ -139,7 +139,7 @@ public class GraphController {
      * This is used for moving a vertex, not to be confused with selectedVertex,
      * which is used for deleting vertices and changing titles.
      */
-    private Vertex clickedVertex;
+    private List<Vertex> clickedVertices = new ArrayList();
     /**
      * This is used for moving an edge, not to be confused with selectedEdge,
      * which is used for deleting edges.
