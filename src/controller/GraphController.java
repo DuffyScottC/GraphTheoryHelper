@@ -226,7 +226,7 @@ public class GraphController {
             @Override
             public void mouseReleased(MouseEvent e) {
                 if (!clickedVertices.isEmpty()) {
-                    unpressVertex();
+                    unpressVertices();
                     clickedVertices.clear(); //we don't want to move a vertex after the user lets go
                     canvas.repaint();
                 }
@@ -1028,12 +1028,15 @@ public class GraphController {
         clickedEdge.setStrokeColor(Values.EDGE_PRESSED_COLOR);
     }
 
-    private void unpressVertex() {
-        if (clickedVertex == null) {
+    private void unpressVertices() {
+        if (clickedVertices.isEmpty()) {
             return;
         }
-        clickedVertex.setFillColor(graph.getVertexFillColor());
-        clickedVertex.setStrokeColor(Values.EDGE_HIGHLIGHT_COLOR);
+        //cycle through all the clicked vertices
+        for (Vertex clickedVertex : clickedVertices) {
+            clickedVertex.setFillColor(graph.getVertexFillColor());
+            clickedVertex.setStrokeColor(Values.EDGE_HIGHLIGHT_COLOR);
+        }
     }
 
     private void unpressEdge() {
