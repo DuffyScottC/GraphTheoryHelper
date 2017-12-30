@@ -225,9 +225,9 @@ public class GraphController {
 
             @Override
             public void mouseReleased(MouseEvent e) {
-                if (clickedVertex != null) {
+                if (!clickedVertices.isEmpty()) {
                     unpressVertex();
-                    clickedVertex = null; //we don't want to move a vertex after the user lets go
+                    clickedVertices.clear(); //we don't want to move a vertex after the user lets go
                     canvas.repaint();
                 }
                 if (clickedEdge != null) {
