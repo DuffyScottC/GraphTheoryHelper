@@ -44,6 +44,7 @@ import javax.swing.JMenuItem;
 import javax.swing.JOptionPane;
 import javax.swing.JTextField;
 import javax.swing.JToggleButton;
+import javax.swing.KeyStroke;
 import javax.swing.ListSelectionModel;
 import javax.swing.event.ListSelectionEvent;
 import javax.swing.event.ListSelectionListener;
@@ -179,10 +180,18 @@ public class GraphController {
 
         canvas.setGraph(graph); //pass the graph to the canvas
         canvas.setGraphOutputTextField(frame.getGraphOutputTextField());
-
-        titleTextField = frame.getTitleTextField();
+        
+        //Get the two JLists
         verticesList = frame.getVerticesList(); //the visual JList that the user sees and interacts with
         edgesList = frame.getEdgesList(); //the visual JList that the user sees and interacts with
+        
+        //Remove the up/down arrow key action from both JLists (too hard to deal with for now)
+        verticesList.getInputMap().put(KeyStroke.getKeyStroke("DOWN"), "none"); //make it do nothing
+        verticesList.getInputMap().put(KeyStroke.getKeyStroke("UP"), "none"); //make it do nothing
+        edgesList.getInputMap().put(KeyStroke.getKeyStroke("DOWN"), "none"); //make it do nothing
+        edgesList.getInputMap().put(KeyStroke.getKeyStroke("UP"), "none"); //make it do nothing
+        
+        titleTextField = frame.getTitleTextField();
         modifiedTextField = frame.getModifiedTextField();
         addVerticesButton = frame.getAddVerticesButton();
         addEdgesButton = frame.getAddEdgesButton();
@@ -323,10 +332,6 @@ public class GraphController {
                 if (keyCode == KeyEvent.VK_BACK_SPACE) {
                     deleteSelectedElements();
                 }
-                //if the user pressed up/down arrow keys
-                if (keyCode == KeyEvent.VK_UP || keyCode == KeyEvent.VK_DOWN) {
-                    verticesListUpdater();
-                }
             }
         });
         edgesList.addKeyListener(new KeyAdapter() {
@@ -430,7 +435,26 @@ public class GraphController {
         verticesList.addMouseListener(new MouseAdapter() {
             @Override
             public void mouseClicked(MouseEvent e) {
-                verticesListUpdater();
+                //Deselect the edge (if it was selected)
+        shouldChangeEdgesList = false;
+        selectedEdgeIndex = -1;
+        setSelectedEdge();
+        shouldChangeEdgesList = true;
+
+        //Select (or deselect) the vertices:
+        //remove all previous selected vertices 
+        selectedVertexIndices.clear();
+        //get the list of selected vertices
+        int[] tempIndices = verticesList.getSelectedIndices();
+        //loop through the selected indices
+        System.out.println("Print tempIndices");
+        for (int i : tempIndices) {
+            System.out.println(i);
+            //add each one to the main ArrayList
+            selectedVertexIndices.add(i);
+        }
+        setSelectedVertices();
+        canvas.repaint();
             }
         });
 
@@ -804,32 +828,6 @@ public class GraphController {
     }
 
     //MARK: Other methods--------------------
-    /**
-     * The code that runs when the user clicks inside the verticesList or
-     * presses a the up/down arrow keys inside the verticesList. It updates the
-     * selected vertices according to the user's selections.
-     */
-    private void verticesListUpdater() {
-        //Deselect the edge (if it was selected)
-        shouldChangeEdgesList = false;
-        selectedEdgeIndex = -1;
-        setSelectedEdge();
-        shouldChangeEdgesList = true;
-
-        //Select (or deselect) the vertices:
-        //remove all previous selected vertices 
-        selectedVertexIndices.clear();
-        //get the list of selected vertices
-        int[] tempIndices = verticesList.getSelectedIndices();
-        //loop through the selected indices
-        for (int i : tempIndices) {
-            //add each one to the main ArrayList
-            selectedVertexIndices.add(i);
-        }
-        setSelectedVertices();
-        canvas.repaint();
-    }
-
     /**
      * Uses selectedIndex (a member variable) to set selectedVertex, highlight
      * selected vertex, un-highlights previously selected vertex set the
