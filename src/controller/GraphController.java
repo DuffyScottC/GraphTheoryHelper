@@ -170,7 +170,7 @@ public class GraphController {
     //MARK: File I/O:
     private final JFileChooser chooser = new JFileChooser(System.getProperty("user.dir"));
     private File saveFile;
-    
+
     public GraphController() {
         frame.setTitle("Graph Theory Helper");
         frame.setLocationRelativeTo(null);
@@ -318,8 +318,14 @@ public class GraphController {
         verticesList.addKeyListener(new KeyAdapter() {
             @Override
             public void keyPressed(KeyEvent e) {
-                if (e.getKeyCode() == KeyEvent.VK_BACK_SPACE) {
+                int keyCode = e.getKeyCode();
+                //if the user pressed backspace
+                if (keyCode == KeyEvent.VK_BACK_SPACE) {
                     deleteSelectedElements();
+                }
+                //if the user pressed up/down arrow keys
+                if (keyCode == KeyEvent.VK_UP || keyCode == KeyEvent.VK_DOWN) {
+                    verticesListUpdater();
                 }
             }
         });
@@ -420,29 +426,11 @@ public class GraphController {
                 deleteSelectedElements();
             }
         });
-        
+
         verticesList.addMouseListener(new MouseAdapter() {
             @Override
             public void mouseClicked(MouseEvent e) {
-                //(which would redundantly run this again)
-                    //Deselect the edge (if it was selected)
-                    shouldChangeEdgesList = false;
-                    selectedEdgeIndex = -1;
-                    setSelectedEdge();
-                    shouldChangeEdgesList = true;
-                    
-                    //Select (or deselect) the vertices:
-                    //remove all previous selected vertices 
-                    selectedVertexIndices.clear();
-                    //get the list of selected vertices
-                    int[] tempIndices = verticesList.getSelectedIndices();
-                    //loop through the selected indices
-                    for (int i : tempIndices) {
-                        //add each one to the main ArrayList
-                        selectedVertexIndices.add(i);
-                    }
-                    setSelectedVertices();
-                    canvas.repaint();
+
             }
         });
 
@@ -817,6 +805,32 @@ public class GraphController {
 
     //MARK: Other methods--------------------
     /**
+     * The code that runs when the user clicks inside the verticesList or
+     * presses a the up/down arrow keys inside the verticesList. It updates the
+     * selected vertices according to the user's selections.
+     */
+    private void verticesListUpdater() {
+        //Deselect the edge (if it was selected)
+        shouldChangeEdgesList = false;
+        selectedEdgeIndex = -1;
+        setSelectedEdge();
+        shouldChangeEdgesList = true;
+
+        //Select (or deselect) the vertices:
+        //remove all previous selected vertices 
+        selectedVertexIndices.clear();
+        //get the list of selected vertices
+        int[] tempIndices = verticesList.getSelectedIndices();
+        //loop through the selected indices
+        for (int i : tempIndices) {
+            //add each one to the main ArrayList
+            selectedVertexIndices.add(i);
+        }
+        setSelectedVertices();
+        canvas.repaint();
+    }
+
+    /**
      * Uses selectedIndex (a member variable) to set selectedVertex, highlight
      * selected vertex, un-highlights previously selected vertex set the
      * titleTextField content, (If selectedIndex = -1, then it deselects all).
@@ -1184,7 +1198,7 @@ public class GraphController {
             selectedEdgeIndex = -1;
             setSelectedEdge();
             shouldChangeEdgesList = true;
-            
+
             canvas.repaint();
         }
 
@@ -1632,7 +1646,7 @@ public class GraphController {
                     selectedEdgeIndex = lastIndex;
                     setSelectedEdge();
                     shouldChangeEdgesList = true;
-                    
+
                     setIsModified(true);
 
                     return; //we don't need to check anymore
