@@ -1078,23 +1078,28 @@ public class GraphController {
             Vertex currentVertex = vertices.get(i);
             //if this vertex contains the mouse click:
             if (currentVertex.getPositionShape().contains(mx, my)) {
-                //if this vertex was already highlighted (amongst possible others)
+                //If the clicked vertex is one of multiple selected vertices
                 if (selectedVertices.contains(currentVertex)) {
+                    //add all the selected vertices to clickedVertices
+                    clickedVertices.addAll(selectedVertices); //(for moving)
                     
+                    //No need to update the selection
+                    
+                } else { //if the user clicked a new, unselected vertex
+                    //store the clicked vertex (for moving)
+                    clickedVertices.add(currentVertex);
+                    //Update the selection:
+                    //deselect any selected edges
+                    selectedEdgeIndex = -1;
+                    setSelectedEdge();
+                    //select the vertex
+                    verticesList.setSelectedIndex(i);
+                    selectedVertexIndices.clear(); //empty the old selected indices
+                    selectedVertexIndices.add(i); //update selected indices
+                    setSelectedVertices();
                 }
-                
-                //store the clicked vertex (for moving)
-                clickedVertices.add(currentVertex);
-                //Update the selection:
-                //deselect the edge
-                selectedEdgeIndex = -1;
-                setSelectedEdge();
-                //select the vertex
-                verticesList.setSelectedIndex(i);
-                selectedVertexIndices.clear(); //empty the old selected indices
-                selectedVertexIndices.add(i); //update selected indices
-                setSelectedVertices();
-                canvas.repaint();
+                //Whether the user clicked a selected or unselected vertex:
+                canvas.repaint(); //repaint the canvas
                 clickedBlankSpace = false; //user didn't click blank space
                 didSelectVertex = true; //the user did click a vertex
                 break; //exit the loop (we don't need to check the rest)
