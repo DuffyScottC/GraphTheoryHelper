@@ -430,8 +430,10 @@ private int countOf = 0;
                 if (shouldChangeVerticesList) {
                     //(which would redundantly run this again)
                     //Deselect the edge (if it was selected)
+                    shouldChangeEdgesList = false;
                     selectedEdgeIndex = -1;
                     setSelectedEdge();
+                    shouldChangeEdgesList = true;
                     System.out.print("and shouldChange code was run ");
                     //Select (or deselect) the vertices:
                     //remove all previous selected vertices 
@@ -1095,8 +1097,10 @@ private int countOf = 0;
                 clickedVertices.add(currentVertex);
                 //Update the selection:
                 //deselect the edge
+                shouldChangeEdgesList = false;
                 selectedEdgeIndex = -1;
                 setSelectedEdge();
+                shouldChangeEdgesList = true;
                 //select the vertex
                 shouldChangeVerticesList = false;
                 verticesList.setSelectedIndex(i);
