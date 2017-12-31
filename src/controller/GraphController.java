@@ -180,17 +180,17 @@ public class GraphController {
 
         canvas.setGraph(graph); //pass the graph to the canvas
         canvas.setGraphOutputTextField(frame.getGraphOutputTextField());
-        
+
         //Get the two JLists
         verticesList = frame.getVerticesList(); //the visual JList that the user sees and interacts with
         edgesList = frame.getEdgesList(); //the visual JList that the user sees and interacts with
-        
+
         //Remove the up/down arrow key action from both JLists (too hard to deal with for now)
         verticesList.getInputMap().put(KeyStroke.getKeyStroke("DOWN"), "none"); //make it do nothing
         verticesList.getInputMap().put(KeyStroke.getKeyStroke("UP"), "none"); //make it do nothing
         edgesList.getInputMap().put(KeyStroke.getKeyStroke("DOWN"), "none"); //make it do nothing
         edgesList.getInputMap().put(KeyStroke.getKeyStroke("UP"), "none"); //make it do nothing
-        
+
         titleTextField = frame.getTitleTextField();
         modifiedTextField = frame.getModifiedTextField();
         addVerticesButton = frame.getAddVerticesButton();
@@ -436,25 +436,25 @@ public class GraphController {
             @Override
             public void mouseClicked(MouseEvent e) {
                 //Deselect the edge (if it was selected)
-        shouldChangeEdgesList = false;
-        selectedEdgeIndex = -1;
-        setSelectedEdge();
-        shouldChangeEdgesList = true;
+                shouldChangeEdgesList = false;
+                selectedEdgeIndex = -1;
+                setSelectedEdge();
+                shouldChangeEdgesList = true;
 
-        //Select (or deselect) the vertices:
-        //remove all previous selected vertices 
-        selectedVertexIndices.clear();
-        //get the list of selected vertices
-        int[] tempIndices = verticesList.getSelectedIndices();
-        //loop through the selected indices
-        System.out.println("Print tempIndices");
-        for (int i : tempIndices) {
-            System.out.println(i);
-            //add each one to the main ArrayList
-            selectedVertexIndices.add(i);
-        }
-        setSelectedVertices();
-        canvas.repaint();
+                //Select (or deselect) the vertices:
+                //remove all previous selected vertices 
+                selectedVertexIndices.clear();
+                //get the list of selected vertices
+                int[] tempIndices = verticesList.getSelectedIndices();
+                //loop through the selected indices
+                System.out.println("Print tempIndices");
+                for (int i : tempIndices) {
+                    System.out.println(i);
+                    //add each one to the main ArrayList
+                    selectedVertexIndices.add(i);
+                }
+                setSelectedVertices();
+                canvas.repaint();
             }
         });
 
@@ -1141,9 +1141,11 @@ public class GraphController {
                             }
                         } else //if ep2 is higher than ep1
                         //ep2.y<my<ep1.y
-                         if (ep2.y < my && my < ep1.y) { //if my is between ep2.y and ep1.y
+                        {
+                            if (ep2.y < my && my < ep1.y) { //if my is between ep2.y and ep1.y
                                 clickedAnEdge = true; //we clicked edge e
                             }
+                        }
                     }
                 } else { //if the edge is not verticle
                     //Find the point on edge e that is closest to (mx,my) (the intersection, I)
