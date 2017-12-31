@@ -170,7 +170,7 @@ public class GraphController {
     //MARK: File I/O:
     private final JFileChooser chooser = new JFileChooser(System.getProperty("user.dir"));
     private File saveFile;
-
+private int countOf = 0;
     public GraphController() {
         frame.setTitle("Graph Theory Helper");
         frame.setLocationRelativeTo(null);
@@ -448,12 +448,13 @@ public class GraphController {
         verticesList.addListSelectionListener(new ListSelectionListener() {
             @Override
             public void valueChanged(ListSelectionEvent e) {
+                System.out.print("verticesList selection listener was called ");
                 if (shouldChange) {
                     //(which would redundantly run this again)
                     //Deselect the edge (if it was selected)
                     selectedEdgeIndex = -1;
                     setSelectedEdge();
-
+                    System.out.print("and shouldChange code was run ");
                     //Select (or deselect) the vertices:
                     //remove all previous selected vertices 
                     selectedVertexIndices.clear();
@@ -468,6 +469,8 @@ public class GraphController {
                     setSelectedVertices();
                     canvas.repaint();
                 }
+                countOf++;
+                System.out.println(countOf);
                 shouldChange = true;
             }
         });
