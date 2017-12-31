@@ -151,7 +151,6 @@ public class GraphController {
      * Used to make sure clearSelection() or setSelectedIndex() do not
      * redundantly call the change listeners on the JLists.
      */
-    private boolean shouldChangeVerticesList = true;
     private boolean shouldChangeEdgesList = true;
     private boolean showTitles = false;
     private boolean isModified = false;
@@ -171,7 +170,7 @@ public class GraphController {
     //MARK: File I/O:
     private final JFileChooser chooser = new JFileChooser(System.getProperty("user.dir"));
     private File saveFile;
-private int countOf = 0;
+    
     public GraphController() {
         frame.setTitle("Graph Theory Helper");
         frame.setLocationRelativeTo(null);
@@ -398,7 +397,6 @@ private int countOf = 0;
         addEdgesButton.addActionListener(new ActionListener() {
             @Override
             public void actionPerformed(ActionEvent e) {
-                countOf = 0;
                 addEdges();
             }
         });
@@ -422,19 +420,17 @@ private int countOf = 0;
                 deleteSelectedElements();
             }
         });
-
-        verticesList.addListSelectionListener(new ListSelectionListener() {
+        
+        verticesList.addMouseListener(new MouseAdapter() {
             @Override
-            public void valueChanged(ListSelectionEvent e) {
-                System.out.print("verticesList selection listener was called ");
-                if (shouldChangeVerticesList) {
-                    //(which would redundantly run this again)
+            public void mouseClicked(MouseEvent e) {
+                //(which would redundantly run this again)
                     //Deselect the edge (if it was selected)
                     shouldChangeEdgesList = false;
                     selectedEdgeIndex = -1;
                     setSelectedEdge();
                     shouldChangeEdgesList = true;
-                    System.out.print("and shouldChange code was run ");
+                    
                     //Select (or deselect) the vertices:
                     //remove all previous selected vertices 
                     selectedVertexIndices.clear();
@@ -445,14 +441,8 @@ private int countOf = 0;
                         //add each one to the main ArrayList
                         selectedVertexIndices.add(i);
                     }
-                    shouldChangeVerticesList = false;
                     setSelectedVertices();
-                    shouldChangeVerticesList = true;
                     canvas.repaint();
-                }
-                countOf++;
-                System.out.println(countOf);
-//                shouldChangeVerticesList = true;
             }
         });
 
@@ -462,10 +452,8 @@ private int countOf = 0;
                 if (shouldChangeEdgesList) { //if we did not just call clearSelection() 
                     //(which would redundantly run this again)
                     //Deselect the vertices (if any were selected)
-                    shouldChangeVerticesList = false;
                     selectedVertexIndices.clear();
                     setSelectedVertices();
-                    shouldChangeVerticesList = true;
 
                     //Select (or deselect) the edge
                     shouldChangeEdgesList = false;
@@ -1001,12 +989,10 @@ private int countOf = 0;
 
         //MARK: Update the list selection
         int newIndex = vertices.size() - 1;
-        shouldChangeVerticesList = false;
         verticesList.setSelectedIndex(newIndex);
         selectedVertexIndices.clear(); //clear all elements
         selectedVertexIndices.add(newIndex); //set the selected index
         setSelectedVertices();
-        shouldChangeVerticesList = true;
         canvas.repaint();
     }
 
@@ -1021,10 +1007,8 @@ private int countOf = 0;
         updateEdgesListModel();
 
         //deselect the vertices
-        shouldChangeVerticesList = false;
         selectedVertexIndices.clear();
         setSelectedVertices();
-        shouldChangeVerticesList = true;
         canvas.repaint();
     }
 
@@ -1102,12 +1086,10 @@ private int countOf = 0;
                 setSelectedEdge();
                 shouldChangeEdgesList = true;
                 //select the vertex
-                shouldChangeVerticesList = false;
                 verticesList.setSelectedIndex(i);
                 selectedVertexIndices.clear(); //empty the old selected indices
                 selectedVertexIndices.add(i); //update selected indices
                 setSelectedVertices();
-                shouldChangeVerticesList = true;
                 canvas.repaint();
                 clickedBlankSpace = false; //user didn't click blank space
                 didSelectVertex = true; //the user did click a vertex
@@ -1172,10 +1154,8 @@ private int countOf = 0;
                     clickedEdge = e;
                     //Update the selection:
                     //deselect the vertex
-                    shouldChangeVerticesList = false;
                     selectedVertexIndices.clear();
                     setSelectedVertices();
-                    shouldChangeVerticesList = true;
                     //select the edge
                     shouldChangeEdgesList = false;
                     edgesList.setSelectedIndex(i);
@@ -1194,11 +1174,9 @@ private int countOf = 0;
         //MARK: Select canvas
         if (clickedBlankSpace) { //if the user clicked the canvas, not a vertex/edge
             //Deselect the vertex
-            shouldChangeVerticesList = false; //don't allow clearSelection to run setSelectedVertex again
             verticesList.clearSelection(); //deselect vertex in the list
             selectedVertexIndices.clear();
             setSelectedVertices();
-            shouldChangeVerticesList = true;
 
             //Deselect the edge
             shouldChangeEdgesList = false; //don't allow clearSelection to run setSelectedEdge again
@@ -1262,10 +1240,8 @@ private int countOf = 0;
             i++; //increment the iterator
         }
         //set the selection to the indices of the selected vertices
-        shouldChangeVerticesList = false;
         verticesList.setSelectedIndices(tempIndices);
         setSelectedVertices();
-        shouldChangeVerticesList = true;
     }
 
     /**
@@ -1488,12 +1464,10 @@ private int countOf = 0;
         //Update selection:
         int bottomIndex = vertices.size() - 1;
         //Set the selection of the visual JList to the bottom
-        shouldChangeVerticesList = false;
         verticesList.setSelectedIndex(bottomIndex);
         selectedVertexIndices.clear(); //clear the selection
         selectedVertexIndices.add(bottomIndex); //select the new index
         setSelectedVertices();
-        shouldChangeVerticesList = true;
         canvas.repaint();
         setIsModified(true);
     }
@@ -1530,10 +1504,8 @@ private int countOf = 0;
         updateVerticesListModel();
         updateEdgesListModel();
         //Deselect the vertices:
-        shouldChangeVerticesList = false;
         selectedVertexIndices.clear();
         setSelectedVertices();
-        shouldChangeVerticesList = true;
 
         canvas.repaint();
         setIsModified(true);
@@ -1704,12 +1676,10 @@ private int countOf = 0;
         //to click one to add the edge
 
         //Update vertex selection
-        shouldChangeVerticesList = false; //don't allow clearSelection to run setSelectedVertex again
         verticesList.clearSelection(); //clear the visual selection in the JList
         //deselect the vertex
         selectedVertexIndices.clear();
         setSelectedVertices();
-        shouldChangeVerticesList = true;
 
         //Update edge selection
         shouldChangeEdgesList = false; //don't allow clearSelection to run setSelectedVertex again
