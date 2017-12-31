@@ -190,7 +190,7 @@ public class GraphController {
         addVerticesMenuItem = frame.getAddVerticesMenuItem();
         addEdgesMenuItem = frame.getAddEdgesMenuItem();
         selectionMenuItem = frame.getSelectionMenuItem();
-        
+
         SampleCanvas sampleCanvas = graphColorChooserDialog.getSampleCanvas();
         sampleCanvas.setUp(graph); //Set up the sample canvas in the dialog
 
@@ -421,27 +421,54 @@ public class GraphController {
             }
         });
 
-        verticesList.addMouseListener(new MouseAdapter() {
+//        verticesList.addMouseListener(new MouseAdapter() {
+//            @Override
+//            public void mouseClicked(MouseEvent e) {
+//                //(which would redundantly run this again)
+//                //Deselect the edge (if it was selected)
+//                selectedEdgeIndex = -1;
+//                setSelectedEdge();
+//
+//                //Select (or deselect) the vertices:
+//                //remove all previous selected vertices 
+//                selectedVertexIndices.clear();
+//                //get the list of selected vertices
+//                int[] tempIndices = verticesList.getSelectedIndices();
+//                //loop through the selected indices
+//                for (int i : tempIndices) {
+//                    //add each one to the main ArrayList
+//                    selectedVertexIndices.add(i);
+//                }
+//
+//                setSelectedVertices();
+//                canvas.repaint();
+//            }
+//        });
+
+        verticesList.addListSelectionListener(new ListSelectionListener() {
             @Override
-            public void mouseClicked(MouseEvent e) {
-                //(which would redundantly run this again)
-                //Deselect the edge (if it was selected)
-                selectedEdgeIndex = -1;
-                setSelectedEdge();
+            public void valueChanged(ListSelectionEvent e) {
+                if (shouldChange) {
+                    //(which would redundantly run this again)
+                    //Deselect the edge (if it was selected)
+                    selectedEdgeIndex = -1;
+                    setSelectedEdge();
 
-                //Select (or deselect) the vertices:
-                //remove all previous selected vertices 
-                selectedVertexIndices.clear();
-                //get the list of selected vertices
-                int[] tempIndices = verticesList.getSelectedIndices();
-                //loop through the selected indices
-                for (int i : tempIndices) {
-                    //add each one to the main ArrayList
-                    selectedVertexIndices.add(i);
+                    //Select (or deselect) the vertices:
+                    //remove all previous selected vertices 
+                    selectedVertexIndices.clear();
+                    //get the list of selected vertices
+                    int[] tempIndices = verticesList.getSelectedIndices();
+                    //loop through the selected indices
+                    for (int i : tempIndices) {
+                        //add each one to the main ArrayList
+                        selectedVertexIndices.add(i);
+                    }
+
+                    setSelectedVertices();
+                    canvas.repaint();
                 }
-
-                setSelectedVertices();
-                canvas.repaint();
+                shouldChange = true;
             }
         });
 
@@ -1126,11 +1153,9 @@ public class GraphController {
                             }
                         } else //if ep2 is higher than ep1
                         //ep2.y<my<ep1.y
-                        {
-                            if (ep2.y < my && my < ep1.y) { //if my is between ep2.y and ep1.y
+                         if (ep2.y < my && my < ep1.y) { //if my is between ep2.y and ep1.y
                                 clickedAnEdge = true; //we clicked edge e
                             }
-                        }
                     }
                 } else { //if the edge is not verticle
                     //Find the point on edge e that is closest to (mx,my) (the intersection, I)
@@ -1202,7 +1227,6 @@ public class GraphController {
         canvas.setMultipleSelecting(true);
 
         //MARK: Select vertices
-
         //start by clearing out the old selected vertices (if needed)
         selectedVertexIndices.clear();
         //cycle through the vertices
@@ -1242,14 +1266,15 @@ public class GraphController {
         verticesList.setSelectedIndices(tempIndices);
         setSelectedVertices();
     }
-    
+
     /**
-     * Convenience method (ltlt stands for less-than-less-than). 
-     * Checks if (a is less than b is less than c)
+     * Convenience method (ltlt stands for less-than-less-than). Checks if (a is
+     * less than b is less than c)
+     *
      * @param a
      * @param b
      * @param c
-     * @return 
+     * @return
      */
     private boolean ltlt(int a, int b, int c) {
         return (a < b && b < c);
@@ -1919,10 +1944,10 @@ public class GraphController {
     }
 
     public static void main(String[] args) {
-        
+
         //handle Command-Q on Mac through window-closing
         System.setProperty("apple.eawt.quitStrategy", "CLOSE_ALL_WINDOWS");
-        
+
         GraphController app = new GraphController();
         app.frame.setVisible(true);
     }
