@@ -152,7 +152,6 @@ public class GraphController {
      * Used to make sure clearSelection() or setSelectedIndex() do not
      * redundantly call the change listeners on the JLists.
      */
-    private boolean shouldChangeEdgesList = true;
     private boolean showTitles = false;
     private boolean isModified = false;
     private JTextField modifiedTextField;
@@ -436,10 +435,8 @@ public class GraphController {
             @Override
             public void mouseClicked(MouseEvent e) {
                 //Deselect the edge (if it was selected)
-                shouldChangeEdgesList = false;
                 selectedEdgeIndex = -1;
                 setSelectedEdge();
-                shouldChangeEdgesList = true;
 
                 //Select (or deselect) the vertices:
                 //remove all previous selected vertices 
@@ -456,26 +453,20 @@ public class GraphController {
             }
         });
 
-        edgesList.addListSelectionListener(new ListSelectionListener() {
+        edgesList.addMouseListener(new MouseAdapter() {
             @Override
-            public void valueChanged(ListSelectionEvent e) {
-                if (shouldChangeEdgesList) { //if we did not just call clearSelection() 
+            public void mouseClicked(MouseEvent e) {
                     //(which would redundantly run this again)
                     //Deselect the vertices (if any were selected)
                     selectedVertexIndices.clear();
                     setSelectedVertices();
 
                     //Select (or deselect) the edge
-                    shouldChangeEdgesList = false;
                     selectedEdgeIndex = edgesList.getSelectedIndex(); //get the index of the selected item
                     setSelectedEdge();
-                    shouldChangeEdgesList = true;
                     canvas.repaint();
-                }
-//                shouldChangeEdgesList = true;
             }
-        }
-        );
+        });
 
         titleTextField.addActionListener(new ActionListener() {
             @Override
@@ -1059,10 +1050,10 @@ public class GraphController {
     }
 
     /**
-     * Holds the code that checks what vertex/edge the user clicked (if any) and
-     * updates the lastX and lastY variables in preparation for moving the
+     * Holds the code that checks which vertices/edges the user clicked (if any)
+     * and updates the lastX and lastY variables in preparation for moving the
      * vertex (which happens in the mouseMotionListener).
-     *
+     *  
      * @param mx
      * @param my
      */
@@ -1087,14 +1078,17 @@ public class GraphController {
             Vertex currentVertex = vertices.get(i);
             //if this vertex contains the mouse click:
             if (currentVertex.getPositionShape().contains(mx, my)) {
+                //if this vertex was already highlighted (amongst possible others)
+                if (selectedVertices.contains(currentVertex)) {
+                    
+                }
+                
                 //store the clicked vertex (for moving)
                 clickedVertices.add(currentVertex);
                 //Update the selection:
                 //deselect the edge
-                shouldChangeEdgesList = false;
                 selectedEdgeIndex = -1;
                 setSelectedEdge();
-                shouldChangeEdgesList = true;
                 //select the vertex
                 verticesList.setSelectedIndex(i);
                 selectedVertexIndices.clear(); //empty the old selected indices
@@ -1169,11 +1163,9 @@ public class GraphController {
                     selectedVertexIndices.clear();
                     setSelectedVertices();
                     //select the edge
-                    shouldChangeEdgesList = false;
                     edgesList.setSelectedIndex(i);
                     selectedEdgeIndex = i;
                     setSelectedEdge();
-                    shouldChangeEdgesList = true;
                     canvas.repaint();
                     clickedBlankSpace = false; //the user didn't click blank space
                     break; //exit the loop (we don't need to check the rest)
@@ -1191,11 +1183,9 @@ public class GraphController {
             setSelectedVertices();
 
             //Deselect the edge
-            shouldChangeEdgesList = false; //don't allow clearSelection to run setSelectedEdge again
             edgesList.clearSelection();; //deselect edge in the list
             selectedEdgeIndex = -1;
             setSelectedEdge();
-            shouldChangeEdgesList = true;
 
             canvas.repaint();
         }
@@ -1639,11 +1629,9 @@ public class GraphController {
 
                     //Update selection
                     int lastIndex = edges.size() - 1; //last index in edges
-                    shouldChangeEdgesList = false;
                     edgesList.setSelectedIndex(lastIndex);
                     selectedEdgeIndex = lastIndex;
                     setSelectedEdge();
-                    shouldChangeEdgesList = true;
 
                     setIsModified(true);
 
@@ -1694,12 +1682,10 @@ public class GraphController {
         setSelectedVertices();
 
         //Update edge selection
-        shouldChangeEdgesList = false; //don't allow clearSelection to run setSelectedVertex again
         edgesList.clearSelection(); //clear the visual selection in the JList
         //deselect the edge
         selectedEdgeIndex = -1;
         setSelectedEdge();
-        shouldChangeEdgesList = true;
 
         //Assign the canAddEdges values of all the vertices and get the number of vertices
         //that can't have edges added to them
