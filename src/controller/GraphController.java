@@ -447,9 +447,7 @@ public class GraphController {
                 //get the list of selected vertices
                 int[] tempIndices = verticesList.getSelectedIndices();
                 //loop through the selected indices
-                System.out.println("Print tempIndices");
                 for (int i : tempIndices) {
-                    System.out.println(i);
                     //add each one to the main ArrayList
                     selectedVertexIndices.add(i);
                 }
