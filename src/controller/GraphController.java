@@ -1131,8 +1131,7 @@ public class GraphController {
                         clickedVertices.addAll(selectedVertices);
                     }
                 } else { //if the user clicked a new, unselected vertex
-                    //if the command key is held down
-                    if (isCommandPressed) {
+                    if (isCommandPressed) { //if the command key is held down
                         //Add the new vertex to the selection:
                         //append the index of this clicked vertex to the selection
                         selectedVertexIndices.add(i);
@@ -1142,18 +1141,21 @@ public class GraphController {
                         //version of selectedVertexIndices
                         verticesList.setSelectedIndices(tempIndices);
                         setSelectedVertices();
+                        //add the selected vertices to clickedVertices (for moving)
+                        clickedVertices.addAll(selectedVertices);
+                    } else { //if the command key is not held down
+                        //store the clicked vertex (for moving)
+                        clickedVertices.add(currentVertex);
+                        //Update the selection:
+                        //deselect any selected edges
+                        selectedEdgeIndex = -1;
+                        setSelectedEdge();
+                        //select the vertex
+                        verticesList.setSelectedIndex(i);
+                        selectedVertexIndices.clear(); //empty the old selected indices
+                        selectedVertexIndices.add(i); //update selected indices
+                        setSelectedVertices();
                     }
-                    //store the clicked vertex (for moving)
-                    clickedVertices.add(currentVertex);
-                    //Update the selection:
-                    //deselect any selected edges
-                    selectedEdgeIndex = -1;
-                    setSelectedEdge();
-                    //select the vertex
-                    verticesList.setSelectedIndex(i);
-                    selectedVertexIndices.clear(); //empty the old selected indices
-                    selectedVertexIndices.add(i); //update selected indices
-                    setSelectedVertices();
                 }
                 //Whether the user clicked a selected or unselected vertex:
                 canvas.repaint(); //repaint the canvas
