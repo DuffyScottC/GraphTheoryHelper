@@ -111,6 +111,10 @@ public class GraphController {
      * Only true if the user is in the selection state.
      */
     private boolean selecting = false;
+    /**
+     * Only true of the command key is pressed
+     */
+    private boolean isCommandPressed = false;
 
     // models for vertex and edge selection lists
     private final DefaultListModel verticesListModel = new DefaultListModel();
@@ -318,9 +322,20 @@ public class GraphController {
         canvas.addKeyListener(new KeyAdapter() {
             @Override
             public void keyPressed(KeyEvent e) {
-                if (e.getKeyCode() == KeyEvent.VK_BACK_SPACE) {
+                int keyCode = e.getKeyCode();
+                //if the user pressed backspace
+                if (keyCode == KeyEvent.VK_BACK_SPACE) {
                     deleteSelectedElements();
                 }
+                //if the user is holding down the command key
+                if (keyCode == KeyEvent.VK_META) {
+                    isCommandPressed = true;
+                }
+            }
+
+            @Override
+            public void keyReleased(KeyEvent e) {
+                isCommandPressed = false;
             }
         });
         verticesList.addKeyListener(new KeyAdapter() {
@@ -331,14 +346,34 @@ public class GraphController {
                 if (keyCode == KeyEvent.VK_BACK_SPACE) {
                     deleteSelectedElements();
                 }
+                //if the user is holding down the command key
+                if (keyCode == KeyEvent.VK_META) {
+                    isCommandPressed = true;
+                }
+            }
+
+            @Override
+            public void keyReleased(KeyEvent e) {
+                isCommandPressed = false;
             }
         });
         edgesList.addKeyListener(new KeyAdapter() {
             @Override
             public void keyPressed(KeyEvent e) {
-                if (e.getKeyCode() == KeyEvent.VK_BACK_SPACE) {
+                int keyCode = e.getKeyCode();
+                //if the user pressed backspace
+                if (keyCode == KeyEvent.VK_BACK_SPACE) {
                     deleteSelectedElements();
                 }
+                //if the user is holding down the command key
+                if (keyCode == KeyEvent.VK_META) {
+                    isCommandPressed = true;
+                }
+            }
+
+            @Override
+            public void keyReleased(KeyEvent e) {
+                isCommandPressed = false;
             }
         });
 
@@ -456,15 +491,15 @@ public class GraphController {
         edgesList.addMouseListener(new MouseAdapter() {
             @Override
             public void mouseClicked(MouseEvent e) {
-                    //(which would redundantly run this again)
-                    //Deselect the vertices (if any were selected)
-                    selectedVertexIndices.clear();
-                    setSelectedVertices();
+                //(which would redundantly run this again)
+                //Deselect the vertices (if any were selected)
+                selectedVertexIndices.clear();
+                setSelectedVertices();
 
-                    //Select (or deselect) the edge
-                    selectedEdgeIndex = edgesList.getSelectedIndex(); //get the index of the selected item
-                    setSelectedEdge();
-                    canvas.repaint();
+                //Select (or deselect) the edge
+                selectedEdgeIndex = edgesList.getSelectedIndex(); //get the index of the selected item
+                setSelectedEdge();
+                canvas.repaint();
             }
         });
 
@@ -1053,7 +1088,7 @@ public class GraphController {
      * Holds the code that checks which vertices/edges the user clicked (if any)
      * and updates the lastX and lastY variables in preparation for moving the
      * vertex (which happens in the mouseMotionListener).
-     *  
+     *
      * @param mx
      * @param my
      */
@@ -1080,12 +1115,34 @@ public class GraphController {
             if (currentVertex.getPositionShape().contains(mx, my)) {
                 //If the clicked vertex is one of multiple selected vertices
                 if (selectedVertices.contains(currentVertex)) {
-                    //add all the selected vertices to clickedVertices
-                    clickedVertices.addAll(selectedVertices); //(for moving)
-                    
-                    //No need to update the selection
-                    
+                    //If the command button is held down
+                    if (isCommandPressed) {
+                        //Remove the clicked vertex from the selection:
+                        //remove the selected vertex's index
+                        selectedVertexIndices.remove(Integer.valueOf(i));
+                        //Convert the selected indices to an array
+                        int[] tempIndices = selectedVertexIndicesToArray();
+                        //Set selected indices of the verticesList to the array
+                        //version of selectedVertexIndices
+                        verticesList.setSelectedIndices(tempIndices);
+                        setSelectedVertices();
+                    } else { //if the command button is not held down
+                        //add the selected vertices to clickedVertices (for moving)
+                        clickedVertices.addAll(selectedVertices);
+                    }
                 } else { //if the user clicked a new, unselected vertex
+                    //if the command key is held down
+                    if (isCommandPressed) {
+                        //Add the new vertex to the selection:
+                        //append the index of this clicked vertex to the selection
+                        selectedVertexIndices.add(i);
+                        //Convert the selected indices to an array
+                        int[] tempIndices = selectedVertexIndicesToArray();
+                        //Set selected indices of the verticesList to the array
+                        //version of selectedVertexIndices
+                        verticesList.setSelectedIndices(tempIndices);
+                        setSelectedVertices();
+                    }
                     //store the clicked vertex (for moving)
                     clickedVertices.add(currentVertex);
                     //Update the selection:
@@ -1138,11 +1195,9 @@ public class GraphController {
                             }
                         } else //if ep2 is higher than ep1
                         //ep2.y<my<ep1.y
-                        {
-                            if (ep2.y < my && my < ep1.y) { //if my is between ep2.y and ep1.y
+                         if (ep2.y < my && my < ep1.y) { //if my is between ep2.y and ep1.y
                                 clickedAnEdge = true; //we clicked edge e
                             }
-                        }
                     }
                 } else { //if the edge is not verticle
                     //Find the point on edge e that is closest to (mx,my) (the intersection, I)
@@ -1237,18 +1292,30 @@ public class GraphController {
             } //not in bounding box
         }
         //now we have a list of selected vertices
-
-        //Update the selection using the new indices:
-        //first convert the selectedVertexIndices to an array of ints:
-        int[] tempIndices = new int[selectedVertexIndices.size()]; //initialize the array
-        int i = 0; //array index iterator
-        for (int index : selectedVertexIndices) { //cycle through the indices
-            tempIndices[i] = index;
-            i++; //increment the iterator
-        }
+        
+        int[] tempIndices = selectedVertexIndicesToArray();
         //set the selection to the indices of the selected vertices
         verticesList.setSelectedIndices(tempIndices);
         setSelectedVertices();
+    }
+    
+    /**
+     * Convenience method - converts the selectedVertexIndices ArrayList to a
+     * primitive array of ints. 
+     * @return 
+     */
+    private int[] selectedVertexIndicesToArray() {
+        //initialize and array with the right number of elements
+        int[] tempIndices = new int[selectedVertexIndices.size()];
+        int i = 0; //array index iterator
+        //cycle through the selectedVertices
+        for (int index : selectedVertexIndices) {
+            //add this vertex index
+            tempIndices[i] = index;
+            //increment the array index
+            i++;
+        }
+        return tempIndices;
     }
 
     /**
