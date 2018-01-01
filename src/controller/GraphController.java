@@ -225,11 +225,10 @@ public class GraphController {
 
         SampleCanvas sampleCanvas = graphColorChooserDialog.getSampleCanvas();
         sampleCanvas.setUp(graph); //Set up the sample canvas in the dialog
-
-        enterSelectionState();
         
-        //add the KeyboardShortcuts KeyListener to each focusable element:
         addKeyboardShortcuts();
+        
+        enterSelectionState();
 
         canvas.addMouseListener(new MouseAdapter() {
             @Override
