@@ -59,7 +59,27 @@ import views.SampleCanvas;
  * @author Scott
  */
 public class GraphController {
+    
+    private class KeyboardShortcuts extends KeyAdapter {
+            @Override
+            public void keyPressed(KeyEvent e) {
+                int keyCode = e.getKeyCode();
+                //if the user pressed backspace
+                if (keyCode == KeyEvent.VK_BACK_SPACE) {
+                    deleteSelectedElements();
+                }
+                //if the user is holding down the command key
+                if (keyCode == KeyEvent.VK_META) {
+                    isCommandPressed = true;
+                }
+            }
 
+            @Override
+            public void keyReleased(KeyEvent e) {
+                isCommandPressed = false;
+            }
+        }
+    
     /**
      * the last selected vertex in the vertices JList (Used for things like
      * setting the title text field, updating the title, changing the color,
@@ -207,6 +227,9 @@ public class GraphController {
         sampleCanvas.setUp(graph); //Set up the sample canvas in the dialog
 
         enterSelectionState();
+        
+        //add the KeyboardShortcuts KeyListener to each focusable element:
+        addKeyboardShortcuts();
 
         canvas.addMouseListener(new MouseAdapter() {
             @Override
@@ -316,64 +339,6 @@ public class GraphController {
                     canvas.repaint();
                 }
                 //don't want to repaint canvas if nothing happened
-            }
-        });
-
-        canvas.addKeyListener(new KeyAdapter() {
-            @Override
-            public void keyPressed(KeyEvent e) {
-                int keyCode = e.getKeyCode();
-                //if the user pressed backspace
-                if (keyCode == KeyEvent.VK_BACK_SPACE) {
-                    deleteSelectedElements();
-                }
-                //if the user is holding down the command key
-                if (keyCode == KeyEvent.VK_META) {
-                    isCommandPressed = true;
-                }
-            }
-
-            @Override
-            public void keyReleased(KeyEvent e) {
-                isCommandPressed = false;
-            }
-        });
-        verticesList.addKeyListener(new KeyAdapter() {
-            @Override
-            public void keyPressed(KeyEvent e) {
-                int keyCode = e.getKeyCode();
-                //if the user pressed backspace
-                if (keyCode == KeyEvent.VK_BACK_SPACE) {
-                    deleteSelectedElements();
-                }
-                //if the user is holding down the command key
-                if (keyCode == KeyEvent.VK_META) {
-                    isCommandPressed = true;
-                }
-            }
-
-            @Override
-            public void keyReleased(KeyEvent e) {
-                isCommandPressed = false;
-            }
-        });
-        edgesList.addKeyListener(new KeyAdapter() {
-            @Override
-            public void keyPressed(KeyEvent e) {
-                int keyCode = e.getKeyCode();
-                //if the user pressed backspace
-                if (keyCode == KeyEvent.VK_BACK_SPACE) {
-                    deleteSelectedElements();
-                }
-                //if the user is holding down the command key
-                if (keyCode == KeyEvent.VK_META) {
-                    isCommandPressed = true;
-                }
-            }
-
-            @Override
-            public void keyReleased(KeyEvent e) {
-                isCommandPressed = false;
             }
         });
 
@@ -852,6 +817,25 @@ public class GraphController {
     }
 
     //MARK: Other methods--------------------
+    /**
+     * Convenience method - adds the same KeyListener (KeyboardShortcuts) to
+     * every focusable element in the entire frame. This may be a temporary
+     * solution, but it works for now. Check out the following link if you want
+     * a better solution:<>
+     * https://stackoverflow.com/questions/1231622/setting-up-application-wide-key-listeners
+     */
+    private void addKeyboardShortcuts() {
+        canvas.addKeyListener(new KeyboardShortcuts());
+        verticesList.addKeyListener(new KeyboardShortcuts());
+        edgesList.addKeyListener(new KeyboardShortcuts());
+        addVerticesButton.addKeyListener(new KeyboardShortcuts());
+        addEdgesButton.addKeyListener(new KeyboardShortcuts());
+        selectionButton.addKeyListener(new KeyboardShortcuts());
+        titleTextField.addKeyListener(new KeyboardShortcuts());
+        frame.getDeleteButton().addKeyListener(new KeyboardShortcuts());
+        frame.getGraphOutputTextField().addKeyListener(new KeyboardShortcuts());
+    }
+    
     /**
      * Uses selectedIndex (a member variable) to set selectedVertex, highlight
      * selected vertex, un-highlights previously selected vertex set the

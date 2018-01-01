@@ -479,4 +479,8 @@ public class GraphFrame extends javax.swing.JFrame {
     public JMenuItem getChangeColorsMenuItem() {
         return changeColorsMenuItem;
     }
+    
+    public JPanel getInspectorPanel() {
+        return inspectorPanel;
+    }
 }
