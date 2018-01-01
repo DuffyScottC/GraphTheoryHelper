@@ -59,27 +59,33 @@ import views.SampleCanvas;
  * @author Scott
  */
 public class GraphController {
-    
-    private class KeyboardShortcuts extends KeyAdapter {
-            @Override
-            public void keyPressed(KeyEvent e) {
-                int keyCode = e.getKeyCode();
-                //if the user pressed backspace
-                if (keyCode == KeyEvent.VK_BACK_SPACE) {
-                    deleteSelectedElements();
-                }
-                //if the user is holding down the command key
-                if (keyCode == KeyEvent.VK_META) {
-                    isCommandPressed = true;
-                }
-            }
 
-            @Override
-            public void keyReleased(KeyEvent e) {
-                isCommandPressed = false;
+    private class KeyboardShortcuts extends KeyAdapter {
+
+        @Override
+        public void keyPressed(KeyEvent e) {
+            int keyCode = e.getKeyCode();
+            //if the user pressed backspace
+            if (keyCode == KeyEvent.VK_BACK_SPACE) {
+                deleteSelectedElements();
+            }
+            //if the user is holding down the command key
+            if (e.isMetaDown() || e.isControlDown()) {
+                isCommandPressed = true;
+                if (keyCode == KeyEvent.VK_A) { //if the A key was clicked, too
+                    selectAllVertices();
+                }
             }
         }
+
+        @Override
+        public void keyReleased(KeyEvent e) {
+            isCommandPressed = false;
+        }
+    }
     
+//    private class 
+
     /**
      * the last selected vertex in the vertices JList (Used for things like
      * setting the title text field, updating the title, changing the color,
@@ -225,9 +231,9 @@ public class GraphController {
 
         SampleCanvas sampleCanvas = graphColorChooserDialog.getSampleCanvas();
         sampleCanvas.setUp(graph); //Set up the sample canvas in the dialog
-        
+
         addKeyboardShortcuts();
-        
+
         enterSelectionState();
 
         canvas.addMouseListener(new MouseAdapter() {
@@ -357,24 +363,11 @@ public class GraphController {
             }
 
         });
-        
+
         frame.getSelectAllVerticesMenuItem().addActionListener(new ActionListener() {
             @Override
             public void actionPerformed(ActionEvent e) {
-                //Clear the selected indices
-                selectedVertexIndices.clear();
-                //Initialize a new primitive array of ints to hold all indices
-                int [] allIndices = new int[vertices.size()];
-                //loop through all the indices in vertices ArrayList
-                for (int i = 0; i < vertices.size(); i++) {
-                    //add each one to the primitive array
-                    allIndices[i] = i;
-                    //add each one to the selected indices
-                    selectedVertexIndices.add(i);
-                }
-                //select all the indices in the JList
-                verticesList.setSelectedIndices(allIndices);
-                setSelectedVertices();
+                selectAllVertices();
             }
         });
 
@@ -854,7 +847,25 @@ public class GraphController {
         frame.getDeleteButton().addKeyListener(new KeyboardShortcuts());
         frame.getGraphOutputTextField().addKeyListener(new KeyboardShortcuts());
     }
-    
+
+    private void selectAllVertices() {
+        //Clear the selected indices
+        selectedVertexIndices.clear();
+        //Initialize a new primitive array of ints to hold all indices
+        int[] allIndices = new int[vertices.size()];
+        //loop through all the indices in vertices ArrayList
+        for (int i = 0; i < vertices.size(); i++) {
+            //add each one to the primitive array
+            allIndices[i] = i;
+            //add each one to the selected indices
+            selectedVertexIndices.add(i);
+        }
+        //select all the indices in the JList
+        verticesList.setSelectedIndices(allIndices);
+        setSelectedVertices();
+        canvas.repaint();
+    }
+
     /**
      * Uses selectedIndex (a member variable) to set selectedVertex, highlight
      * selected vertex, un-highlights previously selected vertex set the
@@ -1133,32 +1144,31 @@ public class GraphController {
                         //add the selected vertices to clickedVertices (for moving)
                         clickedVertices.addAll(selectedVertices);
                     }
-                } else { //if the user clicked a new, unselected vertex
-                    if (isCommandPressed) { //if the command key is held down
-                        //Add the new vertex to the selection:
-                        //append the index of this clicked vertex to the selection
-                        selectedVertexIndices.add(i);
-                        //Convert the selected indices to an array
-                        int[] tempIndices = selectedVertexIndicesToArray();
-                        //Set selected indices of the verticesList to the array
-                        //version of selectedVertexIndices
-                        verticesList.setSelectedIndices(tempIndices);
-                        setSelectedVertices();
-                        //add the selected vertices to clickedVertices (for moving)
-                        clickedVertices.addAll(selectedVertices);
-                    } else { //if the command key is not held down
-                        //store the clicked vertex (for moving)
-                        clickedVertices.add(currentVertex);
-                        //Update the selection:
-                        //deselect any selected edges
-                        selectedEdgeIndex = -1;
-                        setSelectedEdge();
-                        //select the vertex
-                        verticesList.setSelectedIndex(i);
-                        selectedVertexIndices.clear(); //empty the old selected indices
-                        selectedVertexIndices.add(i); //update selected indices
-                        setSelectedVertices();
-                    }
+                } else //if the user clicked a new, unselected vertex
+                if (isCommandPressed) { //if the command key is held down
+                    //Add the new vertex to the selection:
+                    //append the index of this clicked vertex to the selection
+                    selectedVertexIndices.add(i);
+                    //Convert the selected indices to an array
+                    int[] tempIndices = selectedVertexIndicesToArray();
+                    //Set selected indices of the verticesList to the array
+                    //version of selectedVertexIndices
+                    verticesList.setSelectedIndices(tempIndices);
+                    setSelectedVertices();
+                    //add the selected vertices to clickedVertices (for moving)
+                    clickedVertices.addAll(selectedVertices);
+                } else { //if the command key is not held down
+                    //store the clicked vertex (for moving)
+                    clickedVertices.add(currentVertex);
+                    //Update the selection:
+                    //deselect any selected edges
+                    selectedEdgeIndex = -1;
+                    setSelectedEdge();
+                    //select the vertex
+                    verticesList.setSelectedIndex(i);
+                    selectedVertexIndices.clear(); //empty the old selected indices
+                    selectedVertexIndices.add(i); //update selected indices
+                    setSelectedVertices();
                 }
                 //Whether the user clicked a selected or unselected vertex:
                 canvas.repaint(); //repaint the canvas
@@ -1200,9 +1210,11 @@ public class GraphController {
                             }
                         } else //if ep2 is higher than ep1
                         //ep2.y<my<ep1.y
-                         if (ep2.y < my && my < ep1.y) { //if my is between ep2.y and ep1.y
+                        {
+                            if (ep2.y < my && my < ep1.y) { //if my is between ep2.y and ep1.y
                                 clickedAnEdge = true; //we clicked edge e
                             }
+                        }
                     }
                 } else { //if the edge is not verticle
                     //Find the point on edge e that is closest to (mx,my) (the intersection, I)
@@ -1297,17 +1309,18 @@ public class GraphController {
             } //not in bounding box
         }
         //now we have a list of selected vertices
-        
+
         int[] tempIndices = selectedVertexIndicesToArray();
         //set the selection to the indices of the selected vertices
         verticesList.setSelectedIndices(tempIndices);
         setSelectedVertices();
     }
-    
+
     /**
      * Convenience method - converts the selectedVertexIndices ArrayList to a
-     * primitive array of ints. 
-     * @return 
+     * primitive array of ints.
+     *
+     * @return
      */
     private int[] selectedVertexIndicesToArray() {
         //initialize and array with the right number of elements
