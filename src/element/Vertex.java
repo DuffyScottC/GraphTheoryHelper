@@ -162,7 +162,8 @@ public class Vertex extends Element {
      */
     @Override
     public Shape getPositionShape() {
-        return new Ellipse2D.Double(xLoc, yLoc, diameter, diameter);
+        double strokeBuffer = Values.VERTEX_STROKE_WIDTH/2;
+        return new Ellipse2D.Double(xLoc, yLoc, diameter + strokeBuffer, diameter + strokeBuffer);
     }
 
 }
