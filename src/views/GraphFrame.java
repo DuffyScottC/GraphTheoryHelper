@@ -68,6 +68,7 @@ public class GraphFrame extends javax.swing.JFrame {
         newMenuItem = new javax.swing.JMenuItem();
         editMenu = new javax.swing.JMenu();
         rotate90MenuItem = new javax.swing.JMenuItem();
+        selectAllVerticesMenuItem = new javax.swing.JMenuItem();
         addGraphMenuItem = new javax.swing.JMenuItem();
         viewMenu = new javax.swing.JMenu();
         showVertexNamesMenuItem = new javax.swing.JCheckBoxMenuItem();
@@ -268,6 +269,15 @@ public class GraphFrame extends javax.swing.JFrame {
         });
         editMenu.add(rotate90MenuItem);
 
+        selectAllVerticesMenuItem.setAccelerator(javax.swing.KeyStroke.getKeyStroke(java.awt.event.KeyEvent.VK_A, java.awt.event.InputEvent.META_MASK));
+        selectAllVerticesMenuItem.setText("Select All Vertices");
+        selectAllVerticesMenuItem.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                selectAllVerticesMenuItemActionPerformed(evt);
+            }
+        });
+        editMenu.add(selectAllVerticesMenuItem);
+
         addGraphMenuItem.setText("Add Graph");
         editMenu.add(addGraphMenuItem);
 
@@ -327,6 +337,10 @@ public class GraphFrame extends javax.swing.JFrame {
         // TODO add your handling code here:
     }//GEN-LAST:event_addEdgesMenuItemActionPerformed
 
+    private void selectAllVerticesMenuItemActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_selectAllVerticesMenuItemActionPerformed
+        // TODO add your handling code here:
+    }//GEN-LAST:event_selectAllVerticesMenuItemActionPerformed
+
 
     // Variables declaration - do not modify//GEN-BEGIN:variables
     private javax.swing.JLabel JLabel3;
@@ -360,6 +374,7 @@ public class GraphFrame extends javax.swing.JFrame {
     private javax.swing.JMenuItem rotate90MenuItem;
     private javax.swing.JMenuItem saveAsMenuItem;
     private javax.swing.JMenuItem saveMenuItem;
+    private javax.swing.JMenuItem selectAllVerticesMenuItem;
     private javax.swing.JToggleButton selectionButton;
     private javax.swing.JCheckBoxMenuItem selectionMenuItem;
     private javax.swing.JCheckBoxMenuItem showVertexNamesMenuItem;
@@ -482,5 +497,9 @@ public class GraphFrame extends javax.swing.JFrame {
     
     public JPanel getInspectorPanel() {
         return inspectorPanel;
+    }
+    
+    public JMenuItem getSelectAllVerticesMenuItem() {
+        return selectAllVerticesMenuItem;
     }
 }

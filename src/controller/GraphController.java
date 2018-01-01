@@ -357,6 +357,26 @@ public class GraphController {
             }
 
         });
+        
+        frame.getSelectAllVerticesMenuItem().addActionListener(new ActionListener() {
+            @Override
+            public void actionPerformed(ActionEvent e) {
+                //Clear the selected indices
+                selectedVertexIndices.clear();
+                //Initialize a new primitive array of ints to hold all indices
+                int [] allIndices = new int[vertices.size()];
+                //loop through all the indices in vertices ArrayList
+                for (int i = 0; i < vertices.size(); i++) {
+                    //add each one to the primitive array
+                    allIndices[i] = i;
+                    //add each one to the selected indices
+                    selectedVertexIndices.add(i);
+                }
+                //select all the indices in the JList
+                verticesList.setSelectedIndices(allIndices);
+                setSelectedVertices();
+            }
+        });
 
         frame.getShowVertexNamesMenuItem().addActionListener(new ActionListener() {
             @Override
