@@ -812,11 +812,18 @@ public class GraphController {
         graphColorChooserDialog.getOKButton().addActionListener(new ActionListener() {
             @Override
             public void actionPerformed(ActionEvent e) {
-                //get the colors from the dialog
+                //Get the colors from the dialog
                 Color newVertexFillColor = graphColorChooserDialog.getVertexFillColor();
                 Color newVertexStrokeColor = graphColorChooserDialog.getVertexStrokeColor();
                 Color newEdgeStrokeColor = graphColorChooserDialog.getEdgeStrokeColor();
-
+                
+                //Check if the new colors are different from the old colors
+                if (newVertexFillColor == graph.getVertexFillColor() ||
+                        newVertexStrokeColor == graph.getVertexStrokeColor() ||
+                        newEdgeStrokeColor == graph.getEdgeStrokeColor()) {
+                    setIsModified(true); 
+                }
+                
                 //set the graph's colors
                 graph.setColors(newVertexFillColor, newVertexStrokeColor, newEdgeStrokeColor);
 
