@@ -339,18 +339,19 @@ public class GraphController {
 
         });
         
-        /**
-         * The action that activates when you press command+a
-         */
+        //The action that activates when you press Command+A
         AbstractAction selectAllVerticesAction = new AbstractAction() {
             @Override
             public void actionPerformed(ActionEvent e) {
                 selectAllVertices();
             }
         };
-
+        //link Command+A with the "select all vertices" action key
+        frame.getMainPanel().getInputMap().put(KeyStroke.getKeyStroke('A', KeyEvent.META_DOWN_MASK),
+                "select all vertices"); //arbitrarily called "select all vertices"
+        //link the "select all vertices" action key to the selectAllVerticesAction object
+        frame.getMainPanel().getActionMap().put("select all vertices", selectAllVerticesAction);
         
-
         frame.getShowVertexNamesMenuItem().addActionListener(new ActionListener() {
             @Override
             public void actionPerformed(ActionEvent e) {
