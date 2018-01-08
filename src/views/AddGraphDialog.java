@@ -146,7 +146,8 @@ public class AddGraphDialog extends javax.swing.JDialog {
      */
     public void setFocusToTextField() {
         graphTextField.requestFocus();
-        graphTextField.setCaretPosition(1);
+        graphTextField.setSelectionStart(1);
+        graphTextField.setSelectionEnd(graphTextField.getText().length() - 1);
     }
     
     public JButton getAddButton() {

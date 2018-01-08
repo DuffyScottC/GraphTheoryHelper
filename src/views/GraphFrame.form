@@ -67,11 +67,6 @@
                 <EventHandler event="actionPerformed" listener="java.awt.event.ActionListener" parameters="java.awt.event.ActionEvent" handler="selectAllVerticesMenuItemActionPerformed"/>
               </Events>
             </MenuItem>
-            <MenuItem class="javax.swing.JMenuItem" name="addGraphMenuItem">
-              <Properties>
-                <Property name="text" type="java.lang.String" value="Add Graph"/>
-              </Properties>
-            </MenuItem>
           </SubComponents>
         </Menu>
         <Menu class="javax.swing.JMenu" name="viewMenu">
@@ -142,6 +137,11 @@
             <MenuItem class="javax.swing.JMenuItem" name="changeColorsMenuItem">
               <Properties>
                 <Property name="text" type="java.lang.String" value="Change Colors"/>
+              </Properties>
+            </MenuItem>
+            <MenuItem class="javax.swing.JMenuItem" name="addGraphMenuItem">
+              <Properties>
+                <Property name="text" type="java.lang.String" value="Add Graph"/>
               </Properties>
             </MenuItem>
           </SubComponents>

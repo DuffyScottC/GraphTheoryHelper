@@ -70,7 +70,6 @@ public class GraphFrame extends javax.swing.JFrame {
         editMenu = new javax.swing.JMenu();
         rotate90MenuItem = new javax.swing.JMenuItem();
         selectAllVerticesMenuItem = new javax.swing.JMenuItem();
-        addGraphMenuItem = new javax.swing.JMenuItem();
         viewMenu = new javax.swing.JMenu();
         showVertexNamesMenuItem = new javax.swing.JCheckBoxMenuItem();
         formatVerticesMenuItem = new javax.swing.JMenuItem();
@@ -81,6 +80,7 @@ public class GraphFrame extends javax.swing.JFrame {
         jSeparator2 = new javax.swing.JPopupMenu.Separator();
         deleteMenuItem = new javax.swing.JMenuItem();
         changeColorsMenuItem = new javax.swing.JMenuItem();
+        addGraphMenuItem = new javax.swing.JMenuItem();
 
         setDefaultCloseOperation(javax.swing.WindowConstants.EXIT_ON_CLOSE);
 
@@ -282,9 +282,6 @@ public class GraphFrame extends javax.swing.JFrame {
         });
         editMenu.add(selectAllVerticesMenuItem);
 
-        addGraphMenuItem.setText("Add Graph");
-        editMenu.add(addGraphMenuItem);
-
         myMenuBar.add(editMenu);
 
         viewMenu.setText("View");
@@ -325,6 +322,9 @@ public class GraphFrame extends javax.swing.JFrame {
 
         changeColorsMenuItem.setText("Change Colors");
         toolsMenu.add(changeColorsMenuItem);
+
+        addGraphMenuItem.setText("Add Graph");
+        toolsMenu.add(addGraphMenuItem);
 
         myMenuBar.add(toolsMenu);
 
