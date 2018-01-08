@@ -824,7 +824,11 @@ public class GraphController {
                 //if the user is holding down the command key
                 if (e.isMetaDown() || e.isControlDown()) {
                     isCommandPressed = true;
+                    if (keyCode == KeyEvent.VK_A) { //if A was pressed
+                        selectAllVertices();
+                    }
                 }
+                
             }
 
             @Override
@@ -841,23 +845,6 @@ public class GraphController {
         titleTextField.addKeyListener(keyboardShortcuts);
         frame.getDeleteButton().addKeyListener(keyboardShortcuts);
         frame.getGraphOutputTextField().addKeyListener(keyboardShortcuts);
-        
-        //The action that activates when you press Command+A
-        AbstractAction sAVAction = new AbstractAction() {
-            @Override
-            public void actionPerformed(ActionEvent e) {
-                selectAllVertices();
-            }
-        };
-        String sAVKey = "select all vertices"; //arbitrarily called "select all vertices"
-        KeyStroke sAVKeyStroke = KeyStroke.getKeyStroke('A', KeyEvent.META_DOWN_MASK);
-        //link Command+A with the "select all vertices" action key
-        frame.getMainPanel().getInputMap().put(sAVKeyStroke, sAVKey);
-        //link the "select all vertices" action key to the selectAllVerticesAction object
-        frame.getMainPanel().getActionMap().put(sAVKey, sAVAction);
-        canvas.getInputMap().put(sAVKeyStroke, sAVKey);
-        canvas.getActionMap().put(sAVKey, sAVAction);
-        
     }
 
     private void selectAllVertices() {
