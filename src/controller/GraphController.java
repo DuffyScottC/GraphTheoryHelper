@@ -855,6 +855,9 @@ public class GraphController {
         frame.getMainPanel().getInputMap().put(sAVKeyStroke, sAVKey);
         //link the "select all vertices" action key to the selectAllVerticesAction object
         frame.getMainPanel().getActionMap().put(sAVKey, sAVAction);
+        canvas.getInputMap().put(sAVKeyStroke, sAVKey);
+        canvas.getActionMap().put(sAVKey, sAVAction);
+        
     }
 
     private void selectAllVertices() {
