@@ -60,27 +60,6 @@ import views.SampleCanvas;
  * @author Scott
  */
 public class GraphController {
-
-    private class KeyboardShortcuts extends KeyAdapter {
-
-        @Override
-        public void keyPressed(KeyEvent e) {
-            int keyCode = e.getKeyCode();
-            //if the user pressed backspace
-            if (keyCode == KeyEvent.VK_BACK_SPACE) {
-                deleteSelectedElements();
-            }
-            //if the user is holding down the command key
-            if (e.isMetaDown() || e.isControlDown()) {
-                isCommandPressed = true;
-            }
-        }
-
-        @Override
-        public void keyReleased(KeyEvent e) {
-            isCommandPressed = false;
-        }
-    }
     
     private class SelectAllVerticesAction extends AbstractAction {
         @Override
@@ -821,7 +800,7 @@ public class GraphController {
                 if (newVertexFillColor == graph.getVertexFillColor() ||
                         newVertexStrokeColor == graph.getVertexStrokeColor() ||
                         newEdgeStrokeColor == graph.getEdgeStrokeColor()) {
-                    setIsModified(true); 
+                    setIsModified(true); //label the graph as modified
                 }
                 
                 //set the graph's colors
@@ -847,15 +826,35 @@ public class GraphController {
      * https://stackoverflow.com/questions/1231622/setting-up-application-wide-key-listeners
      */
     private void addKeyboardShortcuts() {
-        canvas.addKeyListener(new KeyboardShortcuts());
-        verticesList.addKeyListener(new KeyboardShortcuts());
-        edgesList.addKeyListener(new KeyboardShortcuts());
-        addVerticesButton.addKeyListener(new KeyboardShortcuts());
-        addEdgesButton.addKeyListener(new KeyboardShortcuts());
-        selectionButton.addKeyListener(new KeyboardShortcuts());
-        titleTextField.addKeyListener(new KeyboardShortcuts());
-        frame.getDeleteButton().addKeyListener(new KeyboardShortcuts());
-        frame.getGraphOutputTextField().addKeyListener(new KeyboardShortcuts());
+        KeyAdapter keyboardShortcuts = new KeyAdapter() {
+
+        @Override
+        public void keyPressed(KeyEvent e) {
+            int keyCode = e.getKeyCode();
+            //if the user pressed backspace
+            if (keyCode == KeyEvent.VK_BACK_SPACE) {
+                deleteSelectedElements();
+            }
+            //if the user is holding down the command key
+            if (e.isMetaDown() || e.isControlDown()) {
+                isCommandPressed = true;
+            }
+        }
+
+        @Override
+        public void keyReleased(KeyEvent e) {
+            isCommandPressed = false;
+        }
+    };
+        canvas.addKeyListener(keyboardShortcuts);
+        verticesList.addKeyListener(keyboardShortcuts);
+        edgesList.addKeyListener(keyboardShortcuts);
+        addVerticesButton.addKeyListener(keyboardShortcuts);
+        addEdgesButton.addKeyListener(keyboardShortcuts);
+        selectionButton.addKeyListener(keyboardShortcuts);
+        titleTextField.addKeyListener(keyboardShortcuts);
+        frame.getDeleteButton().addKeyListener(keyboardShortcuts);
+        frame.getGraphOutputTextField().addKeyListener(keyboardShortcuts);
     }
 
     private void selectAllVertices() {
