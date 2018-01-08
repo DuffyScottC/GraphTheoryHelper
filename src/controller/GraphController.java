@@ -35,6 +35,7 @@ import java.util.ArrayList;
 import java.util.List;
 import java.util.regex.Matcher;
 import java.util.regex.Pattern;
+import javax.swing.AbstractAction;
 import javax.swing.DefaultListModel;
 import javax.swing.JColorChooser;
 import javax.swing.JFileChooser;
@@ -72,9 +73,6 @@ public class GraphController {
             //if the user is holding down the command key
             if (e.isMetaDown() || e.isControlDown()) {
                 isCommandPressed = true;
-                if (keyCode == KeyEvent.VK_A) { //if the A key was clicked, too
-                    selectAllVertices();
-                }
             }
         }
 
@@ -84,7 +82,12 @@ public class GraphController {
         }
     }
     
-//    private class 
+    private class SelectAllVerticesAction extends AbstractAction {
+        @Override
+        public void actionPerformed(ActionEvent e) {
+            selectAllVertices();
+        }
+    }
 
     /**
      * the last selected vertex in the vertices JList (Used for things like
