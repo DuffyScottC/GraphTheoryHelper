@@ -60,8 +60,9 @@ import views.SampleCanvas;
  * @author Scott
  */
 public class GraphController {
-    
+
     private class SelectAllVerticesAction extends AbstractAction {
+
         @Override
         public void actionPerformed(ActionEvent e) {
             selectAllVertices();
@@ -795,14 +796,14 @@ public class GraphController {
                 Color newVertexFillColor = graphColorChooserDialog.getVertexFillColor();
                 Color newVertexStrokeColor = graphColorChooserDialog.getVertexStrokeColor();
                 Color newEdgeStrokeColor = graphColorChooserDialog.getEdgeStrokeColor();
-                
+
                 //Check if the new colors are different from the old colors
-                if (newVertexFillColor == graph.getVertexFillColor() ||
-                        newVertexStrokeColor == graph.getVertexStrokeColor() ||
-                        newEdgeStrokeColor == graph.getEdgeStrokeColor()) {
+                if (newVertexFillColor == graph.getVertexFillColor()
+                        || newVertexStrokeColor == graph.getVertexStrokeColor()
+                        || newEdgeStrokeColor == graph.getEdgeStrokeColor()) {
                     setIsModified(true); //label the graph as modified
                 }
-                
+
                 //set the graph's colors
                 graph.setColors(newVertexFillColor, newVertexStrokeColor, newEdgeStrokeColor);
 
@@ -828,24 +829,24 @@ public class GraphController {
     private void addKeyboardShortcuts() {
         KeyAdapter keyboardShortcuts = new KeyAdapter() {
 
-        @Override
-        public void keyPressed(KeyEvent e) {
-            int keyCode = e.getKeyCode();
-            //if the user pressed backspace
-            if (keyCode == KeyEvent.VK_BACK_SPACE) {
-                deleteSelectedElements();
+            @Override
+            public void keyPressed(KeyEvent e) {
+                int keyCode = e.getKeyCode();
+                //if the user pressed backspace
+                if (keyCode == KeyEvent.VK_BACK_SPACE) {
+                    deleteSelectedElements();
+                }
+                //if the user is holding down the command key
+                if (e.isMetaDown() || e.isControlDown()) {
+                    isCommandPressed = true;
+                }
             }
-            //if the user is holding down the command key
-            if (e.isMetaDown() || e.isControlDown()) {
-                isCommandPressed = true;
-            }
-        }
 
-        @Override
-        public void keyReleased(KeyEvent e) {
-            isCommandPressed = false;
-        }
-    };
+            @Override
+            public void keyReleased(KeyEvent e) {
+                isCommandPressed = false;
+            }
+        };
         canvas.addKeyListener(keyboardShortcuts);
         verticesList.addKeyListener(keyboardShortcuts);
         edgesList.addKeyListener(keyboardShortcuts);
@@ -1154,30 +1155,32 @@ public class GraphController {
                         clickedVertices.addAll(selectedVertices);
                     }
                 } else //if the user clicked a new, unselected vertex
-                if (isCommandPressed) { //if the command key is held down
-                    //Add the new vertex to the selection:
-                    //append the index of this clicked vertex to the selection
-                    selectedVertexIndices.add(i);
-                    //Convert the selected indices to an array
-                    int[] tempIndices = selectedVertexIndicesToArray();
-                    //Set selected indices of the verticesList to the array
-                    //version of selectedVertexIndices
-                    verticesList.setSelectedIndices(tempIndices);
-                    setSelectedVertices();
-                    //add the selected vertices to clickedVertices (for moving)
-                    clickedVertices.addAll(selectedVertices);
-                } else { //if the command key is not held down
-                    //store the clicked vertex (for moving)
-                    clickedVertices.add(currentVertex);
-                    //Update the selection:
-                    //deselect any selected edges
-                    selectedEdgeIndex = -1;
-                    setSelectedEdge();
-                    //select the vertex
-                    verticesList.setSelectedIndex(i);
-                    selectedVertexIndices.clear(); //empty the old selected indices
-                    selectedVertexIndices.add(i); //update selected indices
-                    setSelectedVertices();
+                {
+                    if (isCommandPressed) { //if the command key is held down
+                        //Add the new vertex to the selection:
+                        //append the index of this clicked vertex to the selection
+                        selectedVertexIndices.add(i);
+                        //Convert the selected indices to an array
+                        int[] tempIndices = selectedVertexIndicesToArray();
+                        //Set selected indices of the verticesList to the array
+                        //version of selectedVertexIndices
+                        verticesList.setSelectedIndices(tempIndices);
+                        setSelectedVertices();
+                        //add the selected vertices to clickedVertices (for moving)
+                        clickedVertices.addAll(selectedVertices);
+                    } else { //if the command key is not held down
+                        //store the clicked vertex (for moving)
+                        clickedVertices.add(currentVertex);
+                        //Update the selection:
+                        //deselect any selected edges
+                        selectedEdgeIndex = -1;
+                        setSelectedEdge();
+                        //select the vertex
+                        verticesList.setSelectedIndex(i);
+                        selectedVertexIndices.clear(); //empty the old selected indices
+                        selectedVertexIndices.add(i); //update selected indices
+                        setSelectedVertices();
+                    }
                 }
                 //Whether the user clicked a selected or unselected vertex:
                 canvas.repaint(); //repaint the canvas
@@ -1219,11 +1222,9 @@ public class GraphController {
                             }
                         } else //if ep2 is higher than ep1
                         //ep2.y<my<ep1.y
-                        {
-                            if (ep2.y < my && my < ep1.y) { //if my is between ep2.y and ep1.y
+                         if (ep2.y < my && my < ep1.y) { //if my is between ep2.y and ep1.y
                                 clickedAnEdge = true; //we clicked edge e
                             }
-                        }
                     }
                 } else { //if the edge is not verticle
                     //Find the point on edge e that is closest to (mx,my) (the intersection, I)
