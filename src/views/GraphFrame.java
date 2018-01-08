@@ -39,6 +39,7 @@ public class GraphFrame extends javax.swing.JFrame {
     private void initComponents() {
         java.awt.GridBagConstraints gridBagConstraints;
 
+        mainPanel = new javax.swing.JPanel();
         canvasScrollPane = new javax.swing.JScrollPane();
         canvas = new views.Canvas();
         inspectorPanel = new views.InspectorPanel();
@@ -82,7 +83,8 @@ public class GraphFrame extends javax.swing.JFrame {
         changeColorsMenuItem = new javax.swing.JMenuItem();
 
         setDefaultCloseOperation(javax.swing.WindowConstants.EXIT_ON_CLOSE);
-        getContentPane().setLayout(new java.awt.GridBagLayout());
+
+        mainPanel.setLayout(new java.awt.GridBagLayout());
 
         canvas.setEditable(false);
         canvas.setColumns(20);
@@ -96,7 +98,7 @@ public class GraphFrame extends javax.swing.JFrame {
         gridBagConstraints.fill = java.awt.GridBagConstraints.BOTH;
         gridBagConstraints.weightx = 0.1;
         gridBagConstraints.weighty = 0.1;
-        getContentPane().add(canvasScrollPane, gridBagConstraints);
+        mainPanel.add(canvasScrollPane, gridBagConstraints);
 
         inspectorPanel.setLayout(new java.awt.GridBagLayout());
 
@@ -214,7 +216,7 @@ public class GraphFrame extends javax.swing.JFrame {
         gridBagConstraints.gridx = 1;
         gridBagConstraints.gridy = 1;
         gridBagConstraints.fill = java.awt.GridBagConstraints.BOTH;
-        getContentPane().add(inspectorPanel, gridBagConstraints);
+        mainPanel.add(inspectorPanel, gridBagConstraints);
 
         graphOutputPanel.setLayout(new java.awt.GridBagLayout());
 
@@ -236,8 +238,10 @@ public class GraphFrame extends javax.swing.JFrame {
         gridBagConstraints = new java.awt.GridBagConstraints();
         gridBagConstraints.gridwidth = 2;
         gridBagConstraints.fill = java.awt.GridBagConstraints.HORIZONTAL;
-        getContentPane().add(graphOutputPanel, gridBagConstraints);
-        getContentPane().add(jSeparator1, new java.awt.GridBagConstraints());
+        mainPanel.add(graphOutputPanel, gridBagConstraints);
+        mainPanel.add(jSeparator1, new java.awt.GridBagConstraints());
+
+        getContentPane().add(mainPanel, java.awt.BorderLayout.CENTER);
 
         fileMenu.setText("File");
 
@@ -366,6 +370,7 @@ public class GraphFrame extends javax.swing.JFrame {
     private views.InspectorPanel inspectorPanel;
     private javax.swing.JSeparator jSeparator1;
     private javax.swing.JPopupMenu.Separator jSeparator2;
+    private javax.swing.JPanel mainPanel;
     private javax.swing.JTextField modifiedTextField;
     private javax.swing.JMenuBar myMenuBar;
     private javax.swing.JMenuItem newMenuItem;
@@ -501,5 +506,9 @@ public class GraphFrame extends javax.swing.JFrame {
     
     public JMenuItem getSelectAllVerticesMenuItem() {
         return selectAllVerticesMenuItem;
+    }
+    
+    public JPanel getMainPanel() {
+        return mainPanel;
     }
 }

@@ -61,14 +61,6 @@ import views.SampleCanvas;
  */
 public class GraphController {
 
-    private class SelectAllVerticesAction extends AbstractAction {
-
-        @Override
-        public void actionPerformed(ActionEvent e) {
-            selectAllVertices();
-        }
-    }
-
     /**
      * the last selected vertex in the vertices JList (Used for things like
      * setting the title text field, updating the title, changing the color,
@@ -346,13 +338,18 @@ public class GraphController {
             }
 
         });
-
-        frame.getSelectAllVerticesMenuItem().addActionListener(new ActionListener() {
+        
+        /**
+         * The action that activates when you press command+a
+         */
+        AbstractAction selectAllVerticesAction = new AbstractAction() {
             @Override
             public void actionPerformed(ActionEvent e) {
                 selectAllVertices();
             }
-        });
+        };
+
+        
 
         frame.getShowVertexNamesMenuItem().addActionListener(new ActionListener() {
             @Override
@@ -1155,8 +1152,7 @@ public class GraphController {
                         clickedVertices.addAll(selectedVertices);
                     }
                 } else //if the user clicked a new, unselected vertex
-                {
-                    if (isCommandPressed) { //if the command key is held down
+                 if (isCommandPressed) { //if the command key is held down
                         //Add the new vertex to the selection:
                         //append the index of this clicked vertex to the selection
                         selectedVertexIndices.add(i);
@@ -1181,7 +1177,6 @@ public class GraphController {
                         selectedVertexIndices.add(i); //update selected indices
                         setSelectedVertices();
                     }
-                }
                 //Whether the user clicked a selected or unselected vertex:
                 canvas.repaint(); //repaint the canvas
                 clickedBlankSpace = false; //user didn't click blank space
@@ -1222,9 +1217,11 @@ public class GraphController {
                             }
                         } else //if ep2 is higher than ep1
                         //ep2.y<my<ep1.y
-                         if (ep2.y < my && my < ep1.y) { //if my is between ep2.y and ep1.y
+                        {
+                            if (ep2.y < my && my < ep1.y) { //if my is between ep2.y and ep1.y
                                 clickedAnEdge = true; //we clicked edge e
                             }
+                        }
                     }
                 } else { //if the edge is not verticle
                     //Find the point on edge e that is closest to (mx,my) (the intersection, I)
