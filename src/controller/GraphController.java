@@ -339,6 +339,14 @@ public class GraphController {
 
         });
         
+        frame.getRotate90MenuItem().addActionListener(new ActionListener() {
+            @Override
+            public void actionPerformed(ActionEvent e) {
+                rotateVertices90();
+                canvas.repaint();
+            }
+        });
+        
         frame.getShowVertexNamesMenuItem().addActionListener(new ActionListener() {
             @Override
             public void actionPerformed(ActionEvent e) {
@@ -719,7 +727,7 @@ public class GraphController {
                     updateVerticesListModel();
                     updateEdgesListModel();
 
-                    //Formate the new vertices
+                    //Format the new vertices
                     formatVertices(toBeFormatted);
                     canvas.repaint();
                 }
@@ -996,6 +1004,18 @@ public class GraphController {
             double y = yCent + radius * Math.sin(angle);
             v.setLocation(x, y); //position the vertex
             angle += delta; //increment the angle
+        }
+    }
+    
+    /**
+     * Rotates all vertices by 90 degrees counter-clockwise about the origin
+     */
+    private void rotateVertices90() {
+        for (Vertex v : vertices) {
+            double oy = canvas.getHeight()/2;
+            double x = v.getLocation().x;
+            double y = v.getLocation().y;
+            v.setLocation(2*oy-y, x);
         }
     }
 
