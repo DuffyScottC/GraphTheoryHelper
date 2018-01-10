@@ -291,11 +291,32 @@ public class GraphController {
                             //select the appropriate vertices
                             multipleSelection(mx, my);
                         } else { //if the user clicked any edges
+                            //Get a list of the individual vertices attached to the edges
+                            //Initialize an ArrayList to hold the vertices
+                            List<Vertex> attachedVertices = new ArrayList();
                             //cycle through all clicked edges
                             for (Edge clickedEdge : clickedEdges) {
-                                //move both nodes attached to this edge
-                                clickedEdge.getEndpoint1().incLocation(incX, incY);
-                                clickedEdge.getEndpoint2().incLocation(incX, incY);
+                                //Add both vertices attached to this edge:
+                                //get the first endpoint
+                                Vertex ep1 = clickedEdge.getEndpoint1();
+                                //if the list does not already contain this vertex
+                                if (!attachedVertices.contains(ep1)) {
+                                    //add this vertex
+                                    attachedVertices.add(ep1);
+                                }
+                                //get the second endpoint
+                                Vertex ep2 = clickedEdge.getEndpoint2();
+                                //if the list does not already contain this vertex
+                                if (!attachedVertices.contains(ep2)) {
+                                    //add this vertex
+                                    attachedVertices.add(ep2);
+                                }
+                            }
+                            //Now increment the position each unique vertex in the list:
+                            //loop through all the unique vertices
+                            for (Vertex v : attachedVertices) {
+                                //increment this vertex's position
+                                v.incLocation(incY, incY);
                             }
                             setIsModified(true);
                         }
