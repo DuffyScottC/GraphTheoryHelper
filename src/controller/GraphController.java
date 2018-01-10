@@ -1225,6 +1225,15 @@ public class GraphController {
                     if (selectedEdges.contains(e)) {
                         if (isCommandPressed) {  //if command is held down
                             //We want to deselect this edge:
+                            //Remove the clicked edge from the selection:
+                            //remove the selected edge's index
+                            selectedEdgeIndices.remove(Integer.valueOf(i));
+                            //Convert the selected indices to an array
+                            int[] tempIndices = selectedIndicesToArray(selectedEdgeIndices);
+                            //Set selected indices of the edgesList to the array
+                            //version of selectedEdgeIndices
+                            edgesList.setSelectedIndices(tempIndices);
+                            setSelectedEdges();
                         } else { //if command is not held down
                             //We want to allow the user to move all selected edges:
                             //add the selected edges to clickedEdges (for moving)
