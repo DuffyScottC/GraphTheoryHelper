@@ -1613,7 +1613,7 @@ public class GraphController {
             removeVertices();
         }
         if (!selectedEdgeIndices.isEmpty()) {
-            removeEdge();
+            removeEdges();
         }
     }
 
@@ -1831,25 +1831,34 @@ public class GraphController {
         canvas.repaint();
     }
 
-    private void removeEdge() {
+    private void removeEdges() {
         //If the user did not choose an edge
-        if (selectedEdgeIndex == -1) {
+        if (selectedEdgeIndices.isEmpty()) {
             return;
         }
-        //Get a reference to the edge
-        Edge edgeToRemove = edges.get(selectedEdgeIndex);
-
-        //Remove the edge from the vertices that the edges were attached to
-        edgeToRemove.getEndpoint1().removeEdge(edgeToRemove);
-        edgeToRemove.getEndpoint2().removeEdge(edgeToRemove);
-
-        edges.remove(selectedEdgeIndex);
+        //Get a reference to the selected edges:
+        //create a temporary ArrayList to hold the edges to be removed
+        List<Edge> edgesToRemove = new ArrayList();
+        for (Edge e : selectedEdges) { //loop through all selected edges
+            edgesToRemove.add(e); //mark this edge to be removed
+        }
+        
+        //Remove the edges from the vertices that they are attached to
+        for (Edge e : edgesToRemove) {
+            //Remove this edge from the vertices that the edge is attached to
+            e.getEndpoint1().removeEdge(e);
+            e.getEndpoint2().removeEdge(e);
+        }
+        
+        //remove all the edges from the edges list
+        edges.removeAll(selectedEdges);
 
         updateEdgesListModel();
-
-//        exitAddEdgesState();
-//        //reenter the add edge state (allow user to add more edges)
-//        enterAddEdgeState();
+        
+        //update selection
+        selectedEdgeIndices.clear();
+        setSelectedEdges();
+        
         canvas.repaint();
     }
 
