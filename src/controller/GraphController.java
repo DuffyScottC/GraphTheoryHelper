@@ -70,7 +70,7 @@ public class GraphController {
     /**
      * The last selected edge in the edges JList
      */
-    private Edge selectedEdge = null;
+    private List<Edge> selectedEdges = new ArrayList();
     /**
      * A list of the selected indices in the vertices JList. null if there are
      * no selected vertices. (Used for things like setting the title text field
@@ -80,7 +80,7 @@ public class GraphController {
     /**
      * The last selected index in the edges JList
      */
-    private int selectedEdgeIndex = -1;
+    private List<Integer> selectedEdgeIndices = new ArrayList();
     private JTextField titleTextField;
     private JList verticesList;
     private JList edgesList;
@@ -1210,9 +1210,9 @@ public class GraphController {
             boolean clickedAnEdge = false;
             for (int i = edges.size() - 1; i >= 0; --i) { //loop through edges
                 Edge e = edges.get(i); //get the next edge in the list
+                //Check if the current edge was clicked
                 clickedAnEdge = isEdgeClicked(e, mx, my);
-
-                //if we clicked edge e
+                //If we clicked edge e
                 if (clickedAnEdge) {
                     //store the clicked edge (for moving)
                     clickedEdge = e;
