@@ -316,7 +316,7 @@ public class GraphController {
                             //loop through all the unique vertices
                             for (Vertex v : attachedVertices) {
                                 //increment this vertex's position
-                                v.incLocation(incY, incY);
+                                v.incLocation(incX, incY);
                             }
                             setIsModified(true);
                         }
