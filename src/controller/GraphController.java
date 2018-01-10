@@ -303,6 +303,8 @@ public class GraphController {
                                 if (!attachedVertices.contains(ep1)) {
                                     //add this vertex
                                     attachedVertices.add(ep1);
+                                    //since it's new, increment its position
+                                    ep1.incLocation(incX, incY);
                                 }
                                 //get the second endpoint
                                 Vertex ep2 = clickedEdge.getEndpoint2();
@@ -310,13 +312,9 @@ public class GraphController {
                                 if (!attachedVertices.contains(ep2)) {
                                     //add this vertex
                                     attachedVertices.add(ep2);
+                                    //since it's new, increment its position
+                                    ep2.incLocation(incX, incY);
                                 }
-                            }
-                            //Now increment the position each unique vertex in the list:
-                            //loop through all the unique vertices
-                            for (Vertex v : attachedVertices) {
-                                //increment this vertex's position
-                                v.incLocation(incX, incY);
                             }
                             setIsModified(true);
                         }
