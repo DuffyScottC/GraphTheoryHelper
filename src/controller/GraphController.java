@@ -897,8 +897,6 @@ public class GraphController {
             for (Vertex selectedVertex : selectedVertices) {
                 //unhighlight each one
                 unhighlightVertex(selectedVertex);
-//                selectedVertex.setStrokeColor(graph.getVertexStrokeColor());
-//                selectedVertex.setStrokeWidth(Values.VERTEX_STROKE_WIDTH);
             }
         }
 
@@ -933,8 +931,7 @@ public class GraphController {
     private void setSelectedEdge() {
         //Visually deselect the old selected edge
         if (selectedEdge != null) {
-            selectedEdge.setStrokeWidth(Values.EDGE_STROKE_WIDTH);
-            selectedEdge.setStrokeColor(graph.getEdgeStrokeColor());
+            
         }
 
         //Programatically and visually select the new edge (or deselect entirely)
@@ -1895,6 +1892,16 @@ public class GraphController {
     private void unhighlightVertex(Vertex vertex) {
         vertex.setStrokeColor(graph.getVertexStrokeColor());
         vertex.setStrokeWidth(Values.VERTEX_STROKE_WIDTH);
+    }
+    
+    private void highlightEdge(Edge edge) {
+        edge.setStrokeWidth(Values.EDGE_STROKE_WIDTH);
+        edge.setStrokeColor(graph.getEdgeStrokeColor());
+    }
+    
+    private void unHighlightEdge(Edge edge) {
+        edge.setStrokeWidth(Values.EDGE_HIGHLIGHT_STROKE_WIDTH);
+        edge.setStrokeColor(Values.EDGE_HIGHLIGHT_COLOR);
     }
 
     /**
