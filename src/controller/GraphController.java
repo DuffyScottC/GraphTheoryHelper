@@ -142,15 +142,15 @@ public class GraphController {
     private int lastX;
     private int lastY;
     /**
-     * This is used for moving a vertex, not to be confused with selectedVertex,
+     * This is used for moving all vertices, not to be confused with selectedVertices,
      * which is used for deleting vertices and changing titles.
      */
     private List<Vertex> clickedVertices = new ArrayList();
     /**
-     * This is used for moving an edge, not to be confused with selectedEdge,
+     * This is used for moving all edges, not to be confused with selectedEdges,
      * which is used for deleting edges.
      */
-    private Edge clickedEdge;
+    private List<Edge> clickedEdges = new ArrayList();
 
     //MARK: Booleans
     /**
@@ -248,9 +248,9 @@ public class GraphController {
                     clickedVertices.clear(); //we don't want to move a vertex after the user lets go
                     canvas.repaint();
                 }
-                if (clickedEdge != null) {
+                if (!clickedEdges.isEmpty()) {
                     unpressEdge();
-                    clickedEdge = null; //we don't want to move an edge after the user lets go
+                    clickedEdges.clear(); //we don't want to move an edge after the user lets go
                     canvas.repaint();
                 }
                 if (selecting) {
@@ -1157,7 +1157,7 @@ public class GraphController {
             Vertex currentVertex = vertices.get(i);
             //if this vertex contains the mouse click:
             if (currentVertex.getPositionShape().contains(mx, my)) {
-                //If the clicked vertex is one of multiple selected vertices
+                //If the clicked vertex is one of multiple already selected vertices
                 if (selectedVertices.contains(currentVertex)) {
                     //If the command button is held down
                     if (isCommandPressed) {
@@ -1174,8 +1174,7 @@ public class GraphController {
                         //add the selected vertices to clickedVertices (for moving)
                         clickedVertices.addAll(selectedVertices);
                     }
-                } else //if the user clicked a new, unselected vertex
-                {
+                } else { //if the user clicked a new, unselected vertex
                     if (isCommandPressed) { //if the command key is held down
                         //Add the new vertex to the selection:
                         //append the index of this clicked vertex to the selection
@@ -1193,7 +1192,7 @@ public class GraphController {
                         clickedVertices.add(currentVertex);
                         //Update the selection:
                         //deselect any selected edges
-                        selectedEdgeIndex = -1;
+                        selectedEdgeIndices.clear();
                         setSelectedEdge();
                         //select the vertex
                         verticesList.setSelectedIndex(i);
@@ -1222,16 +1221,35 @@ public class GraphController {
                 clickedAnEdge = isEdgeClicked(e, mx, my);
                 //If we clicked edge e
                 if (clickedAnEdge) {
-                    //store the clicked edge (for moving)
-                    clickedEdge = e;
-                    //Update the selection:
-                    //deselect the vertex
-                    selectedVertexIndices.clear();
-                    setSelectedVertices();
-                    //select the edge
-                    edgesList.setSelectedIndex(i);
-                    selectedEdgeIndex = i;
-                    setSelectedEdge();
+                    //if the clicked edge is one of multiple already selected edges
+                    if (selectedEdges.contains(e)) {
+                        if (isCommandPressed) {  //if command is held down
+                            //We want to deselect this edge:
+                        } else { //if command is not held down
+                            //We want to allow the user to move all selected edges:
+                        }
+                    } else { //if the user clicked an entirely new edge
+                        if (isCommandPressed) { //if command is held down
+                            //We want to add the new edge to the current set of 
+                            //already selected edges:
+                        } else { //if command is not held down
+                            //We want to make this the only selected edge:
+                            //store the clicked edge (for moving)
+                            clickedEdges.add(e);
+                            //Update the selection:
+                            //deselect all vertices
+                            selectedVertexIndices.clear();
+                            setSelectedVertices();
+                            //select the edge
+                            edgesList.setSelectedIndex(i);
+                            //clear the previous selection
+                            selectedEdgeIndices.clear();
+                            //add this index to the selection
+                            selectedEdgeIndices.add(i);
+                            setSelectedEdge();
+                        }
+                    }
+                    //Whether we clicked a selected or unselected edge:
                     canvas.repaint();
                     clickedBlankSpace = false; //the user didn't click blank space
                     break; //exit the loop (we don't need to check the rest)
@@ -1250,7 +1268,7 @@ public class GraphController {
 
             //Deselect the edge
             edgesList.clearSelection();; //deselect edge in the list
-            selectedEdgeIndex = -1;
+            selectedEdgeIndices.clear();
             setSelectedEdge();
 
             canvas.repaint();
