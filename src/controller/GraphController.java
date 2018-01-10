@@ -1232,6 +1232,10 @@ public class GraphController {
                         if (isCommandPressed) { //if command is held down
                             //We want to add the new edge to the current set of 
                             //already selected edges:
+                            //append the index of this clicked edge to the selection
+                            selectedEdgeIndices.add(i);
+                            //Convert the selected indices to an array
+                            int[] tempIndices = selectedEdgeIndicesToArray();
                         } else { //if command is not held down
                             //We want to make this the only selected edge:
                             //store the clicked edge (for moving)
@@ -1381,18 +1385,18 @@ public class GraphController {
     }
 
     /**
-     * Convenience method - converts the selectedVertexIndices ArrayList to a
+     * Convenience method - converts an ArrayList of Integer objects to a
      * primitive array of ints.
-     *
+     * @param selectedIndices Either selectedVertexIndices or selectedEdgeIndices
      * @return
      */
-    private int[] selectedVertexIndicesToArray() {
-        //initialize and array with the right number of elements
-        int[] tempIndices = new int[selectedVertexIndices.size()];
+    private int[] selectedIndicesToArray(List<Integer> selectedIndices) {
+        //initialize an array with the right number of elements
+        int[] tempIndices = new int[selectedIndices.size()];
         int i = 0; //array index iterator
-        //cycle through the selectedVertices
-        for (int index : selectedVertexIndices) {
-            //add this vertex index
+        //cycle through the selectedEdges
+        for (int index : selectedIndices) {
+            //add this edge index
             tempIndices[i] = index;
             //increment the array index
             i++;
