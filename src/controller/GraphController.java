@@ -1612,7 +1612,7 @@ public class GraphController {
         if (!selectedVertexIndices.isEmpty()) {
             removeVertices();
         }
-        if (selectedEdgeIndex != -1) {
+        if (!selectedEdgeIndices.isEmpty()) {
             removeEdge();
         }
     }
@@ -1814,7 +1814,8 @@ public class GraphController {
                     //Update selection
                     int lastIndex = edges.size() - 1; //last index in edges
                     edgesList.setSelectedIndex(lastIndex);
-                    selectedEdgeIndex = lastIndex;
+                    selectedEdgeIndices.clear();
+                    selectedEdgeIndices.add(lastIndex);
                     setSelectedEdges();
 
                     setIsModified(true);
