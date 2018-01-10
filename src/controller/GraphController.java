@@ -1959,13 +1959,13 @@ public class GraphController {
     }
     
     private void highlightEdge(Edge edge) {
-        edge.setStrokeWidth(Values.EDGE_STROKE_WIDTH);
-        edge.setStrokeColor(graph.getEdgeStrokeColor());
+        edge.setStrokeWidth(Values.EDGE_HIGHLIGHT_STROKE_WIDTH);
+        edge.setStrokeColor(Values.EDGE_HIGHLIGHT_COLOR);
     }
     
     private void unHighlightEdge(Edge edge) {
-        edge.setStrokeWidth(Values.EDGE_HIGHLIGHT_STROKE_WIDTH);
-        edge.setStrokeColor(Values.EDGE_HIGHLIGHT_COLOR);
+        edge.setStrokeWidth(Values.EDGE_STROKE_WIDTH);
+        edge.setStrokeColor(graph.getEdgeStrokeColor());
     }
 
     /**
