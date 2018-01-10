@@ -249,7 +249,7 @@ public class GraphController {
                     canvas.repaint();
                 }
                 if (!clickedEdges.isEmpty()) {
-                    unpressEdge();
+                    unpressEdges();
                     clickedEdges.clear(); //we don't want to move an edge after the user lets go
                     canvas.repaint();
                 }
@@ -1127,11 +1127,14 @@ public class GraphController {
         }
     }
 
-    private void unpressEdge() {
-        if (clickedEdge == null) {
+    private void unpressEdges() {
+        if (clickedEdges.isEmpty()) {
             return;
         }
-        clickedEdge.setStrokeColor(Values.EDGE_HIGHLIGHT_COLOR);
+        //cycle through all the clicked edges
+        for (Edge clickedEdge : clickedEdges) {
+            clickedEdge.setStrokeColor(Values.EDGE_HIGHLIGHT_COLOR);
+        }
     }
 
     /**
