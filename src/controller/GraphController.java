@@ -1227,6 +1227,8 @@ public class GraphController {
                             //We want to deselect this edge:
                         } else { //if command is not held down
                             //We want to allow the user to move all selected edges:
+                            //add the selected edges to clickedEdges (for moving)
+                            clickedEdges.addAll(selectedEdges);
                         }
                     } else { //if the user clicked an entirely new edge
                         if (isCommandPressed) { //if command is held down
