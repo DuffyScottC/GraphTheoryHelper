@@ -238,7 +238,7 @@ public class GraphController {
                     canvas.setEndPosition(endX, endY);
                 }
                 pressVertices();
-                pressEdge();
+                pressEdges();
             }
 
             @Override
@@ -1106,11 +1106,14 @@ public class GraphController {
         }
     }
 
-    private void pressEdge() {
-        if (clickedEdge == null) {
+    private void pressEdges() {
+        if (clickedEdges.isEmpty()) {
             return;
         }
-        clickedEdge.setStrokeColor(Values.EDGE_PRESSED_COLOR);
+        //cycle through all the clicked edges
+        for (Edge clickedEdge : clickedEdges) {
+            clickedEdge.setStrokeColor(Values.EDGE_PRESSED_COLOR);
+        }
     }
 
     private void unpressVertices() {
