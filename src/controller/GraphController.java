@@ -282,18 +282,21 @@ public class GraphController {
 
                     //if the user did not click any vertices (or is not moving any vertices)
                     if (clickedVertices.isEmpty()) {
-                        //if the user did not click an edge (or is not moving any edges)
-                        if (clickedEdge == null) {
+                        //if the user did not click any edges (or is not moving any edges)
+                        if (clickedEdges.isEmpty()) {
                             //update the endpoint of the selection box
                             endX = mx;
                             endY = my;
                             canvas.setEndPosition(mx, my);
                             //select the appropriate vertices
                             multipleSelection(mx, my);
-                        } else { //if the user clicked an edge
-                            //move both nodes attached to the edge
-                            clickedEdge.getEndpoint1().incLocation(incX, incY);
-                            clickedEdge.getEndpoint2().incLocation(incX, incY);
+                        } else { //if the user clicked any edges
+                            //cycle through all clicked edges
+                            for (Edge clickedEdge : clickedEdges) {
+                                //move both nodes attached to this edge
+                                clickedEdge.getEndpoint1().incLocation(incX, incY);
+                                clickedEdge.getEndpoint2().incLocation(incX, incY);
+                            }
                             setIsModified(true);
                         }
                     } else { //if the user clicked any vertices
