@@ -194,6 +194,9 @@ public class GraphController {
         verticesList.getInputMap().put(KeyStroke.getKeyStroke("UP"), "none"); //make it do nothing
         edgesList.getInputMap().put(KeyStroke.getKeyStroke("DOWN"), "none"); //make it do nothing
         edgesList.getInputMap().put(KeyStroke.getKeyStroke("UP"), "none"); //make it do nothing
+        
+        //remove the backspace action from canvas to prevent error beep
+        canvas.getInputMap().put(KeyStroke.getKeyStroke("BACK_SPACE"), "none");
 
         titleTextField = frame.getTitleTextField();
         modifiedTextField = frame.getModifiedTextField();
