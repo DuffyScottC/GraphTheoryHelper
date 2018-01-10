@@ -194,7 +194,7 @@ public class GraphController {
         verticesList.getInputMap().put(KeyStroke.getKeyStroke("UP"), "none"); //make it do nothing
         edgesList.getInputMap().put(KeyStroke.getKeyStroke("DOWN"), "none"); //make it do nothing
         edgesList.getInputMap().put(KeyStroke.getKeyStroke("UP"), "none"); //make it do nothing
-        
+
         //remove the backspace action from canvas to prevent error beep
         canvas.getInputMap().put(KeyStroke.getKeyStroke("BACK_SPACE"), "none");
 
@@ -341,7 +341,7 @@ public class GraphController {
             }
 
         });
-        
+
         frame.getRotate90MenuItem().addActionListener(new ActionListener() {
             @Override
             public void actionPerformed(ActionEvent e) {
@@ -349,7 +349,7 @@ public class GraphController {
                 canvas.repaint();
             }
         });
-        
+
         frame.getShowVertexNamesMenuItem().addActionListener(new ActionListener() {
             @Override
             public void actionPerformed(ActionEvent e) {
@@ -839,7 +839,7 @@ public class GraphController {
                         selectAllVertices();
                     }
                 }
-                
+
             }
 
             @Override
@@ -1009,16 +1009,16 @@ public class GraphController {
             angle += delta; //increment the angle
         }
     }
-    
+
     /**
      * Rotates all vertices by 90 degrees counter-clockwise about the origin
      */
     private void rotateVertices90() {
         for (Vertex v : vertices) {
-            double oy = canvas.getHeight()/2;
+            double oy = canvas.getHeight() / 2;
             double x = v.getLocation().x;
             double y = v.getLocation().y;
-            v.setLocation(2*oy-y, x);
+            v.setLocation(2 * oy - y, x);
         }
     }
 
@@ -1167,7 +1167,8 @@ public class GraphController {
                         clickedVertices.addAll(selectedVertices);
                     }
                 } else //if the user clicked a new, unselected vertex
-                 if (isCommandPressed) { //if the command key is held down
+                {
+                    if (isCommandPressed) { //if the command key is held down
                         //Add the new vertex to the selection:
                         //append the index of this clicked vertex to the selection
                         selectedVertexIndices.add(i);
@@ -1192,6 +1193,7 @@ public class GraphController {
                         selectedVertexIndices.add(i); //update selected indices
                         setSelectedVertices();
                     }
+                }
                 //Whether the user clicked a selected or unselected vertex:
                 canvas.repaint(); //repaint the canvas
                 clickedBlankSpace = false; //user didn't click blank space
@@ -1201,57 +1203,14 @@ public class GraphController {
         }
 
         //MARK: Select edge
-        //if edges is not null and the user did NOT select a vertex
+        //if edges is not null and the user did NOT select a vertex 
+        //(which have priority over edges when it comes to selecting)
         if (edges != null && didSelectVertex == false) {
-            //true if edge "e" was clicked in loop, false if no edge was clicked
+            //true if edge "e" was clicked (in loop below), false if no edge was clicked
             boolean clickedAnEdge = false;
-            for (int i = edges.size() - 1; i >= 0; --i) {
-                Edge e = edges.get(i);
-                if (isEdgeVertical(e)) { //if the edge is verticle
-                    //All we need to do is check if mx is close enough to e's x-position:
-
-                    //get an endpoint (arbitrary)
-                    Point2D.Double ep1 = e.getEndpoint1().getCenter();
-                    //the difference between mx and e's x-position
-                    double diff = ep1.x - mx;
-                    //find the absolute value
-                    if (diff < 0) {
-                        diff *= -1;
-                    }
-                    if (diff <= Values.LINE_SELECTION_DISTANCE) {
-                        //check if the point is on the edge (which is much simpler if the
-                        //edge is vertical (only have to check y-values)
-
-                        //get the other endpoint (we already have ep1 from above)
-                        Point2D.Double ep2 = e.getEndpoint2().getCenter();
-                        //Note: greater y is lower on canvas, smaller y is higher on canvas
-                        if (ep1.y < ep2.y) { //if ep1 is higher than ep2
-                            //ep1.y<my<ep2.y
-                            if (ep1.y < my && my < ep2.y) { //if my is between ep1.y and ep2.y
-                                clickedAnEdge = true; //we clicked edge e
-                            }
-                        } else //if ep2 is higher than ep1
-                        //ep2.y<my<ep1.y
-                        {
-                            if (ep2.y < my && my < ep1.y) { //if my is between ep2.y and ep1.y
-                                clickedAnEdge = true; //we clicked edge e
-                            }
-                        }
-                    }
-                } else { //if the edge is not verticle
-                    //Find the point on edge e that is closest to (mx,my) (the intersection, I)
-                    Point2D.Double I = getClosestPointOnEdge(mx, my, e);
-
-                    //Find the distance between I and (mx,my)
-                    double d = distance(I.x, I.y, mx, my);
-                    //(mx,my) is close enough to the line formed by e
-                    if (d <= Values.LINE_SELECTION_DISTANCE) {
-                        //If the intersection, I, is on the edge (not beyond it)
-                        if (isPointOnEdge(I.x, I.y, e)) {
-                            clickedAnEdge = true; //we clicked edge e
-                        }
-                    }
-                }
+            for (int i = edges.size() - 1; i >= 0; --i) { //loop through edges
+                Edge e = edges.get(i); //get the next edge in the list
+                clickedAnEdge = isEdgeClicked(e, mx, my);
 
                 //if we clicked edge e
                 if (clickedAnEdge) {
@@ -1292,6 +1251,63 @@ public class GraphController {
         //update the last position
         lastX = mx;
         lastY = my;
+    }
+    
+    /**
+     * Convenience method to improve readability in the selectVertexOrEdge()
+     * method. This method checks if the given click position (mx,my) is in the
+     * click area of the given edge. 
+     * @param e The edge to be checked
+     * @param mx The x coordinate of the click position
+     * @param my The y coordinate of the click position
+     * @return True of (mx,my) is in the click area of edge e.
+     */
+    private boolean isEdgeClicked(Edge e, int mx, int my) {
+        boolean clickedAnEdge = false;
+        if (isEdgeVertical(e)) { //if the edge is verticle
+            //All we need to do is check if mx is close enough to e's x-position:
+
+            //get an endpoint (arbitrary)
+            Point2D.Double ep1 = e.getEndpoint1().getCenter();
+            //the difference between mx and e's x-position
+            double diff = ep1.x - mx;
+            //find the absolute value
+            if (diff < 0) {
+                diff *= -1;
+            }
+            if (diff <= Values.LINE_SELECTION_DISTANCE) {
+                //check if the point is on the edge (which is much simpler if the
+                //edge is vertical (only have to check y-values)
+
+                //get the other endpoint (we already have ep1 from above)
+                Point2D.Double ep2 = e.getEndpoint2().getCenter();
+                //Note: greater y is lower on canvas, smaller y is higher on canvas
+                if (ep1.y < ep2.y) { //if ep1 is higher than ep2
+                    //ep1.y<my<ep2.y
+                    if (ep1.y < my && my < ep2.y) { //if my is between ep1.y and ep2.y
+                        clickedAnEdge = true; //we clicked edge e
+                    }
+                } else //if ep2 is higher than ep1
+                //ep2.y<my<ep1.y
+                 if (ep2.y < my && my < ep1.y) { //if my is between ep2.y and ep1.y
+                        clickedAnEdge = true; //we clicked edge e
+                    }
+            }
+        } else { //if the edge is not verticle
+            //Find the point on edge e that is closest to (mx,my) (the intersection, I)
+            Point2D.Double I = getClosestPointOnEdge(mx, my, e);
+
+            //Find the distance between I and (mx,my)
+            double d = distance(I.x, I.y, mx, my);
+            //(mx,my) is close enough to the line formed by e
+            if (d <= Values.LINE_SELECTION_DISTANCE) {
+                //If the intersection, I, is on the edge (not beyond it)
+                if (isPointOnEdge(I.x, I.y, e)) {
+                    clickedAnEdge = true; //we clicked edge e
+                }
+            }
+        }
+        return clickedAnEdge;
     }
 
     /**
