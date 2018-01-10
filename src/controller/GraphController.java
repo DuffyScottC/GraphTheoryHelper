@@ -1692,6 +1692,9 @@ public class GraphController {
         //Deselect the vertices:
         selectedVertexIndices.clear();
         setSelectedVertices();
+        //Deselect the edges:
+        selectedEdgeIndices.clear();
+        setSelectedEdges();
 
         canvas.repaint();
         setIsModified(true);
