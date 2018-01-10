@@ -905,7 +905,6 @@ public class GraphController {
             selectedVertices.clear(); //remove all elements from selectedVertices
             titleTextField.setText("");
             titleTextField.setEditable(false);
-//            shouldChangeVerticesList = false;
             verticesList.clearSelection(); //unselect the vertex in the JList
         } else { //if the user selected vertices
             selectedVertices.clear(); //clear the old selected vertices
@@ -913,8 +912,6 @@ public class GraphController {
             for (int i : selectedVertexIndices) { //loop through the selected indices
                 Vertex selectedVertex = vertices.get(i); //store this selected vertex
                 highlightVertex(selectedVertex);
-//                selectedVertex.setStrokeColor(Values.EDGE_HIGHLIGHT_COLOR); //highlight the vertex
-//                selectedVertex.setStrokeWidth(Values.VERTEX_HIGHLIGHT_STROKE_WIDTH);
                 selectedVertices.add(selectedVertex); //add the new selection
             }
             if (selectedVertices.size() == 1) { //if exactly one vertex was selected
@@ -930,19 +927,25 @@ public class GraphController {
 
     private void setSelectedEdge() {
         //Visually deselect the old selected edge
-        if (selectedEdge != null) {
-            
+        if (!selectedEdges.isEmpty()) { //if there were previously selected edges
+            //loop through the old edges
+            for (Edge selectedEdge : selectedEdges) {
+                //unhighlight each one
+                unHighlightEdge(selectedEdge);
+            }
         }
 
         //Programatically and visually select the new edge (or deselect entirely)
-        if (selectedEdgeIndex == -1) { //if the user deselected the edge
-            selectedEdge = null;
-//            shouldChangeEdgesList = false;
+        if (selectedEdgeIndices.isEmpty()) { //if the user deselected all edges
+            selectedEdges.clear();
             edgesList.clearSelection(); //unselect the edge in the JList
-        } else { //if the user selected an edge
-            selectedEdge = edges.get(selectedEdgeIndex);
-            selectedEdge.setStrokeWidth(Values.EDGE_HIGHLIGHT_STROKE_WIDTH);
-            selectedEdge.setStrokeColor(Values.EDGE_HIGHLIGHT_COLOR);
+        } else { //if the user selected edges
+            //store the new selected edges
+            for (int i : selectedEdgeIndices) { //loop through the selected indices
+                Edge selectedEdge = edges.get(i); //store this selected edge
+                highlightEdge(selectedEdge);
+                selectedEdges.add(selectedEdge); //add the new selection
+            }
         }
     }
 
