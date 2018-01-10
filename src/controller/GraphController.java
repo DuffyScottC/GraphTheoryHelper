@@ -1881,7 +1881,7 @@ public class GraphController {
         //Update edge selection
         edgesList.clearSelection(); //clear the visual selection in the JList
         //deselect the edge
-        selectedEdgeIndex = -1;
+        selectedEdgeIndices.clear();
         setSelectedEdges();
 
         //Assign the canAddEdges values of all the vertices and get the number of vertices
