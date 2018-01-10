@@ -451,9 +451,17 @@ public class GraphController {
                 //Deselect the vertices (if any were selected)
                 selectedVertexIndices.clear();
                 setSelectedVertices();
-
-                //Select (or deselect) the edge
-                selectedEdgeIndex = edgesList.getSelectedIndex(); //get the index of the selected item
+                
+                //Select (or deselect) the edges:
+                //remove all previous selected edges
+                selectedEdgeIndices.clear();
+                //get the list of selected edges
+                int[] tempIndices = edgesList.getSelectedIndices();
+                //loop through the selected indices
+                for (int i : tempIndices) {
+                    //add each one to the main ArrayList
+                    selectedEdgeIndices.add(i);
+                }
                 setSelectedEdge();
                 canvas.repaint();
             }
