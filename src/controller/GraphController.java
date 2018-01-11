@@ -1051,7 +1051,7 @@ public class GraphController {
      * Positions all vertices in the graph in an evenly spaced circle
      */
     public void formatAllVertices() {
-        this.formatVertices(this.vertices);
+        formatVertices(vertices);
     }
 
     /**
@@ -1065,13 +1065,13 @@ public class GraphController {
         int yCent = canvas.getHeight() / 2;
         final double radius = Values.FORMAT_RADIUS;
         final double delta = (2 * Math.PI) / vs.size(); //the change in angle between each vertex
-        double angle = 0.0; //the angle that changes to position each vertex
+        double angle = Math.PI / 2; //this angle changes to position each vertex (start at 90)
 
-        for (Vertex v : vs) {
+        for (int i = vs.size(); i >= 0; i--) {
             //calculate the positions
             double x = xCent + radius * Math.cos(angle);
             double y = yCent + radius * Math.sin(angle);
-            v.setLocation(x, y); //position the vertex
+            vs.get(i).setLocation(x, y); //position the vertex
             angle += delta; //increment the angle
         }
     }
