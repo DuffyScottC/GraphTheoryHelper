@@ -369,7 +369,7 @@ public class GraphController {
             public void windowClosing(WindowEvent e) {
                 if (isModified) { //if the user tried to close without saving
                     if (!shouldContinue("OK to discard changes?")) { //if the user does not want to close the window without saving
-                        System.out.println("Do not close the window.");
+                        isCommandPressed = false; //unpress command
                     } else { //if the user does want to close the window
                         System.exit(0); //the window should close
                     }
@@ -519,6 +519,7 @@ public class GraphController {
                     if (v.getTitle().equals(newTitle)) {
                         //Throw a dialogue telling the user that they can't name two vertexes the same thing
                         JOptionPane.showMessageDialog(frame, "Title \"" + newTitle + "\" has already been used in this graph.");
+                        isCommandPressed = false; //unpress command
                         return; //leave (without renaming the vertex)
                     }
                 }
@@ -584,9 +585,13 @@ public class GraphController {
                     } catch (IOException ex) {
                         JOptionPane.showMessageDialog(frame, "Unable to read selected file.\n"
                                 + ex.getMessage(), "Oops!", JOptionPane.ERROR_MESSAGE);
+                        isCommandPressed = false; //unpress command
+                        return;
                     } catch (ClassNotFoundException ex) {
                         JOptionPane.showMessageDialog(frame, "File is not a figures file.\n"
                                 + ex.getMessage(), "Oops!", JOptionPane.ERROR_MESSAGE);
+                        isCommandPressed = false; //unpress command
+                        return;
                     }
 
                     saveFile = loadFile; //update the save file
@@ -652,7 +657,9 @@ public class GraphController {
 
                 //Make it so that the user can press enter to press Add
                 addGraphDialog.getRootPane().setDefaultButton(addGraphDialog.getAddButton());
-
+                
+                isCommandPressed = false;
+                
                 addGraphDialog.setVisible(true);
             }
         });
@@ -670,7 +677,9 @@ public class GraphController {
                 graphColorChooserDialog.setVertexFillColor(graph.getVertexFillColor());
                 graphColorChooserDialog.setVertexStrokeColor(graph.getVertexStrokeColor());
                 graphColorChooserDialog.setEdgeStrokeColor(graph.getEdgeStrokeColor());
-
+                
+                isCommandPressed = false;
+                
                 graphColorChooserDialog.setVisible(true);
             }
         });
