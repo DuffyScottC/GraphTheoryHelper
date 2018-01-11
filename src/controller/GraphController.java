@@ -1065,7 +1065,7 @@ public class GraphController {
         int yCent = canvas.getHeight() / 2;
         final double radius = Values.FORMAT_RADIUS;
         final double delta = (2 * Math.PI) / vs.size(); //the change in angle between each vertex
-        double angle = Math.PI / 2; //this angle changes to position each vertex (start at 90)
+        double angle = 0.0; //this angle changes to position each vertex (start at 90)
 
         for (int i = vs.size() - 1; i >= 0; i--) {
             //calculate the positions
