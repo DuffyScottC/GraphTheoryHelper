@@ -902,11 +902,11 @@ public class GraphController {
         
         //Get the file path from user preferences (return the current directory if 
         //no preference was set yet):
-        String filePath = prefs.get("Last File Path", System.getProperty("user.dir"));
+        String filePath = prefs.get(Values.LAST_FILE_PATH, System.getProperty("user.dir"));
         saveFile = new File(filePath);
         
         //Get the user preference for showTitles menu item (return true as default)
-        boolean showVertexNames = prefs.getBoolean("Show Vertex Names", true);
+        boolean showVertexNames = prefs.getBoolean(Values.SHOW_VERTEX_NAMES, true);
         //update the appropriate values
         frame.getShowVertexNamesMenuItem().setSelected(showVertexNames);
         showTitles = showVertexNames;

@@ -40,6 +40,17 @@ public class Values {
     public static final Color VERTEX_PRESSED_COLOR = VERTEX_FILL_COLOR.darker();//new Color(200, 0, 0);
     public static final Color VERTEX_AVAILABLE_STROKE_COLOR = EDGE_HIGHLIGHT_COLOR;
     
+    //MARK: User preference keys
+    /**
+     * The last file location opened when the user saved or loaded a file 
+     * in the chooser dialog.
+     */
+    public static final String LAST_FILE_PATH = "GTH Last File Path";
+    /**
+     * Whether the user wants the canvas to show or hide vertex names.
+     */
+    public static final String SHOW_VERTEX_NAMES = "GTH Show Vertex Names";
+    
     //MARK: Misc properties
     public static final int DIAMETER = 15;
     public static final double FORMAT_RADIUS = 150;
