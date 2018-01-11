@@ -1090,11 +1090,9 @@ public class GraphController {
         graph.setEdgeStrokeColor(newEdgeStrokeColor);
 
         //MARK: Update the list selection:
-        //select only the topmost vertex
-        int newIndex = vertices.size() - 1;
-        verticesList.setSelectedIndex(newIndex);
+        //deselect all vertices
+        verticesList.clearSelection();
         selectedVertexIndices.clear(); //clear all elements
-        selectedVertexIndices.add(newIndex); //set the selected index
         setSelectedVertices();
         
         //deselect all edges
