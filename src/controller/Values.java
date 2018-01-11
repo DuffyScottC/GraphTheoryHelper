@@ -38,6 +38,7 @@ public class Values {
     public static final Color VERTEX_FILL_COLOR = Color.red;
     public static final Color VERTEX_STROKE_COLOR = Color.black;
     public static final Color VERTEX_PRESSED_COLOR = VERTEX_FILL_COLOR.darker();//new Color(200, 0, 0);
+    public static final Color VERTEX_AVAILABLE_STROKE_COLOR = EDGE_HIGHLIGHT_COLOR;
     
     //MARK: Misc properties
     public static final int DIAMETER = 15;

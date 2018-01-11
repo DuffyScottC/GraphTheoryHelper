@@ -2015,9 +2015,11 @@ public class GraphController {
         for (Vertex v : vertices) {
             //if this vertex is available to add edges to
             if (v.canAddEdges()) {
-                highlightVertex(v);
+                v.setStrokeColor(Values.VERTEX_AVAILABLE_STROKE_COLOR);
+                v.setStrokeWidth(Values.VERTEX_HIGHLIGHT_STROKE_WIDTH);
             } else { //if this vertex is completely full
-                unHighlightVertex(v);
+                v.setStrokeColor(graph.getVertexStrokeColor());
+                v.setStrokeWidth(Values.VERTEX_STROKE_WIDTH);
             }
         }
     }
