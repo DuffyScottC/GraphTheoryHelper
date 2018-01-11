@@ -10,19 +10,16 @@ import element.Edge;
 import element.Graph;
 import element.Vertex;
 import java.awt.Color;
-import java.awt.Shape;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 import java.awt.event.KeyAdapter;
 import java.awt.event.KeyEvent;
 import java.awt.event.MouseAdapter;
 import java.awt.event.MouseEvent;
-import java.awt.event.MouseListener;
 import java.awt.event.MouseMotionListener;
 import java.awt.event.WindowAdapter;
 import java.awt.event.WindowEvent;
 import java.awt.geom.Point2D;
-import java.awt.geom.Rectangle2D;
 import java.io.File;
 import java.io.FileInputStream;
 import java.io.FileOutputStream;
@@ -35,7 +32,6 @@ import java.util.ArrayList;
 import java.util.List;
 import java.util.regex.Matcher;
 import java.util.regex.Pattern;
-import javax.swing.AbstractAction;
 import javax.swing.DefaultListModel;
 import javax.swing.JColorChooser;
 import javax.swing.JFileChooser;
@@ -47,8 +43,6 @@ import javax.swing.JTextField;
 import javax.swing.JToggleButton;
 import javax.swing.KeyStroke;
 import javax.swing.ListSelectionModel;
-import javax.swing.event.ListSelectionEvent;
-import javax.swing.event.ListSelectionListener;
 import javax.swing.filechooser.FileFilter;
 import views.AddGraphDialog;
 import views.Canvas;
@@ -143,8 +137,9 @@ public class GraphController {
     private int lastX;
     private int lastY;
     /**
-     * This is used for moving all vertices, not to be confused with selectedVertices,
-     * which is used for deleting vertices and changing titles.
+     * This is used for moving all vertices, not to be confused with
+     * selectedVertices, which is used for deleting vertices and changing
+     * titles.
      */
     private List<Vertex> clickedVertices = new ArrayList();
     /**
@@ -214,6 +209,22 @@ public class GraphController {
         addKeyboardShortcuts();
 
         enterSelectionState();
+        
+        //Make the chooser only load .graph files
+        FileFilter filter = new FileFilter() {
+            @Override
+            public boolean accept(File pathname) {
+                String name = pathname.getName();
+                //file must be "something.graph"
+                return name.matches(".*\\.graph");
+            }
+
+            @Override
+            public String getDescription() {
+                return ".graph files";
+            }
+        };
+        chooser.setFileFilter(filter);
 
         canvas.addMouseListener(new MouseAdapter() {
             @Override
@@ -474,7 +485,7 @@ public class GraphController {
                 //Deselect the vertices (if any were selected)
                 selectedVertexIndices.clear();
                 setSelectedVertices();
-                
+
                 //Select (or deselect) the edges:
                 //remove all previous selected edges
                 selectedEdgeIndices.clear();
@@ -540,20 +551,7 @@ public class GraphController {
                 }
 
                 chooser.setDialogTitle("Open");
-                FileFilter filter = new FileFilter() {
-                    @Override
-                    public boolean accept(File pathname) {
-                        String name = pathname.getName();
-                        //file must be "something.graph"
-                        return name.matches(".*\\.graph");
-                    }
-
-                    @Override
-                    public String getDescription() {
-                        return ".graph files";
-                    }
-                };
-                chooser.setFileFilter(filter);
+                chooser.setAcceptAllFileFilterUsed(false);
                 int chooserResult = chooser.showOpenDialog(frame);
                 if (chooserResult == JFileChooser.APPROVE_OPTION) {
                     File loadFile = chooser.getSelectedFile();
@@ -574,7 +572,7 @@ public class GraphController {
 
                             //replace the old graph with the new one
                             replace(loadedGraph);
-                            
+
                             setIsModified(false);
 
                             canvas.repaint();
@@ -1109,7 +1107,7 @@ public class GraphController {
         verticesList.clearSelection();
         selectedVertexIndices.clear(); //clear all elements
         setSelectedVertices();
-        
+
         //deselect all edges
         edgesList.clearSelection();
         selectedEdges.clear();
@@ -1221,32 +1219,31 @@ public class GraphController {
                         //add the selected vertices to clickedVertices (for moving)
                         clickedVertices.addAll(selectedVertices);
                     }
-                } else { //if the user clicked a new, unselected vertex
-                    if (isCommandPressed) { //if the command key is held down
-                        //Add the new vertex to the selection:
-                        //append the index of this clicked vertex to the selection
-                        selectedVertexIndices.add(i);
-                        //Convert the selected indices to an array
-                        int[] tempIndices = selectedIndicesToArray(selectedVertexIndices);
-                        //Set selected indices of the verticesList to the array
-                        //version of selectedVertexIndices
-                        verticesList.setSelectedIndices(tempIndices);
-                        setSelectedVertices();
-                        //add the selected vertices to clickedVertices (for moving)
-                        clickedVertices.addAll(selectedVertices);
-                    } else { //if the command key is not held down
-                        //store the clicked vertex (for moving)
-                        clickedVertices.add(currentVertex);
-                        //Update the selection:
-                        //deselect any selected edges
-                        selectedEdgeIndices.clear();
-                        setSelectedEdges();
-                        //select the vertex
-                        verticesList.setSelectedIndex(i);
-                        selectedVertexIndices.clear(); //empty the old selected indices
-                        selectedVertexIndices.add(i); //update selected indices
-                        setSelectedVertices();
-                    }
+                } else //if the user clicked a new, unselected vertex
+                if (isCommandPressed) { //if the command key is held down
+                    //Add the new vertex to the selection:
+                    //append the index of this clicked vertex to the selection
+                    selectedVertexIndices.add(i);
+                    //Convert the selected indices to an array
+                    int[] tempIndices = selectedIndicesToArray(selectedVertexIndices);
+                    //Set selected indices of the verticesList to the array
+                    //version of selectedVertexIndices
+                    verticesList.setSelectedIndices(tempIndices);
+                    setSelectedVertices();
+                    //add the selected vertices to clickedVertices (for moving)
+                    clickedVertices.addAll(selectedVertices);
+                } else { //if the command key is not held down
+                    //store the clicked vertex (for moving)
+                    clickedVertices.add(currentVertex);
+                    //Update the selection:
+                    //deselect any selected edges
+                    selectedEdgeIndices.clear();
+                    setSelectedEdges();
+                    //select the vertex
+                    verticesList.setSelectedIndex(i);
+                    selectedVertexIndices.clear(); //empty the old selected indices
+                    selectedVertexIndices.add(i); //update selected indices
+                    setSelectedVertices();
                 }
                 //Whether the user clicked a selected or unselected vertex:
                 canvas.repaint(); //repaint the canvas
@@ -1286,36 +1283,35 @@ public class GraphController {
                             //add the selected edges to clickedEdges (for moving)
                             clickedEdges.addAll(selectedEdges);
                         }
-                    } else { //if the user clicked an entirely new edge
-                        if (isCommandPressed) { //if command is held down
-                            //We want to add the new edge to the current set of 
-                            //already selected edges:
-                            //append the index of this clicked edge to the selection
-                            selectedEdgeIndices.add(i);
-                            //Convert the selected indices to an array
-                            int[] tempIndices = selectedIndicesToArray(selectedEdgeIndices);
-                            //Set selected indices of the edgesList to the array
-                            //version of selectedEdgeIndices
-                            edgesList.setSelectedIndices(tempIndices);
-                            setSelectedEdges();
-                            //add the selected edges to clickedEdges (for moving)
-                            clickedEdges.addAll(selectedEdges);
-                        } else { //if command is not held down
-                            //We want to make this the only selected edge:
-                            //store the clicked edge (for moving)
-                            clickedEdges.add(e);
-                            //Update the selection:
-                            //deselect all vertices
-                            selectedVertexIndices.clear();
-                            setSelectedVertices();
-                            //select the edge
-                            edgesList.setSelectedIndex(i);
-                            //clear the previous selection
-                            selectedEdgeIndices.clear();
-                            //add this index to the selection
-                            selectedEdgeIndices.add(i);
-                            setSelectedEdges();
-                        }
+                    } else //if the user clicked an entirely new edge
+                    if (isCommandPressed) { //if command is held down
+                        //We want to add the new edge to the current set of 
+                        //already selected edges:
+                        //append the index of this clicked edge to the selection
+                        selectedEdgeIndices.add(i);
+                        //Convert the selected indices to an array
+                        int[] tempIndices = selectedIndicesToArray(selectedEdgeIndices);
+                        //Set selected indices of the edgesList to the array
+                        //version of selectedEdgeIndices
+                        edgesList.setSelectedIndices(tempIndices);
+                        setSelectedEdges();
+                        //add the selected edges to clickedEdges (for moving)
+                        clickedEdges.addAll(selectedEdges);
+                    } else { //if command is not held down
+                        //We want to make this the only selected edge:
+                        //store the clicked edge (for moving)
+                        clickedEdges.add(e);
+                        //Update the selection:
+                        //deselect all vertices
+                        selectedVertexIndices.clear();
+                        setSelectedVertices();
+                        //select the edge
+                        edgesList.setSelectedIndex(i);
+                        //clear the previous selection
+                        selectedEdgeIndices.clear();
+                        //add this index to the selection
+                        selectedEdgeIndices.add(i);
+                        setSelectedEdges();
                     }
                     //Whether we clicked a selected or unselected edge:
                     canvas.repaint();
@@ -1346,11 +1342,12 @@ public class GraphController {
         lastX = mx;
         lastY = my;
     }
-    
+
     /**
      * Convenience method to improve readability in the selectVertexOrEdge()
      * method. This method checks if the given click position (mx,my) is in the
-     * click area of the given edge. 
+     * click area of the given edge.
+     *
      * @param e The edge to be checked
      * @param mx The x coordinate of the click position
      * @param my The y coordinate of the click position
@@ -1383,9 +1380,11 @@ public class GraphController {
                     }
                 } else //if ep2 is higher than ep1
                 //ep2.y<my<ep1.y
-                 if (ep2.y < my && my < ep1.y) { //if my is between ep2.y and ep1.y
+                {
+                    if (ep2.y < my && my < ep1.y) { //if my is between ep2.y and ep1.y
                         clickedAnEdge = true; //we clicked edge e
                     }
+                }
             }
         } else { //if the edge is not verticle
             //Find the point on edge e that is closest to (mx,my) (the intersection, I)
@@ -1451,7 +1450,9 @@ public class GraphController {
     /**
      * Convenience method - converts an ArrayList of Integer objects to a
      * primitive array of ints.
-     * @param selectedIndices Either selectedVertexIndices or selectedEdgeIndices
+     *
+     * @param selectedIndices Either selectedVertexIndices or
+     * selectedEdgeIndices
      * @return
      */
     private int[] selectedIndicesToArray(List<Integer> selectedIndices) {
@@ -1883,23 +1884,23 @@ public class GraphController {
         for (Edge e : selectedEdges) { //loop through all selected edges
             edgesToRemove.add(e); //mark this edge to be removed
         }
-        
+
         //Remove the edges from the vertices that they are attached to
         for (Edge e : edgesToRemove) {
             //Remove this edge from the vertices that the edge is attached to
             e.getEndpoint1().removeEdge(e);
             e.getEndpoint2().removeEdge(e);
         }
-        
+
         //remove all the edges from the edges list
         edges.removeAll(selectedEdges);
 
         updateEdgesListModel();
-        
+
         //update selection
         selectedEdgeIndices.clear();
         setSelectedEdges();
-        
+
         canvas.repaint();
     }
 
@@ -1994,12 +1995,12 @@ public class GraphController {
         vertex.setStrokeColor(graph.getVertexStrokeColor());
         vertex.setStrokeWidth(Values.VERTEX_STROKE_WIDTH);
     }
-    
+
     private void highlightEdge(Edge edge) {
         edge.setStrokeWidth(Values.EDGE_HIGHLIGHT_STROKE_WIDTH);
         edge.setStrokeColor(Values.EDGE_HIGHLIGHT_COLOR);
     }
-    
+
     private void unHighlightEdge(Edge edge) {
         edge.setStrokeWidth(Values.EDGE_STROKE_WIDTH);
         edge.setStrokeColor(graph.getEdgeStrokeColor());
@@ -2108,7 +2109,7 @@ public class GraphController {
         if (saveFile == null) {
             return;
         }
-        
+
         //Unhighlight all selected vertices and edges:
         for (Vertex v : selectedVertices) { //cycle through all the vertices
             unHighlightVertex(v); //unhighlight this vertex
@@ -2133,7 +2134,7 @@ public class GraphController {
                     + ex.getMessage(), "Oops!", JOptionPane.ERROR_MESSAGE);
 
         }
-        
+
         //Re-highlight all selected vertices and edges:
         for (Vertex v : selectedVertices) { //cycle through all the vertices
             highlightVertex(v); //unhighlight this vertex
@@ -2141,7 +2142,7 @@ public class GraphController {
         for (Edge e : selectedEdges) { //cycle through all the vertices
             highlightEdge(e); //unhighlight this vertex
         }
-        
+
         setIsModified(false);
     }
 
