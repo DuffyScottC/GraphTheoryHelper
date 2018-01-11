@@ -178,7 +178,19 @@ public class GraphController {
      * initialized with user.dir just in case something goes wrong with loading preferences
      */
     private final JFileChooser chooser = new JFileChooser(System.getProperty("user.dir"));
+    /**
+     * Allows only .graph files to be chosen by the user. (Allows user to open directories,
+     * but not choose them).
+     */
+    private FileFilter filter;
+    /**
+     * Used to save files (or have the user create a new file if its null).
+     */
     private File saveFile;
+    /**
+     * Used to tell what directory to open the chooser into.
+     */
+    private File currentDirectory;
 
     public GraphController() {
         frame.setTitle("Graph Theory Helper");
@@ -220,13 +232,17 @@ public class GraphController {
 
         enterSelectionState();
 
-        //Make the chooser only load .graph files
-        FileFilter filter = new FileFilter() {
+        //Define the filter
+        filter = new FileFilter() {
             @Override
             public boolean accept(File pathname) {
-                String name = pathname.getName();
-                //file must be "something.graph"
-                return name.matches(".*\\.graph");
+                if (pathname.isDirectory()) {
+                    return true;
+                } else {
+                    String name = pathname.getName();
+                    //file must be "something.graph"
+                    return name.matches(".*\\.graph");
+                }
             }
 
             @Override
@@ -234,10 +250,9 @@ public class GraphController {
                 return ".graph files";
             }
         };
-        chooser.setFileFilter(filter);
         //Set the current directory to the user's preference of the last openned 
         //path, which was set when we ran loadPreferences()
-        chooser.setCurrentDirectory(saveFile);
+        chooser.setCurrentDirectory(currentDirectory);
 
         canvas.addMouseListener(new MouseAdapter() {
             @Override
@@ -570,9 +585,11 @@ public class GraphController {
                         return;
                     }
                 }
-
+                
+                chooser.setFileFilter(filter);
                 chooser.setDialogTitle("Open");
                 chooser.setAcceptAllFileFilterUsed(false);
+                
                 int chooserResult = chooser.showOpenDialog(frame);
                 if (chooserResult == JFileChooser.APPROVE_OPTION) {
                     File loadFile = chooser.getSelectedFile();
@@ -612,12 +629,13 @@ public class GraphController {
                     
                     //Update the save file:
                     saveFile = loadFile;
-                    //Update chooser's directory
-                    chooser.setCurrentDirectory(saveFile);
+                    currentDirectory = loadFile; //update the current directory
+                    //Set the file chooser's directory
+                    chooser.setCurrentDirectory(currentDirectory);
                     //Update the user's preference for the current directory
-                    prefs.put(Values.LAST_FILE_PATH, saveFile.toString());
+                    prefs.put(Values.LAST_FILE_PATH, currentDirectory.toString());
                     //debug print
-                    System.out.println("saveFile.toString(): " + saveFile.toString());
+                    System.out.println("currentDirectory.toString(): " + currentDirectory.toString());
                     
                 }
             }
@@ -910,7 +928,7 @@ public class GraphController {
         //Get the file path from user preferences (return the current directory if 
         //no preference was set yet):
         String filePath = prefs.get(Values.LAST_FILE_PATH, System.getProperty("user.dir"));
-        saveFile = new File(filePath);
+        currentDirectory = new File(filePath);
         
         //Get the user preference for showTitles menu item (return true as default)
         boolean showVertexNames = prefs.getBoolean(Values.SHOW_VERTEX_NAMES, true);
@@ -2150,8 +2168,9 @@ public class GraphController {
             JOptionPane.showMessageDialog(frame, "Cannot save an empty graph.");
             return;
         }
-
+        
         chooser.setDialogTitle("Save");
+        chooser.resetChoosableFileFilters(); //remove the .graph specification
         chooser.setAcceptAllFileFilterUsed(true);
 
         //Open the save dialogue and let the user choose 
@@ -2175,12 +2194,11 @@ public class GraphController {
             }
 
             saveFile = path.toFile(); //convert the path object to a file object
-            //Update chooser's directory
-            chooser.setCurrentDirectory(saveFile);
+            currentDirectory = saveFile; //update the current directory
+            //Set the file chooser's directory
+            chooser.setCurrentDirectory(currentDirectory);
             //Update the user's preference for the current directory
-            prefs.put(Values.LAST_FILE_PATH, saveFile.toString());
-            //debug print
-            System.out.println("saveFile: " + saveFile.toString());
+            prefs.put(Values.LAST_FILE_PATH, currentDirectory.toString());
 
             //check if the file already exists
             if (Files.exists(path)) { //if the file already exists
