@@ -596,12 +596,15 @@ public class GraphController {
             public void actionPerformed(ActionEvent e) {
                 if (saveFile == null) { //if there is no save file
                     saveGraphAs();
-                } else //if there is a save file specified programatically
-                 if (saveFile.exists()) { //if the file exists
+                    //if there is a save file specified programatically
+                } else {
+                    System.out.println("");
+                    if (saveFile.exists()) { //if the file exists
                         saveGraph(); //save the file
                     } else { //if the file does not exist
                         saveGraphAs(); //have the user save as
                     }
+                }
             }
         });
 
@@ -1224,9 +1227,10 @@ public class GraphController {
                         clickedVertices.addAll(selectedVertices);
                         clickedEdges.addAll(selectedEdges);
                     }
-                } else //if the user clicked a new, unselected vertex
-                {
-                    if (isCommandPressed) { //if the command key is held down
+                    //if the user clicked a new, unselected vertex
+                } else {
+                    System.out.println("");
+                 if (isCommandPressed) { //if the command key is held down
                         //Add the new vertex to the selection:
                         //append the index of this clicked vertex to the selection
                         selectedVertexIndices.add(i);
@@ -1391,11 +1395,14 @@ public class GraphController {
                     if (ep1.y < my && my < ep2.y) { //if my is between ep1.y and ep2.y
                         clickedAnEdge = true; //we clicked edge e
                     }
-                } else //if ep2 is higher than ep1
-                //ep2.y<my<ep1.y
-                 if (ep2.y < my && my < ep1.y) { //if my is between ep2.y and ep1.y
+                    //if ep2 is higher than ep1
+                    //ep2.y<my<ep1.y
+                } else {
+                    System.out.println("");
+                    if (ep2.y < my && my < ep1.y) { //if my is between ep2.y and ep1.y
                         clickedAnEdge = true; //we clicked edge e
                     }
+                }
             }
         } else { //if the edge is not verticle
             //Find the point on edge e that is closest to (mx,my) (the intersection, I)
