@@ -49,6 +49,7 @@ import javax.swing.KeyStroke;
 import javax.swing.ListSelectionModel;
 import javax.swing.event.ListSelectionEvent;
 import javax.swing.event.ListSelectionListener;
+import javax.swing.filechooser.FileFilter;
 import views.AddGraphDialog;
 import views.Canvas;
 import views.GraphColorChooserDialog;
@@ -539,6 +540,20 @@ public class GraphController {
                 }
 
                 chooser.setDialogTitle("Open");
+                FileFilter filter = new FileFilter() {
+                    @Override
+                    public boolean accept(File pathname) {
+                        String name = pathname.getName();
+                        //file must be "something.graph"
+                        return name.matches(".*\\.graph");
+                    }
+
+                    @Override
+                    public String getDescription() {
+                        return ".graph files";
+                    }
+                };
+                chooser.setFileFilter(filter);
                 int chooserResult = chooser.showOpenDialog(frame);
                 if (chooserResult == JFileChooser.APPROVE_OPTION) {
                     File loadFile = chooser.getSelectedFile();
