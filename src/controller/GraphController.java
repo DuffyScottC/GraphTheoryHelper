@@ -461,9 +461,12 @@ public class GraphController {
         verticesList.addMouseListener(new MouseAdapter() {
             @Override
             public void mouseClicked(MouseEvent e) {
-                //Deselect all edges (if any were selected)
-                selectedEdgeIndices.clear();
-                setSelectedEdges();
+                //if command is not held down
+                if (!isCommandPressed) {
+                    //deselect all edges (if any were selected)
+                    selectedEdgeIndices.clear();
+                    setSelectedEdges();
+                }
 
                 //Select (or deselect) the vertices:
                 //remove all previous selected vertices 
