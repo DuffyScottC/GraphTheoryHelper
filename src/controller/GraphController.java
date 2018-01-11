@@ -892,6 +892,7 @@ public class GraphController {
             @Override
             public void keyReleased(KeyEvent e) {
                 isCommandPressed = false;
+                System.out.println("key released, isCommandPressed = false");
             }
         };
         canvas.addKeyListener(keyboardShortcuts);
@@ -1222,6 +1223,7 @@ public class GraphController {
                     } else { //if the command button is not held down
                         //add the selected vertices to clickedVertices (for moving)
                         clickedVertices.addAll(selectedVertices);
+                        clickedEdges.addAll(selectedEdges);
                     }
                 } else //if the user clicked a new, unselected vertex
                 if (isCommandPressed) { //if the command key is held down
@@ -1236,6 +1238,7 @@ public class GraphController {
                     setSelectedVertices();
                     //add the selected vertices to clickedVertices (for moving)
                     clickedVertices.addAll(selectedVertices);
+                    clickedEdges.addAll(selectedEdges);
                 } else { //if the command key is not held down
                     //store the clicked vertex (for moving)
                     clickedVertices.add(currentVertex);
@@ -1286,6 +1289,7 @@ public class GraphController {
                             //We want to allow the user to move all selected edges:
                             //add the selected edges to clickedEdges (for moving)
                             clickedEdges.addAll(selectedEdges);
+                            clickedVertices.addAll(selectedVertices);
                         }
                     } else //if the user clicked an entirely new edge
                     if (isCommandPressed) { //if command is held down
@@ -1301,6 +1305,7 @@ public class GraphController {
                         setSelectedEdges();
                         //add the selected edges to clickedEdges (for moving)
                         clickedEdges.addAll(selectedEdges);
+                        clickedVertices.addAll(selectedVertices);
                     } else { //if command is not held down
                         //We want to make this the only selected edge:
                         //store the clicked edge (for moving)
