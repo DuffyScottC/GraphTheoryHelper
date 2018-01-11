@@ -1064,15 +1064,17 @@ public class GraphController {
         int xCent = canvas.getWidth() / 2;
         int yCent = canvas.getHeight() / 2;
         final double radius = Values.FORMAT_RADIUS;
-        final double delta = (2 * Math.PI) / vs.size(); //the change in angle between each vertex
-        double angle = 0.0; //this angle changes to position each vertex (start at 90)
+        //the change in angle between each vertex
+        final double delta = (2 * Math.PI) / vs.size();
+        //this angle changes to position each vertex (start at 360 degrees)
+        double angle = (3 * Math.PI)/2;
 
-        for (int i = vs.size() - 1; i >= 0; i--) {
+        for (Vertex v : vs) {
             //calculate the positions
             double x = xCent + radius * Math.cos(angle);
             double y = yCent + radius * Math.sin(angle);
-            vs.get(i).setLocation(x, y); //position the vertex
-            angle += delta; //increment the angle
+            v.setLocation(x, y); //position the vertex
+            angle -= delta; //decrement the angle
         }
     }
 
