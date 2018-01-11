@@ -1067,7 +1067,7 @@ public class GraphController {
         final double delta = (2 * Math.PI) / vs.size(); //the change in angle between each vertex
         double angle = Math.PI / 2; //this angle changes to position each vertex (start at 90)
 
-        for (int i = vs.size(); i >= 0; i--) {
+        for (int i = vs.size() - 1; i >= 0; i--) {
             //calculate the positions
             double x = xCent + radius * Math.cos(angle);
             double y = yCent + radius * Math.sin(angle);
