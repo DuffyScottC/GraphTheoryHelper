@@ -291,52 +291,56 @@ public class GraphController {
                 canvas.setLastPosition(lastX, lastY);
 
                 if (selecting) { //if we're in the selection state
-
-                    //if the user did not click any vertices (or is not moving any vertices)
-                    if (clickedVertices.isEmpty()) {
-                        //if the user did not click any edges (or is not moving any edges)
-                        if (clickedEdges.isEmpty()) {
-                            //update the endpoint of the selection box
-                            endX = mx;
-                            endY = my;
-                            canvas.setEndPosition(mx, my);
-                            //select the appropriate vertices
-                            multipleSelection(mx, my);
-                        } else { //if the user clicked any edges
-                            //Get a list of the individual vertices attached to the edges
-                            //Initialize an ArrayList to hold the vertices
-                            List<Vertex> attachedVertices = new ArrayList();
-                            //cycle through all clicked edges
-                            for (Edge clickedEdge : clickedEdges) {
-                                //Add both vertices attached to this edge:
-                                //get the first endpoint
-                                Vertex ep1 = clickedEdge.getEndpoint1();
-                                //if the list does not already contain this vertex
-                                if (!attachedVertices.contains(ep1)) {
-                                    //add this vertex
-                                    attachedVertices.add(ep1);
-                                    //since it's new, increment its position
-                                    ep1.incLocation(incX, incY);
-                                }
-                                //get the second endpoint
-                                Vertex ep2 = clickedEdge.getEndpoint2();
-                                //if the list does not already contain this vertex
-                                if (!attachedVertices.contains(ep2)) {
-                                    //add this vertex
-                                    attachedVertices.add(ep2);
-                                    //since it's new, increment its position
-                                    ep2.incLocation(incX, incY);
-                                }
-                            }
-                            setIsModified(true);
-                        }
-                    } else { //if the user clicked any vertices
-                        //Move all the clicked vertices:
+                    //if the user did not click any edges or vertices (only canvas)
+                    if (clickedVertices.isEmpty() && clickedEdges.isEmpty()) {
+                        //update the endpoint of the selection box
+                        endX = mx;
+                        endY = my;
+                        canvas.setEndPosition(mx, my);
+                        //select the appropriate vertices
+                        multipleSelection(mx, my);
+                    } else { //if the user clicked any vertices or edges
+                        //A set of unique vertices to be moved. Vertices are added
+                        //to this list from the set of clickedVertices and the
+                        //set of endpoints attached to the clickedEdges if they
+                        //do not already exist in the list, so that each vertex
+                        //only gets moved/incremented once. 
+                        List<Vertex> attachedVertices = new ArrayList();
+                        
+                        //MARK: Move all the selected vertices:
                         //cycle through all clicked vertices
                         for (Vertex clickedVertex : clickedVertices) {
-                            //move each vertex
+                            //add this vertex to the attachedVertices list
+                            attachedVertices.add(clickedVertex);
+                            //increment this vertex's position
                             clickedVertex.incLocation(incX, incY);
                         }
+                        
+                        //MARK: Move all selected edges
+                        //Get a list of the individual vertices attached to the edges:
+                        //cycle through all clicked edges
+                        for (Edge clickedEdge : clickedEdges) {
+                            //Move both vertices attached to this edge:
+                            //get the first endpoint
+                            Vertex ep1 = clickedEdge.getEndpoint1();
+                            //if the list does not already contain this vertex
+                            if (!attachedVertices.contains(ep1)) {
+                                //add this vertex
+                                attachedVertices.add(ep1);
+                                //since it's new, increment its position
+                                ep1.incLocation(incX, incY);
+                            }
+                            //get the second endpoint
+                            Vertex ep2 = clickedEdge.getEndpoint2();
+                            //if the list does not already contain this vertex
+                            if (!attachedVertices.contains(ep2)) {
+                                //add this vertex
+                                attachedVertices.add(ep2);
+                                //since it's new, increment its position
+                                ep2.incLocation(incX, incY);
+                            }
+                        }
+                        
                         setIsModified(true);
                     }
                 }
@@ -894,7 +898,6 @@ public class GraphController {
             @Override
             public void keyReleased(KeyEvent e) {
                 isCommandPressed = false;
-                System.out.println("key released, isCommandPressed = false");
             }
         };
         canvas.addKeyListener(keyboardShortcuts);
