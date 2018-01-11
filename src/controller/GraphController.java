@@ -598,7 +598,7 @@ public class GraphController {
                     saveGraphAs();
                     //if there is a save file specified programatically
                 } else {
-                    System.out.println("");
+                    System.out.print("");
                     if (saveFile.exists()) { //if the file exists
                         saveGraph(); //save the file
                     } else { //if the file does not exist
@@ -982,6 +982,7 @@ public class GraphController {
             selectedEdges.clear();
             edgesList.clearSelection(); //unselect the edge in the JList
         } else { //if the user selected edges
+            selectedEdges.clear(); //clear the old selected edges
             //store the new selected edges
             for (int i : selectedEdgeIndices) { //loop through the selected indices
                 Edge selectedEdge = edges.get(i); //store this selected edge
@@ -1229,8 +1230,8 @@ public class GraphController {
                     }
                     //if the user clicked a new, unselected vertex
                 } else {
-                    System.out.println("");
-                 if (isCommandPressed) { //if the command key is held down
+                    System.out.print("");
+                    if (isCommandPressed) { //if the command key is held down
                         //Add the new vertex to the selection:
                         //append the index of this clicked vertex to the selection
                         selectedVertexIndices.add(i);
@@ -1298,7 +1299,7 @@ public class GraphController {
                         }
                         //if the user clicked an entirely new edge
                     } else {
-                        System.out.println("test");
+                        System.out.print("");
                         if (isCommandPressed) { //if command is held down
                             //We want to add the new edge to the current set of 
                             //already selected edges:
@@ -1398,7 +1399,7 @@ public class GraphController {
                     //if ep2 is higher than ep1
                     //ep2.y<my<ep1.y
                 } else {
-                    System.out.println("");
+                    System.out.print("");
                     if (ep2.y < my && my < ep1.y) { //if my is between ep2.y and ep1.y
                         clickedAnEdge = true; //we clicked edge e
                     }
