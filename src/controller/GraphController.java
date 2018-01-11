@@ -594,10 +594,14 @@ public class GraphController {
         frame.getSaveMenuItem().addActionListener(new ActionListener() {
             @Override
             public void actionPerformed(ActionEvent e) {
-                if (saveFile == null) {
+                if (saveFile == null) { //if there is no save file
                     saveGraphAs();
-                } else {
-                    saveGraph();
+                } else { //if there is a save file specified programatically
+                    if (saveFile.exists()) { //if the file exists
+                        saveGraph(); //save the file
+                    } else { //if the file does not exist
+                        saveGraphAs(); //have the user save as
+                    }
                 }
             }
         });
