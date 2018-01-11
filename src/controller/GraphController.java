@@ -918,7 +918,7 @@ public class GraphController {
             //loop through the old vertices
             for (Vertex selectedVertex : selectedVertices) {
                 //unhighlight each one
-                unhighlightVertex(selectedVertex);
+                unHighlightVertex(selectedVertex);
             }
         }
 
@@ -1930,8 +1930,7 @@ public class GraphController {
         canvas.setFirstSelectedVertex(null);
         //Unhighlight all vertices
         for (Vertex v : vertices) {
-            v.setStrokeColor(graph.getVertexStrokeColor());
-            v.setStrokeWidth(Values.VERTEX_STROKE_WIDTH);
+            unHighlightVertex(v);
         }
     }
 
@@ -1968,7 +1967,7 @@ public class GraphController {
             if (v.canAddEdges()) {
                 highlightVertex(v);
             } else { //if this vertex is completely full
-                unhighlightVertex(v);
+                unHighlightVertex(v);
             }
         }
     }
@@ -1978,7 +1977,7 @@ public class GraphController {
         vertex.setStrokeWidth(Values.VERTEX_HIGHLIGHT_STROKE_WIDTH);
     }
 
-    private void unhighlightVertex(Vertex vertex) {
+    private void unHighlightVertex(Vertex vertex) {
         vertex.setStrokeColor(graph.getVertexStrokeColor());
         vertex.setStrokeWidth(Values.VERTEX_STROKE_WIDTH);
     }
@@ -2096,6 +2095,15 @@ public class GraphController {
         if (saveFile == null) {
             return;
         }
+        
+        //Unhighlight all selected vertices and edges:
+        for (Vertex v : selectedVertices) { //cycle through all the vertices
+            unHighlightVertex(v); //unhighlight this vertex
+        }
+        for (Edge e : selectedEdges) { //cycle through all the vertices
+            unHighlightEdge(e); //unhighlight this vertex
+        }
+        //Now colors won't be saved as "highlighted" accedentally
 
         try {
             //Create an output stream from the file
@@ -2112,7 +2120,15 @@ public class GraphController {
                     + ex.getMessage(), "Oops!", JOptionPane.ERROR_MESSAGE);
 
         }
-
+        
+        //Re-highlight all selected vertices and edges:
+        for (Vertex v : selectedVertices) { //cycle through all the vertices
+            highlightVertex(v); //unhighlight this vertex
+        }
+        for (Edge e : selectedEdges) { //cycle through all the vertices
+            highlightEdge(e); //unhighlight this vertex
+        }
+        
         setIsModified(false);
     }
 
