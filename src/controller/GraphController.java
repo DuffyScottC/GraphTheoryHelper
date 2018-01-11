@@ -538,8 +538,6 @@ public class GraphController {
                     }
                 }
 
-                setIsModified(false);
-
                 chooser.setDialogTitle("Open");
                 int chooserResult = chooser.showOpenDialog(frame);
                 if (chooserResult == JFileChooser.APPROVE_OPTION) {
@@ -561,6 +559,8 @@ public class GraphController {
 
                             //replace the old graph with the new one
                             replace(loadedGraph);
+                            
+                            setIsModified(false);
 
                             canvas.repaint();
                         }
