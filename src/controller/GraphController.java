@@ -364,7 +364,6 @@ public class GraphController {
         });
 
         frame.addWindowListener(new WindowAdapter() {
-
             @Override
             public void windowClosing(WindowEvent e) {
                 if (isModified) { //if the user tried to close without saving
@@ -377,7 +376,6 @@ public class GraphController {
                     System.exit(0); //the window should close
                 }
             }
-
         });
 
         frame.getRotate90MenuItem().addActionListener(new ActionListener() {
@@ -1798,11 +1796,13 @@ public class GraphController {
         if (vertices == null) {
             JOptionPane.showMessageDialog(frame, "Need at least two vertices to add an edge.");
             setSelectedEdges(false);
+            isCommandPressed = false; //unpress command
             return;
         }
         if (vertices.isEmpty() || vertices.size() == 1) {
             JOptionPane.showMessageDialog(frame, "Need at least two vertices to add an edge.");
             setSelectedEdges(false);
+            isCommandPressed = false; //unpress command
             return;
         }
         exitAddVerticesState();
@@ -2079,6 +2079,7 @@ public class GraphController {
      * out of the method
      */
     private boolean shouldContinue(String message) {
+        isCommandPressed = false; //unpress command
         int selection = JOptionPane.showConfirmDialog(frame, message); //ask the user if they want to continue
 
         if (selection != JOptionPane.YES_OPTION) { //if the user did not choose "yes"
@@ -2093,6 +2094,7 @@ public class GraphController {
 
     private void saveGraphAs() {
         if (graph.isEmpty()) {
+            isCommandPressed = false; //unpress command
             JOptionPane.showMessageDialog(frame, "Cannot save an empty graph.");
             return;
         }
@@ -2161,7 +2163,8 @@ public class GraphController {
             oostr.writeObject(graph);
             oostr.close(); //must do this to ensure completion
         } catch (IOException ex) {
-
+            
+            isCommandPressed = false; //unpress command
             JOptionPane.showMessageDialog(frame, "Unable to save file.\n"
                     + ex.getMessage(), "Oops!", JOptionPane.ERROR_MESSAGE);
 
