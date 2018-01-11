@@ -2067,6 +2067,7 @@ public class GraphController {
         }
 
         chooser.setDialogTitle("Save");
+        chooser.setAcceptAllFileFilterUsed(true);
 
         //Open the save dialogue and let the user choose 
         //where to save the file:
