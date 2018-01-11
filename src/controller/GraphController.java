@@ -30,6 +30,7 @@ import java.nio.file.Files;
 import java.nio.file.Path;
 import java.util.ArrayList;
 import java.util.List;
+import java.util.prefs.Preferences;
 import java.util.regex.Matcher;
 import java.util.regex.Pattern;
 import javax.swing.DefaultListModel;
@@ -169,6 +170,13 @@ public class GraphController {
     private final List<Edge> edges = graph.getEdges();
 
     //MARK: File I/O:
+    /**
+     * Holds all user preferences for this application
+     */
+    private Preferences prefs;
+    /**
+     * initialized with user.dir just in case something goes wrong with loading preferences
+     */
     private final JFileChooser chooser = new JFileChooser(System.getProperty("user.dir"));
     private File saveFile;
 
@@ -202,7 +210,9 @@ public class GraphController {
         addVerticesMenuItem = frame.getAddVerticesMenuItem();
         addEdgesMenuItem = frame.getAddEdgesMenuItem();
         selectionMenuItem = frame.getSelectionMenuItem();
-
+        
+        loadPreferences();
+        
         SampleCanvas sampleCanvas = graphColorChooserDialog.getSampleCanvas();
         sampleCanvas.setUp(graph); //Set up the sample canvas in the dialog
 
@@ -225,6 +235,9 @@ public class GraphController {
             }
         };
         chooser.setFileFilter(filter);
+        //Set the current directory to the user's preference of the last openned 
+        //path, which was set when we ran loadPreferences()
+        chooser.setCurrentDirectory(saveFile);
 
         canvas.addMouseListener(new MouseAdapter() {
             @Override
@@ -881,6 +894,29 @@ public class GraphController {
 
     //MARK: Other methods--------------------
     /**
+     * Loads all user preferences from the system
+     */
+    private void loadPreferences() {
+        // This will define a node in which the preferences can be stored
+        prefs = Preferences.userRoot().node(this.getClass().getName());
+        
+        //Get the file path from user preferences (return the current directory if 
+        //no preference was set yet):
+        String filePath = prefs.get("Last File Path", System.getProperty("user.dir"));
+        saveFile = new File(filePath);
+        
+        //Get the user preference for showTitles menu item (return true as default)
+        boolean showVertexNames = prefs.getBoolean("Show Vertex Names", true);
+        //update the appropriate values
+        frame.getShowVertexNamesMenuItem().setSelected(showVertexNames);
+        showTitles = showVertexNames;
+        canvas.setShowTitles(showVertexNames);
+        
+        System.out.println("filePath: " + filePath + "\n" +
+                "showVertexNames: " + showVertexNames);
+    }
+    
+    /**
      * Convenience method - adds the same KeyListener (KeyboardShortcuts) to
      * every focusable element in the entire frame. This may be a temporary
      * solution, but it works for now. Check out the following link if you want
@@ -1056,7 +1092,7 @@ public class GraphController {
 
     /**
      * Positions all vertices passed to this function in an evenly spaced circle
-     *
+     * 
      * @param vs A list of vertices (Must contain only vertices that already
      * exist in the graph)
      */
