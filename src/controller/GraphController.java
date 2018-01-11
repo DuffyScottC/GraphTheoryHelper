@@ -421,9 +421,11 @@ public class GraphController {
                 if (showTitles) {
                     showTitles = false;
                     canvas.setShowTitles(false);
+                    prefs.putBoolean(Values.SHOW_VERTEX_NAMES, false);
                 } else {
                     showTitles = true;
                     canvas.setShowTitles(true);
+                    prefs.putBoolean(Values.SHOW_VERTEX_NAMES, true);
                 }
 
                 canvas.repaint();
