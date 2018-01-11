@@ -609,9 +609,16 @@ public class GraphController {
                         isCommandPressed = false; //unpress command
                         return;
                     }
-
-                    saveFile = loadFile; //update the save file
-
+                    
+                    //Update the save file:
+                    saveFile = loadFile;
+                    //Update chooser's directory
+                    chooser.setCurrentDirectory(saveFile);
+                    //Update the user's preference for the current directory
+                    prefs.put(Values.LAST_FILE_PATH, saveFile.toString());
+                    //debug print
+                    System.out.println("saveFile.toString(): " + saveFile.toString());
+                    
                 }
             }
         });
@@ -2168,6 +2175,12 @@ public class GraphController {
             }
 
             saveFile = path.toFile(); //convert the path object to a file object
+            //Update chooser's directory
+            chooser.setCurrentDirectory(saveFile);
+            //Update the user's preference for the current directory
+            prefs.put(Values.LAST_FILE_PATH, saveFile.toString());
+            //debug print
+            System.out.println("saveFile: " + saveFile.toString());
 
             //check if the file already exists
             if (Files.exists(path)) { //if the file already exists
