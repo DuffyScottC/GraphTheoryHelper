@@ -37,14 +37,14 @@ public abstract class Element implements Serializable {
     
     public abstract Shape getPositionShape();
 
+    public void incLocation(double xInc, double yInc) {
+        //to consolidate code, this simply calls setLocation after incrementing
+        this.setLocation(this.xLoc + xInc, this.yLoc + yInc);
+    }
+    
     public void setLocation(double xLoc, double yLoc) {
         this.xLoc = xLoc;
         this.yLoc = yLoc;
-    }
-
-    public void incLocation(double xInc, double yInc) {
-        this.xLoc += xInc;
-        this.yLoc += yInc;
     }
 
     public Point2D.Double getLocation() {
