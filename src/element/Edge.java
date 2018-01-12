@@ -20,11 +20,9 @@ public class Edge extends Element {
     private Vertex endpoint1;
     private Vertex endpoint2;
     
-    //Used to hold the positions of the endpoints of the line
-    private int x1;
-    private int y1;
-    private int x2;
-    private int y2;
+    //Used to hold the postition of the control point of the curve
+    private int crtlX;
+    private int ctrlY;
     
     /**
      * An initializer that allows you to define the endpoints immediately. This
@@ -55,10 +53,10 @@ public class Edge extends Element {
         g2.setColor(strokeColor);
         
         //Convert the center points of the two endpoints to ints
-        x1 = (int) endpoint1.getCenter().getX();
-        y1 = (int) endpoint1.getCenter().getY();
-        x2 = (int) endpoint2.getCenter().getX();
-        y2 = (int) endpoint2.getCenter().getY();
+        int x1 = (int) endpoint1.getCenter().getX();
+        int y1 = (int) endpoint1.getCenter().getY();
+        int x2 = (int) endpoint2.getCenter().getX();
+        int y2 = (int) endpoint2.getCenter().getY();
         g2.drawLine(x1, y1, x2, y2); //draw the line
     }
     
@@ -102,6 +100,11 @@ public class Edge extends Element {
      */
     @Override
     public Shape getPositionShape() {
+        //Convert the center points of the two endpoints to ints
+        int x1 = (int) endpoint1.getCenter().getX();
+        int y1 = (int) endpoint1.getCenter().getY();
+        int x2 = (int) endpoint2.getCenter().getX();
+        int y2 = (int) endpoint2.getCenter().getY();
         return new Line2D.Double(x1, y1, x2, y2);
     }
     
