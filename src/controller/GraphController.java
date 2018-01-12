@@ -230,7 +230,8 @@ public class GraphController {
 
         addKeyboardShortcuts();
 
-        enterSelectionState();
+//        enterSelectionState();
+        enterAddVerticesState();
 
         //Define the filter
         filter = new FileFilter() {
@@ -899,10 +900,14 @@ public class GraphController {
                 Color newEdgeStrokeColor = graphColorChooserDialog.getEdgeStrokeColor();
 
                 //Check if the new colors are different from the old colors
-                if (newVertexFillColor == graph.getVertexFillColor()
-                        || newVertexStrokeColor == graph.getVertexStrokeColor()
-                        || newEdgeStrokeColor == graph.getEdgeStrokeColor()) {
+                if (newVertexFillColor == graph.getVertexFillColor()) {
                     setIsModified(true); //label the graph as modified
+                }
+                if (newVertexStrokeColor == graph.getVertexStrokeColor()) {
+                    
+                }
+                if (newEdgeStrokeColor == graph.getEdgeStrokeColor()) {
+                    
                 }
 
                 //set the graph's colors
