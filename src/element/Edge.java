@@ -50,8 +50,9 @@ public class Edge extends Element {
         int y1 = (int) endpoint1.getCenter().getY();
         int x2 = (int) endpoint2.getCenter().getX();
         int y2 = (int) endpoint2.getCenter().getY();
-        int midX = (x1 + x2)/2; //find the mid-x
-        int midY = (y1 + y2)/2; //find the mid-y
+        //set the control point
+        ctrlX = (x1 + x2)/2; //find the mid-x
+        ctrlY = (y1 + y2)/2; //find the mid-y
     }
     
     @Override
