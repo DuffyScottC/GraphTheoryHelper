@@ -54,7 +54,7 @@ public class Values {
     //MARK: Misc properties
     public static final int DIAMETER = 15;
     public static final double FORMAT_RADIUS = 150;
-    public static final double LINE_SELECTION_DISTANCE = 4;
+    public static final double LINE_SELECTION_DISTANCE = 4.0;
     public static final float SELECTION_STROKE = 2.0f;
     private static final int SELECTION_TRANSPARENCY = 80;
     public static final Color SELECTION_STROKE_COLOR = new Color(125, 125, 125, SELECTION_TRANSPARENCY);

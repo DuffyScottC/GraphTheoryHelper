@@ -5,6 +5,7 @@
  */
 package controller;
 
+import com.sun.javafx.geom.Line2D;
 import static controller.Values.DIAMETER;
 import element.Edge;
 import element.Graph;
@@ -1457,54 +1458,22 @@ public class GraphController {
      * @return True of (mx,my) is in the click area of edge e.
      */
     private boolean isEdgeClicked(Edge e, int mx, int my) {
-        boolean clickedAnEdge = false;
-        if (isEdgeVertical(e)) { //if the edge is verticle
-            //All we need to do is check if mx is close enough to e's x-position:
-
-            //get an endpoint (arbitrary)
-            Point2D.Double ep1 = e.getEndpoint1().getCenter();
-            //the difference between mx and e's x-position
-            double diff = ep1.x - mx;
-            //find the absolute value
-            if (diff < 0) {
-                diff *= -1;
-            }
-            if (diff <= Values.LINE_SELECTION_DISTANCE) {
-                //check if the point is on the edge (which is much simpler if the
-                //edge is vertical (only have to check y-values)
-
-                //get the other endpoint (we already have ep1 from above)
-                Point2D.Double ep2 = e.getEndpoint2().getCenter();
-                //Note: greater y is lower on canvas, smaller y is higher on canvas
-                if (ep1.y < ep2.y) { //if ep1 is higher than ep2
-                    //ep1.y<my<ep2.y
-                    if (ep1.y < my && my < ep2.y) { //if my is between ep1.y and ep2.y
-                        clickedAnEdge = true; //we clicked edge e
-                    }
-                    //if ep2 is higher than ep1
-                    //ep2.y<my<ep1.y
-                } else {
-                    System.out.print("");
-                    if (ep2.y < my && my < ep1.y) { //if my is between ep2.y and ep1.y
-                        clickedAnEdge = true; //we clicked edge e
-                    }
-                }
-            }
-        } else { //if the edge is not verticle
-            //Find the point on edge e that is closest to (mx,my) (the intersection, I)
-            Point2D.Double I = getClosestPointOnEdge(mx, my, e);
-
-            //Find the distance between I and (mx,my)
-            double d = distance(I.x, I.y, mx, my);
-            //(mx,my) is close enough to the line formed by e
-            if (d <= Values.LINE_SELECTION_DISTANCE) {
-                //If the intersection, I, is on the edge (not beyond it)
-                if (isPointOnEdge(I.x, I.y, e)) {
-                    clickedAnEdge = true; //we clicked edge e
-                }
-            }
+        //get the enpoints of the edge
+        Point2D.Double ep1 = e.getEndpoint1().getLocation();
+        Point2D.Double ep2 = e.getEndpoint2().getLocation();
+        //convert the points to integers
+        int x1 = (int) ep1.x;
+        int y1 = (int) ep1.y;
+        int x2 = (int) ep2.x;
+        int y2 = (int) ep2.y;
+        //find the distance between the line segment formed by e and (mx,my)
+        double dist = Line2D.ptSegDist(x1, y1, x2, y2, mx, my);
+        //if (mx,my) is close enough to the line segment formed by e
+        if (dist <= Values.LINE_SELECTION_DISTANCE) {
+            return true;
         }
-        return clickedAnEdge;
+        //if (mx,my) is too far from the line segment formed by e
+        return false;
     }
 
     /**
@@ -1611,64 +1580,6 @@ public class GraphController {
         double Iy = m * (Ix - Ax) + Ay;
 
         return new Point2D.Double(Ix, Iy);
-    }
-
-    /**
-     * Checks to see if a given point is on the given edge (not beyond it).
-     *
-     * @param x The x-value of the given point
-     * @param y The y-value of the given point
-     * @param e The edge
-     * @return true of the point is on the edge, false if the point is beyond it
-     */
-    private boolean isPointOnEdge(double x, double y, Edge e) {
-        //Check if the point is actually within the bounds of e:
-        //The distance between the intersection, I, and endpoint1
-        double ep1Dist = distance(x, y, e.getEndpoint1());
-        //The distance between the intersection, I, and endpoint2
-        double ep2Dist = distance(x, y, e.getEndpoint2());
-        //The sum of the two distances
-        double sumOfDist = ep1Dist + ep2Dist;
-        //The distance between endpoint1 and endpoint2
-        double epDist = distance(e.getEndpoint1(), e.getEndpoint2());
-
-        //If the distance between the endpoints equals to sum of the distances
-        //between each endpoint and the point in question, then the point in
-        //question is on the edge (not beyond it)
-        //To allow for small errors in rounding, the difference between the two
-        //should be less than marginOfError
-        double diff = sumOfDist - epDist;
-        //find the absolute value
-        if (diff < 0) {
-            diff *= -1;
-        }
-        double marginOfError = 0.00001;
-        if (diff < marginOfError) {
-            return true;
-        }
-        return false;
-    }
-
-    /**
-     * Checks to see if a given edge is perfectly vertical.
-     *
-     * @param e The edge to be checked
-     * @return True if the edge is vertical, false if not
-     */
-    private boolean isEdgeVertical(Edge e) {
-        //Use location not center, because center takes more calculation and
-        //if the centers are perfectly aligned then the locations are as well:
-        Point2D.Double a = e.getEndpoint1().getLocation();
-        Point2D.Double b = e.getEndpoint2().getLocation();
-        //A line is vertical if its slope is undefined, ?/0, where x1-x2=0
-        double diff = a.x - b.x;
-        //get the absolute value
-        if (diff < 0) {
-            diff *= -1;
-        }
-        double marginOfError = 0.00001; //allows for rounding errors
-        //if the diff is 0, then the slope is undefined and the edge is verical:
-        return (diff <= marginOfError);
     }
 
     /**
