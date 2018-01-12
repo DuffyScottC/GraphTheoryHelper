@@ -10,6 +10,7 @@ import java.awt.BasicStroke;
 import java.awt.Graphics2D;
 import java.awt.Shape;
 import java.awt.geom.Line2D;
+import java.awt.geom.Point2D;
 
 /**
  *
@@ -21,7 +22,7 @@ public class Edge extends Element {
     private Vertex endpoint2;
     
     //Used to hold the postition of the control point of the curve
-    private int crtlX;
+    private int ctrlX;
     private int ctrlY;
     
     /**
@@ -74,6 +75,10 @@ public class Edge extends Element {
 
     public void setEndpoint2(Vertex endpoint2) {
         this.endpoint2 = endpoint2;
+    }
+    
+    public Point2D.Double getCtrlPoint() {
+        return new Point2D.Double(ctrlX, ctrlY);
     }
     
     /**
