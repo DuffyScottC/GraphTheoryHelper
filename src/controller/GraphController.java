@@ -1459,8 +1459,8 @@ public class GraphController {
      */
     private boolean isEdgeClicked(Edge e, int mx, int my) {
         //get the enpoints of the edge
-        Point2D.Double ep1 = e.getEndpoint1().getLocation();
-        Point2D.Double ep2 = e.getEndpoint2().getLocation();
+        Point2D.Double ep1 = e.getEndpoint1().getCenter();
+        Point2D.Double ep2 = e.getEndpoint2().getCenter();
         //convert the points to integers
         int x1 = (int) ep1.x;
         int y1 = (int) ep1.y;
