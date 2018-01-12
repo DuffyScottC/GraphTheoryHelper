@@ -81,6 +81,11 @@ public class Edge extends Element {
         return new Point2D.Double(ctrlX, ctrlY);
     }
     
+    public void setCtrlPoint(int ctrlX, int ctrlY) {
+        this.ctrlX = ctrlX;
+        this.ctrlY = ctrlY;
+    }
+    
     /**
      * Checks to see if the given vertex is an endpoint of this edge.
      * @param v The vertex that we are asking whether it is an endpoint
