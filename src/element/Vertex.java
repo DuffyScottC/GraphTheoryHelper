@@ -77,6 +77,20 @@ public class Vertex extends Element {
         g2.drawString(title, (int) xLoc, (int) yLoc - 8);
     }
     
+    public void incLocation(double xInc, double yInc) {
+        //to consolidate code, this simply calls setLocation after incrementing
+        this.setLocation(this.xLoc + xInc, this.yLoc + yInc);
+    }
+    
+    public void setLocation(double xLoc, double yLoc) {
+        this.xLoc = xLoc;
+        this.yLoc = yLoc;
+    }
+
+    public Point2D.Double getLocation() {
+        return new Point2D.Double(xLoc, yLoc);
+    }
+    
     public Point2D.Double getCenter() {
         //We want to calculate the center when a given edge
         this.calculateCenter(); //find the center
