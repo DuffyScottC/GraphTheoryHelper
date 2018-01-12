@@ -11,6 +11,7 @@ import java.awt.Graphics2D;
 import java.awt.Shape;
 import java.awt.geom.Line2D;
 import java.awt.geom.Point2D;
+import java.awt.geom.QuadCurve2D;
 
 /**
  *
@@ -42,6 +43,15 @@ public class Edge extends Element {
         
         //Default stroke width
         this.strokeWidth = Values.EDGE_STROKE_WIDTH;
+        
+        //Set the default control point:
+        //get the endpoint coordinates
+        int x1 = (int) endpoint1.getCenter().getX();
+        int y1 = (int) endpoint1.getCenter().getY();
+        int x2 = (int) endpoint2.getCenter().getX();
+        int y2 = (int) endpoint2.getCenter().getY();
+        int midX = (x1 + x2)/2; //find the mid-x
+        int midY = (y1 + y2)/2; //find the mid-y
     }
     
     @Override
@@ -58,7 +68,10 @@ public class Edge extends Element {
         int y1 = (int) endpoint1.getCenter().getY();
         int x2 = (int) endpoint2.getCenter().getX();
         int y2 = (int) endpoint2.getCenter().getY();
-        g2.drawLine(x1, y1, x2, y2); //draw the line
+        //Define a new quad curve from the endpoints and the control point:
+        QuadCurve2D qCurve = new QuadCurve2D.Double(); //instantiate a curve
+        qCurve.setCurve(x1, y1, ctrlX, ctrlY, x2, y2); //assign the values
+        g2.draw(qCurve); //draw the curve
     }
     
     public Vertex getEndpoint1() {
