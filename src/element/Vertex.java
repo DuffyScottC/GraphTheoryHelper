@@ -83,8 +83,10 @@ public class Vertex extends Element {
     }
     
     public void setLocation(double xLoc, double yLoc) {
+        
         this.xLoc = xLoc;
         this.yLoc = yLoc;
+        
     }
 
     public Point2D.Double getLocation() {
