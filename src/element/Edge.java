@@ -130,7 +130,8 @@ public class Edge extends Element {
         int y1 = (int) endpoint1.getCenter().getY();
         int x2 = (int) endpoint2.getCenter().getX();
         int y2 = (int) endpoint2.getCenter().getY();
-        return new Line2D.Double(x1, y1, x2, y2);
+        //convert this into a QuadCurve2D.Double
+        return new QuadCurve2D.Double(x1, y1, ctrlX, ctrlY, x2, y2);
     }
     
     /**

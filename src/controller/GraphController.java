@@ -21,6 +21,7 @@ import java.awt.event.MouseMotionListener;
 import java.awt.event.WindowAdapter;
 import java.awt.event.WindowEvent;
 import java.awt.geom.Point2D;
+import java.awt.geom.Rectangle2D;
 import java.io.File;
 import java.io.FileInputStream;
 import java.io.FileOutputStream;
@@ -1458,21 +1459,17 @@ public class GraphController {
      * @return True of (mx,my) is in the click area of edge e.
      */
     private boolean isEdgeClicked(Edge e, int mx, int my) {
-        //get the enpoints of the edge
-        Point2D.Double ep1 = e.getEndpoint1().getCenter();
-        Point2D.Double ep2 = e.getEndpoint2().getCenter();
-        //convert the points to integers
-        int x1 = (int) ep1.x;
-        int y1 = (int) ep1.y;
-        int x2 = (int) ep2.x;
-        int y2 = (int) ep2.y;
-        //find the distance between the line segment formed by e and (mx,my)
-        double dist = Line2D.ptSegDist(x1, y1, x2, y2, mx, my);
-        //if (mx,my) is close enough to the line segment formed by e
-        if (dist <= Values.LINE_SELECTION_DISTANCE) {
+        //Create a rectangle object with (mx,my) as center:
+        int x = mx - Values.LINE_SELECTION_DISTANCE; //top left x
+        int y = my - Values.LINE_SELECTION_DISTANCE; //top left y
+        int dim = Values.LINE_SELECTION_DISTANCE*2; //height and width
+        Rectangle2D rect = new Rectangle2D.Double(x, y, dim, dim);
+        
+        //if this rectangle intersects the edge curve
+        if (e.getPositionShape().intersects(rect)) {
             return true;
         }
-        //if (mx,my) is too far from the line segment formed by e
+        //if the rectangle does not intersect the edge curve
         return false;
     }
 
