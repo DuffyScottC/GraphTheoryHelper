@@ -1460,50 +1460,43 @@ public class GraphController {
      * @return True of (mx,my) is in the click area of edge e.
      */
     private boolean isEdgeClicked(Edge e, int mx, int my) {
-        //Create a rectangle object with (mx,my) as center:
-        int x = mx - Values.LINE_SELECTION_DISTANCE; //top left x
-        int y = my - Values.LINE_SELECTION_DISTANCE; //top left y
-        int dim = Values.LINE_SELECTION_DISTANCE*2; //height and width
-        Rectangle2D rect = new Rectangle2D.Double(x, y, dim, dim);
         
-        //if this rectangle intersects the edge curve
-        if (e.getPositionShape().intersects(rect)) {
-            return true;
-        }
-        //if the rectangle does not intersect the edge curve
-        return false;
     }
     
     /**
-     * This is the actually important method. This finds the closest point to
-     * the given mouse click position given the three points that define a
-     * Quadratic Bezier Curve.
+     * Checks to see if a point is close enough to the given edge to be 
+     * selected.
      *
      * @param qCurve The Quadratic Bezier Curve
-     * @param c The user's click point
+     * @param mx The x value of the user's click point
+     * @param my The y value of the user's click point
+     * @return True if the given click point is within 
+     * Values.LINE_SELECTION_DISTANCE pixels of the given edge. False if the
+     * click is too far.
      */
-    private double getMinDistFromCurve(QuadCurve2D qCurve, Point2D.Double c) {
+    private boolean isPointCloseToEdge(Edge e, int mx, int my) {
+        QuadCurve2D qCurve = e.getPositionShape();
         Point2D.Double p0 = (Point2D.Double) qCurve.getP1();
         //get an ArrayList of all the points on the given curve
         List<Point2D.Double> pointsOnCurve = getPointsOnCurve(qCurve);
 
         //initialize the minimum distance to the distance between the user
         //click and the first distance
-        double minDist = Point2D.distance(c.x, c.y, p0.x, p0.y);
 
         //cycle through all the points on the curve (except the first point)
-        for (int i = 1; i < pointsOnCurve.size(); i++) {
+        for (int i = 0; i < pointsOnCurve.size(); i++) {
             //get the current point
             Point2D.Double point = pointsOnCurve.get(i);
             //find the distance between the click and the current point
-            double newDist = Point2D.distance(c.x, c.y, point.x, point.y);
-            //if the new distance is smaller than the current minDist
-            if (newDist < minDist) {
-                //update the minDist
-                minDist = newDist;
+            double distance = Point2D.distance(mx, my, point.x, point.y);
+            //if the distance is close enough to be selected
+            if (distance <= Values.LINE_SELECTION_DISTANCE) {
+                //signal that the point is close enough to the edge
+                return true;
             }
         }
-        return minDist;
+        //signal that the point is NOT close enough to the edge
+        return false;
     }
 
     /**
