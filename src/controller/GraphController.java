@@ -1513,8 +1513,10 @@ public class GraphController {
         double t = tInc;
         while (t < 1) { //only continue while t is less than 1 (t=1 means p2)
             //Find the x and y on the curve at this t value:
+            //the +2 at the end of the equation for y is there to make the
+            //points more in line with the visual stroke of the curve
             double x = (1 - t) * (1 - t) * p0.x + 2 * (1 - t) * t * p1.x + t * t * p2.x;
-            double y = (1 - t) * (1 - t) * p0.y + 2 * (1 - t) * t * p1.y + t * t * p2.y;
+            double y = (1 - t) * (1 - t) * p0.y + 2 * (1 - t) * t * p1.y + t * t * p2.y + 2;
             //form a point from these two values to be added to the points array
             Point2D.Double point = new Point2D.Double(x, y);
             //add the new point to the points array
