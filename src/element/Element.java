@@ -35,7 +35,7 @@ public abstract class Element implements Serializable {
     // the actual drawing is done by the subclass
     public abstract void draw(Graphics2D g2);
     
-    public abstract Shape getPositionShape();
+//    public abstract Shape getPositionShape();
 
     public final void setStrokeWidth(float strokeWidth) {
         this.strokeWidth = strokeWidth;

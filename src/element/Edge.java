@@ -123,8 +123,7 @@ public class Edge extends Element {
      * the shape of this line (called in Graph)
      * @return 
      */
-    @Override
-    public Shape getPositionShape() {
+    public QuadCurve2D getPositionShape() {
         //Convert the center points of the two endpoints to ints
         int x1 = (int) endpoint1.getCenter().getX();
         int y1 = (int) endpoint1.getCenter().getY();

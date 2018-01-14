@@ -174,9 +174,9 @@ public class Vertex extends Element {
     /**
      * This is used to determine if the mouse click is contained by
      * the shape of this vertex (called in Graph)
-     * @return 
+     * @return And Ellipse2D.Double object that defines the vertex's position
+     * shape.
      */
-    @Override
     public Shape getPositionShape() {
         double strokeBuffer = Values.VERTEX_STROKE_WIDTH/2;
         return new Ellipse2D.Double(xLoc, yLoc, diameter + strokeBuffer, diameter + strokeBuffer);
