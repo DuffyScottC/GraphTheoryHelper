@@ -21,6 +21,7 @@ import java.awt.event.MouseMotionListener;
 import java.awt.event.WindowAdapter;
 import java.awt.event.WindowEvent;
 import java.awt.geom.Point2D;
+import java.awt.geom.QuadCurve2D;
 import java.awt.geom.Rectangle2D;
 import java.io.File;
 import java.io.FileInputStream;
@@ -1471,6 +1472,81 @@ public class GraphController {
         }
         //if the rectangle does not intersect the edge curve
         return false;
+    }
+    
+    /**
+     * This is the actually important method. This finds the closest point to
+     * the given mouse click position given the three points that define a
+     * Quadratic Bezier Curve.
+     *
+     * @param qCurve The Quadratic Bezier Curve
+     * @param c The user's click point
+     */
+    private double getMinDistFromCurve(QuadCurve2D qCurve, Point2D.Double c) {
+        Point2D.Double p0 = (Point2D.Double) qCurve.getP1();
+        //get an ArrayList of all the points on the given curve
+        List<Point2D.Double> pointsOnCurve = getPointsOnCurve(qCurve);
+
+        //initialize the minimum distance to the distance between the user
+        //click and the first distance
+        double minDist = Point2D.distance(c.x, c.y, p0.x, p0.y);
+
+        //cycle through all the points on the curve (except the first point)
+        for (int i = 1; i < pointsOnCurve.size(); i++) {
+            //get the current point
+            Point2D.Double point = pointsOnCurve.get(i);
+            //find the distance between the click and the current point
+            double newDist = Point2D.distance(c.x, c.y, point.x, point.y);
+            //if the new distance is smaller than the current minDist
+            if (newDist < minDist) {
+                //update the minDist
+                minDist = newDist;
+            }
+        }
+        return minDist;
+    }
+
+    /**
+     * This function finds all the points on a the given Quadratic Bezier Curve
+     * and puts them in an ArrayList.
+     *
+     * @param qCurve the Quadratic Bezier Curve
+     * @return An ArrayList of all the points on the given Quadratic Bezier
+     * Curve
+     */
+    private List<Point2D.Double> getPointsOnCurve(QuadCurve2D qCurve) {
+        Point2D.Double p0 = (Point2D.Double) qCurve.getP1();
+        Point2D.Double p1 = (Point2D.Double) qCurve.getCtrlPt();
+        Point2D.Double p2 = (Point2D.Double) qCurve.getP2();
+
+        //MARK: Figure out what the percentage of the t-increment value should be to
+        //make the points along the curve close together enough:
+        Rectangle2D bounds = qCurve.getBounds2D();
+        double rectArea = bounds.getWidth()*bounds.getHeight();
+        //what percentage of rectArea is 2 pixels?
+        //increase the numberator to decrease the number of points along the 
+        //curve and vice versa
+        double tInc = 3/Math.sqrt(rectArea);
+//        System.out.print("rectArea: " + rectArea + ", tInc: " + tInc);
+        
+        List<Point2D.Double> points = new ArrayList();
+        
+        //MARK: Add the points along the curve to the array list:
+        points.add(p0); //add the first point (no need to calculate this; t=0)
+        double t = tInc;
+        while (t < 1) { //only continue while t is less than 1 (t=1 means p2)
+            //Find the x and y on the curve at this t value:
+            double x = (1 - t) * (1 - t) * p0.x + 2 * (1 - t) * t * p1.x + t * t * p2.x;
+            double y = (1 - t) * (1 - t) * p0.y + 2 * (1 - t) * t * p1.y + t * t * p2.y;
+            //form a point from these two values to be added to the points array
+            Point2D.Double point = new Point2D.Double(x, y);
+            //add the new point to the points array
+            points.add(point);
+            //increment the t value for the next point on the curve
+            t += tInc;
+        }
+        points.add(p2); //add the last point (no need to calculate this; t=1)
+        return points;
     }
 
     /**
