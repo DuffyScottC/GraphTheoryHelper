@@ -1480,9 +1480,6 @@ public class GraphController {
         //get an ArrayList of all the points on the given curve
         List<Point2D.Double> pointsOnCurve = getPointsOnCurve(qCurve);
 
-        //initialize the minimum distance to the distance between the user
-        //click and the first distance
-
         //cycle through all the points on the curve (except the first point)
         for (int i = 0; i < pointsOnCurve.size(); i++) {
             //get the current point
