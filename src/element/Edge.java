@@ -121,7 +121,7 @@ public class Edge extends Element {
     /**
      * This is used to determine if the mouse click is contained by
      * the shape of this line (called in Graph)
-     * @return 
+     * @return A QuadCurve2D.Double object defining the edge's curve
      */
     public QuadCurve2D getPositionShape() {
         //Convert the center points of the two endpoints to ints
