@@ -1451,20 +1451,7 @@ public class GraphController {
 
     /**
      * Convenience method to improve readability in the selectVertexOrEdge()
-     * method. This method checks if the given click position (mx,my) is in the
-     * click area of the given edge.
-     *
-     * @param e The edge to be checked
-     * @param mx The x coordinate of the click position
-     * @param my The y coordinate of the click position
-     * @return True of (mx,my) is in the click area of edge e.
-     */
-    private boolean isEdgeClicked(Edge e, int mx, int my) {
-        
-    }
-    
-    /**
-     * Checks to see if a point is close enough to the given edge to be 
+     * method. Checks to see if a point is close enough to the given edge to be 
      * selected.
      *
      * @param qCurve The Quadratic Bezier Curve
@@ -1474,7 +1461,7 @@ public class GraphController {
      * Values.LINE_SELECTION_DISTANCE pixels of the given edge. False if the
      * click is too far.
      */
-    private boolean isPointCloseToEdge(Edge e, int mx, int my) {
+    private boolean isEdgeClicked(Edge e, int mx, int my) {
         QuadCurve2D qCurve = e.getPositionShape();
         Point2D.Double p0 = (Point2D.Double) qCurve.getP1();
         //get an ArrayList of all the points on the given curve
