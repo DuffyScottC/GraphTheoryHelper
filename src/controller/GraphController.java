@@ -1516,7 +1516,7 @@ public class GraphController {
             //the +2 at the end of the equation for y is there to make the
             //points more in line with the visual stroke of the curve
             double x = (1 - t) * (1 - t) * p0.x + 2 * (1 - t) * t * p1.x + t * t * p2.x;
-            double y = (1 - t) * (1 - t) * p0.y + 2 * (1 - t) * t * p1.y + t * t * p2.y + 2;
+            double y = (1 - t) * (1 - t) * p0.y + 2 * (1 - t) * t * p1.y + t * t * p2.y + Values.EDGE_STROKE_WIDTH;
             //form a point from these two values to be added to the points array
             Point2D.Double point = new Point2D.Double(x, y);
             //add the new point to the points array
