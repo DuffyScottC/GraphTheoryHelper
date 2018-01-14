@@ -1462,10 +1462,11 @@ public class GraphController {
      * click is too far.
      */
     private boolean isEdgeClicked(Edge e, int mx, int my) {
-        QuadCurve2D qCurve = e.getPositionShape();
-        Point2D.Double p0 = (Point2D.Double) qCurve.getP1();
+        QuadCurve2D edgeQCurve = e.getPositionShape();
+        Point2D.Double p0 = (Point2D.Double) edgeQCurve.getP1();
+        
         //get an ArrayList of all the points on the given curve
-        List<Point2D.Double> pointsOnCurve = getPointsOnCurve(qCurve);
+        List<Point2D.Double> pointsOnCurve = getPointsOnCurve(edgeQCurve);
 
         //cycle through all the points on the curve (except the first point)
         for (int i = 0; i < pointsOnCurve.size(); i++) {
@@ -1504,7 +1505,6 @@ public class GraphController {
         //increase the numberator to decrease the number of points along the 
         //curve and vice versa
         double tInc = 3/Math.sqrt(rectArea);
-//        System.out.print("rectArea: " + rectArea + ", tInc: " + tInc);
         
         List<Point2D.Double> points = new ArrayList();
         
