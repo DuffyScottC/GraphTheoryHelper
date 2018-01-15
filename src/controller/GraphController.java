@@ -1251,65 +1251,7 @@ public class GraphController {
         boolean clickedBlankSpace = true;
         boolean didSelectVertex = false;
 
-        for (int i = vertices.size() - 1; i >= 0; --i) {
-            Vertex currentVertex = vertices.get(i);
-            //if this vertex contains the mouse click:
-            if (currentVertex.getPositionShape().contains(mx, my)) {
-                //If the clicked vertex is one of multiple already selected vertices
-                if (selectedVertices.contains(currentVertex)) {
-                    //If the command button is held down
-                    if (isCommandPressed) {
-                        //Remove the clicked vertex from the selection:
-                        //remove the selected vertex's index
-                        selectedVertexIndices.remove(Integer.valueOf(i));
-                        //Convert the selected indices to an array
-                        int[] tempIndices = selectedIndicesToArray(selectedVertexIndices);
-                        //Set selected indices of the verticesList to the array
-                        //version of selectedVertexIndices
-                        verticesList.setSelectedIndices(tempIndices);
-                        setSelectedVertices();
-                    } else { //if the command button is not held down
-                        //add the selected vertices to clickedVertices (for moving)
-                        clickedVertices.addAll(selectedVertices);
-                        clickedEdges.addAll(selectedEdges);
-                    }
-                    //if the user clicked a new, unselected vertex
-                } else {
-                    System.out.print("");
-                    if (isCommandPressed) { //if the command key is held down
-                        //Add the new vertex to the selection:
-                        //append the index of this clicked vertex to the selection
-                        selectedVertexIndices.add(i);
-                        //Convert the selected indices to an array
-                        int[] tempIndices = selectedIndicesToArray(selectedVertexIndices);
-                        //Set selected indices of the verticesList to the array
-                        //version of selectedVertexIndices
-                        verticesList.setSelectedIndices(tempIndices);
-                        setSelectedVertices();
-                        //add the selected vertices to clickedVertices (for moving)
-                        clickedVertices.addAll(selectedVertices);
-                        clickedEdges.addAll(selectedEdges);
-                    } else { //if the command key is not held down
-                        //store the clicked vertex (for moving)
-                        clickedVertices.add(currentVertex);
-                        //Update the selection:
-                        //deselect any selected edges
-                        selectedEdgeIndices.clear();
-                        setSelectedEdges();
-                        //select the vertex
-                        verticesList.setSelectedIndex(i);
-                        selectedVertexIndices.clear(); //empty the old selected indices
-                        selectedVertexIndices.add(i); //update selected indices
-                        setSelectedVertices();
-                    }
-                }
-                //Whether the user clicked a selected or unselected vertex:
-                canvas.repaint(); //repaint the canvas
-                clickedBlankSpace = false; //user didn't click blank space
-                didSelectVertex = true; //the user did click a vertex
-                break; //exit the loop (we don't need to check the rest)
-            }
-        }
+        selectVertex();
 
         //MARK: Select edge
         //if edges is not null and the user did NOT select a vertex 
@@ -1404,6 +1346,79 @@ public class GraphController {
         //update the last position
         lastX = mx;
         lastY = my;
+    }
+    
+    /**
+     * Convenience method to improve readability. Checks if there is a vertex at
+     * (mx,my) and selects it if it exists.
+     * @param mx The x-position of the user click
+     * @param my The y-position of the user click
+     * @param clickResults An array of 2 booleans that hold the values of
+     * clickedBlankSpace and didSelectVertex
+     */
+    private void selectVertex(int mx, int my, boolean[] clickResults) {
+        for (int i = vertices.size() - 1; i >= 0; --i) {
+            Vertex currentVertex = vertices.get(i);
+            //if this vertex contains the mouse click:
+            if (currentVertex.getPositionShape().contains(mx, my)) {
+                //If the clicked vertex is one of multiple already selected vertices
+                if (selectedVertices.contains(currentVertex)) {
+                    //If the command button is held down
+                    if (isCommandPressed) {
+                        //Remove the clicked vertex from the selection:
+                        //remove the selected vertex's index
+                        selectedVertexIndices.remove(Integer.valueOf(i));
+                        //Convert the selected indices to an array
+                        int[] tempIndices = selectedIndicesToArray(selectedVertexIndices);
+                        //Set selected indices of the verticesList to the array
+                        //version of selectedVertexIndices
+                        verticesList.setSelectedIndices(tempIndices);
+                        setSelectedVertices();
+                    } else { //if the command button is not held down
+                        //add the selected vertices to clickedVertices (for moving)
+                        clickedVertices.addAll(selectedVertices);
+                        clickedEdges.addAll(selectedEdges);
+                    }
+                    //if the user clicked a new, unselected vertex
+                } else {
+                    System.out.print("");
+                    if (isCommandPressed) { //if the command key is held down
+                        //Add the new vertex to the selection:
+                        //append the index of this clicked vertex to the selection
+                        selectedVertexIndices.add(i);
+                        //Convert the selected indices to an array
+                        int[] tempIndices = selectedIndicesToArray(selectedVertexIndices);
+                        //Set selected indices of the verticesList to the array
+                        //version of selectedVertexIndices
+                        verticesList.setSelectedIndices(tempIndices);
+                        setSelectedVertices();
+                        //add the selected vertices to clickedVertices (for moving)
+                        clickedVertices.addAll(selectedVertices);
+                        clickedEdges.addAll(selectedEdges);
+                    } else { //if the command key is not held down
+                        //store the clicked vertex (for moving)
+                        clickedVertices.add(currentVertex);
+                        //Update the selection:
+                        //deselect any selected edges
+                        selectedEdgeIndices.clear();
+                        setSelectedEdges();
+                        //select the vertex
+                        verticesList.setSelectedIndex(i);
+                        selectedVertexIndices.clear(); //empty the old selected indices
+                        selectedVertexIndices.add(i); //update selected indices
+                        setSelectedVertices();
+                    }
+                }
+                //Whether the user clicked a selected or unselected vertex:
+                canvas.repaint(); //repaint the canvas
+                boolean clickedBlankSpace = false; //user didn't click blank space
+                boolean didSelectVertex = true; //the user did click a vertex
+                //assign the results
+                clickResults[0] = clickedBlankSpace;
+                clickResults[1] = didSelectVertex;
+                return; //exit the loop (we don't need to check the rest)
+            }
+        }
     }
 
     /**
