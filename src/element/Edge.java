@@ -92,6 +92,23 @@ public class Edge extends Element {
         this.endpoint2 = endpoint2;
     }
     
+    /**
+     * Given an endpoint that is attached to this edge, this method returns
+     * the other endpoint that is attached to this edge.
+     * @param firstEndpoint The vertex that we know is attached to this edge
+     * @return The other vertex attached to this edge
+     */
+    public Vertex getOtherEndpoint(Vertex firstEndpoint) {
+        //if we already know that endpoint1 is attached to this edge
+        if (endpoint1.equals(firstEndpoint)) {
+            //the other endpoint must be endpoint2
+            return endpoint2;
+        } else { //if endpoint1 is not firstEndpoint
+            //the other endpoint must be endpoint1
+            return endpoint1;
+        }
+    }
+    
     public Point2D.Double getCtrlPoint() {
         return new Point2D.Double(ctrlX, ctrlY);
     }
