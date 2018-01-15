@@ -1237,11 +1237,11 @@ public class GraphController {
     private void selectVertexOrEdge(int mx, int my) {
         //MARK: Select vertex
 
-        //Find the topmost vertex that 
-        //contains the mouse click (if any):
+        //Find the topmost vertex that contains the mouse click (if any):
+        
         //if vertices is null, then there are definitely no edges and we can 
         //stop here. (A graph can't have edges without vertices.)
-        if (vertices == null) {
+        if (vertices.isEmpty()) {
             return;
         }
         //If vertices is null, then edges is definitly null, and we don't have
@@ -1250,8 +1250,13 @@ public class GraphController {
 
         boolean clickedBlankSpace = true;
         boolean didSelectVertex = false;
-
-        selectVertex();
+        //0 is clickedBlankSpace and 1 is didSelectVertex
+        boolean[] clickResults = new boolean[2];
+        
+        
+        selectVertex(mx, my, clickResults);
+        clickedBlankSpace = clickResults[0];
+        didSelectVertex = clickResults[1];
 
         //MARK: Select edge
         //if edges is not null and the user did NOT select a vertex 
@@ -1357,6 +1362,10 @@ public class GraphController {
      * clickedBlankSpace and didSelectVertex
      */
     private void selectVertex(int mx, int my, boolean[] clickResults) {
+        //if vertices is empty, we don't need to do anything
+        if (vertices.isEmpty()) {
+            return;
+        }
         for (int i = vertices.size() - 1; i >= 0; --i) {
             Vertex currentVertex = vertices.get(i);
             //if this vertex contains the mouse click:
@@ -1413,7 +1422,7 @@ public class GraphController {
                 canvas.repaint(); //repaint the canvas
                 boolean clickedBlankSpace = false; //user didn't click blank space
                 boolean didSelectVertex = true; //the user did click a vertex
-                //assign the results
+                //assign the results (0 is clickedBlankSpace and 1 is didSelectVertex)
                 clickResults[0] = clickedBlankSpace;
                 clickResults[1] = didSelectVertex;
                 return; //exit the loop (we don't need to check the rest)
