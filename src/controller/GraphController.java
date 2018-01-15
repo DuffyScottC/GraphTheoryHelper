@@ -178,12 +178,13 @@ public class GraphController {
      */
     private Preferences prefs;
     /**
-     * initialized with user.dir just in case something goes wrong with loading preferences
+     * initialized with user.dir just in case something goes wrong with loading
+     * preferences
      */
     private final JFileChooser chooser = new JFileChooser(System.getProperty("user.dir"));
     /**
-     * Allows only .graph files to be chosen by the user. (Allows user to open directories,
-     * but not choose them).
+     * Allows only .graph files to be chosen by the user. (Allows user to open
+     * directories, but not choose them).
      */
     private FileFilter filter;
     /**
@@ -225,9 +226,9 @@ public class GraphController {
         addVerticesMenuItem = frame.getAddVerticesMenuItem();
         addEdgesMenuItem = frame.getAddEdgesMenuItem();
         selectionMenuItem = frame.getSelectionMenuItem();
-        
+
         loadPreferences();
-        
+
         SampleCanvas sampleCanvas = graphColorChooserDialog.getSampleCanvas();
         sampleCanvas.setUp(graph); //Set up the sample canvas in the dialog
 
@@ -332,48 +333,7 @@ public class GraphController {
                         //select the appropriate vertices
                         multipleSelection(mx, my);
                     } else { //if the user clicked any vertices or edges
-                        //A set of unique vertices to be moved. Vertices are added
-                        //to this list from the set of clickedVertices and the
-                        //set of endpoints attached to the clickedEdges if they
-                        //do not already exist in the list, so that each vertex
-                        //only gets moved/incremented once. 
-                        List<Vertex> attachedVertices = new ArrayList();
-                        
-                        //MARK: Move all the selected vertices:
-                        //cycle through all clicked vertices
-                        for (Vertex clickedVertex : clickedVertices) {
-                            //add this vertex to the attachedVertices list
-                            attachedVertices.add(clickedVertex);
-                            //increment this vertex's position
-                            clickedVertex.incLocation(incX, incY);
-                        }
-                        
-                        //MARK: Move all selected edges
-                        //Get a list of the individual vertices attached to the edges:
-                        //cycle through all clicked edges
-                        for (Edge clickedEdge : clickedEdges) {
-                            //Move both vertices attached to this edge:
-                            //get the first endpoint
-                            Vertex ep1 = clickedEdge.getEndpoint1();
-                            //if the list does not already contain this vertex
-                            if (!attachedVertices.contains(ep1)) {
-                                //add this vertex
-                                attachedVertices.add(ep1);
-                                //since it's new, increment its position
-                                ep1.incLocation(incX, incY);
-                            }
-                            //get the second endpoint
-                            Vertex ep2 = clickedEdge.getEndpoint2();
-                            //if the list does not already contain this vertex
-                            if (!attachedVertices.contains(ep2)) {
-                                //add this vertex
-                                attachedVertices.add(ep2);
-                                //since it's new, increment its position
-                                ep2.incLocation(incX, incY);
-                            }
-                        }
-                        
-                        setIsModified(true);
+                        moveElements(incX, incY, mx, my);
                     }
                 }
                 canvas.repaint();
@@ -591,11 +551,11 @@ public class GraphController {
                         return;
                     }
                 }
-                
+
                 chooser.setFileFilter(filter);
                 chooser.setDialogTitle("Open");
                 chooser.setAcceptAllFileFilterUsed(false);
-                
+
                 int chooserResult = chooser.showOpenDialog(frame);
                 if (chooserResult == JFileChooser.APPROVE_OPTION) {
                     File loadFile = chooser.getSelectedFile();
@@ -632,7 +592,7 @@ public class GraphController {
                         isCommandPressed = false; //unpress command
                         return;
                     }
-                    
+
                     //Update the save file:
                     saveFile = loadFile;
                     currentDirectory = loadFile; //update the current directory
@@ -642,7 +602,7 @@ public class GraphController {
                     prefs.put(Values.LAST_FILE_PATH, currentDirectory.toString());
                     //debug print
                     System.out.println("currentDirectory.toString(): " + currentDirectory.toString());
-                    
+
                 }
             }
         });
@@ -704,9 +664,9 @@ public class GraphController {
 
                 //Make it so that the user can press enter to press Add
                 addGraphDialog.getRootPane().setDefaultButton(addGraphDialog.getAddButton());
-                
+
                 isCommandPressed = false;
-                
+
                 addGraphDialog.setVisible(true);
             }
         });
@@ -724,9 +684,9 @@ public class GraphController {
                 graphColorChooserDialog.setVertexFillColor(graph.getVertexFillColor());
                 graphColorChooserDialog.setVertexStrokeColor(graph.getVertexStrokeColor());
                 graphColorChooserDialog.setEdgeStrokeColor(graph.getEdgeStrokeColor());
-                
+
                 isCommandPressed = false;
-                
+
                 graphColorChooserDialog.setVisible(true);
             }
         });
@@ -907,10 +867,10 @@ public class GraphController {
                     setIsModified(true); //label the graph as modified
                 }
                 if (newVertexStrokeColor == graph.getVertexStrokeColor()) {
-                    
+
                 }
                 if (newEdgeStrokeColor == graph.getEdgeStrokeColor()) {
-                    
+
                 }
 
                 //set the graph's colors
@@ -934,23 +894,23 @@ public class GraphController {
     private void loadPreferences() {
         // This will define a node in which the preferences can be stored
         prefs = Preferences.userRoot().node(this.getClass().getName());
-        
+
         //Get the file path from user preferences (return the current directory if 
         //no preference was set yet):
         String filePath = prefs.get(Values.LAST_FILE_PATH, System.getProperty("user.dir"));
         currentDirectory = new File(filePath);
-        
+
         //Get the user preference for showTitles menu item (return true as default)
         boolean showVertexNames = prefs.getBoolean(Values.SHOW_VERTEX_NAMES, true);
         //update the appropriate values
         frame.getShowVertexNamesMenuItem().setSelected(showVertexNames);
         showTitles = showVertexNames;
         canvas.setShowTitles(showVertexNames);
-        
-        System.out.println("filePath: " + filePath + "\n" +
-                "showVertexNames: " + showVertexNames);
+
+        System.out.println("filePath: " + filePath + "\n"
+                + "showVertexNames: " + showVertexNames);
     }
-    
+
     /**
      * Convenience method - adds the same KeyListener (KeyboardShortcuts) to
      * every focusable element in the entire frame. This may be a temporary
@@ -1127,7 +1087,7 @@ public class GraphController {
 
     /**
      * Positions all vertices passed to this function in an evenly spaced circle
-     * 
+     *
      * @param vs A list of vertices (Must contain only vertices that already
      * exist in the graph)
      */
@@ -1138,7 +1098,7 @@ public class GraphController {
         //the change in angle between each vertex
         final double delta = (2 * Math.PI) / vs.size();
         //this angle changes to position each vertex (start at 360 degrees)
-        double angle = (3 * Math.PI)/2;
+        double angle = (3 * Math.PI) / 2;
 
         for (Vertex v : vs) {
             //calculate the positions
@@ -1451,20 +1411,20 @@ public class GraphController {
 
     /**
      * Convenience method to improve readability in the selectVertexOrEdge()
-     * method. Checks to see if a point is close enough to the given edge to be 
+     * method. Checks to see if a point is close enough to the given edge to be
      * selected.
      *
      * @param qCurve The Quadratic Bezier Curve
      * @param mx The x value of the user's click point
      * @param my The y value of the user's click point
-     * @return True if the given click point is within 
+     * @return True if the given click point is within
      * Values.LINE_SELECTION_DISTANCE pixels of the given edge. False if the
      * click is too far.
      */
     private boolean isEdgeClicked(Edge e, int mx, int my) {
         QuadCurve2D edgeQCurve = e.getPositionShape();
         Point2D.Double p0 = (Point2D.Double) edgeQCurve.getP1();
-        
+
         //get an ArrayList of all the points on the given curve
         List<Point2D.Double> pointsOnCurve = getPointsOnCurve(edgeQCurve);
 
@@ -1500,14 +1460,14 @@ public class GraphController {
         //MARK: Figure out what the percentage of the t-increment value should be to
         //make the points along the curve close together enough:
         Rectangle2D bounds = qCurve.getBounds2D();
-        double rectArea = bounds.getWidth()*bounds.getHeight();
+        double rectArea = bounds.getWidth() * bounds.getHeight();
         //what percentage of rectArea is 2 pixels?
         //increase the numberator to decrease the number of points along the 
         //curve and vice versa
-        double tInc = 3/Math.sqrt(rectArea);
-        
+        double tInc = 3 / Math.sqrt(rectArea);
+
         List<Point2D.Double> points = new ArrayList();
-        
+
         //MARK: Add the points along the curve to the array list:
         points.add(p0); //add the first point (no need to calculate this; t=0)
         double t = tInc;
@@ -1526,6 +1486,62 @@ public class GraphController {
         }
         points.add(p2); //add the last point (no need to calculate this; t=1)
         return points;
+    }
+
+    private void moveElements(int incX, int incY) {
+        //A set of unique vertices to be moved. Vertices are added
+        //to this list from the set of clickedVertices and the
+        //set of endpoints attached to the clickedEdges if they
+        //do not already exist in the list, so that each vertex
+        //only gets moved/incremented once. 
+        List<Vertex> attachedVertices = new ArrayList();
+
+        //MARK: Move all the selected vertices:
+        //cycle through all clicked vertices
+        for (Vertex clickedVertex : clickedVertices) {
+            //if the vertex has any edges
+            if (!clickedVertex.getEdges().isEmpty()) {
+                for (Edge edge : clickedVertex.getEdges()) {
+                    //MARK: Calculate the ratio of the size change for the triangle:
+                    //Find the other vertex:
+                    Vertex p2 = clickedVertex;
+                    //find the 
+                    double oldLength = Point2D.distance(lastX, lastY);
+                }
+
+            }
+            //add this vertex to the attachedVertices list
+            attachedVertices.add(clickedVertex);
+            //increment this vertex's position
+            clickedVertex.incLocation(incX, incY);
+        }
+
+        //MARK: Move all selected edges
+        //Get a list of the individual vertices attached to the edges:
+        //cycle through all clicked edges
+        for (Edge clickedEdge : clickedEdges) {
+            //Move both vertices attached to this edge:
+            //get the first endpoint
+            Vertex ep1 = clickedEdge.getEndpoint1();
+            //if the list does not already contain this vertex
+            if (!attachedVertices.contains(ep1)) {
+                //add this vertex
+                attachedVertices.add(ep1);
+                //since it's new, increment its position
+                ep1.incLocation(incX, incY);
+            }
+            //get the second endpoint
+            Vertex ep2 = clickedEdge.getEndpoint2();
+            //if the list does not already contain this vertex
+            if (!attachedVertices.contains(ep2)) {
+                //add this vertex
+                attachedVertices.add(ep2);
+                //since it's new, increment its position
+                ep2.incLocation(incX, incY);
+            }
+        }
+
+        setIsModified(true);
     }
 
     /**
@@ -2072,7 +2088,7 @@ public class GraphController {
             JOptionPane.showMessageDialog(frame, "Cannot save an empty graph.");
             return;
         }
-        
+
         chooser.setDialogTitle("Save");
         chooser.resetChoosableFileFilters(); //remove the .graph specification
         chooser.setAcceptAllFileFilterUsed(true);
@@ -2143,7 +2159,7 @@ public class GraphController {
             oostr.writeObject(graph);
             oostr.close(); //must do this to ensure completion
         } catch (IOException ex) {
-            
+
             isCommandPressed = false; //unpress command
             JOptionPane.showMessageDialog(frame, "Unable to save file.\n"
                     + ex.getMessage(), "Oops!", JOptionPane.ERROR_MESSAGE);
