@@ -82,8 +82,8 @@ public class GraphFrame extends javax.swing.JFrame {
         changeColorsMenuItem = new javax.swing.JMenuItem();
         addGraphMenuItem = new javax.swing.JMenuItem();
         graphMenuItem = new javax.swing.JMenu();
-        jMenuItem2 = new javax.swing.JMenuItem();
-        jMenuItem1 = new javax.swing.JMenuItem();
+        eulerIanTrailMenuItem = new javax.swing.JMenuItem();
+        eulerIanCircuitMenuItem = new javax.swing.JMenuItem();
 
         setDefaultCloseOperation(javax.swing.WindowConstants.EXIT_ON_CLOSE);
 
@@ -333,11 +333,11 @@ public class GraphFrame extends javax.swing.JFrame {
 
         graphMenuItem.setText("Graph");
 
-        jMenuItem2.setText("Eulerian Trail");
-        graphMenuItem.add(jMenuItem2);
+        eulerIanTrailMenuItem.setText("Eulerian Trail");
+        graphMenuItem.add(eulerIanTrailMenuItem);
 
-        jMenuItem1.setText("Eulerian Circuit");
-        graphMenuItem.add(jMenuItem1);
+        eulerIanCircuitMenuItem.setText("Eulerian Circuit");
+        graphMenuItem.add(eulerIanCircuitMenuItem);
 
         myMenuBar.add(graphMenuItem);
 
@@ -376,14 +376,14 @@ public class GraphFrame extends javax.swing.JFrame {
     private javax.swing.JList<String> edgesList;
     private javax.swing.JScrollPane edgesScrollPane;
     private javax.swing.JMenu editMenu;
+    private javax.swing.JMenuItem eulerIanCircuitMenuItem;
+    private javax.swing.JMenuItem eulerIanTrailMenuItem;
     private javax.swing.JMenu fileMenu;
     private javax.swing.JMenuItem formatVerticesMenuItem;
     private javax.swing.JMenu graphMenuItem;
     private javax.swing.JPanel graphOutputPanel;
     private javax.swing.JTextField graphOutputTextField;
     private views.InspectorPanel inspectorPanel;
-    private javax.swing.JMenuItem jMenuItem1;
-    private javax.swing.JMenuItem jMenuItem2;
     private javax.swing.JSeparator jSeparator1;
     private javax.swing.JPopupMenu.Separator jSeparator2;
     private javax.swing.JPanel mainPanel;
@@ -526,5 +526,13 @@ public class GraphFrame extends javax.swing.JFrame {
     
     public JPanel getMainPanel() {
         return mainPanel;
+    }
+    
+    public JMenuItem getEulerianTrailMenuItem() {
+        return eulerIanTrailMenuItem;
+    }
+    
+    public JMenuItem getEulerianCircuitMenuItem() {
+        return eulerIanCircuitMenuItem;
     }
 }

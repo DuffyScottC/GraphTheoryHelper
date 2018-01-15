@@ -7,9 +7,11 @@ package element;
 
 import controller.Values;
 import java.awt.BasicStroke;
+import java.awt.Color;
 import java.awt.Graphics2D;
 import java.awt.Shape;
 import java.awt.geom.AffineTransform;
+import java.awt.geom.Ellipse2D;
 import java.awt.geom.Line2D;
 import java.awt.geom.Point2D;
 import java.awt.geom.QuadCurve2D;
@@ -74,6 +76,11 @@ public class Edge extends Element {
         QuadCurve2D qCurve = new QuadCurve2D.Double(); //instantiate a curve
         qCurve.setCurve(x1, y1, ctrlX, ctrlY, x2, y2); //assign the values
         g2.draw(qCurve); //draw the curve
+        
+        //debug: draw control point
+        Ellipse2D.Double ctrl = new Ellipse2D.Double(ctrlX - 3, ctrlY - 3, 6, 6);
+        g2.setColor(Color.blue);
+        g2.fill(ctrl);
     }
     
     public Vertex getEndpoint1() {

@@ -885,6 +885,28 @@ public class GraphController {
                 canvas.repaint(); //repaint the canvas
             }
         });
+        frame.getEulerianTrailMenuItem().addActionListener(new ActionListener() {
+            @Override
+            public void actionPerformed(ActionEvent e) {
+                clickedVertices.add(vertices.get(1));
+                moveElements(-10,-10);
+                canvas.repaint();
+            }
+        });
+        frame.getEulerianCircuitMenuItem().addActionListener(new ActionListener() {
+            @Override
+            public void actionPerformed(ActionEvent e) {
+                addVertex(100, 300); //A
+                addVertex(300, 100); //B
+                vertices.get(0).incLocation(-7.5, -7.5); //make center whole number
+                vertices.get(1).incLocation(-7.5, -7.5); //for easy reading
+                Edge newEdge = new Edge(vertices.get(0), vertices.get(1));
+                newEdge.setStrokeWidth(Values.EDGE_STROKE_WIDTH);
+                edges.add(newEdge); //Add the edge to the graph
+                updateEdgesListModel(); //update the visual JList
+                canvas.repaint();
+            }
+        });
     }
 
     //MARK: Other methods--------------------
@@ -1537,6 +1559,13 @@ public class GraphController {
                     Point2D.Double newP1 = B2.add(newP2);
                     
                     edge.setCtrlPoint((int) newP1.x, (int) newP1.y);
+                    System.out.println("A1: " + A1 + "\n"
+                            + "B1: " + B1 + "\n"
+                            + "A2: " + A2 + "\n"
+                            + "B2: " + B2 + "\n"
+                            + "p2: " + p2 + " newP2: " + newP2 + "\n"
+                            + "p1: " + p1 + " newP1: " + newP1 + "\n"
+                            + "\n");
                 }
             }
             //add this vertex to the attachedVertices list

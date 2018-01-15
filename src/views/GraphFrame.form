@@ -151,12 +151,12 @@
             <Property name="text" type="java.lang.String" value="Graph"/>
           </Properties>
           <SubComponents>
-            <MenuItem class="javax.swing.JMenuItem" name="jMenuItem2">
+            <MenuItem class="javax.swing.JMenuItem" name="eulerIanTrailMenuItem">
               <Properties>
                 <Property name="text" type="java.lang.String" value="Eulerian Trail"/>
               </Properties>
             </MenuItem>
-            <MenuItem class="javax.swing.JMenuItem" name="jMenuItem1">
+            <MenuItem class="javax.swing.JMenuItem" name="eulerIanCircuitMenuItem">
               <Properties>
                 <Property name="text" type="java.lang.String" value="Eulerian Circuit"/>
               </Properties>
