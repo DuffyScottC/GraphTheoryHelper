@@ -81,15 +81,6 @@ public class Vector2D {
      * @return An angle from -pi/2 to 3pi/2 not inclusive (in radians)
      */
     public double getAngle() {
-        if (x == 0) { //if the vector is completely vertical
-            if (y > 0) { //if y is positive
-                return Math.PI/4; //90 degrees, or pi/4 radians
-            } else { //if y is negative
-                return 3*Math.PI/2; //270 degrees, or 3pi/2 radians
-            }
-        } 
-        //if the vector is not completely vertical (x != 0)
-        //find the result of arctan(y/x)
         double angle = Math.atan2(y, x);
         return angle;
     }
