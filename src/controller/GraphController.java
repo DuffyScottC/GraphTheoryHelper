@@ -1503,10 +1503,35 @@ public class GraphController {
             if (!clickedVertex.getEdges().isEmpty()) {
                 for (Edge edge : clickedVertex.getEdges()) {
                     //MARK: Calculate the ratio of the size change for the triangle:
-                    //Find the other vertex:
-                    Vertex p2 = clickedVertex;
-                    //find the 
-                    double oldLength = Point2D.distance(lastX, lastY);
+                    //get the center of the clickedVertex (the one that will be
+                    //moving after this loop)
+                    Point2D.Double startPos = clickedVertex.getCenter();
+                    //Find the center of the other vertex:
+                    //initialize otherVertex to quiet warnings
+                    Point2D.Double endPos;// = new Vertex(0,0);
+                    //if endpoint1 is clickedVertex
+                    if (edge.getEndpoint1().equals(clickedVertex)) {
+                        //set otherVPos to endpoint2's center
+                        endPos = edge.getEndpoint2().getCenter();
+                    } else { //if endpoint1 is not clickedVertex
+                        //set otherVPos to endpoint1's center
+                        endPos = edge.getEndpoint1().getCenter();
+                    }
+                    //find the OLD distance between startPos (before it moved)
+                    //and endPos
+                    double oldDist = Point2D.distance(endPos.x, endPos.y, 
+                            startPos.x, startPos.y);
+                    //find the new distance between startPos (after it moved)
+                    //and endPos
+                    double newDist = Point2D.distance(endPos.x, endPos.y, 
+                            startPos.x+incX, startPos.y+incY);
+                    double ratio = newDist/oldDist;
+                    
+                    //MARK: Calculate the difference of the angle
+                    //get the old angle from the x-axis to the vecter formed from
+                    //startPos to ctrlPos
+                    double oldAngle;
+                    double angleDiff;
                 }
 
             }
