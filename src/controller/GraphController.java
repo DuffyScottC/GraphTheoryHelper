@@ -333,7 +333,7 @@ public class GraphController {
                         //select the appropriate vertices
                         multipleSelection(mx, my);
                     } else { //if the user clicked any vertices or edges
-                        moveElements(incX, incY, mx, my);
+                        moveElements(incX, incY);
                     }
                 }
                 canvas.repaint();
@@ -1502,9 +1502,13 @@ public class GraphController {
             //if the vertex has any edges
             if (!clickedVertex.getEdges().isEmpty()) {
                 for (Edge edge : clickedVertex.getEdges()) {
-                    
+                    //Get the elements of this edge (p2 is the vertex that
+                    //is moving, p1 is ctrl, p1 is staying still)
+                    Point2D.Double p2 = clickedVertex.getCenter();
+                    Point2D.Double p1 = edge.getCtrlPoint();
+                    Point2D.Double p0 = edge.getOtherEndpoint(clickedVertex).getCenter();
+                    Point2D.Double A = new Point2D.Double(p0.x - p2.x, p0.y - p2.y);
                 }
-
             }
             //add this vertex to the attachedVertices list
             attachedVertices.add(clickedVertex);
