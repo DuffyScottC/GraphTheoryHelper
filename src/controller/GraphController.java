@@ -1514,7 +1514,32 @@ public class GraphController {
         //do not already exist in the list, so that each vertex
         //only gets moved/incremented once. 
         List<Vertex> attachedVertices = new ArrayList();
-
+        
+        //MARK: Move all selected edges
+        //Get a list of the individual vertices attached to the edges:
+        //cycle through all clicked edges
+        for (Edge clickedEdge : clickedEdges) {
+            //Move both vertices attached to this edge:
+            //get the first endpoint
+            Vertex ep1 = clickedEdge.getEndpoint1();
+            //if the list does not already contain this vertex
+            if (!attachedVertices.contains(ep1)) {
+                //add this vertex
+                attachedVertices.add(ep1);
+                //since it's new, increment its position
+                ep1.incLocation(incX, incY);
+            }
+            //get the second endpoint
+            Vertex ep2 = clickedEdge.getEndpoint2();
+            //if the list does not already contain this vertex
+            if (!attachedVertices.contains(ep2)) {
+                //add this vertex
+                attachedVertices.add(ep2);
+                //since it's new, increment its position
+                ep2.incLocation(incX, incY);
+            }
+        }
+        
         //MARK: Move all the selected vertices:
         //cycle through all clicked vertices
         for (Vertex clickedVertex : clickedVertices) {
@@ -1566,31 +1591,6 @@ public class GraphController {
             attachedVertices.add(clickedVertex);
             //increment this vertex's position
             clickedVertex.incLocation(incX, incY);
-        }
-
-        //MARK: Move all selected edges
-        //Get a list of the individual vertices attached to the edges:
-        //cycle through all clicked edges
-        for (Edge clickedEdge : clickedEdges) {
-            //Move both vertices attached to this edge:
-            //get the first endpoint
-            Vertex ep1 = clickedEdge.getEndpoint1();
-            //if the list does not already contain this vertex
-            if (!attachedVertices.contains(ep1)) {
-                //add this vertex
-                attachedVertices.add(ep1);
-                //since it's new, increment its position
-                ep1.incLocation(incX, incY);
-            }
-            //get the second endpoint
-            Vertex ep2 = clickedEdge.getEndpoint2();
-            //if the list does not already contain this vertex
-            if (!attachedVertices.contains(ep2)) {
-                //add this vertex
-                attachedVertices.add(ep2);
-                //since it's new, increment its position
-                ep2.incLocation(incX, incY);
-            }
         }
 
         setIsModified(true);
