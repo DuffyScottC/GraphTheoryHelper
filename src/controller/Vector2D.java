@@ -46,6 +46,16 @@ public class Vector2D {
         findQuadrant();
     }
     
+    /**
+     * Creates a normal vector (with magnitude 1) from the origin (0,0) with
+     * the passed-in direction angle.
+     * @param angle The angle of the new normal vector
+     */
+    public Vector2D(double angle) {
+        x = Math.cos(angle);
+        y = Math.sin(angle);
+    }
+    
     private void findQuadrant() {
         //determine what quadrant we are in
         if (y > 0) { //y is positive
