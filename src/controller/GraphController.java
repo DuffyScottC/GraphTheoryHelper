@@ -1507,6 +1507,7 @@ public class GraphController {
                     Point2D.Double p2 = clickedVertex.getCenter();
                     Point2D.Double p1 = edge.getCtrlPoint();
                     Point2D.Double p0 = edge.getOtherEndpoint(clickedVertex).getCenter();
+                    
                     Point2D.Double A = new Point2D.Double(p0.x - p2.x, p0.y - p2.y);
                 }
             }
