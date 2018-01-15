@@ -1538,6 +1538,8 @@ public class GraphController {
                     
                     //add B2 to newP2 to get the newP1, the new control point
                     Point2D.Double newP1 = B2.add(newP2);
+                    
+                    edge.setCtrlPoint((int) newP1.x, (int) newP1.y);
                 }
             }
             //add this vertex to the attachedVertices list
