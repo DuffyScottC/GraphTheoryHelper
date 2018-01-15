@@ -1619,11 +1619,11 @@ public class GraphController {
                         }
                     }
                 }
+                //add this vertex to the attachedVertices list
+                attachedVertices.add(clickedVertex);
+                //increment this vertex's position
+                clickedVertex.incLocation(incX, incY);
             }
-            //add this vertex to the attachedVertices list
-            attachedVertices.add(clickedVertex);
-            //increment this vertex's position
-            clickedVertex.incLocation(incX, incY);
         }
 
         setIsModified(true);
