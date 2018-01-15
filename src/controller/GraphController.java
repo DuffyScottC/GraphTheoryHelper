@@ -1542,6 +1542,11 @@ public class GraphController {
             clickedEdge.incCtrlPoint(incX, incY);
         }
         
+        //A set of edges whose control points have already been incremented
+        //because, even though they were not selected, both of their
+        //vertices are selected so they might as well be.
+        List<Edge> incedEdges = new ArrayList();
+        
         //MARK: Move all the selected vertices:
         //cycle through all clicked vertices
         for (Vertex clickedVertex : clickedVertices) {
@@ -1566,7 +1571,7 @@ public class GraphController {
 
                             //if otherVertex is NOT in clickedVertices, then it will
                             //not be moving later and we need to move this edge's
-                            //control point accordingly
+                            //control point accordingly with angles and vectors
                             if (!clickedVertices.contains(otherVertex)) {
                                 //the old vector from p2 to p0
                                 Vector2D A1 = new Vector2D(p2, p0);
@@ -1597,6 +1602,19 @@ public class GraphController {
 
                                 //set the new control point
                                 edge.setCtrlPoint(newP1.x, newP1.y);
+                            } else {
+                                /*
+                                If, however, the other vertex was clicked, then we 
+                                simply need to increment the edge's control point with 
+                                incX and incY and mark it so that we don't do it twice
+                                (when we run into the other vertex)
+                                */
+                                if (!incedEdges.contains(edge)) {
+                                    //mark this so that it is not incremented when
+                                    //we run into the other vertex
+                                    incedEdges.add(edge);
+                                    edge.incCtrlPoint(incX, incY);
+                                }
                             }
                         }
                     }
