@@ -1508,12 +1508,14 @@ public class GraphController {
     }
 
     private void moveElements(int incX, int incY) {
-        //A set of unique vertices to be moved. Vertices are added
-        //to this list from the set of clickedVertices and the
-        //set of endpoints attached to the clickedEdges if they
-        //do not already exist in the list, so that each vertex
-        //only gets moved/incremented once. 
-//        List<Vertex> attachedVertices = new ArrayList();
+        /*
+        This will hold the vertices that are to be moved in the move-vertices
+        section. Unclicked vertices that are attached to clicked edges must
+        be added to this list so that they can be moved later.
+        */
+        List<Vertex> verticesToMove = new ArrayList();
+        //add all the clicked vertices first
+        verticesToMove.addAll(clickedVertices);
         
         //MARK: Add edge endpoints to clickedVertices
         //Add all the edge endpoints to clickedVertices so that they will
@@ -1524,17 +1526,18 @@ public class GraphController {
             //get the first endpoint
             Vertex ep1 = clickedEdge.getEndpoint1();
             //if clickedVertices does NOT already contain this vertex
-            if (!clickedVertices.contains(ep1)) {
+            if (!verticesToMove.contains(ep1)) {
                 //add this vertex to be moved later
-                clickedVertices.add(ep1);
+                verticesToMove.add(ep1);
             }
             //get the second endpoint
             Vertex ep2 = clickedEdge.getEndpoint2();
             //if clickedVertices does NOT already contain this vertex
-            if (!clickedVertices.contains(ep2)) {
+            if (!verticesToMove.contains(ep2)) {
                 //add this vertex to be moved later
-                clickedVertices.add(ep2);
+                verticesToMove.add(ep2);
             }
+            //increment the edge control point's location
             clickedEdge.incCtrlPoint(incX, incY);
         }
         
@@ -1545,10 +1548,7 @@ public class GraphController {
         
         //MARK: Move all the selected vertices:
         //cycle through all clicked vertices
-        for (Vertex clickedVertex : clickedVertices) {
-            //if the clickedVertex has not already been moved above in the
-            //edge-moving code (so that we don't move clickedVertex twice)
-//            if (!attachedVertices.contains(clickedVertex)) {
+        for (Vertex clickedVertex : verticesToMove) {
                 //if the vertex has any edges
                 if (!clickedVertex.getEdges().isEmpty()) {
                     for (Edge edge : clickedVertex.getEdges()) {
@@ -1568,7 +1568,7 @@ public class GraphController {
                             //if otherVertex is NOT in clickedVertices, then it will
                             //not be moving later and we need to move this edge's
                             //control point accordingly with angles and vectors
-                            if (!clickedVertices.contains(otherVertex)) {
+                            if (!verticesToMove.contains(otherVertex)) {
                                 //the old vector from p2 to p0
                                 Vector2D A1 = new Vector2D(p2, p0);
                                 //the old vector from p2 to p1
@@ -1615,11 +1615,8 @@ public class GraphController {
                         }
                     }
                 }
-                //add this vertex to the attachedVertices list
-//                attachedVertices.add(clickedVertex);
                 //increment this vertex's position
                 clickedVertex.incLocation(incX, incY);
-//            }
         }
 
         setIsModified(true);
