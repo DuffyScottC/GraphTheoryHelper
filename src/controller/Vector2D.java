@@ -100,7 +100,7 @@ public class Vector2D {
             case 3:
                 return angle + Math.PI;
             default: //quadrant 4
-                return angle;
+                return angle + Math.PI*2;
         }
     }
     
@@ -135,5 +135,18 @@ public class Vector2D {
         double xPos = point.x + this.x;
         double yPos = point.y + this.y;
         return new Point2D.Double(xPos, yPos);
+    }
+    
+    @Override
+    public String toString() {
+        StringBuilder s = new StringBuilder("(");
+        s.append(x);
+        s.append(",");
+        s.append(y);
+        s.append("), ");
+        s.append(this.getMagnitude());
+        s.append(", ");
+        s.append(this.getAngle());
+        return s.toString();
     }
 }
