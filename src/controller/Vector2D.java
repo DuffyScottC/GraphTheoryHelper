@@ -21,7 +21,6 @@ public class Vector2D {
 
     public double x;
     public double y;
-    private int quadrant = 1;
     
     /**
      * Creates a vector from the origin (0,0) to the given point (x,y).
@@ -31,7 +30,6 @@ public class Vector2D {
     public Vector2D(double x, double y) {
         this.x = x;
         this.y = y;
-        findQuadrant();
     }
     
     /**
@@ -43,7 +41,6 @@ public class Vector2D {
     public Vector2D(Point2D.Double a, Point2D.Double b) {
         this.x = b.x - a.x;
         this.y = b.y - a.y;
-        findQuadrant();
     }
     
     /**
@@ -54,22 +51,6 @@ public class Vector2D {
     public Vector2D(double angle) {
         x = Math.cos(angle);
         y = Math.sin(angle);
-    }
-    
-    private void findQuadrant() {
-        //determine what quadrant we are in
-        if (y > 0) { //y is positive (1 or 2)
-            if (x > 0) { //x is positive
-                quadrant = 1;
-            } else { //x is negative
-                quadrant = 2;
-            }
-        } else //y is negative (3 or 4)
-        if (x > 0) { //x is positive
-            quadrant = 4;
-        } else { //x is negative
-            quadrant = 3;
-        }
     }
 
     public double getMagnitude() {
