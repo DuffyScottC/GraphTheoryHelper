@@ -906,9 +906,6 @@ public class GraphController {
         frame.getShowVertexNamesMenuItem().setSelected(showVertexNames);
         showTitles = showVertexNames;
         canvas.setShowTitles(showVertexNames);
-
-        System.out.println("filePath: " + filePath + "\n"
-                + "showVertexNames: " + showVertexNames);
     }
 
     /**
