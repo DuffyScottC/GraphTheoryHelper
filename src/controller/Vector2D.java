@@ -58,13 +58,13 @@ public class Vector2D {
     
     private void findQuadrant() {
         //determine what quadrant we are in
-        if (y > 0) { //y is positive
+        if (y > 0) { //y is positive (1 or 2)
             if (x > 0) { //x is positive
                 quadrant = 1;
             } else { //x is negative
                 quadrant = 2;
             }
-        } else //y is negative
+        } else //y is negative (3 or 4)
         if (x > 0) { //x is positive
             quadrant = 4;
         } else { //x is negative
@@ -91,17 +91,7 @@ public class Vector2D {
         //if the vector is not completely vertical (x != 0)
         //find the result of arctan(y/x)
         double angle = Math.atan2(y, x);
-        //add 180 degrees (pi radians) to angle if this vector is in Q2 or Q3
-        switch (quadrant) {
-            case 1:
-                return angle;
-            case 2:
-                return angle + Math.PI;
-            case 3:
-                return angle + Math.PI;
-            default: //quadrant 4
-                return angle + Math.PI*2;
-        }
+        return angle;
     }
     
     /**
@@ -145,10 +135,13 @@ public class Vector2D {
         s.append(",");
         double rY = Math.round(y * 10000.0) / 10000.0;
         s.append(rY);
-        s.append("), ");
-        s.append(this.getMagnitude());
-        s.append(", ");
-        s.append(this.getAngle());
+        s.append("), magnitude: ");
+        double mag = Math.round(this.getMagnitude() * 10000.0) / 10000.0;
+        s.append(mag);
+        s.append(", angle: ");
+        double degreeAngle = this.getAngle() * 180/Math.PI; //convert to degrees
+        double angle = Math.round(degreeAngle * 100.0) / 100.0;
+        s.append(angle);
         return s.toString();
     }
 }
