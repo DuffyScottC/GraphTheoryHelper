@@ -1239,6 +1239,8 @@ public class GraphController {
         boolean didSelectVertex = false;
         //0 is clickedBlankSpace and 1 is didSelectVertex
         boolean[] clickResults = new boolean[2];
+        clickResults[0] = clickedBlankSpace;
+        clickResults[1] = didSelectVertex;
         
         //MARK: Select vertex
         //Find the topmost vertex that contains the mouse click (if any):
