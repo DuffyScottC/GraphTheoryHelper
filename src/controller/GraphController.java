@@ -1502,13 +1502,42 @@ public class GraphController {
             //if the vertex has any edges
             if (!clickedVertex.getEdges().isEmpty()) {
                 for (Edge edge : clickedVertex.getEdges()) {
+                    /*
+                    From here to the end of this loop, "old" means before 
+                    clickedVertex is moved/incremented and "new" means after.
+                    */
                     //Get the elements of this edge (p2 is the vertex that
                     //is moving, p1 is ctrl, p1 is staying still)
                     Point2D.Double p2 = clickedVertex.getCenter();
                     Point2D.Double p1 = edge.getCtrlPoint();
                     Point2D.Double p0 = edge.getOtherEndpoint(clickedVertex).getCenter();
                     
-                    Point2D.Double A = new Point2D.Double(p0.x - p2.x, p0.y - p2.y);
+                    //the old vector from p2 to p0
+                    Vector2D A1 = new Vector2D(p2, p0);
+                    //the old vector from p2 to p1
+                    Vector2D B1 = new Vector2D(p2, p1);
+                    
+                    //the new p2 (after the move)
+                    Point2D.Double newP2 = new Point2D.Double(p2.x + incX, p2.y + incY);
+                    //the new vector from newP2 to p0
+                    Vector2D A2 = new Vector2D(newP2, p0);
+                    
+                    //get the ratio of the magnitude change from old to new
+                    double magRatio = A2.getMagnitude()/A1.getMagnitude();
+                    //get the difference of the angle change from old to new
+                    double angleDiff = A1.getAngle() - A2.getAngle();
+                    
+                    //find B2's new angle
+                    double B2Angle = B1.getAngle() - angleDiff;
+                    //the new vector from newP2 to newP1 with magnitude 1
+                    Vector2D B2 = new Vector2D(B2Angle);
+                    //find B2's new magnitude
+                    double B2Mag = magRatio * B1.getMagnitude();
+                    //multiply B2 by B2Mag to get the right size vector
+                    B2.multiplyBy(B2Mag);
+                    
+                    //add B2 to newP2 to get the newP1, the new control point
+                    Point2D.Double newP1 = B2.add(newP2);
                 }
             }
             //add this vertex to the attachedVertices list
