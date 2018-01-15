@@ -95,6 +95,15 @@ public class Vector2D {
     }
     
     /**
+     * Normallizes this vector (gives it a magnitude of 1)
+     */
+    public void normalize() {
+        double mag = this.getMagnitude();
+        x = x/mag;
+        y = y/mag;
+    }
+    
+    /**
      * Add this vector to the given point.
      * @param point The point to add this vector to
      * @return A Point2D.Double object that is this vector's magnitude and
