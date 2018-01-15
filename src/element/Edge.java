@@ -26,8 +26,8 @@ public class Edge extends Element {
     private Vertex endpoint2;
     
     //Used to hold the postition of the control point of the curve
-    private int ctrlX;
-    private int ctrlY;
+    private double ctrlX;
+    private double ctrlY;
     
     /**
      * An initializer that allows you to define the endpoints immediately. This
@@ -49,10 +49,10 @@ public class Edge extends Element {
         
         //Set the default control point:
         //get the endpoint coordinates
-        int x1 = (int) endpoint1.getCenter().getX();
-        int y1 = (int) endpoint1.getCenter().getY();
-        int x2 = (int) endpoint2.getCenter().getX();
-        int y2 = (int) endpoint2.getCenter().getY();
+        double x1 = endpoint1.getCenter().getX();
+        double y1 = endpoint1.getCenter().getY();
+        double x2 = endpoint2.getCenter().getX();
+        double y2 = endpoint2.getCenter().getY();
         //set the control point
         ctrlX = (x1 + x2)/2; //find the mid-x
         ctrlY = (y1 + y2)/2; //find the mid-y
@@ -78,7 +78,7 @@ public class Edge extends Element {
         g2.draw(qCurve); //draw the curve
         
         //debug: draw control point
-        Ellipse2D.Double ctrl = new Ellipse2D.Double(ctrlX - 3, ctrlY - 3, 6, 6);
+        Ellipse2D.Double ctrl = new Ellipse2D.Double(ctrlX - 3.0, ctrlY - 3.0, 6, 6);
         g2.setColor(Color.blue);
         g2.fill(ctrl);
     }
@@ -120,7 +120,7 @@ public class Edge extends Element {
         return new Point2D.Double(ctrlX, ctrlY);
     }
     
-    public void setCtrlPoint(int ctrlX, int ctrlY) {
+    public void setCtrlPoint(double ctrlX, double ctrlY) {
         this.ctrlX = ctrlX;
         this.ctrlY = ctrlY;
     }
