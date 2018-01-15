@@ -1538,6 +1538,8 @@ public class GraphController {
                 //since it's new, increment its position
                 ep2.incLocation(incX, incY);
             }
+            //increment the edge's control point
+            clickedEdge.incCtrlPoint(incX, incY);
         }
         
         //MARK: Move all the selected vertices:
