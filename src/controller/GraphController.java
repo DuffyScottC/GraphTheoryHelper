@@ -1283,7 +1283,8 @@ public class GraphController {
     }
     
     /**
-     * Convenience method to improve readability. Checks if there is a vertex at
+     * Convenience method to improve readability of 
+     * {@link selectVertexOrEdge(int,int)}. Checks if there is a vertex at 
      * (mx,my) and selects it if it exists.
      * @param mx The x-position of the user click
      * @param my The y-position of the user click
@@ -1360,8 +1361,9 @@ public class GraphController {
     }
     
     /**
-     * Convenience method to improve readability. Checks if there is an edge at
-     * (mx,my) and selects it if it exists
+     * Convenience method to improve readability of 
+     * {@link selectVertexOrEdge(int,int)}. Checks if there is an edge at 
+     * (mx,my) and selects it if it exists.
      * @param mx The x-position of the user click
      * @param my The y-position of the user click
      * @param clickResults An array of 2 booleans that hold the values of
