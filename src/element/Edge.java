@@ -120,6 +120,10 @@ public class Edge extends Element {
         this.ctrlY = ctrlY;
     }
     
+    public void incCtrlPoint(double incX, double incY) {
+        this.setCtrlPoint(this.ctrlX + incX, this.ctrlY + incY);
+    }
+    
     /**
      * Checks to see if the given vertex is an endpoint of this edge.
      * @param v The vertex that we are asking whether it is an endpoint
