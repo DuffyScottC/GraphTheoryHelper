@@ -95,12 +95,24 @@ public class Vector2D {
     }
     
     /**
-     * Normallizes this vector (gives it a magnitude of 1)
+     * Normalizes this vector (gives it a magnitude of 1).
      */
     public void normalize() {
         double mag = this.getMagnitude();
         x = x/mag;
         y = y/mag;
+    }
+    
+    /**
+     * Multiply this vector by the given scalar quantity. This changes the
+     * vector's magnitude. If the vector is normal (has a magnitude of 1),
+     * then this operation effectively sets the magnitude of this vector
+     * to the scalar quantity.
+     * @param scalar The scalar quanity to multiply the vector by. 
+     */
+    public void multiplyBy(double scalar) {
+        x = x*scalar;
+        y = y*scalar;
     }
     
     /**
