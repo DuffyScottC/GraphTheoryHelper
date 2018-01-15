@@ -140,9 +140,11 @@ public class Vector2D {
     @Override
     public String toString() {
         StringBuilder s = new StringBuilder("(");
-        s.append(x);
+        double rX = Math.round(x * 10000.0) / 10000.0;
+        s.append(rX);
         s.append(",");
-        s.append(y);
+        double rY = Math.round(y * 10000.0) / 10000.0;
+        s.append(rY);
         s.append("), ");
         s.append(this.getMagnitude());
         s.append(", ");
