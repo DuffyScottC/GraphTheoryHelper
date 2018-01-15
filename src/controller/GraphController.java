@@ -1235,103 +1235,32 @@ public class GraphController {
      * @param my
      */
     private void selectVertexOrEdge(int mx, int my) {
-        //MARK: Select vertex
-
-        //Find the topmost vertex that contains the mouse click (if any):
-        
-        //if vertices is null, then there are definitely no edges and we can 
-        //stop here. (A graph can't have edges without vertices.)
-        if (vertices.isEmpty()) {
-            return;
-        }
-        //If vertices is null, then edges is definitly null, and we don't have
-        //to worry about clicking the canvas because nothing could have been
-        //clicked in the first place. 
-
         boolean clickedBlankSpace = true;
         boolean didSelectVertex = false;
         //0 is clickedBlankSpace and 1 is didSelectVertex
         boolean[] clickResults = new boolean[2];
         
+        //MARK: Select vertex
+        //Find the topmost vertex that contains the mouse click (if any):
+        //if vertices is empty, then there are definitely no edges and we can 
+        //stop here. (A graph can't have edges without vertices.)
+        if (vertices.isEmpty()) {
+            return;
+        }
+        //If vertices is empty, then edges is definitly empty, and we don't have
+        //to worry about clicking the canvas because nothing could have been
+        //clicked in the first place.
         
+        //click the vertex (if any)
         selectVertex(mx, my, clickResults);
+        //assign the results
         clickedBlankSpace = clickResults[0];
         didSelectVertex = clickResults[1];
 
         //MARK: Select edge
-        //if edges is not null and the user did NOT select a vertex 
-        //(which have priority over edges when it comes to selecting)
-        if (edges != null && didSelectVertex == false) {
-            //true if edge "e" was clicked (in loop below), false if no edge was clicked
-            boolean clickedAnEdge = false;
-            for (int i = edges.size() - 1; i >= 0; --i) { //loop through edges
-                Edge e = edges.get(i); //get the next edge in the list
-                //Check if the current edge was clicked
-                clickedAnEdge = isEdgeClicked(e, mx, my);
-                //If we clicked edge e
-                if (clickedAnEdge) {
-                    //if the clicked edge is one of multiple already selected edges
-                    if (selectedEdges.contains(e)) {
-                        if (isCommandPressed) {  //if command is held down
-                            //We want to deselect this edge:
-                            //Remove the clicked edge from the selection:
-                            //remove the selected edge's index
-                            selectedEdgeIndices.remove(Integer.valueOf(i));
-                            //Convert the selected indices to an array
-                            int[] tempIndices = selectedIndicesToArray(selectedEdgeIndices);
-                            //Set selected indices of the edgesList to the array
-                            //version of selectedEdgeIndices
-                            edgesList.setSelectedIndices(tempIndices);
-                            setSelectedEdges();
-                        } else { //if command is not held down
-                            //We want to allow the user to move all selected edges:
-                            //add the selected edges to clickedEdges (for moving)
-                            clickedEdges.addAll(selectedEdges);
-                            clickedVertices.addAll(selectedVertices);
-                        }
-                        //if the user clicked an entirely new edge
-                    } else {
-                        System.out.print("");
-                        if (isCommandPressed) { //if command is held down
-                            //We want to add the new edge to the current set of 
-                            //already selected edges:
-                            //append the index of this clicked edge to the selection
-                            selectedEdgeIndices.add(i);
-                            //Convert the selected indices to an array
-                            int[] tempIndices = selectedIndicesToArray(selectedEdgeIndices);
-                            //Set selected indices of the edgesList to the array
-                            //version of selectedEdgeIndices
-                            edgesList.setSelectedIndices(tempIndices);
-                            setSelectedEdges();
-                            //add the selected edges to clickedEdges (for moving)
-                            clickedEdges.addAll(selectedEdges);
-                            clickedVertices.addAll(selectedVertices);
-                        } else { //if command is not held down
-                            //We want to make this the only selected edge:
-                            //store the clicked edge (for moving)
-                            clickedEdges.add(e);
-                            //Update the selection:
-                            //deselect all vertices
-                            selectedVertexIndices.clear();
-                            setSelectedVertices();
-                            //select the edge
-                            edgesList.setSelectedIndex(i);
-                            //clear the previous selection
-                            selectedEdgeIndices.clear();
-                            //add this index to the selection
-                            selectedEdgeIndices.add(i);
-                            setSelectedEdges();
-                        }
-                    }
-                    //Whether we clicked a selected or unselected edge:
-                    canvas.repaint();
-                    clickedBlankSpace = false; //the user didn't click blank space
-                    break; //exit the loop (we don't need to check the rest)
-                }
-                //otherwise check next edge
-            }
-        }
-        //If edges is null, then the user might still be clicking blank canvas
+        selectEdge(mx, my, clickResults);
+        //assign the results
+        clickedBlankSpace = clickResults[0];
 
         //MARK: Select canvas
         if (clickedBlankSpace) { //if the user clicked the canvas, not a vertex/edge
@@ -1428,6 +1357,95 @@ public class GraphController {
                 return; //exit the loop (we don't need to check the rest)
             }
         }
+    }
+    
+    /**
+     * Convenience method to improve readability. Checks if there is an edge at
+     * (mx,my) and selects it if it exists
+     * @param mx The x-position of the user click
+     * @param my The y-position of the user click
+     * @param clickResults An array of 2 booleans that hold the values of
+     * clickedBlankSpace and didSelectVertex
+     */
+    private void selectEdge(int mx, int my, boolean[] clickResults) {
+        //(0 is clickedBlankSpace and 1 is didSelectVertex)
+        boolean didSelectVertex = clickResults[1];
+        
+        //if edges is not empty and the user did NOT select a vertex 
+        //(which have priority over edges when it comes to selecting)
+        if (!edges.isEmpty() && didSelectVertex == false) {
+            //true if edge "e" was clicked (in loop below), false if no edge was clicked
+            boolean clickedAnEdge = false;
+            for (int i = edges.size() - 1; i >= 0; --i) { //loop through edges
+                Edge e = edges.get(i); //get the next edge in the list
+                //Check if the current edge was clicked
+                clickedAnEdge = isEdgeClicked(e, mx, my);
+                //If we clicked edge e
+                if (clickedAnEdge) {
+                    //if the clicked edge is one of multiple already selected edges
+                    if (selectedEdges.contains(e)) {
+                        if (isCommandPressed) {  //if command is held down
+                            //We want to deselect this edge:
+                            //Remove the clicked edge from the selection:
+                            //remove the selected edge's index
+                            selectedEdgeIndices.remove(Integer.valueOf(i));
+                            //Convert the selected indices to an array
+                            int[] tempIndices = selectedIndicesToArray(selectedEdgeIndices);
+                            //Set selected indices of the edgesList to the array
+                            //version of selectedEdgeIndices
+                            edgesList.setSelectedIndices(tempIndices);
+                            setSelectedEdges();
+                        } else { //if command is not held down
+                            //We want to allow the user to move all selected edges:
+                            //add the selected edges to clickedEdges (for moving)
+                            clickedEdges.addAll(selectedEdges);
+                            clickedVertices.addAll(selectedVertices);
+                        }
+                        //if the user clicked an entirely new edge
+                    } else {
+                        System.out.print("");
+                        if (isCommandPressed) { //if command is held down
+                            //We want to add the new edge to the current set of 
+                            //already selected edges:
+                            //append the index of this clicked edge to the selection
+                            selectedEdgeIndices.add(i);
+                            //Convert the selected indices to an array
+                            int[] tempIndices = selectedIndicesToArray(selectedEdgeIndices);
+                            //Set selected indices of the edgesList to the array
+                            //version of selectedEdgeIndices
+                            edgesList.setSelectedIndices(tempIndices);
+                            setSelectedEdges();
+                            //add the selected edges to clickedEdges (for moving)
+                            clickedEdges.addAll(selectedEdges);
+                            clickedVertices.addAll(selectedVertices);
+                        } else { //if command is not held down
+                            //We want to make this the only selected edge:
+                            //store the clicked edge (for moving)
+                            clickedEdges.add(e);
+                            //Update the selection:
+                            //deselect all vertices
+                            selectedVertexIndices.clear();
+                            setSelectedVertices();
+                            //select the edge
+                            edgesList.setSelectedIndex(i);
+                            //clear the previous selection
+                            selectedEdgeIndices.clear();
+                            //add this index to the selection
+                            selectedEdgeIndices.add(i);
+                            setSelectedEdges();
+                        }
+                    }
+                    //Whether we clicked a selected or unselected edge:
+                    canvas.repaint();
+                    boolean clickedBlankSpace = false; //the user didn't click blank space
+                    //assign the result (0 is clickedBlankSpace and 1 is didSelectVertex)
+                    clickResults[0] = clickedBlankSpace;
+                    return; //exit the loop (we don't need to check the rest)
+                }
+                //otherwise check next edge
+            }
+        }
+        //If edges is empty, then the user might still be clicking blank canvas
     }
 
     /**
