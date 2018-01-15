@@ -1558,6 +1558,7 @@ public class GraphController {
                     //add B2 to newP2 to get the newP1, the new control point
                     Point2D.Double newP1 = B2.add(newP2);
                     
+                    //set the new control point
                     edge.setCtrlPoint(newP1.x, newP1.y);
                 }
             }
