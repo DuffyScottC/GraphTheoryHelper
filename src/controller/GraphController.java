@@ -2019,8 +2019,10 @@ public class GraphController {
      *
      * @param mx
      * @param my
+     * @return True if the user selected a second vertex, false if the user
+     * just clicked the canvas and cancelled the active edge.
      */
-    private void selectSecondVertex(int mx, int my) {
+    private boolean selectSecondVertex(int mx, int my) {
         //(If we reach this point, vertices.size() is at least 2)
         for (Vertex currentVertex : vertices) { //loop through the vertices
             //If this vertex can have edges added to it (no use checking if
@@ -2050,7 +2052,7 @@ public class GraphController {
 
                     setIsModified(true);
 
-                    return; //we don't need to check anymore
+                    return true; //we don't need to check anymore
                 }
             }
         }
@@ -2059,6 +2061,7 @@ public class GraphController {
         //reenter the add edge state (allow user to add more edges)
         enterAddEdgeState();
         canvas.repaint();
+        return false;
     }
 
     private void removeEdges() {
