@@ -16,6 +16,8 @@ import java.awt.Graphics2D;
 import java.awt.RenderingHints;
 import java.awt.Shape;
 import java.awt.geom.AffineTransform;
+import java.awt.geom.Ellipse2D;
+import java.awt.geom.Point2D;
 import java.awt.geom.Rectangle2D;
 import java.util.ArrayList;
 import java.util.List;
@@ -69,6 +71,13 @@ public class Canvas extends JTextArea {
     private int lastX;
     private int lastY;
     
+    /**
+     * The edge that the user can edit, if they are in the edge adding state
+     * and click an already-placed edge. Set to null if there is no edge to
+     * be edited.
+     */
+    private Edge editingEdge = null;
+    
     public void setGraph(Graph graph) {
         this.graph = graph;
         this.vertices = graph.getVertices();
@@ -94,11 +103,12 @@ public class Canvas extends JTextArea {
         drawEdges(g2);
         drawVertices(g2);
         drawSelectionBox(g2);
+        drawEditingEdgeCtrlPoint(g2);
         
         graphOutputTextField.setText(graph.toString());
     }
     
-    public void drawVertices(Graphics2D g2) {
+    private void drawVertices(Graphics2D g2) {
         if (vertices == null) {
             return;
         }
@@ -121,7 +131,7 @@ public class Canvas extends JTextArea {
 
     }
 
-    public void drawEdges(Graphics2D g2) {
+    private void drawEdges(Graphics2D g2) {
         if (edges == null) {
             return;
         }
@@ -144,7 +154,7 @@ public class Canvas extends JTextArea {
      *
      * @param g2
      */
-    public void drawLiveEdge(Graphics2D g2) {
+    private void drawLiveEdge(Graphics2D g2) {
         //If this is null, then we are not in the adding a vertex state
         //or the user has not yet selected their first vertex
         if (firstSelectedVertex == null) {
@@ -198,6 +208,22 @@ public class Canvas extends JTextArea {
             g2.setColor(Values.SELECTION_STROKE_COLOR);
             g2.draw(shape);
         }
+    }
+    
+    /**
+     * Draws a representation of the 
+     * @param g2 
+     */
+    private void drawEditingEdgeCtrlPoint(Graphics2D g2) {
+        if (editingEdge != null) {
+            Ellipse2D.Double ctrlEllipse = editingEdge.getCtrlPointPositionShape();
+            g2.setColor(Values.EDGE_CTRL_POINT_COLOR);
+            g2.fill(ctrlEllipse);
+        }
+    }
+    
+    public void setEditingEdge(Edge editingEdge) {
+        this.editingEdge = editingEdge;
     }
     
     public void setMultipleSelecting(boolean multipleSelecting) {

@@ -115,6 +115,18 @@ public class Edge extends Element {
         return new Point2D.Double(ctrlX, ctrlY);
     }
     
+    /**
+     * Get the position shape of this edge's control point. (Used for checking
+     * if the user's click is inside of it and for drawing.)
+     * @return Ellipse2D.Double object 
+     */
+    public Ellipse2D.Double getCtrlPointPositionShape() {
+        int dim = Values.EDGE_CTRL_POINT_DIMESION;
+        //subtract dim/2 to place the center of the circle in the visually
+        //appropriate location instead of the top left corner
+        return new Ellipse2D.Double(ctrlX - dim/2, ctrlY - dim/2, dim, dim);
+    }
+    
     public void setCtrlPoint(double ctrlX, double ctrlY) {
         this.ctrlX = ctrlX;
         this.ctrlY = ctrlY;
