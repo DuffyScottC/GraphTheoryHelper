@@ -2142,6 +2142,11 @@ public class GraphController {
         for (Vertex v : vertices) {
             unHighlightVertex(v);
         }
+        //set the editingEdge to null
+        editingEdge = null;
+        canvas.setEditingEdge(null);
+        //in case the user was holding down the mouse when they switched states
+        movingControlPoint = false;
     }
 
     /**
