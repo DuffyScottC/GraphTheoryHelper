@@ -1972,6 +1972,7 @@ public class GraphController {
                 }
             }
         } else { //The user has already chosen their first vertex
+            //add the second vertex or cancel the active edge
             selectSecondVertex(mx, my);
         }
     }
@@ -2020,7 +2021,7 @@ public class GraphController {
      * @param mx
      * @param my
      * @return True if the user selected a second vertex, false if the user
-     * just clicked the canvas and cancelled the active edge.
+     * just clicked the canvas and canceled the active edge.
      */
     private boolean selectSecondVertex(int mx, int my) {
         //(If we reach this point, vertices.size() is at least 2)
@@ -2042,7 +2043,11 @@ public class GraphController {
                     //reenter the add edge state (allow user to add more edges)
                     enterAddEdgeState();
                     canvas.repaint();
-
+                    
+                    //set the editingEdge
+                    editingEdge = newEdge;
+                    canvas.setEditingEdge(newEdge);
+                    
                     //Update selection
                     int lastIndex = edges.size() - 1; //last index in edges
                     edgesList.setSelectedIndex(lastIndex);
