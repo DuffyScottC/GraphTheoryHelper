@@ -61,6 +61,12 @@ import views.SampleCanvas;
 public class GraphController {
 
     /**
+     * The edge that the user can edit, if they are in the edge adding state and
+     * click an already-placed edge. Set to null if there is no edge to be
+     * edited.
+     */
+    private Edge editingEdge = null;
+    /**
      * the last selected vertex in the vertices JList (Used for things like
      * setting the title text field, updating the title, changing the color,
      * etc.)
@@ -95,6 +101,11 @@ public class GraphController {
      * Only true if the user is in the edge adding state.
      */
     private boolean addingEdges = false;
+    /**
+     * Only true if the user has clicked inside of an edge's control point
+     * and is holding down the mouse.
+     */
+    private boolean movingControlPoint = false;
     /**
      * If this is not null, we want to start drawing an edge between this vertex
      * and the mouse. Not to be confused with selectedVertex, which is used for
@@ -302,6 +313,10 @@ public class GraphController {
                     canvas.setMultipleSelecting(false);
                     canvas.repaint();
                 }
+                if (addingEdges) {
+                    //stop the user from being able to edit the selected edge's control point
+                    movingControlPoint = false;
+                }
                 //Don't want to repaint canvas if nothing happenned
             }
 
@@ -334,6 +349,15 @@ public class GraphController {
                         multipleSelection(mx, my);
                     } else { //if the user clicked any vertices or edges
                         moveElements(incX, incY);
+                    }
+                }
+                
+                if (addingEdges) { //if we're in the edge adding state
+                    //if the user's mouse is held down on the selected edge's
+                    //control point
+                    if (movingControlPoint) {
+                        //increment the control point's location
+                        editingEdge.incCtrlPoint(incX, incY);
                     }
                 }
                 canvas.repaint();
@@ -1430,7 +1454,7 @@ public class GraphController {
         boolean didSelectElement = false;
         return didSelectElement;
     }
-    
+
     /**
      * Convenience method to improve readability of
      * {@link selectVertexOrEdge(int,int)}. Deselects all vertices and edges.
@@ -1898,7 +1922,54 @@ public class GraphController {
     private void addEdge(int mx, int my) {
         //Find out which vertex was clicked (if any):
         if (firstSelectedVertex == null) { //if this is null, the user hasn't chosen their first vertex
-            selectFirstVertex(mx, my);
+            /*
+            if there is an edge in edit mode, we want to provide priority to the
+            edge's control point (in case it's on top of a vertex)
+            */
+            if (editingEdge != null) {
+                //if the user clicked the control point
+                if (editingEdge.getCtrlPointPositionShape().contains(mx, my)) {
+                    //signal to the mouseDragged function in canvas's mouse motion
+                    //listener that the user is moving a control point
+                    movingControlPoint = true;
+                }
+            }
+            //if editingEdge is null, then there is not an edge in edit mode yet
+            
+            /*
+            select the first vertex of the edge (because selecting a vertex
+            should have priority over selecting an edge to edit
+            */
+            boolean vertexWasSelected = selectFirstVertex(mx, my);
+
+            //if no vertex was selected
+            if (!vertexWasSelected) {
+                //Check if the user selected an edge:
+                if (!edges.isEmpty()) { //if there are edges to be chosen
+                    //cycle through all the edges
+                    for (Edge edge : edges) {
+                        //if this edge was clicked
+                        if (isEdgeClicked(edge, mx, my)) {
+                            //set the editingEdge
+                            editingEdge = edge;
+                            canvas.setEditingEdge(edge);
+                            //find the index of the editingEdge
+                            int index = edges.indexOf(editingEdge);
+                            //select the editingEdge
+                            selectedEdgeIndices.add(index);
+                            edgesList.setSelectedIndex(index);
+                            setSelectedEdges();
+                        }
+                    }
+                } else {
+                    //if there are no edges then the user must have clicked canvas
+                    editingEdge = null;
+                    canvas.setEditingEdge(null);
+                    edgesList.clearSelection(); //deselect edge in the list
+                    selectedEdgeIndices.clear();
+                    setSelectedEdges();
+                }
+            }
         } else { //The user has already chosen their first vertex
             selectSecondVertex(mx, my);
         }
@@ -1910,8 +1981,9 @@ public class GraphController {
      *
      * @param mx
      * @param my
+     * @return True if a vertex was selected, false if no vertex was selected
      */
-    private void selectFirstVertex(int mx, int my) {
+    private boolean selectFirstVertex(int mx, int my) {
         //(If we reach this point, vertices.size() is at least 2)
         for (Vertex currentVertex : vertices) { //loop through the vertices
             //if we can add edges to this vertex in the first place
@@ -1932,12 +2004,12 @@ public class GraphController {
                     lastY = my;
                     canvas.setLastPosition(lastX, lastY);
                     canvas.repaint();
-                    return; //we've assigned the first selected vertex and we're done
+                    return true; //we've assigned the first selected vertex and we're done
                 }
             }
         }
         //if we reach this point, the user hasn't selected and vertex.
-        //and we want to stay in the add edge state so that they can choose another vertex
+        return false;
     }
 
     /**

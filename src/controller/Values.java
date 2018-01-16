@@ -31,6 +31,8 @@ public class Values {
     public static final Color EDGE_STROKE_COLOR = Color.black;
     public static final Color EDGE_HIGHLIGHT_COLOR = Color.green;
     public static final Color EDGE_PRESSED_COLOR = EDGE_HIGHLIGHT_COLOR.darker();//new Color(0, 200, 0);
+    public static final Color EDGE_CTRL_POINT_COLOR = Color.blue;
+    public static final int EDGE_CTRL_POINT_DIMESION = 7;
     
     //MARK: Vertex properties
     public static final float VERTEX_STROKE_WIDTH = 1.0f;
