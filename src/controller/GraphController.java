@@ -1965,6 +1965,7 @@ public class GraphController {
                             selectedEdgeIndices.add(index);
                             edgesList.setSelectedIndex(index);
                             setSelectedEdges();
+                            canvas.repaint();
                         }
                     }
                 }
