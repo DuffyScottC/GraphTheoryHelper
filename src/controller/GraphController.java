@@ -2096,6 +2096,12 @@ public class GraphController {
         //update selection
         selectedEdgeIndices.clear();
         setSelectedEdges();
+        
+        //set the editingEdge to null
+        editingEdge = null;
+        canvas.setEditingEdge(null);
+        //in case the user was holding down the mouse when they switched states
+        movingControlPoint = false;
 
         canvas.repaint();
     }
