@@ -1932,6 +1932,12 @@ public class GraphController {
                     //signal to the mouseDragged function in canvas's mouse motion
                     //listener that the user is moving a control point
                     movingControlPoint = true;
+                } else { //if the user did not click the control point
+                    editingEdge = null;
+                    canvas.setEditingEdge(null);
+                    edgesList.clearSelection(); //deselect edge in the list
+                    selectedEdgeIndices.clear();
+                    setSelectedEdges();
                 }
             }
             //if editingEdge is null, then there is not an edge in edit mode yet
@@ -1961,13 +1967,6 @@ public class GraphController {
                             setSelectedEdges();
                         }
                     }
-                } else {
-                    //if there are no edges then the user must have clicked canvas
-                    editingEdge = null;
-                    canvas.setEditingEdge(null);
-                    edgesList.clearSelection(); //deselect edge in the list
-                    selectedEdgeIndices.clear();
-                    setSelectedEdges();
                 }
             }
         } else { //The user has already chosen their first vertex
