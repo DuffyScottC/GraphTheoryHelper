@@ -1938,6 +1938,7 @@ public class GraphController {
                     edgesList.clearSelection(); //deselect edge in the list
                     selectedEdgeIndices.clear();
                     setSelectedEdges();
+                    canvas.repaint();
                 }
             }
             //if editingEdge is null, then there is not an edge in edit mode yet
