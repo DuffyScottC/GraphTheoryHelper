@@ -244,7 +244,6 @@ public class GraphController {
 
         addKeyboardShortcuts();
 
-//        enterSelectionState();
         enterAddVerticesState();
 
         //Define the filter
@@ -2040,12 +2039,6 @@ public class GraphController {
         //Assign the canAddEdges values of all the vertices and get the number of vertices
         //that can't have edges added to them
         int numberOfFalses = assignCanAddEdges();
-
-        if (numberOfFalses == vertices.size()) { //if none of the vertices can have edges added to them
-            exitAddEdgesState(); //exit the state because there are no available edges
-            enterSelectionState();
-            return; //do not continue
-        }
 
         //Highglight appropriate vertices
         highlightAvailableVertices();
