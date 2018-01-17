@@ -42,6 +42,7 @@ public class GraphFrame extends javax.swing.JFrame {
         mainPanel = new javax.swing.JPanel();
         canvasScrollPane = new javax.swing.JScrollPane();
         canvas = new views.Canvas();
+        inspectorTabbedPane = new javax.swing.JTabbedPane();
         inspectorPanel = new views.InspectorPanel();
         propertiesPanel = new javax.swing.JPanel();
         JLabel3 = new javax.swing.JLabel();
@@ -60,7 +61,6 @@ public class GraphFrame extends javax.swing.JFrame {
         graphOutputPanel = new javax.swing.JPanel();
         graphOutputTextField = new javax.swing.JTextField();
         modifiedTextField = new javax.swing.JTextField();
-        jSeparator1 = new javax.swing.JSeparator();
         myMenuBar = new javax.swing.JMenuBar();
         fileMenu = new javax.swing.JMenu();
         openMenuItem = new javax.swing.JMenuItem();
@@ -215,11 +215,13 @@ public class GraphFrame extends javax.swing.JFrame {
         gridBagConstraints.fill = java.awt.GridBagConstraints.HORIZONTAL;
         inspectorPanel.add(buttonPanel, gridBagConstraints);
 
+        inspectorTabbedPane.addTab("tab1", inspectorPanel);
+
         gridBagConstraints = new java.awt.GridBagConstraints();
         gridBagConstraints.gridx = 1;
         gridBagConstraints.gridy = 1;
         gridBagConstraints.fill = java.awt.GridBagConstraints.BOTH;
-        mainPanel.add(inspectorPanel, gridBagConstraints);
+        mainPanel.add(inspectorTabbedPane, gridBagConstraints);
 
         graphOutputPanel.setLayout(new java.awt.GridBagLayout());
 
@@ -242,7 +244,6 @@ public class GraphFrame extends javax.swing.JFrame {
         gridBagConstraints.gridwidth = 2;
         gridBagConstraints.fill = java.awt.GridBagConstraints.HORIZONTAL;
         mainPanel.add(graphOutputPanel, gridBagConstraints);
-        mainPanel.add(jSeparator1, new java.awt.GridBagConstraints());
 
         getContentPane().add(mainPanel, java.awt.BorderLayout.CENTER);
 
@@ -384,7 +385,7 @@ public class GraphFrame extends javax.swing.JFrame {
     private javax.swing.JPanel graphOutputPanel;
     private javax.swing.JTextField graphOutputTextField;
     private views.InspectorPanel inspectorPanel;
-    private javax.swing.JSeparator jSeparator1;
+    private javax.swing.JTabbedPane inspectorTabbedPane;
     private javax.swing.JPopupMenu.Separator jSeparator2;
     private javax.swing.JPanel mainPanel;
     private javax.swing.JTextField modifiedTextField;
