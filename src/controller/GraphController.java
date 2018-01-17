@@ -5,7 +5,6 @@
  */
 package controller;
 
-import com.sun.javafx.geom.Line2D;
 import static controller.Values.DIAMETER;
 import element.Edge;
 import element.Graph;
@@ -394,86 +393,56 @@ public class GraphController {
             }
         });
 
-        frame.getRotate90MenuItem().addActionListener(new ActionListener() {
-            @Override
-            public void actionPerformed(ActionEvent e) {
-                rotateVertices90();
-                canvas.repaint();
-            }
+        frame.getRotate90MenuItem().addActionListener((ActionEvent e) -> {
+            rotateVertices90();
+            canvas.repaint();
         });
 
-        frame.getShowVertexNamesMenuItem().addActionListener(new ActionListener() {
-            @Override
-            public void actionPerformed(ActionEvent e) {
-                //Toggle the showTitles boolean
-                if (showTitles) {
-                    showTitles = false;
-                    canvas.setShowTitles(false);
-                    prefs.putBoolean(Values.SHOW_VERTEX_NAMES, false);
-                } else {
-                    showTitles = true;
-                    canvas.setShowTitles(true);
-                    prefs.putBoolean(Values.SHOW_VERTEX_NAMES, true);
-                }
-
-                canvas.repaint();
+        frame.getShowVertexNamesMenuItem().addActionListener((ActionEvent e) -> {
+            //Toggle the showTitles boolean
+            if (showTitles) {
+                showTitles = false;
+                canvas.setShowTitles(false);
+                prefs.putBoolean(Values.SHOW_VERTEX_NAMES, false);
+            } else {
+                showTitles = true;
+                canvas.setShowTitles(true);
+                prefs.putBoolean(Values.SHOW_VERTEX_NAMES, true);
             }
+            
+            canvas.repaint();
         });
 
         //Add vertices
-        addVerticesButton.addActionListener(new ActionListener() {
-            @Override
-            public void actionPerformed(ActionEvent e) {
-                addVertices();
-            }
+        addVerticesButton.addActionListener((ActionEvent e) -> {
+            addVertices();
         });
-        addVerticesMenuItem.addActionListener(new ActionListener() {
-            @Override
-            public void actionPerformed(ActionEvent e) {
-                addVertices();
-            }
+        addVerticesMenuItem.addActionListener((ActionEvent e) -> {
+            addVertices();
         });
 
         //Selection
-        selectionButton.addActionListener(new ActionListener() {
-            @Override
-            public void actionPerformed(ActionEvent e) {
-                selection();
-            }
+        selectionButton.addActionListener((ActionEvent e) -> {
+            selection();
         });
-        selectionMenuItem.addActionListener(new ActionListener() {
-            @Override
-            public void actionPerformed(ActionEvent e) {
-                selection();
-            }
+        selectionMenuItem.addActionListener((ActionEvent e) -> {
+            selection();
         });
 
         //Add edges
-        addEdgesButton.addActionListener(new ActionListener() {
-            @Override
-            public void actionPerformed(ActionEvent e) {
-                addEdges();
-            }
+        addEdgesButton.addActionListener((ActionEvent e) -> {
+            addEdges();
         });
-        addEdgesMenuItem.addActionListener(new ActionListener() {
-            @Override
-            public void actionPerformed(ActionEvent e) {
-                addEdges();
-            }
+        addEdgesMenuItem.addActionListener((ActionEvent e) -> {
+            addEdges();
         });
 
         //Delete
-        frame.getDeleteButton().addActionListener(new ActionListener() {
-            @Override
-            public void actionPerformed(ActionEvent e) {
-                deleteSelectedElements();
-            }
+        frame.getDeleteButton().addActionListener((ActionEvent e) -> {
+            deleteSelectedElements();
         });
-        frame.getDeleteMenuItem().addActionListener(new ActionListener() {
-            @Override
-            public void actionPerformed(ActionEvent e) {
-                deleteSelectedElements();
-            }
+        frame.getDeleteMenuItem().addActionListener((ActionEvent e) -> {
+            deleteSelectedElements();
         });
 
         verticesList.addMouseListener(new MouseAdapter() {
@@ -526,30 +495,27 @@ public class GraphController {
             }
         });
 
-        titleTextField.addActionListener(new ActionListener() {
-            @Override
-            public void actionPerformed(ActionEvent e) {
-                //The title of the vertex should be updated and the JList should be repainted
-                if (selectedVertices.size() != 1) { //if there is not exactly one vertex selected
-                    return; //we can't allow the text field to edit the name of any vertices
-                }
-                //If there is exacly one vertex selected
-                String newTitle = titleTextField.getText();
-                //Check if the name is unique:
-                for (Vertex v : vertices) { //cycle through all elements
-                    if (v.getTitle().equals(newTitle)) {
-                        //Throw a dialogue telling the user that they can't name two vertexes the same thing
-                        JOptionPane.showMessageDialog(frame, "Title \"" + newTitle + "\" has already been used in this graph.");
-                        isCommandPressed = false; //unpress command
-                        return; //leave (without renaming the vertex)
-                    }
-                }
-                //If the name is unique, rename the title
-                selectedVertices.get(0).setTitle(newTitle);
-                verticesList.repaint();
-                canvas.repaint();
-                setIsModified(true);
+        titleTextField.addActionListener((ActionEvent e) -> {
+            //The title of the vertex should be updated and the JList should be repainted
+            if (selectedVertices.size() != 1) { //if there is not exactly one vertex selected
+                return; //we can't allow the text field to edit the name of any vertices
             }
+            //If there is exacly one vertex selected
+            String newTitle = titleTextField.getText();
+            //Check if the name is unique:
+            for (Vertex v : vertices) { //cycle through all elements
+                if (v.getTitle().equals(newTitle)) {
+                    //Throw a dialogue telling the user that they can't name two vertexes the same thing
+                    JOptionPane.showMessageDialog(frame, "Title \"" + newTitle + "\" has already been used in this graph.");
+                    isCommandPressed = false; //unpress command
+                    return; //leave (without renaming the vertex)
+                }
+            }
+            //If the name is unique, rename the title
+            selectedVertices.get(0).setTitle(newTitle);
+            verticesList.repaint();
+            canvas.repaint();
+            setIsModified(true);
         });
 
         //Set up list models:
@@ -560,354 +526,300 @@ public class GraphController {
         frame.getVerticesList().setSelectionMode(ListSelectionModel.MULTIPLE_INTERVAL_SELECTION);
         frame.getEdgesList().setSelectionMode(ListSelectionModel.MULTIPLE_INTERVAL_SELECTION);
 
-        frame.getSaveAsMenuItem().addActionListener(new ActionListener() {
-            @Override
-            public void actionPerformed(ActionEvent e) {
+        frame.getSaveAsMenuItem().addActionListener((ActionEvent e) -> {
+            saveGraphAs();
+        });
+
+        frame.getOpenMenuItem().addActionListener((ActionEvent e) -> {
+            if (isModified) {
+                if (!shouldContinue("OK to discard changes?")) {
+                    return;
+                }
+            }
+            
+            chooser.setFileFilter(filter);
+            chooser.setDialogTitle("Open");
+            chooser.setAcceptAllFileFilterUsed(false);
+            
+            int chooserResult = chooser.showOpenDialog(frame);
+            if (chooserResult == JFileChooser.APPROVE_OPTION) {
+                File loadFile = chooser.getSelectedFile();
+                
+                try {
+                    //create an input stream from the selected file
+                    FileInputStream istr = new FileInputStream(loadFile);
+                    ObjectInputStream oistr = new ObjectInputStream(istr);
+                    
+                    //load the object from the serialized file
+                    Object theObject = oistr.readObject();
+                    oistr.close();
+                    
+                    //if this object is a graph
+                    if (theObject instanceof Graph) {
+                        //cast the loaded object to a graph
+                        Graph loadedGraph = (Graph) theObject;
+                        
+                        //replace the old graph with the new one
+                        replace(loadedGraph);
+                        
+                        setIsModified(false);
+                        
+                        canvas.repaint();
+                    }
+                } catch (IOException ex) {
+                    JOptionPane.showMessageDialog(frame, "Unable to read selected file.\n"
+                            + ex.getMessage(), "Oops!", JOptionPane.ERROR_MESSAGE);
+                    isCommandPressed = false; //unpress command
+                    return;
+                } catch (ClassNotFoundException ex) {
+                    JOptionPane.showMessageDialog(frame, "File is not a figures file.\n"
+                            + ex.getMessage(), "Oops!", JOptionPane.ERROR_MESSAGE);
+                    isCommandPressed = false; //unpress command
+                    return;
+                }
+                
+                //Update the save file:
+                saveFile = loadFile;
+                currentDirectory = loadFile; //update the current directory
+                //Set the file chooser's directory
+                chooser.setCurrentDirectory(currentDirectory);
+                //Update the user's preference for the current directory
+                prefs.put(Values.LAST_FILE_PATH, currentDirectory.toString());
+                //debug print
+                System.out.println("currentDirectory.toString(): " + currentDirectory.toString());
+                
+            }
+        });
+
+        frame.getSaveMenuItem().addActionListener((ActionEvent e) -> {
+            if (saveFile == null) { //if there is no save file
                 saveGraphAs();
-            }
-        });
-
-        frame.getOpenMenuItem().addActionListener(new ActionListener() {
-            @Override
-            public void actionPerformed(ActionEvent e) {
-                if (isModified) {
-                    if (!shouldContinue("OK to discard changes?")) {
-                        return;
-                    }
-                }
-
-                chooser.setFileFilter(filter);
-                chooser.setDialogTitle("Open");
-                chooser.setAcceptAllFileFilterUsed(false);
-
-                int chooserResult = chooser.showOpenDialog(frame);
-                if (chooserResult == JFileChooser.APPROVE_OPTION) {
-                    File loadFile = chooser.getSelectedFile();
-
-                    try {
-                        //create an input stream from the selected file
-                        FileInputStream istr = new FileInputStream(loadFile);
-                        ObjectInputStream oistr = new ObjectInputStream(istr);
-
-                        //load the object from the serialized file
-                        Object theObject = oistr.readObject();
-                        oistr.close();
-
-                        //if this object is a graph
-                        if (theObject instanceof Graph) {
-                            //cast the loaded object to a graph
-                            Graph loadedGraph = (Graph) theObject;
-
-                            //replace the old graph with the new one
-                            replace(loadedGraph);
-
-                            setIsModified(false);
-
-                            canvas.repaint();
-                        }
-                    } catch (IOException ex) {
-                        JOptionPane.showMessageDialog(frame, "Unable to read selected file.\n"
-                                + ex.getMessage(), "Oops!", JOptionPane.ERROR_MESSAGE);
-                        isCommandPressed = false; //unpress command
-                        return;
-                    } catch (ClassNotFoundException ex) {
-                        JOptionPane.showMessageDialog(frame, "File is not a figures file.\n"
-                                + ex.getMessage(), "Oops!", JOptionPane.ERROR_MESSAGE);
-                        isCommandPressed = false; //unpress command
-                        return;
-                    }
-
-                    //Update the save file:
-                    saveFile = loadFile;
-                    currentDirectory = loadFile; //update the current directory
-                    //Set the file chooser's directory
-                    chooser.setCurrentDirectory(currentDirectory);
-                    //Update the user's preference for the current directory
-                    prefs.put(Values.LAST_FILE_PATH, currentDirectory.toString());
-                    //debug print
-                    System.out.println("currentDirectory.toString(): " + currentDirectory.toString());
-
+                //if there is a save file specified programatically
+            } else {
+                System.out.print("");
+                if (saveFile.exists()) { //if the file exists
+                    saveGraph(); //save the file
+                } else { //if the file does not exist
+                    saveGraphAs(); //have the user save as
                 }
             }
         });
 
-        frame.getSaveMenuItem().addActionListener(new ActionListener() {
-            @Override
-            public void actionPerformed(ActionEvent e) {
-                if (saveFile == null) { //if there is no save file
-                    saveGraphAs();
-                    //if there is a save file specified programatically
-                } else {
-                    System.out.print("");
-                    if (saveFile.exists()) { //if the file exists
-                        saveGraph(); //save the file
-                    } else { //if the file does not exist
-                        saveGraphAs(); //have the user save as
-                    }
+        frame.getNewMenuItem().addActionListener((ActionEvent e) -> {
+            if (isModified) {
+                if (!shouldContinue("OK to discard changes?")) {
+                    return;
                 }
             }
+            
+            saveFile = null; //we no longer have a file to save
+            
+            clear();
+            
+            colorAllElements(Values.VERTEX_FILL_COLOR, Values.VERTEX_STROKE_COLOR, Values.EDGE_STROKE_COLOR);
+            graph.setColors(Values.VERTEX_FILL_COLOR, Values.VERTEX_STROKE_COLOR, Values.EDGE_STROKE_COLOR);
+            
+            if (addingEdges) {
+                exitAddEdgesState();
+            }
+            if (addingVertices) {
+                exitAddVerticesState();
+            }
+            if (!selecting) {
+                enterSelectionState();
+            }
+            
+            setIsModified(false);
         });
 
-        frame.getNewMenuItem().addActionListener(new ActionListener() {
-            @Override
-            public void actionPerformed(ActionEvent e) {
-                if (isModified) {
-                    if (!shouldContinue("OK to discard changes?")) {
-                        return;
-                    }
-                }
-
-                saveFile = null; //we no longer have a file to save
-
-                clear();
-
-                colorAllElements(Values.VERTEX_FILL_COLOR, Values.VERTEX_STROKE_COLOR, Values.EDGE_STROKE_COLOR);
-                graph.setColors(Values.VERTEX_FILL_COLOR, Values.VERTEX_STROKE_COLOR, Values.EDGE_STROKE_COLOR);
-
-                if (addingEdges) {
-                    exitAddEdgesState();
-                }
-                if (addingVertices) {
-                    exitAddVerticesState();
-                }
-                if (!selecting) {
-                    enterSelectionState();
-                }
-
-                setIsModified(false);
-            }
+        frame.getAddGraphMenuItem().addActionListener((ActionEvent e) -> {
+            addGraphDialog.setLocationRelativeTo(null);
+            addGraphDialog.setTitle("Add Vertices");
+            
+            addGraphDialog.setFocusToTextField();
+            
+            //Make it so that the user can press enter to press Add
+            addGraphDialog.getRootPane().setDefaultButton(addGraphDialog.getAddButton());
+            
+            isCommandPressed = false;
+            
+            addGraphDialog.setVisible(true);
         });
 
-        frame.getAddGraphMenuItem().addActionListener(new ActionListener() {
-            @Override
-            public void actionPerformed(ActionEvent e) {
-                addGraphDialog.setLocationRelativeTo(null);
-                addGraphDialog.setTitle("Add Vertices");
-
-                addGraphDialog.setFocusToTextField();
-
-                //Make it so that the user can press enter to press Add
-                addGraphDialog.getRootPane().setDefaultButton(addGraphDialog.getAddButton());
-
-                isCommandPressed = false;
-
-                addGraphDialog.setVisible(true);
-            }
+        frame.getChangeColorsMenuItem().addActionListener((ActionEvent e) -> {
+            graphColorChooserDialog.setLocationRelativeTo(null);
+            graphColorChooserDialog.setTitle("Choose Colors");
+            
+            //Make it so that the user can press enter to press OK
+            graphColorChooserDialog.getRootPane().setDefaultButton(graphColorChooserDialog.getOKButton());
+            
+            //Initialize the dialog with the graph's current colors
+            graphColorChooserDialog.setVertexFillColor(graph.getVertexFillColor());
+            graphColorChooserDialog.setVertexStrokeColor(graph.getVertexStrokeColor());
+            graphColorChooserDialog.setEdgeStrokeColor(graph.getEdgeStrokeColor());
+            
+            isCommandPressed = false;
+            
+            graphColorChooserDialog.setVisible(true);
         });
 
-        frame.getChangeColorsMenuItem().addActionListener(new ActionListener() {
-            @Override
-            public void actionPerformed(ActionEvent e) {
-                graphColorChooserDialog.setLocationRelativeTo(null);
-                graphColorChooserDialog.setTitle("Choose Colors");
-
-                //Make it so that the user can press enter to press OK
-                graphColorChooserDialog.getRootPane().setDefaultButton(graphColorChooserDialog.getOKButton());
-
-                //Initialize the dialog with the graph's current colors
-                graphColorChooserDialog.setVertexFillColor(graph.getVertexFillColor());
-                graphColorChooserDialog.setVertexStrokeColor(graph.getVertexStrokeColor());
-                graphColorChooserDialog.setEdgeStrokeColor(graph.getEdgeStrokeColor());
-
-                isCommandPressed = false;
-
-                graphColorChooserDialog.setVisible(true);
-            }
-        });
-
-        frame.getFormatVerticesMenuItem().addActionListener(new ActionListener() {
-            @Override
-            public void actionPerformed(ActionEvent e) {
-                formatAllVertices();
-                if (vertices != null) {
-                    if (!vertices.isEmpty()) {
-                        setIsModified(true);
-                    }
+        frame.getFormatVerticesMenuItem().addActionListener((ActionEvent e) -> {
+            formatAllVertices();
+            if (vertices != null) {
+                if (!vertices.isEmpty()) {
+                    setIsModified(true);
                 }
-                canvas.repaint();
             }
+            canvas.repaint();
         });
 
         //MARK: addGraphDialog event handlers:
         //The add button
-        addGraphDialog.getAddButton().addActionListener(new ActionListener() {
-            @Override
-            public void actionPerformed(ActionEvent e) {
-                List<Vertex> toBeFormatted = new ArrayList();
-                List<Vertex> vertices = graph.getVertices();
-                List<Edge> edges = graph.getEdges();
-
-                //This regex checks if the graph is properly formatted
-                //(e.g. {{A,B},{B,A},{C,D}} )
-                String properFormat = "\\{(\\{\\w+,\\w+\\})(,\\s*\\{\\w+,\\w+\\})*\\}";
-
-                //Get the user's input
-                String input = addGraphDialog.getGraphTextField().getText();
-
-                //Check if it's properly formatted:
-                if (!input.matches(properFormat)) { //if it's NOT properly formatted
-                    addGraphDialog.getErrorLabel().setText("Incorrect format. "
-                            + "Please add one or more edges sepparated by commas.");
-                    return; //cancel the adding and let the user try again
-                }
-                //If it is properly formatted
-
-                //Convert the input to a list of edges:
-                //will be set to true if anything was actually changed
-                boolean wasModified = false;
-
-                //this will grab the titles of the vertices
-                String titleRegex = "(\\w+),(\\w+)";
-
-                Pattern p = Pattern.compile(titleRegex);
-                Matcher m = p.matcher(input);
-
-                //cycle through all of the edges entered by the user
-                while (m.find()) {
-                    //Get the two titles of the vertices of the next edge
-                    String title1 = m.group(1); //the first title
-                    String title2 = m.group(2); //the second title
-
-                    //Create new vertex objects using the titles entered
-                    //(these are used to 1. Search the vertices list to check if
-                    //they exist in the graph or not and 2. Add a new vertex to
-                    //the list if this is a new vertex)
-                    Vertex newVertex1 = new Vertex(title1, DIAMETER);
-                    Vertex newVertex2 = new Vertex(title2, DIAMETER);
-
-                    //Get the indexes of the vertexes named title1 and title2
-                    //(if they exist):
-                    int index1 = vertices.indexOf(newVertex1);
-                    int index2 = vertices.indexOf(newVertex2);
-
-                    if (index1 == -1) { //if this is a new vertex
-                        vertices.add(newVertex1); //add this vertex to the list
-                        toBeFormatted.add(newVertex1);
-                        wasModified = true;
-                    } else { //if this vertex is already contained in the graph
-                        //reassign the reference newVertex1 to the vertex that
-                        //is already in the graph but has the same name:
-                        newVertex1 = vertices.get(index1);
-                    }
-
-                    if (index2 == -1) { //if this is a new vertex
-                        vertices.add(newVertex2); //add this vertex to the list
-                        toBeFormatted.add(newVertex2);
-                        wasModified = true;
-                    } else { //if this vertex is already contained in the graph
-                        //reassign the reference newVertex2 to the vertex that
-                        //is already in the graph but has the same name:
-                        newVertex2 = vertices.get(index2);
-                    }
-
-                    //At this point, newVertex1 and newVertex2 are the vertices
-                    //in the graph that we want to work with (whether their new
-                    //or already existed in the graph).
-                    //Check if the edge already exists:
-                    //If newVertex1 is NOT already connected to newVertex2
-                    if (!newVertex1.isAdjacentTo(newVertex2)) {
-                        //create a new edge between newVertex1 and newVertex2
-                        Edge newEdge = new Edge(newVertex1, newVertex2);
-                        edges.add(newEdge); //add the edge to the list
-                        wasModified = true;
-                    }
-                    //If newVertex1 is already adjacent to newVertex2, then it
-                    //must already be in edges and we don't need to do anything else
-
-                    //If there was at least one new vertex or edge
-                    if (wasModified) {
-                        setIsModified(true);
-                    }
-
-                    //update the list models
-                    updateVerticesListModel();
-                    updateEdgesListModel();
-
-                    //Format the new vertices
-                    formatVertices(toBeFormatted);
-                    canvas.repaint();
-                }
-
-                addGraphDialog.setVisible(false); //close the dialog
+        addGraphDialog.getAddButton().addActionListener((ActionEvent e) -> {
+            List<Vertex> toBeFormatted = new ArrayList();
+            List<Vertex> vertices1 = graph.getVertices();
+            List<Edge> edges1 = graph.getEdges();
+            //This regex checks if the graph is properly formatted
+            //(e.g. {{A,B},{B,A},{C,D}} )
+            String properFormat = "\\{(\\{\\w+,\\w+\\})(,\\s*\\{\\w+,\\w+\\})*\\}";
+            //Get the user's input
+            String input = addGraphDialog.getGraphTextField().getText();
+            //Check if it's properly formatted:
+            if (!input.matches(properFormat)) { //if it's NOT properly formatted
+                addGraphDialog.getErrorLabel().setText("Incorrect format. "
+                        + "Please add one or more edges sepparated by commas.");
+                return; //cancel the adding and let the user try again
             }
+            //If it is properly formatted
+            //Convert the input to a list of edges:
+            //will be set to true if anything was actually changed
+            boolean wasModified = false;
+            //this will grab the titles of the vertices
+            String titleRegex = "(\\w+),(\\w+)";
+            Pattern p = Pattern.compile(titleRegex);
+            Matcher m = p.matcher(input);
+            //cycle through all of the edges entered by the user
+            while (m.find()) {
+                //Get the two titles of the vertices of the next edge
+                String title1 = m.group(1); //the first title
+                String title2 = m.group(2); //the second title
+                //Create new vertex objects using the titles entered
+                //(these are used to 1. Search the vertices list to check if
+                //they exist in the graph or not and 2. Add a new vertex to
+                //the list if this is a new vertex)
+                Vertex newVertex1 = new Vertex(title1, DIAMETER);
+                Vertex newVertex2 = new Vertex(title2, DIAMETER);
+                //Get the indexes of the vertexes named title1 and title2
+                //(if they exist):
+                int index1 = vertices1.indexOf(newVertex1);
+                int index2 = vertices1.indexOf(newVertex2);
+                if (index1 == -1) {
+                    //if this is a new vertex
+                    vertices1.add(newVertex1); //add this vertex to the list
+                    toBeFormatted.add(newVertex1);
+                    wasModified = true;
+                } else {
+                    //if this vertex is already contained in the graph
+                    //reassign the reference newVertex1 to the vertex that
+                    //is already in the graph but has the same name:
+                    newVertex1 = vertices1.get(index1);
+                }
+                if (index2 == -1) {
+                    //if this is a new vertex
+                    vertices1.add(newVertex2); //add this vertex to the list
+                    toBeFormatted.add(newVertex2);
+                    wasModified = true;
+                } else {
+                    //if this vertex is already contained in the graph
+                    //reassign the reference newVertex2 to the vertex that
+                    //is already in the graph but has the same name:
+                    newVertex2 = vertices1.get(index2);
+                }
+                //At this point, newVertex1 and newVertex2 are the vertices
+                //in the graph that we want to work with (whether their new
+                //or already existed in the graph).
+                //Check if the edge already exists:
+                //If newVertex1 is NOT already connected to newVertex2
+                if (!newVertex1.isAdjacentTo(newVertex2)) {
+                    //create a new edge between newVertex1 and newVertex2
+                    Edge newEdge = new Edge(newVertex1, newVertex2);
+                    edges1.add(newEdge); //add the edge to the list
+                    wasModified = true;
+                }
+                //If newVertex1 is already adjacent to newVertex2, then it
+                //must already be in edges and we don't need to do anything else
+                //If there was at least one new vertex or edge
+                if (wasModified) {
+                    setIsModified(true);
+                }
+                //update the list models
+                updateVerticesListModel();
+                updateEdgesListModel();
+                //Format the new vertices
+                formatVertices(toBeFormatted);
+                canvas.repaint();
+            }
+            addGraphDialog.setVisible(false); //close the dialog
         });
 
-        addGraphDialog.getCancelButton().addActionListener(new ActionListener() {
-            @Override
-            public void actionPerformed(ActionEvent e) {
-                addGraphDialog.setVisible(false); //close the dialog
-            }
+        addGraphDialog.getCancelButton().addActionListener((ActionEvent e) -> {
+            addGraphDialog.setVisible(false); //close the dialog
         });
 
         //MARK: Color choosing dialog
         //Choose buttons:
-        graphColorChooserDialog.getVertexFillColorChooseButton().addActionListener(new ActionListener() {
-            @Override
-            public void actionPerformed(ActionEvent e) {
-                Color newColor = JColorChooser.showDialog(frame, "Choose color",
-                        graphColorChooserDialog.getVertexFillColor()); //get the color chosen by the user
-                graphColorChooserDialog.setVertexFillColor(newColor); //set the sample fill color
-                sampleCanvas.repaint(); //repaint the canvas
-            }
+        graphColorChooserDialog.getVertexFillColorChooseButton().addActionListener((ActionEvent e) -> {
+            Color newColor = JColorChooser.showDialog(frame, "Choose color",
+                    graphColorChooserDialog.getVertexFillColor()); //get the color chosen by the user
+            graphColorChooserDialog.setVertexFillColor(newColor); //set the sample fill color
+            sampleCanvas.repaint(); //repaint the canvas
         });
-        graphColorChooserDialog.getVertexStrokeColorChooseButton().addActionListener(new ActionListener() {
-            @Override
-            public void actionPerformed(ActionEvent e) {
-                Color newColor = JColorChooser.showDialog(frame, "Choose color",
-                        graphColorChooserDialog.getVertexStrokeColor()); //get the color chosen by the user
-                graphColorChooserDialog.setVertexStrokeColor(newColor); //set the sample stroke color
-                sampleCanvas.repaint(); //repaint the canvas
-            }
+        graphColorChooserDialog.getVertexStrokeColorChooseButton().addActionListener((ActionEvent e) -> {
+            Color newColor = JColorChooser.showDialog(frame, "Choose color",
+                    graphColorChooserDialog.getVertexStrokeColor()); //get the color chosen by the user
+            graphColorChooserDialog.setVertexStrokeColor(newColor); //set the sample stroke color
+            sampleCanvas.repaint(); //repaint the canvas
         });
-        graphColorChooserDialog.getEdgeStrokeColorChooseButton().addActionListener(new ActionListener() {
-            @Override
-            public void actionPerformed(ActionEvent e) {
-                Color newColor = JColorChooser.showDialog(frame, "Choose color",
-                        graphColorChooserDialog.getEdgeStrokeColor()); //get the color chosen by the user
-                graphColorChooserDialog.setEdgeStrokeColor(newColor); //set the sample fill color
-                sampleCanvas.repaint(); //repaint the canvas
-            }
+        graphColorChooserDialog.getEdgeStrokeColorChooseButton().addActionListener((ActionEvent e) -> {
+            Color newColor = JColorChooser.showDialog(frame, "Choose color",
+                    graphColorChooserDialog.getEdgeStrokeColor()); //get the color chosen by the user
+            graphColorChooserDialog.setEdgeStrokeColor(newColor); //set the sample fill color
+            sampleCanvas.repaint(); //repaint the canvas
         });
 
         //cancel button
-        graphColorChooserDialog.getCancelButton().addActionListener(new ActionListener() {
-            @Override
-            public void actionPerformed(ActionEvent e) {
-                graphColorChooserDialog.setVisible(false);
-            }
+        graphColorChooserDialog.getCancelButton().addActionListener((ActionEvent e) -> {
+            graphColorChooserDialog.setVisible(false);
         });
 
         //ok button
-        graphColorChooserDialog.getOKButton().addActionListener(new ActionListener() {
-            @Override
-            public void actionPerformed(ActionEvent e) {
-                //Get the colors from the dialog
-                Color newVertexFillColor = graphColorChooserDialog.getVertexFillColor();
-                Color newVertexStrokeColor = graphColorChooserDialog.getVertexStrokeColor();
-                Color newEdgeStrokeColor = graphColorChooserDialog.getEdgeStrokeColor();
-
-                //Check if the new colors are different from the old colors
-                if (newVertexFillColor == graph.getVertexFillColor()) {
-                    setIsModified(true); //label the graph as modified
-                }
-                if (newVertexStrokeColor == graph.getVertexStrokeColor()) {
-
-                }
-                if (newEdgeStrokeColor == graph.getEdgeStrokeColor()) {
-
-                }
-
-                //set the graph's colors
-                graph.setColors(newVertexFillColor, newVertexStrokeColor, newEdgeStrokeColor);
-
-                //Set the colors of the current vertices and edges
-                colorAllElements(newVertexFillColor, newVertexStrokeColor, newEdgeStrokeColor);
-
-                //dismiss the dialog
-                graphColorChooserDialog.setVisible(false);
-
-                canvas.repaint(); //repaint the canvas
+        graphColorChooserDialog.getOKButton().addActionListener((ActionEvent e) -> {
+            //Get the colors from the dialog
+            Color newVertexFillColor = graphColorChooserDialog.getVertexFillColor();
+            Color newVertexStrokeColor = graphColorChooserDialog.getVertexStrokeColor();
+            Color newEdgeStrokeColor = graphColorChooserDialog.getEdgeStrokeColor();
+            
+            //Check if the new colors are different from the old colors
+            if (newVertexFillColor == graph.getVertexFillColor()) {
+                setIsModified(true); //label the graph as modified
             }
+            if (newVertexStrokeColor == graph.getVertexStrokeColor()) {
+                
+            }
+            if (newEdgeStrokeColor == graph.getEdgeStrokeColor()) {
+                
+            }
+            
+            //set the graph's colors
+            graph.setColors(newVertexFillColor, newVertexStrokeColor, newEdgeStrokeColor);
+            
+            //Set the colors of the current vertices and edges
+            colorAllElements(newVertexFillColor, newVertexStrokeColor, newEdgeStrokeColor);
+            
+            //dismiss the dialog
+            graphColorChooserDialog.setVisible(false);
+            
+            canvas.repaint(); //repaint the canvas
         });
     }
 
@@ -1088,7 +1000,7 @@ public class GraphController {
      * @return The number n + 65 in base 26 ((int) 'A' = 65 )
      */
     public static String toBase26(int n) {
-        StringBuffer ret = new StringBuffer();
+        StringBuilder ret = new StringBuilder();
         while (n > 0) {
             --n;
             ret.append((char) ('A' + n % 26));
@@ -1383,7 +1295,7 @@ public class GraphController {
             return didSelectElement;
         }
         //true if edge "e" was clicked (in loop below), false if no edge was clicked
-        boolean clickedAnEdge = false;
+        boolean clickedAnEdge;
         for (int i = edges.size() - 1; i >= 0; --i) { //loop through edges
             Edge e = edges.get(i); //get the next edge in the list
             //Check if the current edge was clicked
@@ -1466,7 +1378,7 @@ public class GraphController {
         setSelectedVertices();
 
         //Deselect the edge
-        edgesList.clearSelection();; //deselect edge in the list
+        edgesList.clearSelection(); //deselect edge in the list
         selectedEdgeIndices.clear();
         setSelectedEdges();
 
@@ -2259,14 +2171,10 @@ public class GraphController {
     private boolean shouldContinue(String message) {
         isCommandPressed = false; //unpress command
         int selection = JOptionPane.showConfirmDialog(frame, message); //ask the user if they want to continue
-
-        if (selection != JOptionPane.YES_OPTION) { //if the user did not choose "yes"
-            return false; //cancel the operation
-        }
-
+        //if the user did not choose "yes", then we should cancel the operation
         //if the user did choose yes, then we should continue the operation
         //if the file has been saved, then we can just return true
-        return true;
+        return selection == JOptionPane.YES_OPTION;
 
     }
 
