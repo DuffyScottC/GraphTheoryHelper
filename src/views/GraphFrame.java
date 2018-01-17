@@ -60,7 +60,7 @@ public class GraphFrame extends javax.swing.JFrame {
         graphOutputPanel = new javax.swing.JPanel();
         graphOutputTextField = new javax.swing.JTextField();
         modifiedTextField = new javax.swing.JTextField();
-        jSeparator1 = new javax.swing.JSeparator();
+        jToolBar1 = new javax.swing.JToolBar();
         myMenuBar = new javax.swing.JMenuBar();
         fileMenu = new javax.swing.JMenu();
         openMenuItem = new javax.swing.JMenuItem();
@@ -96,7 +96,7 @@ public class GraphFrame extends javax.swing.JFrame {
         canvasScrollPane.setViewportView(canvas);
 
         gridBagConstraints = new java.awt.GridBagConstraints();
-        gridBagConstraints.gridx = 0;
+        gridBagConstraints.gridx = 1;
         gridBagConstraints.gridy = 1;
         gridBagConstraints.fill = java.awt.GridBagConstraints.BOTH;
         gridBagConstraints.weightx = 0.1;
@@ -228,7 +228,7 @@ public class GraphFrame extends javax.swing.JFrame {
         inspectorPanel.add(buttonPanel, gridBagConstraints);
 
         gridBagConstraints = new java.awt.GridBagConstraints();
-        gridBagConstraints.gridx = 1;
+        gridBagConstraints.gridx = 2;
         gridBagConstraints.gridy = 1;
         gridBagConstraints.fill = java.awt.GridBagConstraints.BOTH;
         mainPanel.add(inspectorPanel, gridBagConstraints);
@@ -251,10 +251,20 @@ public class GraphFrame extends javax.swing.JFrame {
         graphOutputPanel.add(modifiedTextField, gridBagConstraints);
 
         gridBagConstraints = new java.awt.GridBagConstraints();
+        gridBagConstraints.gridx = 1;
+        gridBagConstraints.gridy = 0;
         gridBagConstraints.gridwidth = 2;
         gridBagConstraints.fill = java.awt.GridBagConstraints.HORIZONTAL;
         mainPanel.add(graphOutputPanel, gridBagConstraints);
-        mainPanel.add(jSeparator1, new java.awt.GridBagConstraints());
+
+        jToolBar1.setOrientation(javax.swing.SwingConstants.VERTICAL);
+        jToolBar1.setRollover(true);
+        gridBagConstraints = new java.awt.GridBagConstraints();
+        gridBagConstraints.gridx = 0;
+        gridBagConstraints.gridy = 0;
+        gridBagConstraints.gridheight = 2;
+        gridBagConstraints.fill = java.awt.GridBagConstraints.BOTH;
+        mainPanel.add(jToolBar1, gridBagConstraints);
 
         getContentPane().add(mainPanel, java.awt.BorderLayout.CENTER);
 
@@ -396,8 +406,8 @@ public class GraphFrame extends javax.swing.JFrame {
     private javax.swing.JPanel graphOutputPanel;
     private javax.swing.JTextField graphOutputTextField;
     private views.InspectorPanel inspectorPanel;
-    private javax.swing.JSeparator jSeparator1;
     private javax.swing.JPopupMenu.Separator jSeparator2;
+    private javax.swing.JToolBar jToolBar1;
     private javax.swing.JPanel mainPanel;
     private javax.swing.JTextField modifiedTextField;
     private javax.swing.JMenuBar myMenuBar;
