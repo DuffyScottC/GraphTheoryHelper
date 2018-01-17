@@ -54,7 +54,7 @@ public class Values {
     public static final String SHOW_VERTEX_NAMES = "GTH Show Vertex Names";
     
     //MARK: Misc properties
-    public static final int DIAMETER = 15;
+    public static final int DIAMETER = 16;
     public static final double FORMAT_RADIUS = 150;
     public static final int LINE_SELECTION_DISTANCE = 3;
     public static final float SELECTION_STROKE = 2.0f;
