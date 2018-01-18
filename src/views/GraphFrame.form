@@ -427,7 +427,7 @@
         <Component class="javax.swing.JToggleButton" name="addEdgesButton">
           <Properties>
             <Property name="icon" type="javax.swing.Icon" editor="org.netbeans.modules.form.editors2.IconEditor">
-              <Image iconType="3" name="/images/add-vertices-Icon.png"/>
+              <Image iconType="3" name="/images/add-edges-icon.png"/>
             </Property>
             <Property name="toolTipText" type="java.lang.String" value="Add/bend edges between vertices (E)"/>
             <Property name="focusable" type="boolean" value="false"/>

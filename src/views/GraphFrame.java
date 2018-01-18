@@ -227,7 +227,7 @@ public class GraphFrame extends javax.swing.JFrame {
         addVerticesButton.setVerticalTextPosition(javax.swing.SwingConstants.BOTTOM);
         jToolBar1.add(addVerticesButton);
 
-        addEdgesButton.setIcon(new javax.swing.ImageIcon(getClass().getResource("/images/add-vertices-Icon.png"))); // NOI18N
+        addEdgesButton.setIcon(new javax.swing.ImageIcon(getClass().getResource("/images/add-edges-icon.png"))); // NOI18N
         addEdgesButton.setToolTipText("Add/bend edges between vertices (E)");
         addEdgesButton.setFocusable(false);
         addEdgesButton.setHorizontalTextPosition(javax.swing.SwingConstants.CENTER);
