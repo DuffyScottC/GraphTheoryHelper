@@ -229,9 +229,9 @@ public class GraphController {
 
         titleTextField = frame.getTitleTextField();
         modifiedTextField = frame.getModifiedTextField();
-        addVerticesButton = frame.getAddVerticesButton();
-        addEdgesButton = frame.getAddEdgesButton();
-        selectionButton = frame.getSelectionButton();
+        addVerticesButton = frame.getAddVerticesRadioButton();
+        addEdgesButton = frame.getAddEdgesRadioButton();
+        selectionButton = frame.getSelectionRadioButton();
         addVerticesMenuItem = frame.getAddVerticesMenuItem();
         addEdgesMenuItem = frame.getAddEdgesMenuItem();
         selectionMenuItem = frame.getSelectionMenuItem();

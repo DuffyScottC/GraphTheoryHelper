@@ -401,12 +401,12 @@ public class GraphFrame extends javax.swing.JFrame {
     private javax.swing.JMenu viewMenu;
     // End of variables declaration//GEN-END:variables
 
-    public JToggleButton getAddEdgesButton() {
-        return addEdgesButton;
+    public JToggleButton getAddEdgesRadioButton() {
+        return addEdgesRadioButton;
     }
 
-    public JToggleButton getAddVerticesButton() {
-        return addVerticesButton;
+    public JToggleButton getAddVerticesRadioButton() {
+        return addVerticesRadioButton;
     }
 
     public Canvas getCanvas() {
@@ -428,8 +428,8 @@ public class GraphFrame extends javax.swing.JFrame {
         return openMenuItem;
     }
 
-    public JToggleButton getSelectionButton() {
-        return selectionButton;
+    public JToggleButton getSelectionRadioButton() {
+        return selectionRadioButton;
     }
     
     public JMenuItem getRotate90MenuItem() {
@@ -487,7 +487,7 @@ public class GraphFrame extends javax.swing.JFrame {
     }
     
     public JButton getDeleteButton() {
-        return olddeleteButton;
+        return deleteButton;
     }
     
     public JCheckBoxMenuItem getAddVerticesMenuItem() {
