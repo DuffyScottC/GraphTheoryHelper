@@ -6,6 +6,7 @@
 package views;
 
 import java.net.URL;
+import javax.swing.ButtonGroup;
 import javax.swing.ImageIcon;
 import javax.swing.JButton;
 import javax.swing.JCheckBoxMenuItem;
@@ -214,6 +215,7 @@ public class GraphFrame extends javax.swing.JFrame {
         toolsToolBar.setRollover(true);
 
         toolBarButtonGroup.add(addVerticesRadioButton);
+        addVerticesRadioButton.setSelected(true);
         addVerticesRadioButton.setFocusable(false);
         addVerticesRadioButton.setHorizontalTextPosition(javax.swing.SwingConstants.CENTER);
         addVerticesRadioButton.setIcon(new javax.swing.ImageIcon(getClass().getResource("/images/add-vertices-Icon.png"))); // NOI18N
@@ -531,5 +533,9 @@ public class GraphFrame extends javax.swing.JFrame {
     
     public JMenuItem getEulerianCircuitMenuItem() {
         return eulerIanCircuitMenuItem;
+    }
+    
+    public ButtonGroup getToolBarButtonGroup() {
+        return this.toolBarButtonGroup;
     }
 }
