@@ -366,7 +366,9 @@
               <SubComponents>
                 <Component class="javax.swing.JButton" name="deleteButton">
                   <Properties>
-                    <Property name="text" type="java.lang.String" value="Delete"/>
+                    <Property name="icon" type="javax.swing.Icon" editor="org.netbeans.modules.form.editors2.IconEditor">
+                      <Image iconType="3" name="/images/add-vertices-Icon.png"/>
+                    </Property>
                     <Property name="toolTipText" type="java.lang.String" value="Delete (backspace)"/>
                     <Property name="focusable" type="boolean" value="false"/>
                     <Property name="horizontalTextPosition" type="int" value="0"/>
@@ -380,7 +382,9 @@
                 </Component>
                 <Component class="javax.swing.JToggleButton" name="addVerticesButton">
                   <Properties>
-                    <Property name="text" type="java.lang.String" value="Add Vertices"/>
+                    <Property name="icon" type="javax.swing.Icon" editor="org.netbeans.modules.form.editors2.IconEditor">
+                      <Image iconType="3" name="/images/add-vertices-Icon.png"/>
+                    </Property>
                     <Property name="toolTipText" type="java.lang.String" value="Click to add vertices to the canvas (V)"/>
                     <Property name="focusable" type="boolean" value="false"/>
                     <Property name="horizontalTextPosition" type="int" value="0"/>
@@ -394,7 +398,9 @@
                 </Component>
                 <Component class="javax.swing.JToggleButton" name="addEdgesButton">
                   <Properties>
-                    <Property name="text" type="java.lang.String" value="Add Edges"/>
+                    <Property name="icon" type="javax.swing.Icon" editor="org.netbeans.modules.form.editors2.IconEditor">
+                      <Image iconType="3" name="/images/add-vertices-Icon.png"/>
+                    </Property>
                     <Property name="toolTipText" type="java.lang.String" value="Add/bend edges between vertices (E)"/>
                     <Property name="focusable" type="boolean" value="false"/>
                     <Property name="horizontalTextPosition" type="int" value="0"/>
@@ -408,7 +414,9 @@
                 </Component>
                 <Component class="javax.swing.JToggleButton" name="selectionButton">
                   <Properties>
-                    <Property name="text" type="java.lang.String" value="Selection"/>
+                    <Property name="icon" type="javax.swing.Icon" editor="org.netbeans.modules.form.editors2.IconEditor">
+                      <Image iconType="3" name="/images/add-vertices-Icon.png"/>
+                    </Property>
                     <Property name="toolTipText" type="java.lang.String" value="Select and move vertices and edges (spacebar)"/>
                     <Property name="focusable" type="boolean" value="false"/>
                     <Property name="horizontalTextPosition" type="int" value="0"/>

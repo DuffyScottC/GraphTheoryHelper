@@ -180,7 +180,7 @@ public class GraphFrame extends javax.swing.JFrame {
 
         buttonPanel.setLayout(new java.awt.GridBagLayout());
 
-        deleteButton.setText("Delete");
+        deleteButton.setIcon(new javax.swing.ImageIcon(getClass().getResource("/images/add-vertices-Icon.png"))); // NOI18N
         deleteButton.setToolTipText("Delete (backspace)");
         deleteButton.setFocusable(false);
         deleteButton.setHorizontalTextPosition(javax.swing.SwingConstants.CENTER);
@@ -192,7 +192,7 @@ public class GraphFrame extends javax.swing.JFrame {
         gridBagConstraints.insets = new java.awt.Insets(6, 0, 0, 0);
         buttonPanel.add(deleteButton, gridBagConstraints);
 
-        addVerticesButton.setText("Add Vertices");
+        addVerticesButton.setIcon(new javax.swing.ImageIcon(getClass().getResource("/images/add-vertices-Icon.png"))); // NOI18N
         addVerticesButton.setToolTipText("Click to add vertices to the canvas (V)");
         addVerticesButton.setFocusable(false);
         addVerticesButton.setHorizontalTextPosition(javax.swing.SwingConstants.CENTER);
@@ -201,7 +201,7 @@ public class GraphFrame extends javax.swing.JFrame {
         gridBagConstraints.fill = java.awt.GridBagConstraints.HORIZONTAL;
         buttonPanel.add(addVerticesButton, gridBagConstraints);
 
-        addEdgesButton.setText("Add Edges");
+        addEdgesButton.setIcon(new javax.swing.ImageIcon(getClass().getResource("/images/add-vertices-Icon.png"))); // NOI18N
         addEdgesButton.setToolTipText("Add/bend edges between vertices (E)");
         addEdgesButton.setFocusable(false);
         addEdgesButton.setHorizontalTextPosition(javax.swing.SwingConstants.CENTER);
@@ -212,7 +212,7 @@ public class GraphFrame extends javax.swing.JFrame {
         gridBagConstraints.fill = java.awt.GridBagConstraints.HORIZONTAL;
         buttonPanel.add(addEdgesButton, gridBagConstraints);
 
-        selectionButton.setText("Selection");
+        selectionButton.setIcon(new javax.swing.ImageIcon(getClass().getResource("/images/add-vertices-Icon.png"))); // NOI18N
         selectionButton.setToolTipText("Select and move vertices and edges (spacebar)");
         selectionButton.setFocusable(false);
         selectionButton.setHorizontalTextPosition(javax.swing.SwingConstants.CENTER);
