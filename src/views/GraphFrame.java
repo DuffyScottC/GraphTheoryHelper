@@ -213,18 +213,21 @@ public class GraphFrame extends javax.swing.JFrame {
         toolsToolBar.setOrientation(javax.swing.SwingConstants.VERTICAL);
         toolsToolBar.setRollover(true);
 
+        toolBarButtonGroup.add(addVerticesRadioButton);
         addVerticesRadioButton.setFocusable(false);
         addVerticesRadioButton.setHorizontalTextPosition(javax.swing.SwingConstants.CENTER);
         addVerticesRadioButton.setIcon(new javax.swing.ImageIcon(getClass().getResource("/images/add-vertices-Icon.png"))); // NOI18N
         addVerticesRadioButton.setVerticalTextPosition(javax.swing.SwingConstants.BOTTOM);
         toolsToolBar.add(addVerticesRadioButton);
 
+        toolBarButtonGroup.add(addEdgesRadioButton);
         addEdgesRadioButton.setFocusable(false);
         addEdgesRadioButton.setHorizontalTextPosition(javax.swing.SwingConstants.CENTER);
         addEdgesRadioButton.setIcon(new javax.swing.ImageIcon(getClass().getResource("/images/add-vertices-Icon.png"))); // NOI18N
         addEdgesRadioButton.setVerticalTextPosition(javax.swing.SwingConstants.BOTTOM);
         toolsToolBar.add(addEdgesRadioButton);
 
+        toolBarButtonGroup.add(selectionRadioButton);
         selectionRadioButton.setFocusable(false);
         selectionRadioButton.setHorizontalTextPosition(javax.swing.SwingConstants.CENTER);
         selectionRadioButton.setIcon(new javax.swing.ImageIcon(getClass().getResource("/images/add-vertices-Icon.png"))); // NOI18N
