@@ -55,14 +55,14 @@ public class GraphFrame extends javax.swing.JFrame {
         edgesScrollPane = new javax.swing.JScrollPane();
         edgesList = new javax.swing.JList<>();
         buttonPanel = new javax.swing.JPanel();
-        deleteButton = new javax.swing.JButton();
-        addVerticesButton = new javax.swing.JToggleButton();
-        addEdgesButton = new javax.swing.JToggleButton();
-        selectionButton = new javax.swing.JToggleButton();
         graphOutputPanel = new javax.swing.JPanel();
         graphOutputTextField = new javax.swing.JTextField();
         modifiedTextField = new javax.swing.JTextField();
         jToolBar1 = new javax.swing.JToolBar();
+        addVerticesButton = new javax.swing.JToggleButton();
+        addEdgesButton = new javax.swing.JToggleButton();
+        selectionButton = new javax.swing.JToggleButton();
+        deleteButton = new javax.swing.JButton();
         myMenuBar = new javax.swing.JMenuBar();
         fileMenu = new javax.swing.JMenu();
         openMenuItem = new javax.swing.JMenuItem();
@@ -179,50 +179,6 @@ public class GraphFrame extends javax.swing.JFrame {
         inspectorPanel.add(edgesScrollPane, gridBagConstraints);
 
         buttonPanel.setLayout(new java.awt.GridBagLayout());
-
-        deleteButton.setIcon(new javax.swing.ImageIcon(getClass().getResource("/images/add-vertices-Icon.png"))); // NOI18N
-        deleteButton.setToolTipText("Delete (backspace)");
-        deleteButton.setFocusable(false);
-        deleteButton.setHorizontalTextPosition(javax.swing.SwingConstants.CENTER);
-        deleteButton.setVerticalTextPosition(javax.swing.SwingConstants.BOTTOM);
-        gridBagConstraints = new java.awt.GridBagConstraints();
-        gridBagConstraints.gridx = 0;
-        gridBagConstraints.gridy = 3;
-        gridBagConstraints.fill = java.awt.GridBagConstraints.HORIZONTAL;
-        gridBagConstraints.insets = new java.awt.Insets(6, 0, 0, 0);
-        buttonPanel.add(deleteButton, gridBagConstraints);
-
-        addVerticesButton.setIcon(new javax.swing.ImageIcon(getClass().getResource("/images/add-vertices-Icon.png"))); // NOI18N
-        addVerticesButton.setToolTipText("Click to add vertices to the canvas (V)");
-        addVerticesButton.setFocusable(false);
-        addVerticesButton.setHorizontalTextPosition(javax.swing.SwingConstants.CENTER);
-        addVerticesButton.setVerticalTextPosition(javax.swing.SwingConstants.BOTTOM);
-        gridBagConstraints = new java.awt.GridBagConstraints();
-        gridBagConstraints.fill = java.awt.GridBagConstraints.HORIZONTAL;
-        buttonPanel.add(addVerticesButton, gridBagConstraints);
-
-        addEdgesButton.setIcon(new javax.swing.ImageIcon(getClass().getResource("/images/add-vertices-Icon.png"))); // NOI18N
-        addEdgesButton.setToolTipText("Add/bend edges between vertices (E)");
-        addEdgesButton.setFocusable(false);
-        addEdgesButton.setHorizontalTextPosition(javax.swing.SwingConstants.CENTER);
-        addEdgesButton.setVerticalTextPosition(javax.swing.SwingConstants.BOTTOM);
-        gridBagConstraints = new java.awt.GridBagConstraints();
-        gridBagConstraints.gridx = 0;
-        gridBagConstraints.gridy = 1;
-        gridBagConstraints.fill = java.awt.GridBagConstraints.HORIZONTAL;
-        buttonPanel.add(addEdgesButton, gridBagConstraints);
-
-        selectionButton.setIcon(new javax.swing.ImageIcon(getClass().getResource("/images/add-vertices-Icon.png"))); // NOI18N
-        selectionButton.setToolTipText("Select and move vertices and edges (spacebar)");
-        selectionButton.setFocusable(false);
-        selectionButton.setHorizontalTextPosition(javax.swing.SwingConstants.CENTER);
-        selectionButton.setVerticalTextPosition(javax.swing.SwingConstants.BOTTOM);
-        gridBagConstraints = new java.awt.GridBagConstraints();
-        gridBagConstraints.gridx = 0;
-        gridBagConstraints.gridy = 2;
-        gridBagConstraints.fill = java.awt.GridBagConstraints.HORIZONTAL;
-        buttonPanel.add(selectionButton, gridBagConstraints);
-
         gridBagConstraints = new java.awt.GridBagConstraints();
         gridBagConstraints.gridx = 0;
         gridBagConstraints.gridy = 1;
@@ -263,6 +219,35 @@ public class GraphFrame extends javax.swing.JFrame {
 
         jToolBar1.setOrientation(javax.swing.SwingConstants.VERTICAL);
         jToolBar1.setRollover(true);
+
+        addVerticesButton.setIcon(new javax.swing.ImageIcon(getClass().getResource("/images/add-vertices-Icon.png"))); // NOI18N
+        addVerticesButton.setToolTipText("Click to add vertices to the canvas (V)");
+        addVerticesButton.setFocusable(false);
+        addVerticesButton.setHorizontalTextPosition(javax.swing.SwingConstants.CENTER);
+        addVerticesButton.setVerticalTextPosition(javax.swing.SwingConstants.BOTTOM);
+        jToolBar1.add(addVerticesButton);
+
+        addEdgesButton.setIcon(new javax.swing.ImageIcon(getClass().getResource("/images/add-vertices-Icon.png"))); // NOI18N
+        addEdgesButton.setToolTipText("Add/bend edges between vertices (E)");
+        addEdgesButton.setFocusable(false);
+        addEdgesButton.setHorizontalTextPosition(javax.swing.SwingConstants.CENTER);
+        addEdgesButton.setVerticalTextPosition(javax.swing.SwingConstants.BOTTOM);
+        jToolBar1.add(addEdgesButton);
+
+        selectionButton.setIcon(new javax.swing.ImageIcon(getClass().getResource("/images/add-vertices-Icon.png"))); // NOI18N
+        selectionButton.setToolTipText("Select and move vertices and edges (spacebar)");
+        selectionButton.setFocusable(false);
+        selectionButton.setHorizontalTextPosition(javax.swing.SwingConstants.CENTER);
+        selectionButton.setVerticalTextPosition(javax.swing.SwingConstants.BOTTOM);
+        jToolBar1.add(selectionButton);
+
+        deleteButton.setIcon(new javax.swing.ImageIcon(getClass().getResource("/images/add-vertices-Icon.png"))); // NOI18N
+        deleteButton.setToolTipText("Delete (backspace)");
+        deleteButton.setFocusable(false);
+        deleteButton.setHorizontalTextPosition(javax.swing.SwingConstants.CENTER);
+        deleteButton.setVerticalTextPosition(javax.swing.SwingConstants.BOTTOM);
+        jToolBar1.add(deleteButton);
+
         getContentPane().add(jToolBar1, java.awt.BorderLayout.WEST);
 
         fileMenu.setText("File");
