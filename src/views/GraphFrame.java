@@ -41,6 +41,7 @@ public class GraphFrame extends javax.swing.JFrame {
     private void initComponents() {
         java.awt.GridBagConstraints gridBagConstraints;
 
+        toolBarButtonGroup = new javax.swing.ButtonGroup();
         mainPanel = new javax.swing.JPanel();
         canvasScrollPane = new javax.swing.JScrollPane();
         canvas = new views.Canvas();
@@ -55,14 +56,18 @@ public class GraphFrame extends javax.swing.JFrame {
         edgesScrollPane = new javax.swing.JScrollPane();
         edgesList = new javax.swing.JList<>();
         buttonPanel = new javax.swing.JPanel();
-        deleteButton = new javax.swing.JButton();
+        olddeleteButton = new javax.swing.JButton();
         addVerticesButton = new javax.swing.JToggleButton();
         addEdgesButton = new javax.swing.JToggleButton();
         selectionButton = new javax.swing.JToggleButton();
         graphOutputPanel = new javax.swing.JPanel();
         graphOutputTextField = new javax.swing.JTextField();
         modifiedTextField = new javax.swing.JTextField();
-        jToolBar1 = new javax.swing.JToolBar();
+        toolsToolBar = new javax.swing.JToolBar();
+        addVerticesRadioButton = new javax.swing.JRadioButton();
+        addEdgesRadioButton = new javax.swing.JRadioButton();
+        selectionRadioButton = new javax.swing.JRadioButton();
+        deleteButton = new javax.swing.JButton();
         myMenuBar = new javax.swing.JMenuBar();
         fileMenu = new javax.swing.JMenu();
         openMenuItem = new javax.swing.JMenuItem();
@@ -180,17 +185,17 @@ public class GraphFrame extends javax.swing.JFrame {
 
         buttonPanel.setLayout(new java.awt.GridBagLayout());
 
-        deleteButton.setText("Delete");
-        deleteButton.setToolTipText("Delete (backspace)");
-        deleteButton.setFocusable(false);
-        deleteButton.setHorizontalTextPosition(javax.swing.SwingConstants.CENTER);
-        deleteButton.setVerticalTextPosition(javax.swing.SwingConstants.BOTTOM);
+        olddeleteButton.setText("Delete");
+        olddeleteButton.setToolTipText("Delete (backspace)");
+        olddeleteButton.setFocusable(false);
+        olddeleteButton.setHorizontalTextPosition(javax.swing.SwingConstants.CENTER);
+        olddeleteButton.setVerticalTextPosition(javax.swing.SwingConstants.BOTTOM);
         gridBagConstraints = new java.awt.GridBagConstraints();
         gridBagConstraints.gridx = 0;
         gridBagConstraints.gridy = 3;
         gridBagConstraints.fill = java.awt.GridBagConstraints.HORIZONTAL;
         gridBagConstraints.insets = new java.awt.Insets(6, 0, 0, 0);
-        buttonPanel.add(deleteButton, gridBagConstraints);
+        buttonPanel.add(olddeleteButton, gridBagConstraints);
 
         addVerticesButton.setText("Add Vertices");
         addVerticesButton.setToolTipText("Click to add vertices to the canvas (V)");
@@ -261,9 +266,34 @@ public class GraphFrame extends javax.swing.JFrame {
 
         getContentPane().add(mainPanel, java.awt.BorderLayout.CENTER);
 
-        jToolBar1.setOrientation(javax.swing.SwingConstants.VERTICAL);
-        jToolBar1.setRollover(true);
-        getContentPane().add(jToolBar1, java.awt.BorderLayout.WEST);
+        toolsToolBar.setOrientation(javax.swing.SwingConstants.VERTICAL);
+        toolsToolBar.setRollover(true);
+
+        addVerticesRadioButton.setFocusable(false);
+        addVerticesRadioButton.setHorizontalTextPosition(javax.swing.SwingConstants.CENTER);
+        addVerticesRadioButton.setIcon(new javax.swing.ImageIcon(getClass().getResource("/images/add-vertices-Icon.png"))); // NOI18N
+        addVerticesRadioButton.setVerticalTextPosition(javax.swing.SwingConstants.BOTTOM);
+        toolsToolBar.add(addVerticesRadioButton);
+
+        addEdgesRadioButton.setFocusable(false);
+        addEdgesRadioButton.setHorizontalTextPosition(javax.swing.SwingConstants.CENTER);
+        addEdgesRadioButton.setIcon(new javax.swing.ImageIcon(getClass().getResource("/images/add-vertices-Icon.png"))); // NOI18N
+        addEdgesRadioButton.setVerticalTextPosition(javax.swing.SwingConstants.BOTTOM);
+        toolsToolBar.add(addEdgesRadioButton);
+
+        selectionRadioButton.setFocusable(false);
+        selectionRadioButton.setHorizontalTextPosition(javax.swing.SwingConstants.CENTER);
+        selectionRadioButton.setIcon(new javax.swing.ImageIcon(getClass().getResource("/images/add-vertices-Icon.png"))); // NOI18N
+        selectionRadioButton.setVerticalTextPosition(javax.swing.SwingConstants.BOTTOM);
+        toolsToolBar.add(selectionRadioButton);
+
+        deleteButton.setIcon(new javax.swing.ImageIcon(getClass().getResource("/images/add-vertices-Icon.png"))); // NOI18N
+        deleteButton.setFocusable(false);
+        deleteButton.setHorizontalTextPosition(javax.swing.SwingConstants.CENTER);
+        deleteButton.setVerticalTextPosition(javax.swing.SwingConstants.BOTTOM);
+        toolsToolBar.add(deleteButton);
+
+        getContentPane().add(toolsToolBar, java.awt.BorderLayout.WEST);
 
         fileMenu.setText("File");
 
@@ -382,9 +412,11 @@ public class GraphFrame extends javax.swing.JFrame {
     private javax.swing.JLabel JLabel3;
     private javax.swing.JToggleButton addEdgesButton;
     private javax.swing.JCheckBoxMenuItem addEdgesMenuItem;
+    private javax.swing.JRadioButton addEdgesRadioButton;
     private javax.swing.JMenuItem addGraphMenuItem;
     private javax.swing.JToggleButton addVerticesButton;
     private javax.swing.JCheckBoxMenuItem addVerticesMenuItem;
+    private javax.swing.JRadioButton addVerticesRadioButton;
     private javax.swing.JPanel buttonPanel;
     private views.Canvas canvas;
     private javax.swing.JScrollPane canvasScrollPane;
@@ -405,11 +437,11 @@ public class GraphFrame extends javax.swing.JFrame {
     private views.InspectorPanel inspectorPanel;
     private javax.swing.JButton jButton1;
     private javax.swing.JPopupMenu.Separator jSeparator2;
-    private javax.swing.JToolBar jToolBar1;
     private javax.swing.JPanel mainPanel;
     private javax.swing.JTextField modifiedTextField;
     private javax.swing.JMenuBar myMenuBar;
     private javax.swing.JMenuItem newMenuItem;
+    private javax.swing.JButton olddeleteButton;
     private javax.swing.JMenuItem openMenuItem;
     private javax.swing.JPanel propertiesPanel;
     private javax.swing.JMenuItem rotate90MenuItem;
@@ -418,9 +450,12 @@ public class GraphFrame extends javax.swing.JFrame {
     private javax.swing.JMenuItem selectAllVerticesMenuItem;
     private javax.swing.JToggleButton selectionButton;
     private javax.swing.JCheckBoxMenuItem selectionMenuItem;
+    private javax.swing.JRadioButton selectionRadioButton;
     private javax.swing.JCheckBoxMenuItem showVertexNamesMenuItem;
     private javax.swing.JTextField titleTextField;
+    private javax.swing.ButtonGroup toolBarButtonGroup;
     private javax.swing.JMenu toolsMenu;
+    private javax.swing.JToolBar toolsToolBar;
     private javax.swing.JLabel verticesLabel;
     private javax.swing.JList<String> verticesList;
     private javax.swing.JScrollPane verticesScrollPane;
@@ -513,7 +548,7 @@ public class GraphFrame extends javax.swing.JFrame {
     }
     
     public JButton getDeleteButton() {
-        return deleteButton;
+        return olddeleteButton;
     }
     
     public JCheckBoxMenuItem getAddVerticesMenuItem() {
