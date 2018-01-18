@@ -62,7 +62,6 @@ public class GraphFrame extends javax.swing.JFrame {
         graphOutputPanel = new javax.swing.JPanel();
         graphOutputTextField = new javax.swing.JTextField();
         modifiedTextField = new javax.swing.JTextField();
-        graphToolBar2 = new views.GraphToolBar();
         myMenuBar = new javax.swing.JMenuBar();
         fileMenu = new javax.swing.JMenu();
         openMenuItem = new javax.swing.JMenuItem();
@@ -261,9 +260,6 @@ public class GraphFrame extends javax.swing.JFrame {
 
         getContentPane().add(mainPanel, java.awt.BorderLayout.CENTER);
 
-        graphToolBar2.setRollover(true);
-        getContentPane().add(graphToolBar2, java.awt.BorderLayout.WEST);
-
         fileMenu.setText("File");
 
         openMenuItem.setAccelerator(javax.swing.KeyStroke.getKeyStroke(java.awt.event.KeyEvent.VK_O, java.awt.event.InputEvent.META_MASK));
@@ -401,7 +397,6 @@ public class GraphFrame extends javax.swing.JFrame {
     private javax.swing.JMenu graphMenuItem;
     private javax.swing.JPanel graphOutputPanel;
     private javax.swing.JTextField graphOutputTextField;
-    private views.GraphToolBar graphToolBar2;
     private views.InspectorPanel inspectorPanel;
     private javax.swing.JButton jButton1;
     private javax.swing.JPopupMenu.Separator jSeparator2;
