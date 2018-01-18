@@ -41,7 +41,6 @@ public class GraphFrame extends javax.swing.JFrame {
     private void initComponents() {
         java.awt.GridBagConstraints gridBagConstraints;
 
-        toolBarButtonGroup = new javax.swing.ButtonGroup();
         mainPanel = new javax.swing.JPanel();
         canvasScrollPane = new javax.swing.JScrollPane();
         canvas = new views.Canvas();
@@ -421,7 +420,6 @@ public class GraphFrame extends javax.swing.JFrame {
     private javax.swing.JCheckBoxMenuItem selectionMenuItem;
     private javax.swing.JCheckBoxMenuItem showVertexNamesMenuItem;
     private javax.swing.JTextField titleTextField;
-    private javax.swing.ButtonGroup toolBarButtonGroup;
     private javax.swing.JMenu toolsMenu;
     private javax.swing.JLabel verticesLabel;
     private javax.swing.JList<String> verticesList;

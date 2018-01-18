@@ -2,8 +2,6 @@
 
 <Form version="1.8" maxVersion="1.9" type="org.netbeans.modules.form.forminfo.JFrameFormInfo">
   <NonVisualComponents>
-    <Component class="javax.swing.ButtonGroup" name="toolBarButtonGroup">
-    </Component>
     <Menu class="javax.swing.JMenuBar" name="myMenuBar">
       <SubComponents>
         <Menu class="javax.swing.JMenu" name="fileMenu">
