@@ -55,11 +55,6 @@ public class GraphFrame extends javax.swing.JFrame {
         edgesLabel = new javax.swing.JLabel();
         edgesScrollPane = new javax.swing.JScrollPane();
         edgesList = new javax.swing.JList<>();
-        buttonPanel = new javax.swing.JPanel();
-        olddeleteButton = new javax.swing.JButton();
-        addVerticesButton = new javax.swing.JToggleButton();
-        addEdgesButton = new javax.swing.JToggleButton();
-        selectionButton = new javax.swing.JToggleButton();
         graphOutputPanel = new javax.swing.JPanel();
         graphOutputTextField = new javax.swing.JTextField();
         modifiedTextField = new javax.swing.JTextField();
@@ -182,57 +177,6 @@ public class GraphFrame extends javax.swing.JFrame {
         gridBagConstraints.weighty = 0.1;
         gridBagConstraints.insets = new java.awt.Insets(0, 4, 0, 4);
         inspectorPanel.add(edgesScrollPane, gridBagConstraints);
-
-        buttonPanel.setLayout(new java.awt.GridBagLayout());
-
-        olddeleteButton.setText("Delete");
-        olddeleteButton.setToolTipText("Delete (backspace)");
-        olddeleteButton.setFocusable(false);
-        olddeleteButton.setHorizontalTextPosition(javax.swing.SwingConstants.CENTER);
-        olddeleteButton.setVerticalTextPosition(javax.swing.SwingConstants.BOTTOM);
-        gridBagConstraints = new java.awt.GridBagConstraints();
-        gridBagConstraints.gridx = 0;
-        gridBagConstraints.gridy = 3;
-        gridBagConstraints.fill = java.awt.GridBagConstraints.HORIZONTAL;
-        gridBagConstraints.insets = new java.awt.Insets(6, 0, 0, 0);
-        buttonPanel.add(olddeleteButton, gridBagConstraints);
-
-        addVerticesButton.setText("Add Vertices");
-        addVerticesButton.setToolTipText("Click to add vertices to the canvas (V)");
-        addVerticesButton.setFocusable(false);
-        addVerticesButton.setHorizontalTextPosition(javax.swing.SwingConstants.CENTER);
-        addVerticesButton.setVerticalTextPosition(javax.swing.SwingConstants.BOTTOM);
-        gridBagConstraints = new java.awt.GridBagConstraints();
-        gridBagConstraints.fill = java.awt.GridBagConstraints.HORIZONTAL;
-        buttonPanel.add(addVerticesButton, gridBagConstraints);
-
-        addEdgesButton.setText("Add Edges");
-        addEdgesButton.setToolTipText("Add/bend edges between vertices (E)");
-        addEdgesButton.setFocusable(false);
-        addEdgesButton.setHorizontalTextPosition(javax.swing.SwingConstants.CENTER);
-        addEdgesButton.setVerticalTextPosition(javax.swing.SwingConstants.BOTTOM);
-        gridBagConstraints = new java.awt.GridBagConstraints();
-        gridBagConstraints.gridx = 0;
-        gridBagConstraints.gridy = 1;
-        gridBagConstraints.fill = java.awt.GridBagConstraints.HORIZONTAL;
-        buttonPanel.add(addEdgesButton, gridBagConstraints);
-
-        selectionButton.setText("Selection");
-        selectionButton.setToolTipText("Select and move vertices and edges (spacebar)");
-        selectionButton.setFocusable(false);
-        selectionButton.setHorizontalTextPosition(javax.swing.SwingConstants.CENTER);
-        selectionButton.setVerticalTextPosition(javax.swing.SwingConstants.BOTTOM);
-        gridBagConstraints = new java.awt.GridBagConstraints();
-        gridBagConstraints.gridx = 0;
-        gridBagConstraints.gridy = 2;
-        gridBagConstraints.fill = java.awt.GridBagConstraints.HORIZONTAL;
-        buttonPanel.add(selectionButton, gridBagConstraints);
-
-        gridBagConstraints = new java.awt.GridBagConstraints();
-        gridBagConstraints.gridx = 0;
-        gridBagConstraints.gridy = 1;
-        gridBagConstraints.fill = java.awt.GridBagConstraints.HORIZONTAL;
-        inspectorPanel.add(buttonPanel, gridBagConstraints);
 
         gridBagConstraints = new java.awt.GridBagConstraints();
         gridBagConstraints.gridx = 2;
@@ -410,14 +354,11 @@ public class GraphFrame extends javax.swing.JFrame {
 
     // Variables declaration - do not modify//GEN-BEGIN:variables
     private javax.swing.JLabel JLabel3;
-    private javax.swing.JToggleButton addEdgesButton;
     private javax.swing.JCheckBoxMenuItem addEdgesMenuItem;
     private javax.swing.JRadioButton addEdgesRadioButton;
     private javax.swing.JMenuItem addGraphMenuItem;
-    private javax.swing.JToggleButton addVerticesButton;
     private javax.swing.JCheckBoxMenuItem addVerticesMenuItem;
     private javax.swing.JRadioButton addVerticesRadioButton;
-    private javax.swing.JPanel buttonPanel;
     private views.Canvas canvas;
     private javax.swing.JScrollPane canvasScrollPane;
     private javax.swing.JMenuItem changeColorsMenuItem;
@@ -441,14 +382,12 @@ public class GraphFrame extends javax.swing.JFrame {
     private javax.swing.JTextField modifiedTextField;
     private javax.swing.JMenuBar myMenuBar;
     private javax.swing.JMenuItem newMenuItem;
-    private javax.swing.JButton olddeleteButton;
     private javax.swing.JMenuItem openMenuItem;
     private javax.swing.JPanel propertiesPanel;
     private javax.swing.JMenuItem rotate90MenuItem;
     private javax.swing.JMenuItem saveAsMenuItem;
     private javax.swing.JMenuItem saveMenuItem;
     private javax.swing.JMenuItem selectAllVerticesMenuItem;
-    private javax.swing.JToggleButton selectionButton;
     private javax.swing.JCheckBoxMenuItem selectionMenuItem;
     private javax.swing.JRadioButton selectionRadioButton;
     private javax.swing.JCheckBoxMenuItem showVertexNamesMenuItem;
