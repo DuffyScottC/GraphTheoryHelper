@@ -5,9 +5,7 @@
  */
 package views;
 
-import java.net.URL;
 import javax.swing.ButtonGroup;
-import javax.swing.ImageIcon;
 import javax.swing.JButton;
 import javax.swing.JCheckBoxMenuItem;
 import javax.swing.JList;
@@ -15,9 +13,8 @@ import javax.swing.JMenu;
 import javax.swing.JMenuBar;
 import javax.swing.JMenuItem;
 import javax.swing.JPanel;
-import javax.swing.JTextArea;
+import javax.swing.JRadioButton;
 import javax.swing.JTextField;
-import javax.swing.JToggleButton;
 
 /**
  *
@@ -406,11 +403,11 @@ public class GraphFrame extends javax.swing.JFrame {
     private javax.swing.JMenu viewMenu;
     // End of variables declaration//GEN-END:variables
 
-    public JToggleButton getAddEdgesRadioButton() {
+    public JRadioButton getAddEdgesRadioButton() {
         return addEdgesRadioButton;
     }
 
-    public JToggleButton getAddVerticesRadioButton() {
+    public JRadioButton getAddVerticesRadioButton() {
         return addVerticesRadioButton;
     }
 
@@ -433,7 +430,7 @@ public class GraphFrame extends javax.swing.JFrame {
         return openMenuItem;
     }
 
-    public JToggleButton getSelectionRadioButton() {
+    public JRadioButton getSelectionRadioButton() {
         return selectionRadioButton;
     }
     
