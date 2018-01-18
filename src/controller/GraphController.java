@@ -41,7 +41,6 @@ import javax.swing.JFrame;
 import javax.swing.JList;
 import javax.swing.JMenuItem;
 import javax.swing.JOptionPane;
-import javax.swing.JRadioButton;
 import javax.swing.JTextField;
 import javax.swing.JToggleButton;
 import javax.swing.KeyStroke;
@@ -88,9 +87,9 @@ public class GraphController {
     private JTextField titleTextField;
     private JList verticesList;
     private JList edgesList;
-    private JRadioButton addVerticesButton;
-    private JRadioButton addEdgesButton;
-    private JRadioButton selectionButton;
+    private JToggleButton addVerticesButton;
+    private JToggleButton addEdgesButton;
+    private JToggleButton selectionButton;
     private JMenuItem addVerticesMenuItem;
     private JMenuItem addEdgesMenuItem;
     private JMenuItem selectionMenuItem;
@@ -230,9 +229,9 @@ public class GraphController {
 
         titleTextField = frame.getTitleTextField();
         modifiedTextField = frame.getModifiedTextField();
-        addVerticesButton = frame.getAddVerticesRadioButton();
-        addEdgesButton = frame.getAddEdgesRadioButton();
-        selectionButton = frame.getSelectionRadioButton();
+        addVerticesButton = frame.getAddVerticesButton();
+        addEdgesButton = frame.getAddEdgesButton();
+        selectionButton = frame.getSelectionButton();
         addVerticesMenuItem = frame.getAddVerticesMenuItem();
         addEdgesMenuItem = frame.getAddEdgesMenuItem();
         selectionMenuItem = frame.getSelectionMenuItem();
