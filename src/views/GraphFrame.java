@@ -62,6 +62,7 @@ public class GraphFrame extends javax.swing.JFrame {
         graphOutputPanel = new javax.swing.JPanel();
         graphOutputTextField = new javax.swing.JTextField();
         modifiedTextField = new javax.swing.JTextField();
+        jToolBar1 = new javax.swing.JToolBar();
         myMenuBar = new javax.swing.JMenuBar();
         fileMenu = new javax.swing.JMenu();
         openMenuItem = new javax.swing.JMenuItem();
@@ -260,6 +261,10 @@ public class GraphFrame extends javax.swing.JFrame {
 
         getContentPane().add(mainPanel, java.awt.BorderLayout.CENTER);
 
+        jToolBar1.setOrientation(javax.swing.SwingConstants.VERTICAL);
+        jToolBar1.setRollover(true);
+        getContentPane().add(jToolBar1, java.awt.BorderLayout.WEST);
+
         fileMenu.setText("File");
 
         openMenuItem.setAccelerator(javax.swing.KeyStroke.getKeyStroke(java.awt.event.KeyEvent.VK_O, java.awt.event.InputEvent.META_MASK));
@@ -400,6 +405,7 @@ public class GraphFrame extends javax.swing.JFrame {
     private views.InspectorPanel inspectorPanel;
     private javax.swing.JButton jButton1;
     private javax.swing.JPopupMenu.Separator jSeparator2;
+    private javax.swing.JToolBar jToolBar1;
     private javax.swing.JPanel mainPanel;
     private javax.swing.JTextField modifiedTextField;
     private javax.swing.JMenuBar myMenuBar;
