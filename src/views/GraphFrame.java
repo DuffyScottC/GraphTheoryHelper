@@ -234,7 +234,7 @@ public class GraphFrame extends javax.swing.JFrame {
         addEdgesButton.setVerticalTextPosition(javax.swing.SwingConstants.BOTTOM);
         jToolBar1.add(addEdgesButton);
 
-        selectionButton.setIcon(new javax.swing.ImageIcon(getClass().getResource("/images/add-vertices-Icon.png"))); // NOI18N
+        selectionButton.setIcon(new javax.swing.ImageIcon(getClass().getResource("/images/selection-icon.png"))); // NOI18N
         selectionButton.setToolTipText("Select and move vertices and edges (spacebar)");
         selectionButton.setFocusable(false);
         selectionButton.setHorizontalTextPosition(javax.swing.SwingConstants.CENTER);
