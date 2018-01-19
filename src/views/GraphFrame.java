@@ -17,6 +17,7 @@ import javax.swing.JPanel;
 import javax.swing.JTextArea;
 import javax.swing.JTextField;
 import javax.swing.JToggleButton;
+import javax.swing.JToolBar;
 
 /**
  *
@@ -58,7 +59,7 @@ public class GraphFrame extends javax.swing.JFrame {
         graphOutputPanel = new javax.swing.JPanel();
         graphOutputTextField = new javax.swing.JTextField();
         modifiedTextField = new javax.swing.JTextField();
-        jToolBar1 = new javax.swing.JToolBar();
+        toolBar = new javax.swing.JToolBar();
         addVerticesButton = new javax.swing.JToggleButton();
         addEdgesButton = new javax.swing.JToggleButton();
         selectionButton = new javax.swing.JToggleButton();
@@ -218,38 +219,38 @@ public class GraphFrame extends javax.swing.JFrame {
 
         getContentPane().add(mainPanel, java.awt.BorderLayout.CENTER);
 
-        jToolBar1.setOrientation(javax.swing.SwingConstants.VERTICAL);
-        jToolBar1.setRollover(true);
+        toolBar.setOrientation(javax.swing.SwingConstants.VERTICAL);
+        toolBar.setRollover(true);
 
         addVerticesButton.setIcon(new javax.swing.ImageIcon(getClass().getResource("/images/add-vertices-Icon.png"))); // NOI18N
         addVerticesButton.setToolTipText("Click to add vertices to the canvas (V)");
         addVerticesButton.setFocusable(false);
         addVerticesButton.setHorizontalTextPosition(javax.swing.SwingConstants.CENTER);
         addVerticesButton.setVerticalTextPosition(javax.swing.SwingConstants.BOTTOM);
-        jToolBar1.add(addVerticesButton);
+        toolBar.add(addVerticesButton);
 
         addEdgesButton.setIcon(new javax.swing.ImageIcon(getClass().getResource("/images/add-edges-icon.png"))); // NOI18N
         addEdgesButton.setToolTipText("Add/bend edges between vertices (E)");
         addEdgesButton.setFocusable(false);
         addEdgesButton.setHorizontalTextPosition(javax.swing.SwingConstants.CENTER);
         addEdgesButton.setVerticalTextPosition(javax.swing.SwingConstants.BOTTOM);
-        jToolBar1.add(addEdgesButton);
+        toolBar.add(addEdgesButton);
 
         selectionButton.setIcon(new javax.swing.ImageIcon(getClass().getResource("/images/selection-icon.png"))); // NOI18N
         selectionButton.setToolTipText("Select and move vertices and edges (spacebar)");
         selectionButton.setFocusable(false);
         selectionButton.setHorizontalTextPosition(javax.swing.SwingConstants.CENTER);
         selectionButton.setVerticalTextPosition(javax.swing.SwingConstants.BOTTOM);
-        jToolBar1.add(selectionButton);
+        toolBar.add(selectionButton);
 
         deleteButton.setIcon(new javax.swing.ImageIcon(getClass().getResource("/images/delete-icon.png"))); // NOI18N
         deleteButton.setToolTipText("Delete (backspace)");
         deleteButton.setFocusable(false);
         deleteButton.setHorizontalTextPosition(javax.swing.SwingConstants.CENTER);
         deleteButton.setVerticalTextPosition(javax.swing.SwingConstants.BOTTOM);
-        jToolBar1.add(deleteButton);
+        toolBar.add(deleteButton);
 
-        getContentPane().add(jToolBar1, java.awt.BorderLayout.WEST);
+        getContentPane().add(toolBar, java.awt.BorderLayout.WEST);
 
         fileMenu.setText("File");
 
@@ -394,7 +395,6 @@ public class GraphFrame extends javax.swing.JFrame {
     private views.InspectorPanel inspectorPanel;
     private javax.swing.JButton jButton1;
     private javax.swing.JPopupMenu.Separator jSeparator2;
-    private javax.swing.JToolBar jToolBar1;
     private javax.swing.JPanel mainPanel;
     private javax.swing.JTextField modifiedTextField;
     private javax.swing.JMenuBar myMenuBar;
@@ -410,6 +410,7 @@ public class GraphFrame extends javax.swing.JFrame {
     private javax.swing.JMenuItem showToolBarMenuItem;
     private javax.swing.JCheckBoxMenuItem showVertexNamesMenuItem;
     private javax.swing.JTextField titleTextField;
+    private javax.swing.JToolBar toolBar;
     private javax.swing.JMenu toolsMenu;
     private javax.swing.JLabel verticesLabel;
     private javax.swing.JList<String> verticesList;
@@ -548,5 +549,9 @@ public class GraphFrame extends javax.swing.JFrame {
     
     public JMenuItem getShowToolBarMenuItem() {
         return showToolBarMenuItem;
+    }
+    
+    public JToolBar getToolBar() {
+        return toolBar;
     }
 }
