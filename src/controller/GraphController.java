@@ -434,10 +434,6 @@ public class GraphController {
         addEdgesMenuItem.addActionListener((ActionEvent e) -> {
             addEdges();
         });
-        
-        frame.getShowToolBarMenuItem().addActionListener((ActionEvent e) -> {
-            
-        });
 
         //Delete
         frame.getDeleteButton().addActionListener((ActionEvent e) -> {
