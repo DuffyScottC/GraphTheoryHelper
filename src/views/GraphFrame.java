@@ -83,6 +83,7 @@ public class GraphFrame extends javax.swing.JFrame {
         deleteMenuItem = new javax.swing.JMenuItem();
         changeColorsMenuItem = new javax.swing.JMenuItem();
         addGraphMenuItem = new javax.swing.JMenuItem();
+        showToolBarMenuItem = new javax.swing.JMenuItem();
         graphMenuItem = new javax.swing.JMenu();
         eulerIanTrailMenuItem = new javax.swing.JMenuItem();
         eulerIanCircuitMenuItem = new javax.swing.JMenuItem();
@@ -241,7 +242,7 @@ public class GraphFrame extends javax.swing.JFrame {
         selectionButton.setVerticalTextPosition(javax.swing.SwingConstants.BOTTOM);
         jToolBar1.add(selectionButton);
 
-        deleteButton.setIcon(new javax.swing.ImageIcon(getClass().getResource("/images/add-vertices-Icon.png"))); // NOI18N
+        deleteButton.setIcon(new javax.swing.ImageIcon(getClass().getResource("/images/delete-icon.png"))); // NOI18N
         deleteButton.setToolTipText("Delete (backspace)");
         deleteButton.setFocusable(false);
         deleteButton.setHorizontalTextPosition(javax.swing.SwingConstants.CENTER);
@@ -333,6 +334,9 @@ public class GraphFrame extends javax.swing.JFrame {
         addGraphMenuItem.setText("Add Graph");
         toolsMenu.add(addGraphMenuItem);
 
+        showToolBarMenuItem.setText("Show Toolbar");
+        toolsMenu.add(showToolBarMenuItem);
+
         myMenuBar.add(toolsMenu);
 
         graphMenuItem.setText("Graph");
@@ -403,6 +407,7 @@ public class GraphFrame extends javax.swing.JFrame {
     private javax.swing.JMenuItem selectAllVerticesMenuItem;
     private javax.swing.JToggleButton selectionButton;
     private javax.swing.JCheckBoxMenuItem selectionMenuItem;
+    private javax.swing.JMenuItem showToolBarMenuItem;
     private javax.swing.JCheckBoxMenuItem showVertexNamesMenuItem;
     private javax.swing.JTextField titleTextField;
     private javax.swing.JMenu toolsMenu;
@@ -539,5 +544,9 @@ public class GraphFrame extends javax.swing.JFrame {
     
     public JMenuItem getEulerianCircuitMenuItem() {
         return eulerIanCircuitMenuItem;
+    }
+    
+    public JMenuItem getShowToolBarMenuItem() {
+        return showToolBarMenuItem;
     }
 }

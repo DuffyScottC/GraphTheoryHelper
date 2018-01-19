@@ -144,6 +144,11 @@
                 <Property name="text" type="java.lang.String" value="Add Graph"/>
               </Properties>
             </MenuItem>
+            <MenuItem class="javax.swing.JMenuItem" name="showToolBarMenuItem">
+              <Properties>
+                <Property name="text" type="java.lang.String" value="Show Toolbar"/>
+              </Properties>
+            </MenuItem>
           </SubComponents>
         </Menu>
         <Menu class="javax.swing.JMenu" name="graphMenuItem">
@@ -449,7 +454,7 @@
         <Component class="javax.swing.JButton" name="deleteButton">
           <Properties>
             <Property name="icon" type="javax.swing.Icon" editor="org.netbeans.modules.form.editors2.IconEditor">
-              <Image iconType="3" name="/images/add-vertices-Icon.png"/>
+              <Image iconType="3" name="/images/delete-icon.png"/>
             </Property>
             <Property name="toolTipText" type="java.lang.String" value="Delete (backspace)"/>
             <Property name="focusable" type="boolean" value="false"/>
