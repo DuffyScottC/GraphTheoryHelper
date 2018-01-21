@@ -2029,11 +2029,19 @@ public class GraphController {
         selectedVertexIndices.clear();
         setSelectedVertices();
 
-//        //Update edge selection
-//        edgesList.clearSelection(); //clear the visual selection in the JList
-//        //deselect the edge
-//        selectedEdgeIndices.clear();
-//        setSelectedEdges();
+        //Update edge selection
+        //if selectedEdgeIndeces is not empty
+        if (!selectedEdgeIndices.isEmpty()) {
+            //find the last selected index
+            int lastIndex = selectedEdgeIndices.get(selectedEdgeIndices.size() - 1);
+            //set the last index to be the only one selected
+            edgesList.setSelectedIndex(lastIndex);
+            //deselect all edges
+            selectedEdgeIndices.clear();
+            //add the last index
+            selectedEdgeIndices.add(lastIndex);
+            setSelectedEdges();
+        }
 
         //Assign the canAddEdges values of all the vertices and get the number of vertices
         //that can't have edges added to them
