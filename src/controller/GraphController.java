@@ -2034,6 +2034,9 @@ public class GraphController {
         if (!selectedEdgeIndices.isEmpty()) {
             //find the last selected index
             int lastIndex = selectedEdgeIndices.get(selectedEdgeIndices.size() - 1);
+            //set the editingEdge to the last selected edge
+            editingEdge = selectedEdges.get(lastIndex);
+            canvas.setEditingEdge(selectedEdges.get(lastIndex));
             //set the last index to be the only one selected
             edgesList.setSelectedIndex(lastIndex);
             //deselect all edges
