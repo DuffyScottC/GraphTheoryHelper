@@ -1008,12 +1008,34 @@ public class GraphController {
         // digits are in the wrong order
         return ret.reverse().toString();
     }
+    
+    /**
+     * Convenience method to improve readability. Created first for 
+     * {@link formatAllVertices()} but may be used in other areas. Places
+     * an edge's control point exactly between its two vertices.
+     * @param e 
+     */
+    private void straightenEdge(Edge e) {
+        //Set the default control point:
+        //get the endpoint coordinates
+        double x1 = e.getEndpoint1().getCenter().getX();
+        double y1 = e.getEndpoint1().getCenter().getY();
+        double x2 = e.getEndpoint2().getCenter().getX();
+        double y2 = e.getEndpoint2().getCenter().getY();
+        //set the control point
+        double ctrlX = (x1 + x2)/2; //find the mid-x
+        double ctrlY = (y1 + y2)/2; //find the mid-y
+        e.setCtrlPoint(ctrlX, ctrlY);
+    }
 
     /**
      * Positions all vertices in the graph in an evenly spaced circle
      */
     public void formatAllVertices() {
         formatVertices(vertices);
+        for (Edge e : edges) { //cycle through the edges
+            straightenEdge(e); //straighten the edges
+        }
     }
 
     /**
