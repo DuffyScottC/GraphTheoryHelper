@@ -23,8 +23,8 @@ import javax.swing.JTextArea;
  */
 public class SampleCanvas extends JTextArea {
     
-    private Vertex v1;
-    private Vertex v2;
+    private Vertex v1 = new Vertex(Values.DIAMETER);
+    private Vertex v2 = new Vertex(Values.DIAMETER);
     private Edge e;
     
     public void setUp(Graph graph) {
@@ -49,6 +49,12 @@ public class SampleCanvas extends JTextArea {
     @Override
     public void paintComponent(Graphics g) {
         super.paintComponent(g);
+        if (v1 == null) {
+            return;
+        }
+        if (v2 == null) {
+            return;
+        }
         
         Graphics2D g2 = (Graphics2D) g;
 
