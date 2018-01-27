@@ -13,7 +13,7 @@ import javax.swing.JTextField;
  *
  * @author Scott
  */
-public class GraphColorChooserDialog extends javax.swing.JDialog {
+public class GraphColorChooserDialog1 extends javax.swing.JDialog {
     
     private Color vertexFillColor;
     private Color vertexStrokeColor;
@@ -24,7 +24,7 @@ public class GraphColorChooserDialog extends javax.swing.JDialog {
     /**
      * Creates new form GraphColorChooserDialog
      */
-    public GraphColorChooserDialog(java.awt.Frame parent, boolean modal) {
+    public GraphColorChooserDialog1(java.awt.Frame parent, boolean modal) {
         super(parent, modal);
         initComponents();
         //add the sampleCanvas object to the jScrollPane
