@@ -1541,7 +1541,7 @@ public class GraphController {
             if (!clickedVertex.getEdgeNames().isEmpty()) {
                 for (SimpleEdge se : clickedVertex.getEdgeNames()) {
                     //if this edge was NOT already moved above
-                    if (!clickedEdgesContains(se)) {
+                    if (!findSimpleEdgeInClickedEdges(se)) {
                         /*
                             From here to the end of this loop, "old" means before 
                             clickedVertex is moved/incremented and "new" means after.
@@ -2132,18 +2132,19 @@ public class GraphController {
      * a given SimpleEdge object.
      * @param se The SimpleEdge object that we are checking to see if 
      * {@link clickedEdges} contains
-     * @return True if {@link clickedEdges} contains se, false if not
+     * @return The index of the edge that matches se if se is found, -1 if se
+     * is not found
      */
-    public boolean clickedEdgesContains(SimpleEdge se) {
-        for (Edge e : clickedEdges) {
-            String ep1Title = e.getEndpoint1().getTitle();
-            String ep2Title = e.getEndpoint2().getTitle();
+    public int findSimpleEdgeInClickedEdges(SimpleEdge se) {
+        for (int i = 0; i < clickedEdges.size(); i++) {
+            String ep1Title = clickedEdges.get(i).getEndpoint1().getTitle();
+            String ep2Title = clickedEdges.get(i).getEndpoint2().getTitle();
             //if e.1 = se.1
             if (ep1Title == se.getEndpoint1()) {
                 //if e.2 = se.2
                 if (ep2Title == se.getEndpoint2()) {
                     //we've found a match and clickedEdges does contain se
-                    return true;
+                    return i;
                     //no need to check the rest
                 } 
                 //if e.2 != se.2, then we need to keep looking
@@ -2151,7 +2152,7 @@ public class GraphController {
                 //if e.2 = se.1
                 if (ep2Title == se.getEndpoint1()) {
                     //we've found a match and clickedEdges does contain se
-                    return true;
+                    return i;
                     //no need to check the rest
                 } 
                 //if e.2 != se.1, then we need to keep looking
@@ -2159,7 +2160,7 @@ public class GraphController {
             //if e.1 equals neither se.1 nor se.2, then keep looking
         }
         //if we reach the end of the loop, then clickedEdges does not contain se
-        return false;
+        return -1;
     }
 
     /**
