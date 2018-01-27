@@ -10,6 +10,7 @@ import element.Edge;
 import element.Graph;
 import element.Vertex;
 import java.awt.Color;
+import java.awt.Graphics2D;
 import java.awt.event.ActionEvent;
 import java.awt.event.KeyAdapter;
 import java.awt.event.KeyEvent;
@@ -21,6 +22,7 @@ import java.awt.event.WindowEvent;
 import java.awt.geom.Point2D;
 import java.awt.geom.QuadCurve2D;
 import java.awt.geom.Rectangle2D;
+import java.awt.image.BufferedImage;
 import java.io.File;
 import java.io.FileInputStream;
 import java.io.FileOutputStream;
@@ -34,6 +36,7 @@ import java.util.List;
 import java.util.prefs.Preferences;
 import java.util.regex.Matcher;
 import java.util.regex.Pattern;
+import javax.imageio.ImageIO;
 import javax.swing.DefaultListModel;
 import javax.swing.JColorChooser;
 import javax.swing.JFileChooser;
@@ -100,8 +103,8 @@ public class GraphController {
      */
     private boolean addingEdges = false;
     /**
-     * Only true if the user has clicked inside of an edge's control point
-     * and is holding down the mouse.
+     * Only true if the user has clicked inside of an edge's control point and
+     * is holding down the mouse.
      */
     private boolean movingControlPoint = false;
     /**
@@ -348,7 +351,7 @@ public class GraphController {
                         moveElements(incX, incY);
                     }
                 }
-                
+
                 if (addingEdges) { //if we're in the edge adding state
                     //if the user's mouse is held down on the selected edge's
                     //control point
@@ -407,7 +410,7 @@ public class GraphController {
                 canvas.setShowTitles(true);
                 prefs.putBoolean(Values.SHOW_VERTEX_NAMES, true);
             }
-            
+
             canvas.repaint();
         });
 
@@ -534,34 +537,34 @@ public class GraphController {
                     return;
                 }
             }
-            
+
             chooser.setFileFilter(filter);
             chooser.setDialogTitle("Open");
             chooser.setAcceptAllFileFilterUsed(false);
-            
+
             int chooserResult = chooser.showOpenDialog(frame);
             if (chooserResult == JFileChooser.APPROVE_OPTION) {
                 File loadFile = chooser.getSelectedFile();
-                
+
                 try {
                     //create an input stream from the selected file
                     FileInputStream istr = new FileInputStream(loadFile);
                     ObjectInputStream oistr = new ObjectInputStream(istr);
-                    
+
                     //load the object from the serialized file
                     Object theObject = oistr.readObject();
                     oistr.close();
-                    
+
                     //if this object is a graph
                     if (theObject instanceof Graph) {
                         //cast the loaded object to a graph
                         Graph loadedGraph = (Graph) theObject;
-                        
+
                         //replace the old graph with the new one
                         replace(loadedGraph);
-                        
+
                         setIsModified(false);
-                        
+
                         canvas.repaint();
                     }
                 } catch (IOException ex) {
@@ -575,7 +578,7 @@ public class GraphController {
                     isCommandPressed = false; //unpress command
                     return;
                 }
-                
+
                 //Update the save file:
                 saveFile = loadFile;
                 currentDirectory = loadFile; //update the current directory
@@ -585,7 +588,7 @@ public class GraphController {
                 prefs.put(Values.LAST_FILE_PATH, currentDirectory.toString());
                 //debug print
                 System.out.println("currentDirectory.toString(): " + currentDirectory.toString());
-                
+
             }
         });
 
@@ -609,14 +612,14 @@ public class GraphController {
                     return;
                 }
             }
-            
+
             saveFile = null; //we no longer have a file to save
-            
+
             clear();
-            
+
             colorAllElements(Values.VERTEX_FILL_COLOR, Values.VERTEX_STROKE_COLOR, Values.EDGE_STROKE_COLOR);
             graph.setColors(Values.VERTEX_FILL_COLOR, Values.VERTEX_STROKE_COLOR, Values.EDGE_STROKE_COLOR);
-            
+
             if (addingEdges) {
                 exitAddEdgesState();
             }
@@ -626,38 +629,38 @@ public class GraphController {
             if (!selecting) {
                 enterSelectionState();
             }
-            
+
             setIsModified(false);
         });
 
         frame.getAddGraphMenuItem().addActionListener((ActionEvent e) -> {
             addGraphDialog.setLocationRelativeTo(null);
             addGraphDialog.setTitle("Add Vertices");
-            
+
             addGraphDialog.setFocusToTextField();
-            
+
             //Make it so that the user can press enter to press Add
             addGraphDialog.getRootPane().setDefaultButton(addGraphDialog.getAddButton());
-            
+
             isCommandPressed = false;
-            
+
             addGraphDialog.setVisible(true);
         });
 
         frame.getChangeColorsMenuItem().addActionListener((ActionEvent e) -> {
             graphColorChooserDialog.setLocationRelativeTo(null);
             graphColorChooserDialog.setTitle("Choose Colors");
-            
+
             //Make it so that the user can press enter to press OK
             graphColorChooserDialog.getRootPane().setDefaultButton(graphColorChooserDialog.getOKButton());
-            
+
             //Initialize the dialog with the graph's current colors
             graphColorChooserDialog.setVertexFillColor(graph.getVertexFillColor());
             graphColorChooserDialog.setVertexStrokeColor(graph.getVertexStrokeColor());
             graphColorChooserDialog.setEdgeStrokeColor(graph.getEdgeStrokeColor());
-            
+
             isCommandPressed = false;
-            
+
             graphColorChooserDialog.setVisible(true);
         });
 
@@ -796,29 +799,35 @@ public class GraphController {
             Color newVertexFillColor = graphColorChooserDialog.getVertexFillColor();
             Color newVertexStrokeColor = graphColorChooserDialog.getVertexStrokeColor();
             Color newEdgeStrokeColor = graphColorChooserDialog.getEdgeStrokeColor();
-            
+
             //Check if the new colors are different from the old colors
             if (newVertexFillColor == graph.getVertexFillColor()) {
                 setIsModified(true); //label the graph as modified
             }
             if (newVertexStrokeColor == graph.getVertexStrokeColor()) {
-                
+
             }
             if (newEdgeStrokeColor == graph.getEdgeStrokeColor()) {
-                
+
             }
-            
+
             //set the graph's colors
             graph.setColors(newVertexFillColor, newVertexStrokeColor, newEdgeStrokeColor);
-            
+
             //Set the colors of the current vertices and edges
             colorAllElements(newVertexFillColor, newVertexStrokeColor, newEdgeStrokeColor);
-            
+
             //dismiss the dialog
             graphColorChooserDialog.setVisible(false);
-            
+
             canvas.repaint(); //repaint the canvas
         });
+        
+        frame.getEulerianCircuitMenuItem().addActionListener((ActionEvent e) -> {
+            System.out.println("Export to png");
+            exportToPng();
+        });
+        
     }
 
     //MARK: Other methods--------------------
@@ -1008,12 +1017,13 @@ public class GraphController {
         // digits are in the wrong order
         return ret.reverse().toString();
     }
-    
+
     /**
-     * Convenience method to improve readability. Created first for 
-     * {@link formatAllVertices()} but may be used in other areas. Places
-     * an edge's control point exactly between its two vertices.
-     * @param e 
+     * Convenience method to improve readability. Created first for
+     * {@link formatAllVertices()} but may be used in other areas. Places an
+     * edge's control point exactly between its two vertices.
+     *
+     * @param e
      */
     private void straightenEdge(Edge e) {
         //Set the default control point:
@@ -1023,8 +1033,8 @@ public class GraphController {
         double x2 = e.getEndpoint2().getCenter().getX();
         double y2 = e.getEndpoint2().getCenter().getY();
         //set the control point
-        double ctrlX = (x1 + x2)/2; //find the mid-x
-        double ctrlY = (y1 + y2)/2; //find the mid-y
+        double ctrlX = (x1 + x2) / 2; //find the mid-x
+        double ctrlY = (y1 + y2) / 2; //find the mid-y
         e.setCtrlPoint(ctrlX, ctrlY);
     }
 
@@ -1857,7 +1867,7 @@ public class GraphController {
             /*
             if there is an edge in edit mode, we want to provide priority to the
             edge's control point (in case it's on top of a vertex)
-            */
+             */
             if (editingEdge != null) {
                 //if the user clicked the control point
                 if (editingEdge.getCtrlPointPositionShape().contains(mx, my)) {
@@ -1874,11 +1884,11 @@ public class GraphController {
                 }
             }
             //if editingEdge is null, then there is not an edge in edit mode yet
-            
+
             /*
             select the first vertex of the edge (because selecting a vertex
             should have priority over selecting an edge to edit
-            */
+             */
             boolean vertexWasSelected = selectFirstVertex(mx, my);
 
             //if no vertex was selected
@@ -1952,8 +1962,8 @@ public class GraphController {
      *
      * @param mx
      * @param my
-     * @return True if the user selected a second vertex, false if the user
-     * just clicked the canvas and canceled the active edge.
+     * @return True if the user selected a second vertex, false if the user just
+     * clicked the canvas and canceled the active edge.
      */
     private boolean selectSecondVertex(int mx, int my) {
         //(If we reach this point, vertices.size() is at least 2)
@@ -1975,11 +1985,11 @@ public class GraphController {
                     //reenter the add edge state (allow user to add more edges)
                     enterAddEdgeState();
                     canvas.repaint();
-                    
+
                     //set the editingEdge
                     editingEdge = newEdge;
                     canvas.setEditingEdge(newEdge);
-                    
+
                     //Update selection
                     int lastIndex = edges.size() - 1; //last index in edges
                     edgesList.setSelectedIndex(lastIndex);
@@ -2028,7 +2038,7 @@ public class GraphController {
         //update selection
         selectedEdgeIndices.clear();
         setSelectedEdges();
-        
+
         //set the editingEdge to null
         editingEdge = null;
         canvas.setEditingEdge(null);
@@ -2296,6 +2306,64 @@ public class GraphController {
         }
 
         setIsModified(false);
+    }
+    
+    /**
+     * Exports the contents of the canvas to a .png image (named by the user).
+     */
+    public void exportToPng() {
+        //if we are in the edge adding state
+        if (addingEdges) {
+            //unhighlight all vertices
+            for (Vertex v : vertices) {
+                unHighlightVertex(v);
+            }
+            //set the editing edge to null (so it won't draw the dot)
+            canvas.setEditingEdge(null);
+        } else { //if we are not in the edge adding state
+            //unhighlight the selected vertices
+            for (Vertex v : selectedVertices) {
+                unHighlightVertex(v);
+            }
+        }
+        //unhighlight the selected vertices
+        for (Edge e : selectedEdges) {
+            unHighlightEdge(e);
+        }
+        
+        //Create a BufferedImage of the same dimensions as canvas
+        BufferedImage canvasBufferedImage = new BufferedImage(canvas.getWidth(), 
+                canvas.getHeight(), BufferedImage.TYPE_INT_RGB);
+        //get the BufferedImage's Graphics2D object to draw into the image
+        Graphics2D g2 = canvasBufferedImage.createGraphics();
+        //draw the canvas onto the BufferedImage using g2
+        canvas.paintAll(g2);
+        //save the png
+        try {
+            if (ImageIO.write(canvasBufferedImage, "png", new File("./output_image.png"))) {
+                System.out.println("-- saved");
+            }
+        } catch (IOException e) {
+            // TODO Auto-generated catch block
+            e.printStackTrace();
+        }
+        
+        //if we are in the edge adding state
+        if (addingEdges) {
+            //re-highlight the available vertices
+            highlightAvailableVertices();
+            //reset the editing edge
+            canvas.setEditingEdge(editingEdge);
+        } else { //if we are not in the addingEdges state
+            //highlight the selected vertices again
+            for (Vertex v : selectedVertices) {
+                highlightVertex(v);
+            }
+        }
+        //hightlight the selected edges again
+        for (Edge e : selectedEdges) {
+            highlightEdge(e);
+        }
     }
 
     /**
