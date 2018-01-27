@@ -1547,7 +1547,7 @@ public class GraphController {
                             clickedVertex is moved/incremented and "new" means after.
                          */
                         //Find the edge in edges that matches se
-                        Edge edge = getSimpleEdgeFromListOfEdges(se);
+                        Edge edge = getSimpleEdgeFromListOfEdges(se, edges);
                         
                         //Get the elements of this edge (p2 is the vertex that
                         //is moving, p1 is ctrl, p1 is staying still)
@@ -1787,12 +1787,13 @@ public class GraphController {
         //first loop through all selected vertices
         for (Vertex v : selectedVertices) {
             //then add the list of edges from each selected vertices
-            removeEdges.addAll(v.getEdgeNames());
-            //finally, remove the vertex from the vertices list
+            for (SimpleEdge se : v.getEdgeNames()) {
+                //find se in edges
+                Edge e = getSimpleEdgeFromListOfEdges(se, edges);
+                //remove e (se's match) from edges
+                edges.remove(e);
+            }
         }
-
-        //remove the edges that were attached to this vertex from the list of edges
-        edges.removeAll(removeEdges);
 
         //Cycle trhough the vertices to remove
         //Note: can't remove vertices by index, 
