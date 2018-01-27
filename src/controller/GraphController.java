@@ -1946,7 +1946,7 @@ public class GraphController {
                     firstSelectedVertex.setCanAddEdges(false);
                     //Make it so that user can't add an edge to vertices that are already
                     //connected to the firstSelectedVertex:
-                    firstSelectedVertex.assignCanAddEdgesToConnectedVertices();
+                    assignCanAddEdgesToConnectedVertices();
                     //Reset the highlights
                     highlightAvailableVertices();
                     lastX = mx;
@@ -2178,6 +2178,18 @@ public class GraphController {
             //if e.1 equals neither se.1 nor se.2, then keep looking
         }
         return null;
+    }
+    
+    private void assignCanAddEdgesToConnectedVertices() {
+        //Loop through all edges
+        for (SimpleEdge se : firstSelectedVertex.getEdgeNames()) {
+            //get the edge that matches se
+            Edge e = getSimpleEdgeFromListOfEdges(se, edges);
+            //Disable both endpoints (It's not worth checking
+            //if each endpoint is the current vertex or not)
+            e.getEndpoint1().setCanAddEdges(false);
+            e.getEndpoint2().setCanAddEdges(false);
+        }
     }
 
     /**
