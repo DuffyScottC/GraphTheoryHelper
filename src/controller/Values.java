@@ -28,6 +28,7 @@ public class Values {
     //MARK: Edge properties
     public static final float EDGE_STROKE_WIDTH = 2.5f;
     public static final float EDGE_HIGHLIGHT_STROKE_WIDTH = 3.5f;
+    public static final double EDGE_SELECTION_DISTANCE = 3.5f;
     public static final Color EDGE_STROKE_COLOR = Color.black;
     public static final Color EDGE_HIGHLIGHT_COLOR = Color.green;
     public static final Color EDGE_PRESSED_COLOR = EDGE_HIGHLIGHT_COLOR.darker();//new Color(0, 200, 0);
@@ -56,7 +57,6 @@ public class Values {
     //MARK: Misc properties
     public static final int DIAMETER = 16;
     public static final double FORMAT_RADIUS = 150;
-    public static final int LINE_SELECTION_DISTANCE = 3;
     public static final float SELECTION_STROKE = 2.0f;
     private static final int SELECTION_TRANSPARENCY = 80;
     public static final Color SELECTION_STROKE_COLOR = new Color(125, 125, 125, SELECTION_TRANSPARENCY);

@@ -1442,7 +1442,7 @@ public class GraphController {
             //find the distance between the click and the current point
             double distance = Point2D.distance(mx, my, point.x, point.y);
             //if the distance is close enough to be selected
-            if (distance <= Values.LINE_SELECTION_DISTANCE) {
+            if (distance <= Values.EDGE_SELECTION_DISTANCE) {
                 //signal that the point is close enough to the edge
                 return true;
             }
