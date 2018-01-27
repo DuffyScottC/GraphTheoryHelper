@@ -3,8 +3,9 @@
 /dist/
 
 *.graph
-#manifest.mf
-#nbbuild.xml
+manifest.mf
+build.xml
+nbbuild.xml
 #nbproject/build-impl.xml
 #nbproject/genfiles.properties
 #nbproject/project.properties
