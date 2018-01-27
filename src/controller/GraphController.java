@@ -1547,7 +1547,7 @@ public class GraphController {
                             clickedVertex is moved/incremented and "new" means after.
                          */
                         //Find the edge in edges that matches se
-                        Edge edge = getSimpleEdgeFromEdges(se);
+                        Edge edge = getSimpleEdgeFromListOfEdges(se);
                         
                         //Get the elements of this edge (p2 is the vertex that
                         //is moving, p1 is ctrl, p1 is staying still)
@@ -2138,11 +2138,22 @@ public class GraphController {
      * @return True if {@link clickedEdges} contains se, false if not
      */
     public boolean clickedEdgesContains(SimpleEdge se) {
-        
+        //if se is to be found within clickedEdges, e will not be null
+        Edge e = getSimpleEdgeFromListOfEdges(se, clickedEdges);
+        //if e is null, return false. if e is not null, return true.
+        return e != null;
     }
     
-    private Edge getSimpleEdgeFromEdges(SimpleEdge se) {
-        for (Edge e : edges) {
+    /**
+     * This gets the Edge object that matches the given SimpleEdge object
+     * from within the given list of edges.
+     * @param se The SimpleEdge object whose Edge object match is to be found
+     * @param listOfEdges The list of edges to be searched
+     * @return An Edge object that matches se if one is to be found within 
+     * listOfEdges, null if se does not have a match within listOfEdges
+     */
+    private Edge getSimpleEdgeFromListOfEdges(SimpleEdge se, List<Edge> listOfEdges) {
+        for (Edge e : listOfEdges) {
             String ep1Title = e.getEndpoint1().getTitle();
             String ep2Title = e.getEndpoint2().getTitle();
             //if e.1 = se.1
@@ -2165,8 +2176,6 @@ public class GraphController {
             } 
             //if e.1 equals neither se.1 nor se.2, then keep looking
         }
-        //this will never happen. The way this program is written, se is
-        //definitely in the edges list. This silences warnings
         return null;
     }
 
