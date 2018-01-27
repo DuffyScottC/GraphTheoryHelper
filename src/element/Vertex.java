@@ -40,7 +40,7 @@ public class Vertex extends Element {
      * Used to delete all associated edges when this vertex
      * is deleted.
      */
-    List<Edge> edges = new ArrayList<>();
+    List<Edge> edgeNames = new ArrayList<>();
 
     public Vertex (double diameter) {
         this.diameter = diameter;
@@ -108,12 +108,12 @@ public class Vertex extends Element {
     }
     
     public int getDegree() {
-        return edges.size();
+        return edgeNames.size();
     }
     
     public void addEdge(Edge e) {
         //if the new edge is already connected to this vertex:
-        if (edges.contains(e)) {
+        if (edgeNames.contains(e)) {
             throw new RuntimeException("Attempted to add edge (" +
                     e.toString() +
                     ") same to vertex (" +
@@ -121,7 +121,7 @@ public class Vertex extends Element {
                     ") twice.");
         }
         //Otherwise just add it
-        edges.add(e);
+        edgeNames.add(e);
     }
     
     public void addAllEdges(List<Edge> es) {
@@ -136,7 +136,7 @@ public class Vertex extends Element {
      */
     public void assignCanAddEdgesToConnectedVertices() {
         //Loop through all edges
-        for (Edge e : edges) {
+        for (Edge e : edgeNames) {
             //Disable both endpoints (It's not worth checking
             //if each endpoint is the current vertex or not)
             e.getEndpoint1().setCanAddEdges(false);
@@ -145,11 +145,11 @@ public class Vertex extends Element {
     }
     
     public void removeEdge(Edge e) {
-        edges.remove(e);
+        edgeNames.remove(e);
     }
     
-    public List<Edge> getEdges() {
-        return edges;
+    public List<Edge> getEdgeNames() {
+        return edgeNames;
     }
     
     public void setCanAddEdges(boolean canAddEdges) {
@@ -161,7 +161,7 @@ public class Vertex extends Element {
     }
     
     public boolean isAdjacentTo(Vertex v) {
-        for (Edge e : edges) { //cycle through all the edges
+        for (Edge e : edgeNames) { //cycle through all the edges
             if (e.hasEndpoint(v)) { //if v is an enpoint of e
                 return true;
             }

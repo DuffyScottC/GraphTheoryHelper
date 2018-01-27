@@ -1537,8 +1537,8 @@ public class GraphController {
         //cycle through all clicked vertices
         for (Vertex clickedVertex : verticesToMove) {
             //if the vertex has any edges
-            if (!clickedVertex.getEdges().isEmpty()) {
-                for (Edge edge : clickedVertex.getEdges()) {
+            if (!clickedVertex.getEdgeNames().isEmpty()) {
+                for (Edge edge : clickedVertex.getEdgeNames()) {
                     //if this edge was NOT already moved above
                     if (!clickedEdges.contains(edge)) {
                         /*
@@ -1783,7 +1783,7 @@ public class GraphController {
         //first loop through all selected vertices
         for (Vertex v : selectedVertices) {
             //then add the list of edges from each selected vertices
-            removeEdges.addAll(v.getEdges());
+            removeEdges.addAll(v.getEdgeNames());
             //finally, remove the vertex from the vertices list
         }
 
