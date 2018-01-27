@@ -24,6 +24,23 @@ public class SimpleEdge {
         this.endpoint1 = edge.getEndpoint1().getTitle();
         this.endpoint2 = edge.getEndpoint2().getTitle();
     }
+    
+    /**
+     * Checks to see if the given vertex is an endpoint of this edge.
+     * @param v The vertex that we are asking whether it is an endpoint
+     * of the edge or not.
+     * @return True if the edge has v as the endpoint, false if not. 
+     */
+    public boolean hasEndpoint(Vertex v) {
+        if (endpoint1.equals(v.getTitle())) { //if v == endpoint1
+            return true;
+        }
+        if (endpoint2.equals(v.getTitle())) { //if v == endpoint2
+            return true;
+        }
+        //if neither endpoint equals v
+        return false;
+    }
 
     @Override
     public boolean equals(Object obj) {
