@@ -25,6 +25,14 @@ public class SimpleEdge {
         this.endpoint2 = edge.getEndpoint2().getTitle();
     }
     
+    public String getEndpoint1() {
+        return endpoint1;
+    }
+    
+    public String getEndpoint2() {
+        return endpoint2;
+    }
+    
     /**
      * Checks to see if the given vertex is an endpoint of this edge.
      * @param v The vertex that we are asking whether it is an endpoint

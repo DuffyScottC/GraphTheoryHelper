@@ -8,6 +8,7 @@ package controller;
 import static controller.Values.DIAMETER;
 import element.Edge;
 import element.Graph;
+import element.SimpleEdge;
 import element.Vertex;
 import java.awt.Color;
 import java.awt.Graphics2D;
@@ -1538,9 +1539,9 @@ public class GraphController {
         for (Vertex clickedVertex : verticesToMove) {
             //if the vertex has any edges
             if (!clickedVertex.getEdgeNames().isEmpty()) {
-                for (Edge edge : clickedVertex.getEdgeNames()) {
+                for (SimpleEdge se : clickedVertex.getEdgeNames()) {
                     //if this edge was NOT already moved above
-                    if (!clickedEdges.contains(edge)) {
+                    if (!clickedEdgesContains(se)) {
                         /*
                             From here to the end of this loop, "old" means before 
                             clickedVertex is moved/incremented and "new" means after.
@@ -2123,6 +2124,42 @@ public class GraphController {
             }
         }
         return numberOfFalses;
+    }
+    
+    /**
+     * A convenience method to improve readability. It is used in 
+     * {@link moveElements(int,int)} to check if {@link clickedEdges} contains
+     * a given SimpleEdge object.
+     * @param se The SimpleEdge object that we are checking to see if 
+     * {@link clickedEdges} contains
+     * @return True if {@link clickedEdges} contains se, false if not
+     */
+    public boolean clickedEdgesContains(SimpleEdge se) {
+        for (Edge e : clickedEdges) {
+            String ep1Title = e.getEndpoint1().getTitle();
+            String ep2Title = e.getEndpoint2().getTitle();
+            //if e.1 = se.1
+            if (ep1Title == se.getEndpoint1()) {
+                //if e.2 = se.2
+                if (ep2Title == se.getEndpoint2()) {
+                    //we've found a match and clickedEdges does contain se
+                    return true;
+                    //no need to check the rest
+                } 
+                //if e.2 != se.2, then we need to keep looking
+            } else if (ep1Title == se.getEndpoint2()) { //if e.1 = se.2
+                //if e.2 = se.1
+                if (ep2Title == se.getEndpoint1()) {
+                    //we've found a match and clickedEdges does contain se
+                    return true;
+                    //no need to check the rest
+                } 
+                //if e.2 != se.1, then we need to keep looking
+            } 
+            //if e.1 equals neither se.1 nor se.2, then keep looking
+        }
+        //if we reach the end of the loop, then clickedEdges does not contain se
+        return false;
     }
 
     /**
