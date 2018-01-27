@@ -74,7 +74,7 @@ public class Vertex extends Element {
     
     public void drawTitle(Graphics2D g2) {
         g2.setColor(Color.BLACK);
-        g2.drawString(title, (int) xLoc, (int) yLoc - 8);
+        g2.drawString(title, (int) xLoc + Values.DIAMETER/4, (int) yLoc - 8);
     }
     
     public void incLocation(double xInc, double yInc) {
