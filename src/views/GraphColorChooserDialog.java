@@ -3,7 +3,7 @@
  * To change this template file, choose Tools | Templates
  * and open the template in the editor.
  */
-package views;
+package controller.views2;
 
 import java.awt.Color;
 import javax.swing.JButton;
@@ -18,6 +18,8 @@ public class GraphColorChooserDialog extends javax.swing.JDialog {
     private Color vertexFillColor;
     private Color vertexStrokeColor;
     private Color edgeStrokeColor;
+    //Create a new SampleCanvas object
+    private views.SampleCanvas sampleCanvas;
     
     /**
      * Creates new form GraphColorChooserDialog
@@ -25,6 +27,11 @@ public class GraphColorChooserDialog extends javax.swing.JDialog {
     public GraphColorChooserDialog(java.awt.Frame parent, boolean modal) {
         super(parent, modal);
         initComponents();
+        //add the sampleCanvas object to the jScrollPane
+        sampleCanvas = new views.SampleCanvas();
+        sampleCanvas.setColumns(20);
+        sampleCanvas.setRows(5);
+        sampleCanvasScrollPane.setViewportView(sampleCanvas);
     }
 
     /**
@@ -39,41 +46,28 @@ public class GraphColorChooserDialog extends javax.swing.JDialog {
         jLabel1 = new javax.swing.JLabel();
         jLabel2 = new javax.swing.JLabel();
         jLabel3 = new javax.swing.JLabel();
-        okButton = new javax.swing.JButton();
-        cancelButton = new javax.swing.JButton();
         vertexFillColorTextField = new javax.swing.JTextField();
         vertexStrokeColorTextField = new javax.swing.JTextField();
         edgeStrokeColorTextField = new javax.swing.JTextField();
         vertexFillColorChooseButton = new javax.swing.JButton();
         vertexStrokeColorChooseButton = new javax.swing.JButton();
         edgeStrokeColorChooseButton = new javax.swing.JButton();
-        jScrollPane1 = new javax.swing.JScrollPane();
-        sampleCanvas = new views.SampleCanvas();
+        okButton = new javax.swing.JButton();
+        cancelButton = new javax.swing.JButton();
+        sampleCanvasScrollPane = new javax.swing.JScrollPane();
 
         setDefaultCloseOperation(javax.swing.WindowConstants.DISPOSE_ON_CLOSE);
 
-        jLabel1.setText("Vertex fill color:");
+        jLabel1.setText("Vertex Stroke Color:");
 
-        jLabel2.setText("Vertex stroke color:");
+        jLabel2.setText("Vertex Fill Color:");
 
-        jLabel3.setText("Edge stroke color:");
+        jLabel3.setText("Edge Stroke Color:");
 
-        okButton.setText("OK");
-
-        cancelButton.setText("Cancel");
-
-        vertexFillColorTextField.setEditable(false);
         vertexFillColorTextField.setColumns(6);
-        vertexFillColorTextField.addActionListener(new java.awt.event.ActionListener() {
-            public void actionPerformed(java.awt.event.ActionEvent evt) {
-                vertexFillColorTextFieldActionPerformed(evt);
-            }
-        });
 
-        vertexStrokeColorTextField.setEditable(false);
         vertexStrokeColorTextField.setColumns(6);
 
-        edgeStrokeColorTextField.setEditable(false);
         edgeStrokeColorTextField.setColumns(6);
 
         vertexFillColorChooseButton.setText("Choose");
@@ -82,9 +76,9 @@ public class GraphColorChooserDialog extends javax.swing.JDialog {
 
         edgeStrokeColorChooseButton.setText("Choose");
 
-        sampleCanvas.setColumns(20);
-        sampleCanvas.setRows(5);
-        jScrollPane1.setViewportView(sampleCanvas);
+        okButton.setText("OK");
+
+        cancelButton.setText("Cancel");
 
         javax.swing.GroupLayout layout = new javax.swing.GroupLayout(getContentPane());
         getContentPane().setLayout(layout);
@@ -93,19 +87,16 @@ public class GraphColorChooserDialog extends javax.swing.JDialog {
             .addGroup(layout.createSequentialGroup()
                 .addContainerGap()
                 .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                    .addGroup(layout.createSequentialGroup()
-                        .addComponent(jScrollPane1)
-                        .addContainerGap())
                     .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, layout.createSequentialGroup()
                         .addGap(0, 0, Short.MAX_VALUE)
                         .addComponent(cancelButton)
                         .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
                         .addComponent(okButton))
                     .addGroup(layout.createSequentialGroup()
-                        .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                        .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.TRAILING)
+                            .addComponent(jLabel3)
                             .addComponent(jLabel2)
-                            .addComponent(jLabel1, javax.swing.GroupLayout.Alignment.TRAILING)
-                            .addComponent(jLabel3, javax.swing.GroupLayout.Alignment.TRAILING))
+                            .addComponent(jLabel1))
                         .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
                         .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
                             .addGroup(layout.createSequentialGroup()
@@ -120,29 +111,31 @@ public class GraphColorChooserDialog extends javax.swing.JDialog {
                                 .addComponent(edgeStrokeColorTextField, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
                                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
                                 .addComponent(edgeStrokeColorChooseButton)))
-                        .addGap(0, 110, Short.MAX_VALUE))))
+                        .addGap(0, 114, Short.MAX_VALUE))
+                    .addComponent(sampleCanvasScrollPane, javax.swing.GroupLayout.Alignment.TRAILING))
+                .addContainerGap())
         );
         layout.setVerticalGroup(
             layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, layout.createSequentialGroup()
-                .addContainerGap()
-                .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
-                    .addComponent(jLabel1)
-                    .addComponent(vertexFillColorTextField, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
-                    .addComponent(vertexFillColorChooseButton))
-                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
+            .addGroup(layout.createSequentialGroup()
+                .addGap(20, 20, 20)
                 .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
                     .addComponent(jLabel2)
+                    .addComponent(vertexFillColorTextField, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
+                    .addComponent(vertexFillColorChooseButton))
+                .addGap(18, 18, 18)
+                .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
+                    .addComponent(jLabel1)
                     .addComponent(vertexStrokeColorTextField, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
                     .addComponent(vertexStrokeColorChooseButton))
-                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
+                .addGap(18, 18, 18)
                 .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
                     .addComponent(jLabel3)
                     .addComponent(edgeStrokeColorTextField, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
                     .addComponent(edgeStrokeColorChooseButton))
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                .addComponent(jScrollPane1, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
-                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                .addComponent(sampleCanvasScrollPane, javax.swing.GroupLayout.DEFAULT_SIZE, 100, Short.MAX_VALUE)
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
                 .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
                     .addComponent(okButton)
                     .addComponent(cancelButton))
@@ -151,10 +144,6 @@ public class GraphColorChooserDialog extends javax.swing.JDialog {
 
         pack();
     }// </editor-fold>//GEN-END:initComponents
-
-    private void vertexFillColorTextFieldActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_vertexFillColorTextFieldActionPerformed
-        // TODO add your handling code here:
-    }//GEN-LAST:event_vertexFillColorTextFieldActionPerformed
 
     /**
      * @param args the command line arguments
@@ -205,9 +194,8 @@ public class GraphColorChooserDialog extends javax.swing.JDialog {
     private javax.swing.JLabel jLabel1;
     private javax.swing.JLabel jLabel2;
     private javax.swing.JLabel jLabel3;
-    private javax.swing.JScrollPane jScrollPane1;
     private javax.swing.JButton okButton;
-    private views.SampleCanvas sampleCanvas;
+    private javax.swing.JScrollPane sampleCanvasScrollPane;
     private javax.swing.JButton vertexFillColorChooseButton;
     private javax.swing.JTextField vertexFillColorTextField;
     private javax.swing.JButton vertexStrokeColorChooseButton;
@@ -294,5 +282,4 @@ public class GraphColorChooserDialog extends javax.swing.JDialog {
         sampleCanvas.setEdgeStrokeColor(edgeStrokeColor);
         edgeStrokeColorTextField.setBackground(edgeStrokeColor);
     }
-    
 }

@@ -51,7 +51,7 @@ import javax.swing.ListSelectionModel;
 import javax.swing.filechooser.FileFilter;
 import views.AddGraphDialog;
 import views.Canvas;
-import views.GraphColorChooserDialog;
+import controller.views2.GraphColorChooserDialog;
 import views.GraphFrame;
 import views.SampleCanvas;
 
