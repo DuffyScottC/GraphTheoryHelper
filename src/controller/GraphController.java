@@ -1546,6 +1546,9 @@ public class GraphController {
                             From here to the end of this loop, "old" means before 
                             clickedVertex is moved/incremented and "new" means after.
                          */
+                        //Find the edge in edges that matches se
+                        Edge edge = getSimpleEdgeFromEdges(se);
+                        
                         //Get the elements of this edge (p2 is the vertex that
                         //is moving, p1 is ctrl, p1 is staying still)
                         Point2D.Double p2 = clickedVertex.getCenter();
@@ -2135,7 +2138,11 @@ public class GraphController {
      * @return True if {@link clickedEdges} contains se, false if not
      */
     public boolean clickedEdgesContains(SimpleEdge se) {
-        for (Edge e : clickedEdges) {
+        
+    }
+    
+    private Edge getSimpleEdgeFromEdges(SimpleEdge se) {
+        for (Edge e : edges) {
             String ep1Title = e.getEndpoint1().getTitle();
             String ep2Title = e.getEndpoint2().getTitle();
             //if e.1 = se.1
@@ -2143,7 +2150,7 @@ public class GraphController {
                 //if e.2 = se.2
                 if (ep2Title == se.getEndpoint2()) {
                     //we've found a match and clickedEdges does contain se
-                    return true;
+                    return e;
                     //no need to check the rest
                 } 
                 //if e.2 != se.2, then we need to keep looking
@@ -2151,15 +2158,16 @@ public class GraphController {
                 //if e.2 = se.1
                 if (ep2Title == se.getEndpoint1()) {
                     //we've found a match and clickedEdges does contain se
-                    return true;
+                    return e;
                     //no need to check the rest
                 } 
                 //if e.2 != se.1, then we need to keep looking
             } 
             //if e.1 equals neither se.1 nor se.2, then keep looking
         }
-        //if we reach the end of the loop, then clickedEdges does not contain se
-        return false;
+        //this will never happen. The way this program is written, se is
+        //definitely in the edges list. This silences warnings
+        return null;
     }
 
     /**
