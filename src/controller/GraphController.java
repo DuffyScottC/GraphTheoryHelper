@@ -51,7 +51,7 @@ import javax.swing.ListSelectionModel;
 import javax.swing.filechooser.FileFilter;
 import views.AddGraphDialog;
 import views.Canvas;
-import controller.views2.GraphColorChooserDialog;
+import views.GraphColorChooserDialog1;
 import views.GraphFrame;
 import views.SampleCanvas;
 
@@ -177,7 +177,7 @@ public class GraphController {
     private final GraphFrame frame = new GraphFrame();
     private final Canvas canvas = frame.getCanvas();
     private final AddGraphDialog addGraphDialog = new AddGraphDialog(frame, true);
-    private final GraphColorChooserDialog graphColorChooserDialog = new GraphColorChooserDialog(frame, true);
+    private final GraphColorChooserDialog1 graphColorChooserDialog = new GraphColorChooserDialog1(frame, true);
 
     private final Graph graph = new Graph();
 

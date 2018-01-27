@@ -1,15 +1,3 @@
 /nbproject/private/
 /build/
 /dist/
-
-*.graph
-manifest.mf
-build.xml
-nbbuild.xml
-#nbproject/build-impl.xml
-#nbproject/genfiles.properties
-#nbproject/project.properties
-#nbproject/project.xml
-nbproject/private/
-
-/nbproject/
