@@ -40,7 +40,7 @@ public class Vertex extends Element {
      * Used to delete all associated edges when this vertex
      * is deleted.
      */
-    List<Edge> edgeNames = new ArrayList<>();
+    List<SimpleEdge> edgeNames = new ArrayList<>();
 
     public Vertex (double diameter) {
         this.diameter = diameter;
@@ -112,8 +112,11 @@ public class Vertex extends Element {
     }
     
     public void addEdge(Edge e) {
+        //Convert this edge to a SimpleEdge
+        SimpleEdge se = new SimpleEdge(e);
         //if the new edge is already connected to this vertex:
-        if (edgeNames.contains(e)) {
+        if (edgeNames.contains(se)) {
+            //throw an exception
             throw new RuntimeException("Attempted to add edge (" +
                     e.toString() +
                     ") same to vertex (" +
@@ -121,7 +124,7 @@ public class Vertex extends Element {
                     ") twice.");
         }
         //Otherwise just add it
-        edgeNames.add(e);
+        edgeNames.add(se);
     }
     
     public void addAllEdges(List<Edge> es) {
@@ -134,21 +137,24 @@ public class Vertex extends Element {
      * Make it so that edges cannot be added to the vertices that are already
      * connected to this vertex.
      */
-    public void assignCanAddEdgesToConnectedVertices() {
-        //Loop through all edges
-        for (Edge e : edgeNames) {
-            //Disable both endpoints (It's not worth checking
-            //if each endpoint is the current vertex or not)
-            e.getEndpoint1().setCanAddEdges(false);
-            e.getEndpoint2().setCanAddEdges(false);
-        }
-    }
+//    public void assignCanAddEdgesToConnectedVertices() {
+//        //Loop through all edges
+//        for (Edge e : edgeNames) {
+//            //Disable both endpoints (It's not worth checking
+//            //if each endpoint is the current vertex or not)
+//            e.getEndpoint1().setCanAddEdges(false);
+//            e.getEndpoint2().setCanAddEdges(false);
+//        }
+//    }
     
     public void removeEdge(Edge e) {
-        edgeNames.remove(e);
+        //convert this edge to a SimpleEdge
+        SimpleEdge se = new SimpleEdge(e);
+        //remove the SimpleEdge to this vertex
+        edgeNames.remove(se);
     }
     
-    public List<Edge> getEdgeNames() {
+    public List<SimpleEdge> getEdgeNames() {
         return edgeNames;
     }
     
@@ -161,8 +167,8 @@ public class Vertex extends Element {
     }
     
     public boolean isAdjacentTo(Vertex v) {
-        for (Edge e : edgeNames) { //cycle through all the edges
-            if (e.hasEndpoint(v)) { //if v is an enpoint of e
+        for (SimpleEdge se : edgeNames) { //cycle through all the SimpleEdges
+            if (se.hasEndpoint(v)) { //if v is an enpoint of se
                 return true;
             }
         }
