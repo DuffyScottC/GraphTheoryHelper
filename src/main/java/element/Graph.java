@@ -95,6 +95,10 @@ public class Graph implements Serializable {
         return edges;
     }
     
+    public List<SimpleEdge> getSimpleEdges() {
+        return simpleEdges;
+    }
+    
     public Color getVertexFillColor() {
         return vertexFillColor;
     }
@@ -117,6 +121,26 @@ public class Graph implements Serializable {
     
     public void setEdgeStrokeColor(Color edgeStrokeColor) {
         this.edgeStrokeColor = edgeStrokeColor;
+    }
+    
+    /**
+     * Convenience method to improve readability inside GraphController's
+     * constructor (the part where we add an ActionListener to addButton). 
+     * This will find the vertex within this graph's vertices list whose title
+     * matches the passed in title. 
+     * @param title The title of the vertex we wish to find
+     * @return The vertex whose title matches the passed in title
+     */
+    public Vertex getVertexNamed(String title) {
+        for (Vertex v : vertices) {
+            //if v.title matches title
+            if (v.getTitle().equals(title)) {
+                return v;
+            }
+            //otherwise keep searching
+        }
+        //this will never happen - if we don't find a vertex named "title"
+        return null;
     }
     
     /**

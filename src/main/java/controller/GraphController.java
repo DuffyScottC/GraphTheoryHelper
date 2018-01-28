@@ -571,7 +571,41 @@ public class GraphController {
                     
                     //deserialize jsonIn into a Graph object
                     Graph loadedGraph = gson.fromJson(jsonIn, Graph.class);
-
+                    
+                    /*
+                    loadedGraph comes with two things (besides colors): a 
+                    vertices list, and a simpleEdges list. The next job is to
+                    build loadedGraph's edges list (which is empty) using 
+                    loadedGraph's simpleEdges list.
+                    
+                    To make an edge, we need two endpoints (vertices). 
+                    loadedGraph.simpleEdges contains the names of those two 
+                    endpoints for each edge. We need to:
+                    1. cycle through loadedGraph.simpleEdges, 
+                    2. get a reference to each of the appropriately named 
+                       endpoints from loadedGraph.vertices,
+                    3. create an edge from those two referenced endpoints,
+                    4. then add the new edge to loadedGraph.edges.
+                    */
+                    //cycle through the loadedGraph's simpleEdges
+                    //cycle through the loadedGraph's simpleEdges
+                    for (SimpleEdge se : loadedGraph.getSimpleEdges()) {
+                        //get a reference to the vertices whos names match
+                        //se's endpoint titles
+                        Vertex ep1 = graph.getVertexNamed(se.getEndpoint1());
+                        Vertex ep2 = graph.getVertexNamed(se.getEndpoint2());
+                        //create a new edge from ep1 and ep2
+                        Edge newEdge = new Edge(ep1, ep2);
+                        //add the new edge to loadedGraph.edges (directly,
+                        //not with the Graph.addEdge(Edge) method)
+                        loadedGraph.getEdges().add(newEdge);
+                    }
+                    /*
+                    Now loadedGraph.edges matches loadedGraph.simpleEdges, and
+                    loadedGraph.edges uses references to the Vertex objects
+                    contained in loadedGraph.vertices
+                    */
+                    
                     //replace the old graph with the new one
                     replace(loadedGraph);
 
