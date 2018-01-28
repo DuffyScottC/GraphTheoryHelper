@@ -83,6 +83,7 @@ public class GraphFrame extends javax.swing.JFrame {
         addVerticesMenuItem = new javax.swing.JCheckBoxMenuItem();
         addEdgesMenuItem = new javax.swing.JCheckBoxMenuItem();
         selectionMenuItem = new javax.swing.JCheckBoxMenuItem();
+        addPathsMenuItem = new javax.swing.JCheckBoxMenuItem();
         jSeparator2 = new javax.swing.JPopupMenu.Separator();
         deleteMenuItem = new javax.swing.JMenuItem();
         changeColorsMenuItem = new javax.swing.JMenuItem();
@@ -239,6 +240,7 @@ public class GraphFrame extends javax.swing.JFrame {
         selectionButton.setVerticalTextPosition(javax.swing.SwingConstants.BOTTOM);
         toolBar.add(selectionButton);
 
+        addPathsButton.setToolTipText("Add paths between vertices (P)");
         addPathsButton.setFocusable(false);
         addPathsButton.setHorizontalTextPosition(javax.swing.SwingConstants.CENTER);
         addPathsButton.setVerticalTextPosition(javax.swing.SwingConstants.BOTTOM);
@@ -328,6 +330,10 @@ public class GraphFrame extends javax.swing.JFrame {
         selectionMenuItem.setAccelerator(javax.swing.KeyStroke.getKeyStroke(java.awt.event.KeyEvent.VK_SPACE, 0));
         selectionMenuItem.setText("Selection");
         toolsMenu.add(selectionMenuItem);
+
+        addPathsMenuItem.setAccelerator(javax.swing.KeyStroke.getKeyStroke(java.awt.event.KeyEvent.VK_P, 0));
+        addPathsMenuItem.setText("Add Paths");
+        toolsMenu.add(addPathsMenuItem);
         toolsMenu.add(jSeparator2);
 
         deleteMenuItem.setAccelerator(javax.swing.KeyStroke.getKeyStroke(java.awt.event.KeyEvent.VK_BACK_SPACE, 0));
@@ -366,6 +372,7 @@ public class GraphFrame extends javax.swing.JFrame {
     private javax.swing.JCheckBoxMenuItem addEdgesMenuItem;
     private javax.swing.JMenuItem addGraphMenuItem;
     private javax.swing.JToggleButton addPathsButton;
+    private javax.swing.JCheckBoxMenuItem addPathsMenuItem;
     private javax.swing.JToggleButton addVerticesButton;
     private javax.swing.JCheckBoxMenuItem addVerticesMenuItem;
     private javax.swing.JPanel buttonPanel;
@@ -511,6 +518,10 @@ public class GraphFrame extends javax.swing.JFrame {
     
     public JCheckBoxMenuItem getSelectionMenuItem() {
         return selectionMenuItem;
+    }
+    
+    public JCheckBoxMenuItem getAddPathsMenuItem() {
+        return addPathsMenuItem;
     }
     
     public JMenuItem getDeleteMenuItem() {
