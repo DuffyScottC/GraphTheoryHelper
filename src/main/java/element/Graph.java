@@ -80,6 +80,7 @@ public class Graph implements Serializable {
     
     public void incEdgeCtrlPoint(int edgeIndex, double incX, double incY) {
         edges.get(edgeIndex).incCtrlPoint(incX, incY);
+        simpleEdges.get(edgeIndex).incCtrlPoint(incX, incY);
     }
     
     /**
