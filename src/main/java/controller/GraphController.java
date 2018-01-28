@@ -95,6 +95,7 @@ public class GraphController {
     private JToggleButton addVerticesButton;
     private JToggleButton addEdgesButton;
     private JToggleButton selectionButton;
+    private JToggleButton addPathsButton;
     private JCheckBoxMenuItem addVerticesMenuItem;
     private JCheckBoxMenuItem addEdgesMenuItem;
     private JCheckBoxMenuItem selectionMenuItem;
@@ -253,6 +254,7 @@ public class GraphController {
         addVerticesButton = frame.getAddVerticesButton();
         addEdgesButton = frame.getAddEdgesButton();
         selectionButton = frame.getSelectionButton();
+        addPathsButton = frame.getAddPathsButton();
         addVerticesMenuItem = frame.getAddVerticesMenuItem();
         addEdgesMenuItem = frame.getAddEdgesMenuItem();
         selectionMenuItem = frame.getSelectionMenuItem();
@@ -1905,7 +1907,8 @@ public class GraphController {
     }
     
     private void enterAddPathsState() {
-        
+        setSelectedPaths(true);
+        state = States.PATH_ADDING;
     }
     
     private void exitAddPathsState() {
@@ -1928,6 +1931,11 @@ public class GraphController {
         selectionMenuItem.setSelected(selected);
     }
     
+    private void setSelectedPaths(boolean selected) {
+        addPathsButton.setSelected(selected);
+        addPathsMenuItem.setSelected(selected);
+    }
+    
     //SUBMARK: State ActionListeners
     /**
      * The code that runs in both the selectionButton and the 
@@ -1943,7 +1951,7 @@ public class GraphController {
      * addPathsMenuItem
      */
     private void addPaths() {
-        
+        enterState(States.PATH_ADDING);
     }
 
     /**
