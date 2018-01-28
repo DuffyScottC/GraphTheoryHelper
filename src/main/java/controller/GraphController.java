@@ -2383,6 +2383,7 @@ public class GraphController {
     
     /**
      * Exports the contents of the canvas to a .png image (named by the user).
+     * Currently, it eliminates any highlighting.
      */
     public void exportToPng() {
         //if we are in the edge adding state
