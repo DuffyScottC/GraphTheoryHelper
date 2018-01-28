@@ -1550,7 +1550,8 @@ public class GraphController {
         for (Vertex clickedVertex : verticesToMove) {
             //if the vertex has any edges
             if (!clickedVertex.getEdgeNames().isEmpty()) {
-                for (SimpleEdge se : clickedVertex.getEdgeNames()) {
+                List<SimpleEdge> edgeNames = clickedVertex.getEdgeNames();
+                for (SimpleEdge se : edgeNames) {
                     //if this edge was NOT already moved above
                     if (!clickedEdgesContains(se)) {
                         /*
@@ -2169,17 +2170,17 @@ public class GraphController {
             String ep1Title = e.getEndpoint1().getTitle();
             String ep2Title = e.getEndpoint2().getTitle();
             //if e.1 = se.1
-            if (ep1Title == se.getEndpoint1()) {
+            if (ep1Title.equals(se.getEndpoint1())) {
                 //if e.2 = se.2
-                if (ep2Title == se.getEndpoint2()) {
+                if (ep2Title.equals(se.getEndpoint2())) {
                     //we've found a match and clickedEdges does contain se
                     return e;
                     //no need to check the rest
                 } 
                 //if e.2 != se.2, then we need to keep looking
-            } else if (ep1Title == se.getEndpoint2()) { //if e.1 = se.2
+            } else if (ep1Title.equals(se.getEndpoint2())) { //if e.1 = se.2
                 //if e.2 = se.1
-                if (ep2Title == se.getEndpoint1()) {
+                if (ep2Title.equals(se.getEndpoint1())) {
                     //we've found a match and clickedEdges does contain se
                     return e;
                     //no need to check the rest

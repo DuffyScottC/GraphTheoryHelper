@@ -64,6 +64,8 @@ public class Vertex extends Element {
         g2.setStroke(stroke);
         
         g2.setColor(fillColor); //set the circle's color
+        //initialize the shape object
+        shape = new Ellipse2D.Double(0, 0, diameter, diameter);
         g2.fill(shape); //fill in the circle in that color
         
         //if the strokeColor is null, we want NO outline.
