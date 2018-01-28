@@ -29,6 +29,7 @@ public class GraphFrame extends javax.swing.JFrame {
         addVerticesButton.setIcon(new javax.swing.ImageIcon(GraphFrame.class.getClassLoader().getResource("add-vertices-icon.png")));
         addEdgesButton.setIcon(new javax.swing.ImageIcon(GraphFrame.class.getClassLoader().getResource("add-edges-icon.png")));
         selectionButton.setIcon(new javax.swing.ImageIcon(GraphFrame.class.getClassLoader().getResource("selection-icon.png")));
+        addPathsButton.setIcon(new javax.swing.ImageIcon(GraphFrame.class.getClassLoader().getResource("add-paths-icon.png")));
         deleteButton.setIcon(new javax.swing.ImageIcon(GraphFrame.class.getClassLoader().getResource("delete-icon.png")));
     }
 
