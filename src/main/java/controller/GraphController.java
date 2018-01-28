@@ -1161,7 +1161,7 @@ public class GraphController {
      */
     public void clear() {
         vertices.clear();
-        edges.clear();
+        graph.clearEdges();
 
         updateVerticesListModel();
         updateEdgesListModel();
