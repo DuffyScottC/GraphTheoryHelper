@@ -1107,7 +1107,17 @@ public class GraphController {
         //Get a reverence to the new graph's vertices and edges
         List<Vertex> newVertices = newGraph.getVertices();
         List<Edge> newEdges = newGraph.getEdges();
-
+        
+        //test if vertex B in vertices.get(1) equals endpoint1 (also B) in edges.get(0)
+        Vertex v1 = vertices.get(1);
+        Vertex v2 = edges.get(0).getEndpoint1();
+        System.out.println("v1: " + v1 + ", v2: " + v2);
+        if (v1 == v2) {
+            System.out.println("v1 == v2");
+        } else {
+            System.out.println("v1 != v2");
+        }
+        
         vertices.clear(); //remove all elements from the current vertices
         for (Vertex v : newVertices) { //loop through new list
             vertices.add(v); //add each vertex to the vertices list
@@ -2176,7 +2186,7 @@ public class GraphController {
                     //we've found a match and clickedEdges does contain se
                     return e;
                     //no need to check the rest
-                } 
+                }
                 //if e.2 != se.2, then we need to keep looking
             } else if (ep1Title.equals(se.getEndpoint2())) { //if e.1 = se.2
                 //if e.2 = se.1
