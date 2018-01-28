@@ -1109,8 +1109,8 @@ public class GraphController {
         List<Edge> newEdges = newGraph.getEdges();
         
         //test if vertex B in vertices.get(1) equals endpoint1 (also B) in edges.get(0)
-        Vertex v1 = vertices.get(1);
-        Vertex v2 = edges.get(0).getEndpoint1();
+        Vertex v1 = newVertices.get(1);
+        Vertex v2 = newEdges.get(0).getEndpoint1();
         System.out.println("v1: " + v1 + ", v2: " + v2);
         if (v1 == v2) {
             System.out.println("v1 == v2");
