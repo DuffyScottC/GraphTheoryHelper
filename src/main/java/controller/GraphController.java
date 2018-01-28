@@ -1108,6 +1108,16 @@ public class GraphController {
         List<Vertex> newVertices = newGraph.getVertices();
         List<Edge> newEdges = newGraph.getEdges();
         
+        for (Vertex v : newVertices) {
+            for (Edge e : newEdges) {
+                if (v.equals(e.getEndpoint1())) {
+                    e.setEndpoint1(v);
+                } else if (v.equals(e.getEndpoint2())) {
+                    e.setEndpoint2(v);
+                }
+            }
+        }
+        
         //test if vertex B in vertices.get(1) equals endpoint1 (also B) in edges.get(0)
         Vertex v1 = newVertices.get(1);
         Vertex v2 = newEdges.get(0).getEndpoint1();
