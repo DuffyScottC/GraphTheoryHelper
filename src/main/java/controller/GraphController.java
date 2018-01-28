@@ -1791,24 +1791,24 @@ public class GraphController {
      */
     private void enterState(States newState) {
         debugCount += 1;
-        System.out.println("Start switching states---------" + debugCount);
+        System.out.print("Switch states: ");
         //Exit the old state
         switch (state) {
             case VERTEX_ADDING:
                 exitAddVerticesState();
-                System.out.println("exitAddVerticesState");
+                System.out.print("exitAddVertices -> ");
                 break;
             case EDGE_ADDING:
                 exitAddEdgesState();
-                System.out.println("exitAddEdgesState");
+                System.out.print("exitAddEdges -> ");
                 break;
             case SELECTION:
                 exitSelectionState();
-                System.out.println("exitSelectionState");
+                System.out.print("exitSelection -> ");
                 break;
             case PATH_ADDING:
                 exitAddPathsState();
-                System.out.println("exitAddPathsState");
+                System.out.print("exitAddPaths -> ");
                 break;
             default:
         }
@@ -1816,22 +1816,23 @@ public class GraphController {
         switch (newState) {
             case VERTEX_ADDING:
                 enterAddVerticesState();
-                System.out.println("enterAddVerticesState");
+                System.out.print("enterAddVertices");
                 break;
             case EDGE_ADDING:
                 enterAddEdgesState();
-                System.out.println("enterAddEdgesState");
+                System.out.print("enterAddEdges");
                 break;
             case SELECTION:
                 enterSelectionState();
-                System.out.println("enterSelectionState");
+                System.out.print("enterSelection");
                 break;
             case PATH_ADDING:
                 enterAddPathsState();
-                System.out.println("enterAddPathsState");
+                System.out.print("enterAddPaths");
                 break;
             default:
         }
+        System.out.println("(" + debugCount + ")");
     }
     
     //SUBMARK: Enter/Exit States
