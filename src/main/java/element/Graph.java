@@ -47,6 +47,11 @@ public class Graph implements Serializable {
         simpleEdges.add(new SimpleEdge(edge));
     }
     
+    /**
+     * Removes an edge from the graph's edges list and from its simpleEdges 
+     * list.
+     * @param edge The edge to be removed
+     */
     public void removeEdge(Edge edge) {
         //find the index of the edge to be removed
         int index = edges.indexOf(edge);
@@ -54,6 +59,18 @@ public class Graph implements Serializable {
         edges.remove(index);
         //remove the simple edge at that index
         simpleEdges.remove(index);
+    }
+    
+    /**
+     * Removes edges from the graph's edges list and from its simpleEdges list.
+     * @param allEdges The edges to be removed
+     */
+    public void removeAllEdges(List<Edge> allEdges) {
+        //cycle through all the edges to be removed
+        for (Edge e : allEdges) {
+            //remove each edge
+            this.removeEdge(e);
+        }
     }
     
     //MARK: Getters and setters

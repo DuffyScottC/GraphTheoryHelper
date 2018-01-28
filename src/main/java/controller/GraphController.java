@@ -2068,7 +2068,7 @@ public class GraphController {
         }
 
         //remove all the edges from the edges list
-        edges.removeAll(selectedEdges);
+        graph.removeAllEdges(selectedEdges);
 
         updateEdgesListModel();
 
