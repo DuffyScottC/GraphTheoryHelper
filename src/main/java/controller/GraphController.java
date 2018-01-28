@@ -2186,21 +2186,6 @@ public class GraphController {
     }
     
     /**
-     * A convenience method to improve readability. It is used in 
-     * {@link moveElements(int,int)} to check if {@link clickedEdges} contains
-     * a given SimpleEdge object.
-     * @param se The SimpleEdge object that we are checking to see if 
-     * {@link clickedEdges} contains
-     * @return True if {@link clickedEdges} contains se, false if not
-     */
-    public boolean clickedEdgesContains(SimpleEdge se) {
-        //if se is to be found within clickedEdges, e will not be null
-        Edge e = getSimpleEdgeFromListOfEdges(se, clickedEdges);
-        //if e is null, return false. if e is not null, return true.
-        return e != null;
-    }
-    
-    /**
      * This gets the Edge object that matches the given SimpleEdge object
      * from within the given list of edges.
      * @param se The SimpleEdge object whose Edge object match is to be found
