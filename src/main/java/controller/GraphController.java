@@ -99,11 +99,24 @@ public class GraphController {
     private JMenuItem selectionMenuItem;
     
     //MARK: State machine
+    /*
+    switch (state) {
+        case VERTEX_ADDING:
+            break;
+        case EDGE_ADDING:
+            break;
+        case SELECTION:
+            break;
+        case PATH_ADDING:
+            break;
+        default:
+    }
+    */
     private enum States {
         VERTEX_ADDING,
         EDGE_ADDING,
         SELECTION,
-        PATHADDING
+        PATH_ADDING
     }
     /**
      * An integer used to keep track of which state the user is in.
@@ -279,26 +292,32 @@ public class GraphController {
                 int mx = e.getX(); //x-coord of mouse click
                 int my = e.getY(); //y-coord of mouse click
                 switch (state) {
-                    case 
+                    case VERTEX_ADDING:
+                        addVertex(mx - Values.DIAMETER / 2, my - Values.DIAMETER / 2);
+                        break;
+                    case EDGE_ADDING:
+                        //if we are in the edge adding state, we don't want to be able to move any vertices
+                        addEdge(mx, my);
+                        break;
+                    case SELECTION:
+                        //if we are not in the edge adding state, then we can move the vertices
+                        selectVertexOrEdge(mx, my);
+                        //Set up the start position for multiple selection
+                        startX = mx;
+                        startY = my;
+                        canvas.setStartPosition(mx, my);
+                        endX = mx;
+                        endY = my;
+                        canvas.setEndPosition(endX, endY);
+                        break;
+                    case PATH_ADDING:
+                        break;
+                    default:
+                        System.out.println("This should never happen.");
+                        throw new RuntimeException("Reached default statement in"
+                                + "switch statement, which should never happen.");
                 }
-                if (addingEdges) { //if we are in the edge adding state, we don't want to be able to move any vertices
-                    addEdge(mx, my);
-                }
-
-                if (addingVertices) {
-                    addVertex(mx - Values.DIAMETER / 2, my - Values.DIAMETER / 2);
-                }
-
-                if (selecting) { //if we are not in the edge adding state, then we can move the vertices
-                    selectVertexOrEdge(mx, my);
-                    //Set up the start position for multiple selection
-                    startX = mx;
-                    startY = my;
-                    canvas.setStartPosition(mx, my);
-                    endX = mx;
-                    endY = my;
-                    canvas.setEndPosition(endX, endY);
-                }
+                //this is done regardless of state:
                 pressVertices();
                 pressEdges();
             }
