@@ -7,6 +7,7 @@ package controller;
 
 import com.google.gson.Gson;
 import com.google.gson.GsonBuilder;
+import com.google.gson.JsonSyntaxException;
 import static controller.Values.DIAMETER;
 import element.Edge;
 import element.Graph;
@@ -29,6 +30,7 @@ import java.awt.image.BufferedImage;
 import java.io.File;
 import java.io.FileInputStream;
 import java.io.FileOutputStream;
+import java.io.FileReader;
 import java.io.FileWriter;
 import java.io.IOException;
 import java.io.ObjectInputStream;
@@ -549,35 +551,41 @@ public class GraphController {
             int chooserResult = chooser.showOpenDialog(frame);
             if (chooserResult == JFileChooser.APPROVE_OPTION) {
                 File loadFile = chooser.getSelectedFile();
-
+                
+                //Create a Gson object (with the pretty printing option so that
+                //we can read formatted JSON with all the spaces and newlines)
+                Gson gson = new GsonBuilder().setPrettyPrinting().create();
+                
                 try {
-                    //create an input stream from the selected file
-                    FileInputStream istr = new FileInputStream(loadFile);
-                    ObjectInputStream oistr = new ObjectInputStream(istr);
+                    //initialize a new reader with loadFile
+                    FileReader reader = new FileReader(loadFile);
+                    //initialize an array of characters to hold the contents of
+                    //loadFile (which contains the JSON serialized graph)
+                    char[] jsonChars = new char[(int) loadFile.length()];
+                    //place the contents of loadFile into jsonChars
+                    reader.read(jsonChars);
+                    //close the file
+                    reader.close();
+                    //convert jsonChars to a single String
+                    String jsonIn = new String(jsonChars);
+                    
+                    //deserialize jsonIn into a Graph object
+                    Graph loadedGraph = gson.fromJson(jsonIn, Graph.class);
 
-                    //load the object from the serialized file
-                    Object theObject = oistr.readObject();
-                    oistr.close();
+                    //replace the old graph with the new one
+                    replace(loadedGraph);
 
-                    //if this object is a graph
-                    if (theObject instanceof Graph) {
-                        //cast the loaded object to a graph
-                        Graph loadedGraph = (Graph) theObject;
+                    setIsModified(false);
 
-                        //replace the old graph with the new one
-                        replace(loadedGraph);
-
-                        setIsModified(false);
-
-                        canvas.repaint();
-                    }
+                    canvas.repaint();
                 } catch (IOException ex) {
                     JOptionPane.showMessageDialog(frame, "Unable to read selected file.\n"
                             + ex.getMessage(), "Oops!", JOptionPane.ERROR_MESSAGE);
                     isCommandPressed = false; //unpress command
                     return;
-                } catch (ClassNotFoundException ex) {
-                    JOptionPane.showMessageDialog(frame, "File is not a figures file.\n"
+                } catch (JsonSyntaxException ex) {
+                    JOptionPane.showMessageDialog(frame, "Problem reading JSON from .graph file. "
+                            + "Formatting might be off.\n"
                             + ex.getMessage(), "Oops!", JOptionPane.ERROR_MESSAGE);
                     isCommandPressed = false; //unpress command
                     return;
