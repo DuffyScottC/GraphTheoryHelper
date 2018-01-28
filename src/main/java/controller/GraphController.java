@@ -2344,6 +2344,12 @@ public class GraphController {
         if (saveFile == null) {
             return;
         }
+        
+        //if we are in the addingEdges state and have selected the first vertex
+        //then we don't want to save yet. 
+        if (addingEdges && firstSelectedVertex != null) {
+            return;
+        }
 
         //Unhighlight all selected vertices and edges:
         for (Vertex v : selectedVertices) { //cycle through all the vertices
