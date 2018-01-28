@@ -1791,6 +1791,45 @@ public class GraphController {
     }
 
     //MARK: States methods
+    /**
+     * Enter the given state and exit all others
+     * @param newState 
+     */
+    private void enterState(States newState) {
+        //Exit the old state
+        switch (state) {
+            case VERTEX_ADDING:
+                exitAddVerticesState();
+                break;
+            case EDGE_ADDING:
+                exitAddEdgesState();
+                break;
+            case SELECTION:
+                exitSelectionState();
+                break;
+            case PATH_ADDING:
+                exitAddPathsState();
+                break;
+            default:
+        }
+        //Enter the new state
+        switch (newState) {
+            case VERTEX_ADDING:
+                enterAddVerticesState();
+                break;
+            case EDGE_ADDING:
+                enterAddEdgesState();
+                break;
+            case SELECTION:
+                enterSelectionState();
+                break;
+            case PATH_ADDING:
+                enterAddPathsState();
+                break;
+            default:
+        }
+    }
+    
     //SUBMARK: Enter/Exit States
     private void enterSelectionState() {
         setSelectedSelection(true);
@@ -1821,7 +1860,7 @@ public class GraphController {
         canvas.setAddingVertex(false);
     }
     
-    private void enterAddEdgeState() {
+    private void enterAddEdgesState() {
         setSelectedEdges(true);
 
         state = States.EDGE_ADDING; //enter the edge adding state
@@ -1872,6 +1911,14 @@ public class GraphController {
         canvas.setEditingEdge(null);
         //in case the user was holding down the mouse when they switched states
         movingControlPoint = false;
+    }
+    
+    private void enterAddPathsState() {
+        
+    }
+    
+    private void exitAddPathsState() {
+        
     }
     
     //SUBMARK: Set Selected Mode
@@ -1948,7 +1995,7 @@ public class GraphController {
         }
         exitAddVerticesState();
         exitSelectionState();
-        enterAddEdgeState();
+        enterAddEdgesState();
         canvas.repaint();
     }
     
@@ -2158,7 +2205,7 @@ public class GraphController {
 
                     exitAddEdgesState(); //exit the add edge state
                     //reenter the add edge state (allow user to add more edges)
-                    enterAddEdgeState();
+                    enterAddEdgesState();
                     canvas.repaint();
 
                     //set the editingEdge
@@ -2181,7 +2228,7 @@ public class GraphController {
         //If we reach this point, we want to cancel the edge
         exitAddEdgesState();
         //reenter the add edge state (allow user to add more edges)
-        enterAddEdgeState();
+        enterAddEdgesState();
         canvas.repaint();
         return false;
     }
