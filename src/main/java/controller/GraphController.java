@@ -100,17 +100,17 @@ public class GraphController {
     
     //MARK: State machine
     /*
-    switch (state) {
-        case VERTEX_ADDING:
-            break;
-        case EDGE_ADDING:
-            break;
-        case SELECTION:
-            break;
-        case PATH_ADDING:
-            break;
-        default:
-    }
+        switch (state) {
+            case VERTEX_ADDING:
+                break;
+            case EDGE_ADDING:
+                break;
+            case SELECTION:
+                break;
+            case PATH_ADDING:
+                break;
+            default:
+        }
     */
     private enum States {
         VERTEX_ADDING,
@@ -364,30 +364,31 @@ public class GraphController {
                 lastY = my;
                 canvas.setLastPosition(lastX, lastY);
                 
-                
-                
-                if (selecting) { //if we're in the selection state
-                    //if the user did not click any edges or vertices (only canvas)
-                    if (clickedVertices.isEmpty() && clickedEdges.isEmpty()) {
-                        //update the endpoint of the selection box
-                        endX = mx;
-                        endY = my;
-                        canvas.setEndPosition(mx, my);
-                        //select the appropriate vertices
-                        multipleSelection(mx, my);
-                    } else { //if the user clicked any vertices or edges
-                        moveElements(incX, incY);
-                    }
+                switch (state) {
+                    case EDGE_ADDING: //if we're in the edge adding state
+                        //if the user's mouse is held down on the selected edge's
+                        //control point
+                        if (movingControlPoint) {
+                            //increment the control point's location
+                            graph.incEdgeCtrlPoint(edges.indexOf(editingEdge), incX, incY);
+                        }
+                        break;
+                    case SELECTION: //if we're in the selection state
+                        //if the user did not click any edges or vertices (only canvas)
+                        if (clickedVertices.isEmpty() && clickedEdges.isEmpty()) {
+                            //update the endpoint of the selection box
+                            endX = mx;
+                            endY = my;
+                            canvas.setEndPosition(mx, my);
+                            //select the appropriate vertices
+                            multipleSelection(mx, my);
+                        } else { //if the user clicked any vertices or edges
+                            moveElements(incX, incY);
+                        }
+                        break;
+                    default:
                 }
-
-                if (addingEdges) { //if we're in the edge adding state
-                    //if the user's mouse is held down on the selected edge's
-                    //control point
-                    if (movingControlPoint) {
-                        //increment the control point's location
-                        graph.incEdgeCtrlPoint(edges.indexOf(editingEdge), incX, incY);
-                    }
-                }
+                
                 canvas.repaint();
             }
 
