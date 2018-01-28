@@ -21,8 +21,8 @@ import java.util.List;
  */
 public class Vertex extends Element {
     
-    protected transient Shape shape;
     private double diameter = 10;
+    private transient Shape shape = new Ellipse2D.Double(0, 0, diameter, diameter);
     
     //(used to tell edges where to place their endpoints):
     private double xCent = 5;
