@@ -1594,7 +1594,7 @@ public class GraphController {
                 List<SimpleEdge> edgeNames = clickedVertex.getEdgeNames();
                 for (SimpleEdge se : edgeNames) {
                     //if this edge was NOT already moved above
-                    if (!clickedEdgesContains(se)) {
+                    if (!graph.getSimpleEdges().contains(se)) {
                         /*
                             From here to the end of this loop, "old" means before 
                             clickedVertex is moved/incremented and "new" means after.
@@ -2183,41 +2183,6 @@ public class GraphController {
             }
         }
         return numberOfFalses;
-    }
-    
-    /**
-     * This gets the Edge object that matches the given SimpleEdge object
-     * from within the given list of edges.
-     * @param se The SimpleEdge object whose Edge object match is to be found
-     * @param listOfEdges The list of edges to be searched
-     * @return An Edge object that matches se if one is to be found within 
-     * listOfEdges, null if se does not have a match within listOfEdges
-     */
-    private Edge getSimpleEdgeFromListOfEdges(SimpleEdge se, List<Edge> listOfEdges) {
-        for (Edge e : listOfEdges) {
-            String ep1Title = e.getEndpoint1().getTitle();
-            String ep2Title = e.getEndpoint2().getTitle();
-            //if e.1 = se.1
-            if (ep1Title.equals(se.getEndpoint1())) {
-                //if e.2 = se.2
-                if (ep2Title.equals(se.getEndpoint2())) {
-                    //we've found a match and clickedEdges does contain se
-                    return e;
-                    //no need to check the rest
-                }
-                //if e.2 != se.2, then we need to keep looking
-            } else if (ep1Title.equals(se.getEndpoint2())) { //if e.1 = se.2
-                //if e.2 = se.1
-                if (ep2Title.equals(se.getEndpoint1())) {
-                    //we've found a match and clickedEdges does contain se
-                    return e;
-                    //no need to check the rest
-                } 
-                //if e.2 != se.1, then we need to keep looking
-            } 
-            //if e.1 equals neither se.1 nor se.2, then keep looking
-        }
-        return null;
     }
     
     private void assignCanAddEdgesToConnectedVertices() {
