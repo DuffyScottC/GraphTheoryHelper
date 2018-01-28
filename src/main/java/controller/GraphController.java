@@ -39,6 +39,7 @@ import java.util.regex.Matcher;
 import java.util.regex.Pattern;
 import javax.imageio.ImageIO;
 import javax.swing.DefaultListModel;
+import javax.swing.JCheckBoxMenuItem;
 import javax.swing.JColorChooser;
 import javax.swing.JFileChooser;
 import javax.swing.JFrame;
@@ -94,9 +95,10 @@ public class GraphController {
     private JToggleButton addVerticesButton;
     private JToggleButton addEdgesButton;
     private JToggleButton selectionButton;
-    private JMenuItem addVerticesMenuItem;
-    private JMenuItem addEdgesMenuItem;
-    private JMenuItem selectionMenuItem;
+    private JCheckBoxMenuItem addVerticesMenuItem;
+    private JCheckBoxMenuItem addEdgesMenuItem;
+    private JCheckBoxMenuItem selectionMenuItem;
+    private JCheckBoxMenuItem addPathsMenuItem;
     
     //MARK: State machine
     /*
@@ -254,6 +256,7 @@ public class GraphController {
         addVerticesMenuItem = frame.getAddVerticesMenuItem();
         addEdgesMenuItem = frame.getAddEdgesMenuItem();
         selectionMenuItem = frame.getSelectionMenuItem();
+        addPathsMenuItem = frame.getAddPathsMenuItem();
 
         loadPreferences();
 
@@ -468,6 +471,11 @@ public class GraphController {
         });
         addEdgesMenuItem.addActionListener((ActionEvent e) -> {
             addEdges();
+        });
+        
+        //Add paths
+        addPathsMenuItem.addActionListener((ActionEvent e) -> {
+            addPaths();
         });
 
         //Delete
@@ -1833,13 +1841,21 @@ public class GraphController {
             removeEdges();
         }
     }
+    
+    /**
+     * The code that runs in both the addPathsButton and the
+     * addPathsMenuItem
+     */
+    private void addPaths() {
+        
+    }
 
     /**
      * The code that runs in both the addVerticesButton and the
      * addVerticesMenuItem
      */
     private void addVertices() {
-        exitAddEdgesState(); //leave the add edge state
+        exitAddEdgesState();
         exitSelectionState();
         enterAddVerticesState(); //enter the add vertices state
         canvas.repaint();
