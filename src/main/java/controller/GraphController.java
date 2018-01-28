@@ -265,7 +265,7 @@ public class GraphController {
 
         addKeyboardShortcuts();
 
-        enterAddVerticesState();
+        enterState(States.VERTEX_ADDING);
 
         //Define the filter
         filter = new FileFilter() {
@@ -703,16 +703,7 @@ public class GraphController {
             colorAllElements(Values.VERTEX_FILL_COLOR, Values.VERTEX_STROKE_COLOR, Values.EDGE_STROKE_COLOR);
             graph.setColors(Values.VERTEX_FILL_COLOR, Values.VERTEX_STROKE_COLOR, Values.EDGE_STROKE_COLOR);
             
-            switch (state) {
-                case VERTEX_ADDING:
-                    exitAddVerticesState();
-                    break;
-                case EDGE_ADDING:
-                    exitAddEdgesState();
-                    break;
-                default:
-            }
-            enterSelectionState();
+            enterState(States.SELECTION);
 
             setIsModified(false);
         });
@@ -1792,8 +1783,8 @@ public class GraphController {
 
     //MARK: States methods
     /**
-     * Enter the given state and exit all others
-     * @param newState 
+     * Exit the current state and enter the given state
+     * @param newState The state to enter
      */
     private void enterState(States newState) {
         //Exit the old state
@@ -1943,18 +1934,8 @@ public class GraphController {
      * selectionMenuItem
      */
     private void selection() {
-        switch (state) {
-            case VERTEX_ADDING:
-                exitAddVerticesState();
-                canvas.repaint();
-                break;
-            case EDGE_ADDING:
-                exitAddEdgesState();
-                canvas.repaint();
-                break;
-            default:
-        }
-        enterSelectionState();
+        enterState(States.SELECTION);
+        canvas.repaint();
     }
 
     /**
@@ -1970,9 +1951,7 @@ public class GraphController {
      * addVerticesMenuItem
      */
     private void addVertices() {
-        exitAddEdgesState();
-        exitSelectionState();
-        enterAddVerticesState(); //enter the add vertices state
+        enterState(States.VERTEX_ADDING);
         canvas.repaint();
     }
     
@@ -1993,9 +1972,7 @@ public class GraphController {
             isCommandPressed = false; //unpress command
             return;
         }
-        exitAddVerticesState();
-        exitSelectionState();
-        enterAddEdgesState();
+        enterState(States.EDGE_ADDING);
         canvas.repaint();
     }
     
@@ -2203,9 +2180,9 @@ public class GraphController {
 
                     updateEdgesListModel(); //update the visual JList
 
-                    exitAddEdgesState(); //exit the add edge state
-                    //reenter the add edge state (allow user to add more edges)
-                    enterAddEdgesState();
+                    //exit the add edge state and then re-enter the add edge
+                    //state (allow user to add more edges)
+                    enterState(States.EDGE_ADDING);
                     canvas.repaint();
 
                     //set the editingEdge
@@ -2226,9 +2203,9 @@ public class GraphController {
             }
         }
         //If we reach this point, we want to cancel the edge
-        exitAddEdgesState();
+        
         //reenter the add edge state (allow user to add more edges)
-        enterAddEdgesState();
+        enterState(States.EDGE_ADDING);
         canvas.repaint();
         return false;
     }
