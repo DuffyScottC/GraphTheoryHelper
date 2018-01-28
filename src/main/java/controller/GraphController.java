@@ -935,7 +935,7 @@ public class GraphController {
         addVerticesButton.addKeyListener(keyboardShortcuts);
         addEdgesButton.addKeyListener(keyboardShortcuts);
         selectionButton.addKeyListener(keyboardShortcuts);
-        titleTextField.addKeyListener(keyboardShortcuts);
+//        titleTextField.addKeyListener(keyboardShortcuts);
         frame.getDeleteButton().addKeyListener(keyboardShortcuts);
         frame.getGraphOutputTextField().addKeyListener(keyboardShortcuts);
     }
