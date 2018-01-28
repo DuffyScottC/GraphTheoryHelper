@@ -5,6 +5,8 @@
  */
 package controller;
 
+import com.google.gson.Gson;
+import com.google.gson.GsonBuilder;
 import static controller.Values.DIAMETER;
 import element.Edge;
 import element.Graph;
@@ -27,6 +29,7 @@ import java.awt.image.BufferedImage;
 import java.io.File;
 import java.io.FileInputStream;
 import java.io.FileOutputStream;
+import java.io.FileWriter;
 import java.io.IOException;
 import java.io.ObjectInputStream;
 import java.io.ObjectOutputStream;
@@ -2346,22 +2349,24 @@ public class GraphController {
             unHighlightEdge(e); //unhighlight this vertex
         }
         //Now colors won't be saved as "highlighted" accedentally
-
+        
+        //instantiate a new gson object (with the pretty formating option
+        //so that the file has newlines and indents)
+        Gson gson = new GsonBuilder().setPrettyPrinting().create();
+        //serialize graph to JSON
+        String jsonOut = gson.toJson(graph);
+        
         try {
-            //Create an output stream from the file
-            FileOutputStream ostr = new FileOutputStream(saveFile);
-
-            ObjectOutputStream oostr = new ObjectOutputStream(ostr);
-
-            //Save the graph
-            oostr.writeObject(graph);
-            oostr.close(); //must do this to ensure completion
+            //initialize a new FileWriter with saveFile
+            FileWriter writer = new FileWriter(saveFile);
+            //write the text in jsonOut to the file
+            writer.write(jsonOut);
+            //close the writer
+            writer.close();
         } catch (IOException ex) {
-
             isCommandPressed = false; //unpress command
             JOptionPane.showMessageDialog(frame, "Unable to save file.\n"
                     + ex.getMessage(), "Oops!", JOptionPane.ERROR_MESSAGE);
-
         }
 
         //Re-highlight all selected vertices and edges:
