@@ -36,10 +36,6 @@ public class Edge extends Element {
         this.endpoint1 = endpoint1;
         this.endpoint2 = endpoint2;
         
-        //Connect this edge to the two vertices
-        endpoint1.addEdge(this);
-        endpoint2.addEdge(this);
-        
         //Default stroke width
         this.strokeWidth = Values.EDGE_STROKE_WIDTH;
         
@@ -52,6 +48,10 @@ public class Edge extends Element {
         //set the control point
         ctrlX = (x1 + x2)/2; //find the mid-x
         ctrlY = (y1 + y2)/2; //find the mid-y
+        
+        //Connect this edge to the two vertices
+        endpoint1.addEdge(this);
+        endpoint2.addEdge(this);
     }
     
     @Override
