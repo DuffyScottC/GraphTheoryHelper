@@ -603,7 +603,7 @@ public class GraphController {
                     /*
                     Now loadedGraph.edges matches loadedGraph.simpleEdges, and
                     loadedGraph.edges uses references to the Vertex objects
-                    contained in loadedGraph.vertices
+                    contained in loadedGraph.vertices.
                     */
                     
                     //replace the old graph with the new one
