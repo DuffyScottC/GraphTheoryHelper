@@ -97,12 +97,23 @@ public class GraphController {
     private JMenuItem addVerticesMenuItem;
     private JMenuItem addEdgesMenuItem;
     private JMenuItem selectionMenuItem;
-
-    //MARK: Adding edge state:
+    
+    //MARK: State machine
+    private enum States {
+        VERTEX_ADDING,
+        EDGE_ADDING,
+        SELECTION,
+        PATHADDING
+    }
     /**
-     * Only true if the user is in the edge adding state.
+     * An integer used to keep track of which state the user is in.
+     * VERTEX_ADDING - the user is in the vertex adding state.
+     * EDGE_ADDING - the user is in the edge adding state.
+     * SELECTION - the user is in the selection state.
+     * PATHADDING - the user is in the path adding state.
      */
-    private boolean addingEdges = false;
+    private States state = States.SELECTION;
+    //SUBMARK: Adding edge state:
     /**
      * Only true if the user has clicked inside of an edge's control point and
      * is holding down the mouse.
@@ -114,16 +125,7 @@ public class GraphController {
      * deleting vertices and changing titles.
      */
     private Vertex firstSelectedVertex;
-    //MARK: Adding vertex state
-    /**
-     * Only true if the user is in the vertex adding state.
-     */
-    private boolean addingVertices = false;
-    //MARK: Selection state
-    /**
-     * Only true if the user is in the selection state.
-     */
-    private boolean selecting = false;
+    //SUBMARK: Selection state
     /**
      * Only true of the command key is pressed
      */
@@ -276,6 +278,9 @@ public class GraphController {
             public void mousePressed(MouseEvent e) {
                 int mx = e.getX(); //x-coord of mouse click
                 int my = e.getY(); //y-coord of mouse click
+                switch (state) {
+                    case 
+                }
                 if (addingEdges) { //if we are in the edge adding state, we don't want to be able to move any vertices
                     addEdge(mx, my);
                 }
