@@ -2014,7 +2014,7 @@ public class GraphController {
                     Edge newEdge = new Edge(firstSelectedVertex, currentVertex);
                     newEdge.setStrokeWidth(Values.EDGE_STROKE_WIDTH);
 
-                    edges.add(newEdge); //Add the edge to the graph
+                    graph.addEdge(newEdge); //Add the edge to the graph
 
                     updateEdgesListModel(); //update the visual JList
 

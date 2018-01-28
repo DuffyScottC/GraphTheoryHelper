@@ -21,11 +21,31 @@ public class Graph implements Serializable {
     private final List<Vertex> vertices = new ArrayList<>();
     //the edges which appear in canvas and the edges JList
     private final List<Edge> edges = new ArrayList<>();
+    /**
+     * a list of SimpleEdges which will be used for saving and loading the edges
+     * from JSON serialization. Edge objects are not good for storing because
+     * they do not store references to the vertices (instead they create
+     * identical instances stored in a different memory location). 
+     */
+    private final List<SimpleEdge> simpleEdges = new ArrayList<>();
     
     //Start out default
     private Color vertexFillColor = Values.VERTEX_FILL_COLOR;
     private Color vertexStrokeColor = Values.VERTEX_STROKE_COLOR;
     private Color edgeStrokeColor = Values.EDGE_STROKE_COLOR;
+    
+    /**
+     * Adds an edge to the graph's edges list and to its simpleEdges list.
+     * (The edges list does not de-serialize well, so we store simpleEdges
+     * and convert them to real Edges when loading from files). 
+     * @param edge 
+     */
+    public void addEdge(Edge edge) {
+        //add edges to the edges list
+        edges.add(edge);
+        //add a SimpleEdge version of the edge to the simpleEdges list
+        simpleEdges.add(new SimpleEdge(edge));
+    }
     
     //MARK: Getters and setters
     public List<Vertex> getVertices() {
