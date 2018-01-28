@@ -20,7 +20,7 @@ public class Graph implements Serializable {
     //the vertices which appear in canvas and the vertices JList
     private final List<Vertex> vertices = new ArrayList<>();
     //the edges which appear in canvas and the edges JList
-    private final List<Edge> edges = new ArrayList<>();
+    private transient final List<Edge> edges = new ArrayList<>();
     /**
      * a list of SimpleEdges which will be used for saving and loading the edges
      * from JSON serialization. Edge objects are not good for storing because
