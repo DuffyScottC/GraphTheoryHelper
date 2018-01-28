@@ -8,7 +8,6 @@ package controller;
 import com.google.gson.Gson;
 import com.google.gson.GsonBuilder;
 import com.google.gson.JsonSyntaxException;
-import static controller.Values.DIAMETER;
 import element.Edge;
 import element.Graph;
 import element.SimpleEdge;
@@ -753,8 +752,8 @@ public class GraphController {
                 //(these are used to 1. Search the vertices list to check if
                 //they exist in the graph or not and 2. Add a new vertex to
                 //the list if this is a new vertex)
-                Vertex newVertex1 = new Vertex(title1, DIAMETER);
-                Vertex newVertex2 = new Vertex(title2, DIAMETER);
+                Vertex newVertex1 = new Vertex(title1, Values.DIAMETER);
+                Vertex newVertex2 = new Vertex(title2, Values.DIAMETER);
                 //Get the indexes of the vertexes named title1 and title2
                 //(if they exist):
                 int index1 = vertices.indexOf(newVertex1);
