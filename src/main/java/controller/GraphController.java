@@ -1805,7 +1805,89 @@ public class GraphController {
         selectionButton.setSelected(selected);
         selectionMenuItem.setSelected(selected);
     }
+    
+    private void enterSelectionState() {
+        setSelectedSelection(true);
+        state = States.SELECTION;
+    }
 
+    private void exitSelectionState() {
+        setSelectedSelection(false);
+    }
+    
+    /**
+     * Used to enter the state in which a user can add vertices to the canvas by
+     * clicking anywhere as many times as they want.
+     */
+    private void enterAddVerticesState() {
+        setSelectedVertices(true);
+        state = States.VERTEX_ADDING; //enter the vertex adding state
+        canvas.setAddingVertex(true);
+    }
+    
+    /**
+     * Used to exit the state in which a user can add vertices to the canvas by
+     * clicking anywhere. Called when the user enters selection state or add
+     * edge state.
+     */
+    private void exitAddVerticesState() {
+        setSelectedVertices(false);
+        canvas.setAddingVertex(false);
+    }
+    
+    private void enterAddEdgeState() {
+        setSelectedEdges(true);
+
+        state = States.EDGE_ADDING; //enter the edge adding state
+        //highlight all of the vertexes to provide a visual cue that the user is supposed
+        //to click one to add the edge
+
+        //Update vertex selection
+        verticesList.clearSelection(); //clear the visual selection in the JList
+        //deselect the vertex
+        selectedVertexIndices.clear();
+        setSelectedVertices();
+
+        //Update edge selection
+        //if selectedEdgeIndeces is not empty
+        if (!selectedEdgeIndices.isEmpty()) {
+            //find the last selected index
+            int lastIndex = selectedEdgeIndices.get(selectedEdgeIndices.size() - 1);
+            //set the editingEdge to the last selected edge
+            editingEdge = selectedEdges.get(selectedEdges.size() - 1);
+            canvas.setEditingEdge(editingEdge);
+            //set the last index to be the only one selected
+            edgesList.setSelectedIndex(lastIndex);
+            //deselect all edges
+            selectedEdgeIndices.clear();
+            //add the last index
+            selectedEdgeIndices.add(lastIndex);
+            setSelectedEdges();
+        }
+
+        //Assign the canAddEdges values of all the vertices and get the number of vertices
+        //that can't have edges added to them
+        int numberOfFalses = assignCanAddEdges();
+
+        //Highglight appropriate vertices
+        highlightAvailableVertices();
+    }
+
+    private void exitAddEdgesState() {
+        setSelectedEdges(false);
+        firstSelectedVertex = null; //prepare for the next edge
+        canvas.setFirstSelectedVertex(null);
+        //Unhighlight all vertices
+        for (Vertex v : vertices) {
+            unHighlightVertex(v);
+        }
+        //set the editingEdge to null
+        editingEdge = null;
+        canvas.setEditingEdge(null);
+        //in case the user was holding down the mouse when they switched states
+        movingControlPoint = false;
+    }
+    
     /**
      * The code that runs in both the selectionButton and the selectionMenuItem
      */
@@ -1824,24 +1906,6 @@ public class GraphController {
         enterSelectionState();
     }
 
-    private void enterSelectionState() {
-        setSelectedSelection(true);
-        state = States.SELECTION;
-    }
-
-    private void exitSelectionState() {
-        setSelectedSelection(false);
-    }
-
-    private void deleteSelectedElements() {
-        if (!selectedVertexIndices.isEmpty()) {
-            removeVertices();
-        }
-        if (!selectedEdgeIndices.isEmpty()) {
-            removeEdges();
-        }
-    }
-    
     /**
      * The code that runs in both the addPathsButton and the
      * addPathsMenuItem
@@ -1859,6 +1923,15 @@ public class GraphController {
         exitSelectionState();
         enterAddVerticesState(); //enter the add vertices state
         canvas.repaint();
+    }
+    
+    private void deleteSelectedElements() {
+        if (!selectedVertexIndices.isEmpty()) {
+            removeVertices();
+        }
+        if (!selectedEdgeIndices.isEmpty()) {
+            removeEdges();
+        }
     }
 
     /**
@@ -1934,26 +2007,6 @@ public class GraphController {
 
         canvas.repaint();
         setIsModified(true);
-    }
-
-    /**
-     * Used to enter the state in which a user can add vertices to the canvas by
-     * clicking anywhere as many times as they want.
-     */
-    private void enterAddVerticesState() {
-        setSelectedVertices(true);
-        state = States.VERTEX_ADDING; //enter the vertex adding state
-        canvas.setAddingVertex(true);
-    }
-
-    /**
-     * Used to exit the state in which a user can add vertices to the canvas by
-     * clicking anywhere. Called when the user enters selection state or add
-     * edge state.
-     */
-    private void exitAddVerticesState() {
-        setSelectedVertices(false);
-        canvas.setAddingVertex(false);
     }
 
     /**
@@ -2163,59 +2216,6 @@ public class GraphController {
         movingControlPoint = false;
 
         canvas.repaint();
-    }
-
-    private void enterAddEdgeState() {
-        setSelectedEdges(true);
-
-        state = States.EDGE_ADDING; //enter the edge adding state
-        //highlight all of the vertexes to provide a visual cue that the user is supposed
-        //to click one to add the edge
-
-        //Update vertex selection
-        verticesList.clearSelection(); //clear the visual selection in the JList
-        //deselect the vertex
-        selectedVertexIndices.clear();
-        setSelectedVertices();
-
-        //Update edge selection
-        //if selectedEdgeIndeces is not empty
-        if (!selectedEdgeIndices.isEmpty()) {
-            //find the last selected index
-            int lastIndex = selectedEdgeIndices.get(selectedEdgeIndices.size() - 1);
-            //set the editingEdge to the last selected edge
-            editingEdge = selectedEdges.get(selectedEdges.size() - 1);
-            canvas.setEditingEdge(editingEdge);
-            //set the last index to be the only one selected
-            edgesList.setSelectedIndex(lastIndex);
-            //deselect all edges
-            selectedEdgeIndices.clear();
-            //add the last index
-            selectedEdgeIndices.add(lastIndex);
-            setSelectedEdges();
-        }
-
-        //Assign the canAddEdges values of all the vertices and get the number of vertices
-        //that can't have edges added to them
-        int numberOfFalses = assignCanAddEdges();
-
-        //Highglight appropriate vertices
-        highlightAvailableVertices();
-    }
-
-    private void exitAddEdgesState() {
-        setSelectedEdges(false);
-        firstSelectedVertex = null; //prepare for the next edge
-        canvas.setFirstSelectedVertex(null);
-        //Unhighlight all vertices
-        for (Vertex v : vertices) {
-            unHighlightVertex(v);
-        }
-        //set the editingEdge to null
-        editingEdge = null;
-        canvas.setEditingEdge(null);
-        //in case the user was holding down the mouse when they switched states
-        movingControlPoint = false;
     }
 
     /**
