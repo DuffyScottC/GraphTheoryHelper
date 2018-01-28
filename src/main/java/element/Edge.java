@@ -7,12 +7,8 @@ package element;
 
 import controller.Values;
 import java.awt.BasicStroke;
-import java.awt.Color;
 import java.awt.Graphics2D;
-import java.awt.Shape;
-import java.awt.geom.AffineTransform;
 import java.awt.geom.Ellipse2D;
-import java.awt.geom.Line2D;
 import java.awt.geom.Point2D;
 import java.awt.geom.QuadCurve2D;
 
@@ -40,10 +36,6 @@ public class Edge extends Element {
         this.endpoint1 = endpoint1;
         this.endpoint2 = endpoint2;
         
-        //Connect this edge to the two vertices
-        endpoint1.addEdge(this);
-        endpoint2.addEdge(this);
-        
         //Default stroke width
         this.strokeWidth = Values.EDGE_STROKE_WIDTH;
         
@@ -56,6 +48,22 @@ public class Edge extends Element {
         //set the control point
         ctrlX = (x1 + x2)/2; //find the mid-x
         ctrlY = (y1 + y2)/2; //find the mid-y
+        
+        //Connect this edge to the two vertices
+        this.endpoint1.addEdge(this);
+        this.endpoint2.addEdge(this);
+    }
+    
+    /**
+     * A no-argument constructor used only when loading graphs from JSON
+     * serialization. This constructor does not use the 
+     * {@link Vertex.addEdge(Edge)} method (because each endpoint vertex already
+     * has this edge added to it, technically. We assign endpoints and control
+     * point manually, after this constructor is called. 
+     */
+    public Edge () {
+        //Default stroke width
+        this.strokeWidth = Values.EDGE_STROKE_WIDTH;
     }
     
     @Override

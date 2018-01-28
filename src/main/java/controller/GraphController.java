@@ -5,9 +5,13 @@
  */
 package controller;
 
+import com.google.gson.Gson;
+import com.google.gson.GsonBuilder;
+import com.google.gson.JsonSyntaxException;
 import static controller.Values.DIAMETER;
 import element.Edge;
 import element.Graph;
+import element.SimpleEdge;
 import element.Vertex;
 import java.awt.Color;
 import java.awt.Graphics2D;
@@ -24,11 +28,9 @@ import java.awt.geom.QuadCurve2D;
 import java.awt.geom.Rectangle2D;
 import java.awt.image.BufferedImage;
 import java.io.File;
-import java.io.FileInputStream;
-import java.io.FileOutputStream;
+import java.io.FileReader;
+import java.io.FileWriter;
 import java.io.IOException;
-import java.io.ObjectInputStream;
-import java.io.ObjectOutputStream;
 import java.nio.file.Files;
 import java.nio.file.Path;
 import java.util.ArrayList;
@@ -357,7 +359,7 @@ public class GraphController {
                     //control point
                     if (movingControlPoint) {
                         //increment the control point's location
-                        editingEdge.incCtrlPoint(incX, incY);
+                        graph.incEdgeCtrlPoint(edges.indexOf(editingEdge), incX, incY);
                     }
                 }
                 canvas.repaint();
@@ -545,35 +547,81 @@ public class GraphController {
             int chooserResult = chooser.showOpenDialog(frame);
             if (chooserResult == JFileChooser.APPROVE_OPTION) {
                 File loadFile = chooser.getSelectedFile();
-
+                
+                //Create a Gson object (with the pretty printing option so that
+                //we can read formatted JSON with all the spaces and newlines)
+                Gson gson = new GsonBuilder().setPrettyPrinting().create();
+                
                 try {
-                    //create an input stream from the selected file
-                    FileInputStream istr = new FileInputStream(loadFile);
-                    ObjectInputStream oistr = new ObjectInputStream(istr);
-
-                    //load the object from the serialized file
-                    Object theObject = oistr.readObject();
-                    oistr.close();
-
-                    //if this object is a graph
-                    if (theObject instanceof Graph) {
-                        //cast the loaded object to a graph
-                        Graph loadedGraph = (Graph) theObject;
-
-                        //replace the old graph with the new one
-                        replace(loadedGraph);
-
-                        setIsModified(false);
-
-                        canvas.repaint();
+                    //initialize a new reader with loadFile
+                    FileReader reader = new FileReader(loadFile);
+                    //initialize an array of characters to hold the contents of
+                    //loadFile (which contains the JSON serialized graph)
+                    char[] jsonChars = new char[(int) loadFile.length()];
+                    //place the contents of loadFile into jsonChars
+                    reader.read(jsonChars);
+                    //close the file
+                    reader.close();
+                    //convert jsonChars to a single String
+                    String jsonIn = new String(jsonChars);
+                    
+                    //deserialize jsonIn into a Graph object
+                    Graph loadedGraph = gson.fromJson(jsonIn, Graph.class);
+                    
+                    /*
+                    loadedGraph comes with two things (besides colors): a 
+                    vertices list, and a simpleEdges list. The next job is to
+                    build loadedGraph's edges list (which is empty) using 
+                    loadedGraph's simpleEdges list.
+                    
+                    To make an edge, we need two endpoints (vertices). 
+                    loadedGraph.simpleEdges contains the names of those two 
+                    endpoints for each edge. We need to:
+                    1. cycle through loadedGraph.simpleEdges, 
+                    2. get a reference to each of the appropriately named 
+                       endpoints from loadedGraph.vertices,
+                    3. create an edge from those two referenced endpoints,
+                    4. then add the new edge to loadedGraph.edges.
+                    */
+                    //cycle through the loadedGraph's simpleEdges
+                    //cycle through the loadedGraph's simpleEdges
+                    for (SimpleEdge se : loadedGraph.getSimpleEdges()) {
+                        //get a reference to the vertices whos names match
+                        //se's endpoint titles
+                        Vertex ep1 = loadedGraph.getVertexNamed(se.getEndpoint1());
+                        Vertex ep2 = loadedGraph.getVertexNamed(se.getEndpoint2());
+                        //create a new edge from ep1 and ep2 (no-arg constructor)
+                        Edge newEdge = new Edge();
+                        //set the new edge's endpoints and control point
+                        newEdge.setEndpoint1(ep1);
+                        newEdge.setEndpoint2(ep2);
+                        newEdge.setCtrlPoint(se.getCtrlPoint().x, se.getCtrlPoint().y);
+                        //add the new edge to loadedGraph.edges (directly,
+                        //not with the Graph.addEdge(Edge) method)
+                        loadedGraph.getEdges().add(newEdge);
                     }
+                    /*
+                    Now loadedGraph.edges matches loadedGraph.simpleEdges, and
+                    loadedGraph.edges uses references to the Vertex objects
+                    contained in loadedGraph.vertices.
+                    */
+                    //replace the old graph with the new one
+                    replace(loadedGraph);
+
+                    setIsModified(false);
+                    
+                    //enter the selection state (and exit any other state)
+                    selection();
+
+                    canvas.repaint();
                 } catch (IOException ex) {
                     JOptionPane.showMessageDialog(frame, "Unable to read selected file.\n"
                             + ex.getMessage(), "Oops!", JOptionPane.ERROR_MESSAGE);
                     isCommandPressed = false; //unpress command
                     return;
-                } catch (ClassNotFoundException ex) {
-                    JOptionPane.showMessageDialog(frame, "File is not a figures file.\n"
+                } catch (JsonSyntaxException ex) {
+                    JOptionPane.showMessageDialog(frame, "Problem reading JSON from .graph file. "
+                            + "Formatting might be off.\n"
                             + ex.getMessage(), "Oops!", JOptionPane.ERROR_MESSAGE);
                     isCommandPressed = false; //unpress command
                     return;
@@ -586,9 +634,6 @@ public class GraphController {
                 chooser.setCurrentDirectory(currentDirectory);
                 //Update the user's preference for the current directory
                 prefs.put(Values.LAST_FILE_PATH, currentDirectory.toString());
-                //debug print
-                System.out.println("currentDirectory.toString(): " + currentDirectory.toString());
-
             }
         });
 
@@ -678,8 +723,8 @@ public class GraphController {
         //The add button
         addGraphDialog.getAddButton().addActionListener((ActionEvent e) -> {
             List<Vertex> toBeFormatted = new ArrayList();
-            List<Vertex> vertices1 = graph.getVertices();
-            List<Edge> edges1 = graph.getEdges();
+//            List<Vertex> vertices1 = graph.getVertices();
+//            List<Edge> edges1 = graph.getEdges();
             //This regex checks if the graph is properly formatted
             //(e.g. {{A,B},{B,A},{C,D}} )
             String properFormat = "\\{(\\{\\w+,\\w+\\})(,\\s*\\{\\w+,\\w+\\})*\\}";
@@ -712,29 +757,29 @@ public class GraphController {
                 Vertex newVertex2 = new Vertex(title2, DIAMETER);
                 //Get the indexes of the vertexes named title1 and title2
                 //(if they exist):
-                int index1 = vertices1.indexOf(newVertex1);
-                int index2 = vertices1.indexOf(newVertex2);
+                int index1 = vertices.indexOf(newVertex1);
+                int index2 = vertices.indexOf(newVertex2);
                 if (index1 == -1) {
                     //if this is a new vertex
-                    vertices1.add(newVertex1); //add this vertex to the list
+                    vertices.add(newVertex1); //add this vertex to the list
                     toBeFormatted.add(newVertex1);
                     wasModified = true;
                 } else {
                     //if this vertex is already contained in the graph
                     //reassign the reference newVertex1 to the vertex that
                     //is already in the graph but has the same name:
-                    newVertex1 = vertices1.get(index1);
+                    newVertex1 = vertices.get(index1);
                 }
                 if (index2 == -1) {
                     //if this is a new vertex
-                    vertices1.add(newVertex2); //add this vertex to the list
+                    vertices.add(newVertex2); //add this vertex to the list
                     toBeFormatted.add(newVertex2);
                     wasModified = true;
                 } else {
                     //if this vertex is already contained in the graph
                     //reassign the reference newVertex2 to the vertex that
                     //is already in the graph but has the same name:
-                    newVertex2 = vertices1.get(index2);
+                    newVertex2 = vertices.get(index2);
                 }
                 //At this point, newVertex1 and newVertex2 are the vertices
                 //in the graph that we want to work with (whether their new
@@ -744,7 +789,7 @@ public class GraphController {
                 if (!newVertex1.isAdjacentTo(newVertex2)) {
                     //create a new edge between newVertex1 and newVertex2
                     Edge newEdge = new Edge(newVertex1, newVertex2);
-                    edges1.add(newEdge); //add the edge to the list
+                    graph.addEdge(newEdge); //add the edge to the list
                     wasModified = true;
                 }
                 //If newVertex1 is already adjacent to newVertex2, then it
@@ -889,7 +934,7 @@ public class GraphController {
         addVerticesButton.addKeyListener(keyboardShortcuts);
         addEdgesButton.addKeyListener(keyboardShortcuts);
         selectionButton.addKeyListener(keyboardShortcuts);
-        titleTextField.addKeyListener(keyboardShortcuts);
+//        titleTextField.addKeyListener(keyboardShortcuts);
         frame.getDeleteButton().addKeyListener(keyboardShortcuts);
         frame.getGraphOutputTextField().addKeyListener(keyboardShortcuts);
     }
@@ -1025,7 +1070,9 @@ public class GraphController {
      *
      * @param e
      */
-    private void straightenEdge(Edge e) {
+    private void straightenEdge(int edgeIndex) {
+        //get the edge at edgeIndex
+        Edge e = edges.get(edgeIndex);
         //Set the default control point:
         //get the endpoint coordinates
         double x1 = e.getEndpoint1().getCenter().getX();
@@ -1035,7 +1082,7 @@ public class GraphController {
         //set the control point
         double ctrlX = (x1 + x2) / 2; //find the mid-x
         double ctrlY = (y1 + y2) / 2; //find the mid-y
-        e.setCtrlPoint(ctrlX, ctrlY);
+        graph.setEdgeCtrlPoint(edgeIndex, ctrlX, ctrlY);
     }
 
     /**
@@ -1043,8 +1090,8 @@ public class GraphController {
      */
     public void formatAllVertices() {
         formatVertices(vertices);
-        for (Edge e : edges) { //cycle through the edges
-            straightenEdge(e); //straighten the edges
+        for (int i = 0; i < edges.size(); i++) { //cycle through the edges
+            straightenEdge(i); //straighten the edges
         }
     }
 
@@ -1095,7 +1142,7 @@ public class GraphController {
         //Get a reverence to the new graph's vertices and edges
         List<Vertex> newVertices = newGraph.getVertices();
         List<Edge> newEdges = newGraph.getEdges();
-
+        
         vertices.clear(); //remove all elements from the current vertices
         for (Vertex v : newVertices) { //loop through new list
             vertices.add(v); //add each vertex to the vertices list
@@ -1103,9 +1150,9 @@ public class GraphController {
 
         updateVerticesListModel();
 
-        edges.clear(); //remove all elements from the current edges
+        graph.clearEdges(); //remove all elements from the current edges
         for (Edge e : newEdges) { //loop through new list
-            edges.add(e); //add each edge to the edges list
+            graph.addEdge(e); //add each edge to the edges list
         }
 
         updateEdgesListModel();
@@ -1120,6 +1167,16 @@ public class GraphController {
         graph.setVertexFillColor(newVertexFillColor);
         graph.setVertexStrokeColor(newVertexStrokeColor);
         graph.setEdgeStrokeColor(newEdgeStrokeColor);
+
+        //set the colors of the elements (which are not saved)
+        for (Vertex vertex : vertices) {
+            vertex.setStrokeColor(graph.getVertexStrokeColor());
+            vertex.setStrokeWidth(Values.VERTEX_STROKE_WIDTH);
+            vertex.setFillColor(graph.getVertexFillColor());
+        }
+        for (Edge e : edges) {
+            unHighlightEdge(e);
+        }
 
         //MARK: Update the list selection:
         //deselect all vertices
@@ -1139,7 +1196,7 @@ public class GraphController {
      */
     public void clear() {
         vertices.clear();
-        edges.clear();
+        graph.clearEdges();
 
         updateVerticesListModel();
         updateEdgesListModel();
@@ -1441,7 +1498,7 @@ public class GraphController {
             //find the distance between the click and the current point
             double distance = Point2D.distance(mx, my, point.x, point.y);
             //if the distance is close enough to be selected
-            if (distance <= Values.LINE_SELECTION_DISTANCE) {
+            if (distance <= Values.EDGE_SELECTION_DISTANCE) {
                 //signal that the point is close enough to the edge
                 return true;
             }
@@ -1508,7 +1565,8 @@ public class GraphController {
         //Add all the edge endpoints to clickedVertices so that they will
         //be moved appropriately in the move-vertices section:
         //cycle through all clicked edges
-        for (Edge clickedEdge : clickedEdges) {
+        for (int i = 0; i < clickedEdges.size(); i++) {
+            Edge clickedEdge = clickedEdges.get(i);
             //Add both vertices attached to this edge:
             //get the first endpoint
             Vertex ep1 = clickedEdge.getEndpoint1();
@@ -1525,7 +1583,7 @@ public class GraphController {
                 verticesToMove.add(ep2);
             }
             //increment the edge control point's location
-            clickedEdge.incCtrlPoint(incX, incY);
+            graph.incEdgeCtrlPoint(i, incX, incY);
         }
 
         //A set of edges whose control points have already been incremented
@@ -1537,20 +1595,28 @@ public class GraphController {
         //cycle through all clicked vertices
         for (Vertex clickedVertex : verticesToMove) {
             //if the vertex has any edges
-            if (!clickedVertex.getEdges().isEmpty()) {
-                for (Edge edge : clickedVertex.getEdges()) {
+            if (!clickedVertex.getEdgeNames().isEmpty()) {
+                List<SimpleEdge> edgeNames = clickedVertex.getEdgeNames();
+                for (SimpleEdge se : edgeNames) {
+                    //find the index of the clicked edge in graph.simpleEdges
+                    int index = graph.getSimpleEdges().indexOf(se);
+                    //Get the edge in edges that matches se
+                    Edge edge = edges.get(index);
                     //if this edge was NOT already moved above
                     if (!clickedEdges.contains(edge)) {
                         /*
                             From here to the end of this loop, "old" means before 
                             clickedVertex is moved/incremented and "new" means after.
                          */
+                        
                         //Get the elements of this edge (p2 is the vertex that
                         //is moving, p1 is ctrl, p1 is staying still)
                         Point2D.Double p2 = clickedVertex.getCenter();
                         Point2D.Double p1 = edge.getCtrlPoint();
                         Vertex otherVertex = edge.getOtherEndpoint(clickedVertex);
                         Point2D.Double p0 = otherVertex.getCenter();
+                        //get the index of the edge
+                        int edgeIndex = edges.indexOf(edge);
 
                         //if otherVertex is NOT in clickedVertices, then it will
                         //not be moving later and we need to move this edge's
@@ -1584,7 +1650,7 @@ public class GraphController {
                             Point2D.Double newP1 = B2.add(newP2);
 
                             //set the new control point
-                            edge.setCtrlPoint(newP1.x, newP1.y);
+                            graph.setEdgeCtrlPoint(edgeIndex, newP1.x, newP1.y);
                         } else /*
                                 If, however, the other vertex was clicked, then we 
                                 simply need to increment the edge's control point with 
@@ -1594,7 +1660,7 @@ public class GraphController {
                             //mark this so that it is not incremented when
                             //we run into the other vertex
                             incedEdges.add(edge);
-                            edge.incCtrlPoint(incX, incY);
+                            graph.incEdgeCtrlPoint(edgeIndex, incX, incY);
                         }
                     }
                 }
@@ -1783,12 +1849,15 @@ public class GraphController {
         //first loop through all selected vertices
         for (Vertex v : selectedVertices) {
             //then add the list of edges from each selected vertices
-            removeEdges.addAll(v.getEdges());
-            //finally, remove the vertex from the vertices list
+            for (SimpleEdge se : v.getEdgeNames()) {
+                //find the index of the clicked edge in graph.simpleEdges
+                int index = graph.getSimpleEdges().indexOf(se);
+                //Get the edge in edges that matches se
+                Edge e = edges.get(index);
+                //remove e (se's match) from edges
+                graph.removeEdge(e);
+            }
         }
-
-        //remove the edges that were attached to this vertex from the list of edges
-        edges.removeAll(removeEdges);
 
         //Cycle trhough the vertices to remove
         //Note: can't remove vertices by index, 
@@ -1941,7 +2010,7 @@ public class GraphController {
                     firstSelectedVertex.setCanAddEdges(false);
                     //Make it so that user can't add an edge to vertices that are already
                     //connected to the firstSelectedVertex:
-                    firstSelectedVertex.assignCanAddEdgesToConnectedVertices();
+                    assignCanAddEdgesToConnectedVertices();
                     //Reset the highlights
                     highlightAvailableVertices();
                     lastX = mx;
@@ -1977,7 +2046,7 @@ public class GraphController {
                     Edge newEdge = new Edge(firstSelectedVertex, currentVertex);
                     newEdge.setStrokeWidth(Values.EDGE_STROKE_WIDTH);
 
-                    edges.add(newEdge); //Add the edge to the graph
+                    graph.addEdge(newEdge); //Add the edge to the graph
 
                     updateEdgesListModel(); //update the visual JList
 
@@ -2031,7 +2100,7 @@ public class GraphController {
         }
 
         //remove all the edges from the edges list
-        edges.removeAll(selectedEdges);
+        graph.removeAllEdges(selectedEdges);
 
         updateEdgesListModel();
 
@@ -2067,8 +2136,8 @@ public class GraphController {
             //find the last selected index
             int lastIndex = selectedEdgeIndices.get(selectedEdgeIndices.size() - 1);
             //set the editingEdge to the last selected edge
-            editingEdge = selectedEdges.get(lastIndex);
-            canvas.setEditingEdge(selectedEdges.get(lastIndex));
+            editingEdge = selectedEdges.get(selectedEdges.size() - 1);
+            canvas.setEditingEdge(editingEdge);
             //set the last index to be the only one selected
             edgesList.setSelectedIndex(lastIndex);
             //deselect all edges
@@ -2123,6 +2192,20 @@ public class GraphController {
             }
         }
         return numberOfFalses;
+    }
+    
+    private void assignCanAddEdgesToConnectedVertices() {
+        //Loop through all edges
+        for (SimpleEdge se : firstSelectedVertex.getEdgeNames()) {
+            //find the index of the clicked edge in graph.simpleEdges
+            int index = graph.getSimpleEdges().indexOf(se);
+            //Get the edge in edges that matches se
+            Edge e = edges.get(index);
+            //Disable both endpoints (It's not worth checking
+            //if each endpoint is the current vertex or not)
+            e.getEndpoint1().setCanAddEdges(false);
+            e.getEndpoint2().setCanAddEdges(false);
+        }
     }
 
     /**
@@ -2270,39 +2353,30 @@ public class GraphController {
         if (saveFile == null) {
             return;
         }
-
-        //Unhighlight all selected vertices and edges:
-        for (Vertex v : selectedVertices) { //cycle through all the vertices
-            unHighlightVertex(v); //unhighlight this vertex
+        
+        //if we are in the addingEdges state and have selected the first vertex
+        //then we don't want to save yet. 
+        if (addingEdges && firstSelectedVertex != null) {
+            return;
         }
-        for (Edge e : selectedEdges) { //cycle through all the vertices
-            unHighlightEdge(e); //unhighlight this vertex
-        }
-        //Now colors won't be saved as "highlighted" accedentally
-
+        
+        //instantiate a new gson object (with the pretty formating option
+        //so that the file has newlines and indents)
+        Gson gson = new GsonBuilder().setPrettyPrinting().create();
+        //serialize graph to JSON
+        String jsonOut = gson.toJson(graph);
+        
         try {
-            //Create an output stream from the file
-            FileOutputStream ostr = new FileOutputStream(saveFile);
-
-            ObjectOutputStream oostr = new ObjectOutputStream(ostr);
-
-            //Save the graph
-            oostr.writeObject(graph);
-            oostr.close(); //must do this to ensure completion
+            //initialize a new FileWriter with saveFile
+            FileWriter writer = new FileWriter(saveFile);
+            //write the text in jsonOut to the file
+            writer.write(jsonOut);
+            //close the writer
+            writer.close();
         } catch (IOException ex) {
-
             isCommandPressed = false; //unpress command
             JOptionPane.showMessageDialog(frame, "Unable to save file.\n"
                     + ex.getMessage(), "Oops!", JOptionPane.ERROR_MESSAGE);
-
-        }
-
-        //Re-highlight all selected vertices and edges:
-        for (Vertex v : selectedVertices) { //cycle through all the vertices
-            highlightVertex(v); //unhighlight this vertex
-        }
-        for (Edge e : selectedEdges) { //cycle through all the vertices
-            highlightEdge(e); //unhighlight this vertex
         }
 
         setIsModified(false);
