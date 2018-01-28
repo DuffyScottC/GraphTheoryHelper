@@ -314,8 +314,6 @@ public class GraphController {
                         break;
                     default:
                         System.out.println("This should never happen.");
-                        throw new RuntimeException("Reached default statement in"
-                                + "switch statement, which should never happen.");
                 }
                 //this is done regardless of state:
                 pressVertices();
@@ -334,15 +332,18 @@ public class GraphController {
                     clickedEdges.clear(); //we don't want to move an edge after the user lets go
                     canvas.repaint();
                 }
-                if (selecting) {
-                    canvas.setMultipleSelecting(false);
-                    canvas.repaint();
+                switch (state) {
+                    case EDGE_ADDING:
+                        //stop the user from being able to edit the selected edge's control point
+                        movingControlPoint = false;
+                        break;
+                    case SELECTION:
+                        canvas.setMultipleSelecting(false);
+                        canvas.repaint();
+                        break;
+                    default:
+                        //Don't want to repaint canvas if nothing happenned
                 }
-                if (addingEdges) {
-                    //stop the user from being able to edit the selected edge's control point
-                    movingControlPoint = false;
-                }
-                //Don't want to repaint canvas if nothing happenned
             }
 
         });
@@ -362,7 +363,9 @@ public class GraphController {
                 lastX = mx;
                 lastY = my;
                 canvas.setLastPosition(lastX, lastY);
-
+                
+                
+                
                 if (selecting) { //if we're in the selection state
                     //if the user did not click any edges or vertices (only canvas)
                     if (clickedVertices.isEmpty() && clickedEdges.isEmpty()) {
