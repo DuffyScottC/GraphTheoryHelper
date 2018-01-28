@@ -21,6 +21,7 @@ import java.util.List;
  */
 public class Vertex extends Element {
     
+    protected transient Shape shape;
     private double diameter = 10;
     
     //(used to tell edges where to place their endpoints):
