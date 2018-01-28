@@ -1793,15 +1793,19 @@ public class GraphController {
         switch (state) {
             case VERTEX_ADDING:
                 exitAddVerticesState();
+                System.out.println("exitAddVerticesState");
                 break;
             case EDGE_ADDING:
                 exitAddEdgesState();
+                System.out.println("exitAddEdgesState");
                 break;
             case SELECTION:
                 exitSelectionState();
+                System.out.println("exitSelectionState");
                 break;
             case PATH_ADDING:
                 exitAddPathsState();
+                System.out.println("exitAddPathsState");
                 break;
             default:
         }
@@ -1809,15 +1813,19 @@ public class GraphController {
         switch (newState) {
             case VERTEX_ADDING:
                 enterAddVerticesState();
+                System.out.println("enterAddVerticesState");
                 break;
             case EDGE_ADDING:
                 enterAddEdgesState();
+                System.out.println("enterAddEdgesState");
                 break;
             case SELECTION:
                 enterSelectionState();
+                System.out.println("enterSelectionState");
                 break;
             case PATH_ADDING:
                 enterAddPathsState();
+                System.out.println("enterAddPathsState");
                 break;
             default:
         }
@@ -1911,6 +1919,7 @@ public class GraphController {
     
     private void exitAddPathsState() {
         setSelectedPaths(false);
+        
     }
     
     //SUBMARK: Set Selected Mode
