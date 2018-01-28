@@ -1802,13 +1802,16 @@ public class GraphController {
      * The code that runs in both the selectionButton and the selectionMenuItem
      */
     private void selection() {
-        if (addingVertices) {
-            exitAddVerticesState();
-            canvas.repaint();
-        }
-        if (addingEdges) {
-            exitAddEdgesState();
-            canvas.repaint();
+        switch (state) {
+            case VERTEX_ADDING:
+                exitAddVerticesState();
+                canvas.repaint();
+                break;
+            case EDGE_ADDING:
+                exitAddEdgesState();
+                canvas.repaint();
+                break;
+            default:
         }
         enterSelectionState();
     }
