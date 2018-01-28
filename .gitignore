@@ -2,3 +2,4 @@ nbproject/
 build/
 dist/
 build.xml
+*.graph
