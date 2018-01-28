@@ -1840,7 +1840,6 @@ public class GraphController {
     private void enterAddVerticesState() {
         setSelectedVertices(true);
         state = States.VERTEX_ADDING; //enter the vertex adding state
-        canvas.setAddingVertex(true);
     }
     
     /**
@@ -1850,7 +1849,6 @@ public class GraphController {
      */
     private void exitAddVerticesState() {
         setSelectedVertices(false);
-        canvas.setAddingVertex(false);
     }
     
     private void enterAddEdgesState() {
@@ -1912,7 +1910,7 @@ public class GraphController {
     }
     
     private void exitAddPathsState() {
-        
+        setSelectedPaths(false);
     }
     
     //SUBMARK: Set Selected Mode

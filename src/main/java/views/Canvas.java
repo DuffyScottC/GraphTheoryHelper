@@ -36,7 +36,6 @@ public class Canvas extends JTextArea {
      * True if we are in the edge adding state
      */
     private boolean showTitles = false;
-    private boolean addingVertex = false;
     /**
      * True if we are drawing a multiple selection.
      */
@@ -256,10 +255,6 @@ public class Canvas extends JTextArea {
     
     public void setGraphOutputTextField(JTextField graphOutputTextField) {
         this.graphOutputTextField = graphOutputTextField;
-    }
-    
-    public void setAddingVertex(boolean addingVertex) {
-        this.addingVertex = addingVertex;
     }
     
 }
