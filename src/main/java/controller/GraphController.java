@@ -605,7 +605,6 @@ public class GraphController {
                     loadedGraph.edges uses references to the Vertex objects
                     contained in loadedGraph.vertices.
                     */
-                    
                     //replace the old graph with the new one
                     replace(loadedGraph);
 
@@ -2350,15 +2349,6 @@ public class GraphController {
         if (addingEdges && firstSelectedVertex != null) {
             return;
         }
-
-        //Unhighlight all selected vertices and edges:
-        for (Vertex v : vertices) { //cycle through all the vertices
-            unHighlightVertex(v); //unhighlight this vertex
-        }
-        for (Edge e : edges) { //cycle through all the edges
-            unHighlightEdge(e); //unhighlight this edge
-        }
-        //Now colors won't be saved as "highlighted" accedentally
         
         //instantiate a new gson object (with the pretty formating option
         //so that the file has newlines and indents)
@@ -2377,27 +2367,6 @@ public class GraphController {
             isCommandPressed = false; //unpress command
             JOptionPane.showMessageDialog(frame, "Unable to save file.\n"
                     + ex.getMessage(), "Oops!", JOptionPane.ERROR_MESSAGE);
-        }
-
-        //if we are in the selection state
-        if (selecting) {
-            //Re-highlight all selected vertices and edges:
-            for (Vertex v : selectedVertices) { //cycle through all the vertices
-                highlightVertex(v); //unhighlight this vertex
-            }
-            for (Edge e : selectedEdges) { //cycle through all the vertices
-                highlightEdge(e); //unhighlight this vertex
-            }
-            //if we are in the adding edges state
-        } else if (addingEdges) {
-            //Re-highlight available vertices
-            highlightAvailableVertices();
-            //if we are in the adding vertices state
-        } else if (addingVertices) {
-            //Re-highlight the selected vertices
-            for (Vertex v : selectedVertices) { //cycle through all the vertices
-                highlightVertex(v); //unhighlight this vertex
-            }
         }
 
         setIsModified(false);

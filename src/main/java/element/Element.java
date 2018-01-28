@@ -18,9 +18,9 @@ import java.io.Serializable;
  */
 public abstract class Element implements Serializable {
 
-    protected float strokeWidth = Values.VERTEX_STROKE_WIDTH;
-    protected Color strokeColor = Color.BLACK;
-    protected Color fillColor = Color.RED;
+    protected transient float strokeWidth = Values.VERTEX_STROKE_WIDTH;
+    protected transient Color strokeColor = Color.BLACK;
+    protected transient Color fillColor = Color.RED;
     protected double xLoc = 0;
     protected double yLoc = 0;
     protected String title = "A";
