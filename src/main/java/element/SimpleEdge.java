@@ -89,4 +89,10 @@ public class SimpleEdge {
             return false; //it is not equal
         }
     }
+    
+    @Override
+    public String toString() {
+        return "(" + endpoint1 + "," + endpoint2 + ")";
+    }
+    
 }

@@ -592,8 +592,8 @@ public class GraphController {
                     for (SimpleEdge se : loadedGraph.getSimpleEdges()) {
                         //get a reference to the vertices whos names match
                         //se's endpoint titles
-                        Vertex ep1 = graph.getVertexNamed(se.getEndpoint1());
-                        Vertex ep2 = graph.getVertexNamed(se.getEndpoint2());
+                        Vertex ep1 = loadedGraph.getVertexNamed(se.getEndpoint1());
+                        Vertex ep2 = loadedGraph.getVertexNamed(se.getEndpoint2());
                         //create a new edge from ep1 and ep2
                         Edge newEdge = new Edge(ep1, ep2);
                         //add the new edge to loadedGraph.edges (directly,
