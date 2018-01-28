@@ -634,8 +634,6 @@ public class GraphController {
                 chooser.setCurrentDirectory(currentDirectory);
                 //Update the user's preference for the current directory
                 prefs.put(Values.LAST_FILE_PATH, currentDirectory.toString());
-                //debug print
-                System.out.println("currentDirectory.toString(): " + currentDirectory.toString());
 
             }
         });
