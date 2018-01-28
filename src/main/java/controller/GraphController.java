@@ -2419,7 +2419,7 @@ public class GraphController {
      */
     public void exportToPng() {
         //if we are in the edge adding state
-        if (addingEdges) {
+        if (state == States.EDGE_ADDING) {
             //unhighlight all vertices
             for (Vertex v : vertices) {
                 unHighlightVertex(v);
@@ -2455,7 +2455,7 @@ public class GraphController {
         }
         
         //if we are in the edge adding state
-        if (addingEdges) {
+        if (state == States.EDGE_ADDING) {
             //re-highlight the available vertices
             highlightAvailableVertices();
             //reset the editing edge
