@@ -34,7 +34,7 @@ public class Vertex extends Element {
      * Used in addEdgeState operations. Defaults to true when you
      * create a new vertex (not serializable, so set in constructor)
      */
-    private transient boolean canAddEdges;
+    private transient boolean canAddEdges = true;
     
     /**
      * A list of edges associated with this vertex.
