@@ -610,7 +610,8 @@ public class GraphController {
 
                     setIsModified(false);
                     
-                    enterSelectionState();
+                    //enter the selection state (and exit any other state)
+                    selection();
 
                     canvas.repaint();
                 } catch (IOException ex) {
