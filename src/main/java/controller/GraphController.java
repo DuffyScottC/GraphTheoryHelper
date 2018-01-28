@@ -867,7 +867,7 @@ public class GraphController {
             canvas.repaint(); //repaint the canvas
         });
         
-        frame.getEulerianCircuitMenuItem().addActionListener((ActionEvent e) -> {
+        frame.getExportMenuItem().addActionListener((ActionEvent e) -> {
             System.out.println("Export to png");
             exportToPng();
         });

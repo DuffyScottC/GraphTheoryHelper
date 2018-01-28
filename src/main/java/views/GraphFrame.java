@@ -70,6 +70,8 @@ public class GraphFrame extends javax.swing.JFrame {
         saveMenuItem = new javax.swing.JMenuItem();
         saveAsMenuItem = new javax.swing.JMenuItem();
         newMenuItem = new javax.swing.JMenuItem();
+        jSeparator1 = new javax.swing.JPopupMenu.Separator();
+        exportMenuItem = new javax.swing.JMenuItem();
         editMenu = new javax.swing.JMenu();
         rotate90MenuItem = new javax.swing.JMenuItem();
         selectAllVerticesMenuItem = new javax.swing.JMenuItem();
@@ -261,6 +263,11 @@ public class GraphFrame extends javax.swing.JFrame {
         newMenuItem.setAccelerator(javax.swing.KeyStroke.getKeyStroke(java.awt.event.KeyEvent.VK_N, java.awt.event.InputEvent.META_MASK));
         newMenuItem.setText("New");
         fileMenu.add(newMenuItem);
+        fileMenu.add(jSeparator1);
+
+        exportMenuItem.setAccelerator(javax.swing.KeyStroke.getKeyStroke(java.awt.event.KeyEvent.VK_E, java.awt.event.InputEvent.SHIFT_MASK | java.awt.event.InputEvent.META_MASK));
+        exportMenuItem.setText("Export");
+        fileMenu.add(exportMenuItem);
 
         myMenuBar.add(fileMenu);
 
@@ -364,11 +371,13 @@ public class GraphFrame extends javax.swing.JFrame {
     private javax.swing.JList<String> edgesList;
     private javax.swing.JScrollPane edgesScrollPane;
     private javax.swing.JMenu editMenu;
+    private javax.swing.JMenuItem exportMenuItem;
     private javax.swing.JMenu fileMenu;
     private javax.swing.JMenuItem formatVerticesMenuItem;
     private javax.swing.JPanel graphOutputPanel;
     private javax.swing.JTextField graphOutputTextField;
     private views.InspectorPanel inspectorPanel;
+    private javax.swing.JPopupMenu.Separator jSeparator1;
     private javax.swing.JPopupMenu.Separator jSeparator2;
     private javax.swing.JPanel mainPanel;
     private javax.swing.JTextField modifiedTextField;
@@ -511,5 +520,9 @@ public class GraphFrame extends javax.swing.JFrame {
     
     public JPanel getMainPanel() {
         return mainPanel;
+    }
+    
+    public JMenuItem getExportMenuItem() {
+        return exportMenuItem;
     }
 }
