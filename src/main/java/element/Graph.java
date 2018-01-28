@@ -47,6 +47,15 @@ public class Graph implements Serializable {
         simpleEdges.add(new SimpleEdge(edge));
     }
     
+    public void removeEdge(Edge edge) {
+        //find the index of the edge to be removed
+        int index = edges.indexOf(edge);
+        //remove the edge at that index
+        edges.remove(index);
+        //remove the simple edge at that index
+        simpleEdges.remove(index);
+    }
+    
     //MARK: Getters and setters
     public List<Vertex> getVertices() {
         return vertices;

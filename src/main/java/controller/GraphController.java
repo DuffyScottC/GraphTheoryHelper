@@ -1137,7 +1137,7 @@ public class GraphController {
 
         edges.clear(); //remove all elements from the current edges
         for (Edge e : newEdges) { //loop through new list
-            edges.add(e); //add each edge to the edges list
+            graph.addEdge(e); //add each edge to the edges list
         }
 
         updateEdgesListModel();
@@ -1823,7 +1823,7 @@ public class GraphController {
                 //find se in edges
                 Edge e = getSimpleEdgeFromListOfEdges(se, edges);
                 //remove e (se's match) from edges
-                edges.remove(e);
+                graph.removeEdge(e);
             }
         }
 
