@@ -1791,21 +1791,7 @@ public class GraphController {
     }
 
     //MARK: States methods
-    private void setSelectedVertices(boolean selected) {
-        addVerticesButton.setSelected(selected);
-        addVerticesMenuItem.setSelected(selected);
-    }
-
-    private void setSelectedEdges(boolean selected) {
-        addEdgesButton.setSelected(selected);
-        addEdgesMenuItem.setSelected(selected);
-    }
-
-    private void setSelectedSelection(boolean selected) {
-        selectionButton.setSelected(selected);
-        selectionMenuItem.setSelected(selected);
-    }
-    
+    //SUBMARK: Enter/Exit States
     private void enterSelectionState() {
         setSelectedSelection(true);
         state = States.SELECTION;
@@ -1888,8 +1874,26 @@ public class GraphController {
         movingControlPoint = false;
     }
     
+    //SUBMARK: Set Selected Mode
+    private void setSelectedVertices(boolean selected) {
+        addVerticesButton.setSelected(selected);
+        addVerticesMenuItem.setSelected(selected);
+    }
+
+    private void setSelectedEdges(boolean selected) {
+        addEdgesButton.setSelected(selected);
+        addEdgesMenuItem.setSelected(selected);
+    }
+
+    private void setSelectedSelection(boolean selected) {
+        selectionButton.setSelected(selected);
+        selectionMenuItem.setSelected(selected);
+    }
+    
+    //SUBMARK: State ActionListeners
     /**
-     * The code that runs in both the selectionButton and the selectionMenuItem
+     * The code that runs in both the selectionButton and the 
+     * selectionMenuItem
      */
     private void selection() {
         switch (state) {
@@ -1922,6 +1926,29 @@ public class GraphController {
         exitAddEdgesState();
         exitSelectionState();
         enterAddVerticesState(); //enter the add vertices state
+        canvas.repaint();
+    }
+    
+    /**
+     * The code that runs in both the addEdgesButton and the 
+     * addEdgesMenuItem
+     */
+    private void addEdges() {
+        if (vertices == null) {
+            JOptionPane.showMessageDialog(frame, "Need at least two vertices to add an edge.");
+            setSelectedEdges(false);
+            isCommandPressed = false; //unpress command
+            return;
+        }
+        if (vertices.isEmpty() || vertices.size() == 1) {
+            JOptionPane.showMessageDialog(frame, "Need at least two vertices to add an edge.");
+            setSelectedEdges(false);
+            isCommandPressed = false; //unpress command
+            return;
+        }
+        exitAddVerticesState();
+        exitSelectionState();
+        enterAddEdgeState();
         canvas.repaint();
     }
     
@@ -2007,28 +2034,6 @@ public class GraphController {
 
         canvas.repaint();
         setIsModified(true);
-    }
-
-    /**
-     * The code that runs in both the addEdgesButton and the addEdgesMenuItem
-     */
-    private void addEdges() {
-        if (vertices == null) {
-            JOptionPane.showMessageDialog(frame, "Need at least two vertices to add an edge.");
-            setSelectedEdges(false);
-            isCommandPressed = false; //unpress command
-            return;
-        }
-        if (vertices.isEmpty() || vertices.size() == 1) {
-            JOptionPane.showMessageDialog(frame, "Need at least two vertices to add an edge.");
-            setSelectedEdges(false);
-            isCommandPressed = false; //unpress command
-            return;
-        }
-        exitAddVerticesState();
-        exitSelectionState();
-        enterAddEdgeState();
-        canvas.repaint();
     }
 
     private void addEdge(int mx, int my) {
