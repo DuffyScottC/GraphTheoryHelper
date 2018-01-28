@@ -363,7 +363,7 @@ public class GraphController {
                     //control point
                     if (movingControlPoint) {
                         //increment the control point's location
-                        editingEdge.incCtrlPoint(incX, incY);
+                        graph.incEdgeCtrlPoint(edges.indexOf(editingEdge), incX, incY);
                     }
                 }
                 canvas.repaint();
@@ -594,8 +594,12 @@ public class GraphController {
                         //se's endpoint titles
                         Vertex ep1 = loadedGraph.getVertexNamed(se.getEndpoint1());
                         Vertex ep2 = loadedGraph.getVertexNamed(se.getEndpoint2());
-                        //create a new edge from ep1 and ep2
-                        Edge newEdge = new Edge(ep1, ep2);
+                        //create a new edge from ep1 and ep2 (no-arg constructor)
+                        Edge newEdge = new Edge();
+                        //set the new edge's endpoints and control point
+                        newEdge.setEndpoint1(ep1);
+                        newEdge.setEndpoint2(ep2);
+                        newEdge.setCtrlPoint(se.getCtrlPoint().x, se.getCtrlPoint().y);
                         //add the new edge to loadedGraph.edges (directly,
                         //not with the Graph.addEdge(Edge) method)
                         loadedGraph.getEdges().add(newEdge);
@@ -1556,7 +1560,8 @@ public class GraphController {
         //Add all the edge endpoints to clickedVertices so that they will
         //be moved appropriately in the move-vertices section:
         //cycle through all clicked edges
-        for (Edge clickedEdge : clickedEdges) {
+        for (int i = 0; i < clickedEdges.size(); i++) {
+            Edge clickedEdge = clickedEdges.get(i);
             //Add both vertices attached to this edge:
             //get the first endpoint
             Vertex ep1 = clickedEdge.getEndpoint1();
@@ -1573,7 +1578,7 @@ public class GraphController {
                 verticesToMove.add(ep2);
             }
             //increment the edge control point's location
-            clickedEdge.incCtrlPoint(incX, incY);
+            graph.incEdgeCtrlPoint(i, incX, incY);
         }
 
         //A set of edges whose control points have already been incremented
@@ -1603,6 +1608,8 @@ public class GraphController {
                         Point2D.Double p1 = edge.getCtrlPoint();
                         Vertex otherVertex = edge.getOtherEndpoint(clickedVertex);
                         Point2D.Double p0 = otherVertex.getCenter();
+                        //get the index of the edge
+                        int edgeIndex = edges.indexOf(edge);
 
                         //if otherVertex is NOT in clickedVertices, then it will
                         //not be moving later and we need to move this edge's
@@ -1636,7 +1643,7 @@ public class GraphController {
                             Point2D.Double newP1 = B2.add(newP2);
 
                             //set the new control point
-                            edge.setCtrlPoint(newP1.x, newP1.y);
+                            graph.setEdgeCtrlPoint(edgeIndex, newP1.x, newP1.y);
                         } else /*
                                 If, however, the other vertex was clicked, then we 
                                 simply need to increment the edge's control point with 
@@ -1646,7 +1653,7 @@ public class GraphController {
                             //mark this so that it is not incremented when
                             //we run into the other vertex
                             incedEdges.add(edge);
-                            edge.incCtrlPoint(incX, incY);
+                            graph.incEdgeCtrlPoint(edgeIndex, incX, incY);
                         }
                     }
                 }

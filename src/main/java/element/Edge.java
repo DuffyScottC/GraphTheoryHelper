@@ -50,8 +50,20 @@ public class Edge extends Element {
         ctrlY = (y1 + y2)/2; //find the mid-y
         
         //Connect this edge to the two vertices
-        endpoint1.addEdge(this);
-        endpoint2.addEdge(this);
+        this.endpoint1.addEdge(this);
+        this.endpoint2.addEdge(this);
+    }
+    
+    /**
+     * A no-argument constructor used only when loading graphs from JSON
+     * serialization. This constructor does not use the 
+     * {@link Vertex.addEdge(Edge)} method (because each endpoint vertex already
+     * has this edge added to it, technically. We assign endpoints and control
+     * point manually, after this constructor is called. 
+     */
+    public Edge () {
+        //Default stroke width
+        this.strokeWidth = Values.EDGE_STROKE_WIDTH;
     }
     
     @Override

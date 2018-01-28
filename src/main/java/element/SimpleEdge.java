@@ -5,6 +5,8 @@
  */
 package element;
 
+import java.awt.geom.Point2D;
+
 /**
  * This object helps vertices keep track of the edges that they are connected
  * to. If we used actual Edge objects, then JSON Serialization would be
@@ -34,6 +36,14 @@ public class SimpleEdge {
     public void setCtrlPoint(double ctrlX, double ctrlY) {
         this.ctrlX = ctrlX;
         this.ctrlY = ctrlY;
+    }
+    
+    public void incCtrlPoint(double incX, double incY) {
+        this.setCtrlPoint(this.ctrlX + incX, this.ctrlY + incY);
+    }
+    
+    public Point2D.Double getCtrlPoint() {
+        return new Point2D.Double(ctrlX, ctrlY);
     }
     
     public String getEndpoint1() {
