@@ -73,6 +73,14 @@ public class Graph implements Serializable {
         }
     }
     
+    /**
+     * Clear all elements from edges list and from simpleEdges list.
+     */
+    public void clearEdges() {
+        edges.clear();
+        simpleEdges.clear();
+    }
+    
     //MARK: Getters and setters
     public List<Vertex> getVertices() {
         return vertices;

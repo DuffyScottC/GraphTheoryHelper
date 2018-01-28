@@ -1135,7 +1135,7 @@ public class GraphController {
 
         updateVerticesListModel();
 
-        edges.clear(); //remove all elements from the current edges
+        graph.clearEdges(); //remove all elements from the current edges
         for (Edge e : newEdges) { //loop through new list
             graph.addEdge(e); //add each edge to the edges list
         }
