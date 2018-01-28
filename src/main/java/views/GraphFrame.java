@@ -5,8 +5,6 @@
  */
 package views;
 
-import java.net.URL;
-import javax.swing.ImageIcon;
 import javax.swing.JButton;
 import javax.swing.JCheckBoxMenuItem;
 import javax.swing.JList;
@@ -14,10 +12,8 @@ import javax.swing.JMenu;
 import javax.swing.JMenuBar;
 import javax.swing.JMenuItem;
 import javax.swing.JPanel;
-import javax.swing.JTextArea;
 import javax.swing.JTextField;
 import javax.swing.JToggleButton;
-import javax.swing.JToolBar;
 
 /**
  *
@@ -88,9 +84,6 @@ public class GraphFrame extends javax.swing.JFrame {
         deleteMenuItem = new javax.swing.JMenuItem();
         changeColorsMenuItem = new javax.swing.JMenuItem();
         addGraphMenuItem = new javax.swing.JMenuItem();
-        graphMenuItem = new javax.swing.JMenu();
-        eulerIanTrailMenuItem = new javax.swing.JMenuItem();
-        eulerIanCircuitMenuItem = new javax.swing.JMenuItem();
 
         setDefaultCloseOperation(javax.swing.WindowConstants.EXIT_ON_CLOSE);
 
@@ -336,16 +329,6 @@ public class GraphFrame extends javax.swing.JFrame {
 
         myMenuBar.add(toolsMenu);
 
-        graphMenuItem.setText("Graph");
-
-        eulerIanTrailMenuItem.setText("Eulerian Trail");
-        graphMenuItem.add(eulerIanTrailMenuItem);
-
-        eulerIanCircuitMenuItem.setText("Eulerian Circuit");
-        graphMenuItem.add(eulerIanCircuitMenuItem);
-
-        myMenuBar.add(graphMenuItem);
-
         setJMenuBar(myMenuBar);
 
         pack();
@@ -381,11 +364,8 @@ public class GraphFrame extends javax.swing.JFrame {
     private javax.swing.JList<String> edgesList;
     private javax.swing.JScrollPane edgesScrollPane;
     private javax.swing.JMenu editMenu;
-    private javax.swing.JMenuItem eulerIanCircuitMenuItem;
-    private javax.swing.JMenuItem eulerIanTrailMenuItem;
     private javax.swing.JMenu fileMenu;
     private javax.swing.JMenuItem formatVerticesMenuItem;
-    private javax.swing.JMenu graphMenuItem;
     private javax.swing.JPanel graphOutputPanel;
     private javax.swing.JTextField graphOutputTextField;
     private views.InspectorPanel inspectorPanel;
@@ -531,13 +511,5 @@ public class GraphFrame extends javax.swing.JFrame {
     
     public JPanel getMainPanel() {
         return mainPanel;
-    }
-    
-    public JMenuItem getEulerianTrailMenuItem() {
-        return eulerIanTrailMenuItem;
-    }
-    
-    public JMenuItem getEulerianCircuitMenuItem() {
-        return eulerIanCircuitMenuItem;
     }
 }

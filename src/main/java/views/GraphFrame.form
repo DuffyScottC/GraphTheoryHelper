@@ -146,23 +146,6 @@
             </MenuItem>
           </SubComponents>
         </Menu>
-        <Menu class="javax.swing.JMenu" name="graphMenuItem">
-          <Properties>
-            <Property name="text" type="java.lang.String" value="Graph"/>
-          </Properties>
-          <SubComponents>
-            <MenuItem class="javax.swing.JMenuItem" name="eulerIanTrailMenuItem">
-              <Properties>
-                <Property name="text" type="java.lang.String" value="Eulerian Trail"/>
-              </Properties>
-            </MenuItem>
-            <MenuItem class="javax.swing.JMenuItem" name="eulerIanCircuitMenuItem">
-              <Properties>
-                <Property name="text" type="java.lang.String" value="Eulerian Circuit"/>
-              </Properties>
-            </MenuItem>
-          </SubComponents>
-        </Menu>
       </SubComponents>
     </Menu>
   </NonVisualComponents>
