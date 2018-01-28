@@ -19,10 +19,21 @@ public class SimpleEdge {
 
     String endpoint1;
     String endpoint2;
+    
+    //The coordinates of the control point
+    double ctrlX;
+    double ctrlY;
 
     public SimpleEdge(Edge edge) {
         this.endpoint1 = edge.getEndpoint1().getTitle();
         this.endpoint2 = edge.getEndpoint2().getTitle();
+        this.ctrlX = edge.getCtrlPoint().x;
+        this.ctrlY = edge.getCtrlPoint().y;
+    }
+    
+    public void setCtrlPoint(double ctrlX, double ctrlY) {
+        this.ctrlX = ctrlX;
+        this.ctrlY = ctrlY;
     }
     
     public String getEndpoint1() {
