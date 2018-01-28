@@ -1589,16 +1589,16 @@ public class GraphController {
             if (!clickedVertex.getEdgeNames().isEmpty()) {
                 List<SimpleEdge> edgeNames = clickedVertex.getEdgeNames();
                 for (SimpleEdge se : edgeNames) {
+                    //find the index of the clicked edge in graph.simpleEdges
+                    int index = graph.getSimpleEdges().indexOf(se);
+                    //Get the edge in edges that matches se
+                    Edge edge = edges.get(index);
                     //if this edge was NOT already moved above
-                    if (!graph.getSimpleEdges().contains(se)) {
+                    if (!clickedEdges.contains(edge)) {
                         /*
                             From here to the end of this loop, "old" means before 
                             clickedVertex is moved/incremented and "new" means after.
                          */
-                        //find the index of the clicked edge in graph.simpleEdges
-                        int index = graph.getSimpleEdges().indexOf(se);
-                        //Get the edge in edges that matches se
-                        Edge edge = edges.get(index);
                         
                         //Get the elements of this edge (p2 is the vertex that
                         //is moving, p1 is ctrl, p1 is staying still)
