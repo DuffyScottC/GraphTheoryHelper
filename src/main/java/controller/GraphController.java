@@ -1599,8 +1599,10 @@ public class GraphController {
                             From here to the end of this loop, "old" means before 
                             clickedVertex is moved/incremented and "new" means after.
                          */
-                        //Find the edge in edges that matches se
-                        Edge edge = getSimpleEdgeFromListOfEdges(se, edges);
+                        //find the index of the clicked edge in graph.simpleEdges
+                        int index = graph.getSimpleEdges().indexOf(se);
+                        //Get the edge in edges that matches se
+                        Edge edge = edges.get(index);
                         
                         //Get the elements of this edge (p2 is the vertex that
                         //is moving, p1 is ctrl, p1 is staying still)
@@ -1843,8 +1845,10 @@ public class GraphController {
         for (Vertex v : selectedVertices) {
             //then add the list of edges from each selected vertices
             for (SimpleEdge se : v.getEdgeNames()) {
-                //find se in edges
-                Edge e = getSimpleEdgeFromListOfEdges(se, edges);
+                //find the index of the clicked edge in graph.simpleEdges
+                int index = graph.getSimpleEdges().indexOf(se);
+                //Get the edge in edges that matches se
+                Edge e = edges.get(index);
                 //remove e (se's match) from edges
                 graph.removeEdge(e);
             }
@@ -2188,8 +2192,10 @@ public class GraphController {
     private void assignCanAddEdgesToConnectedVertices() {
         //Loop through all edges
         for (SimpleEdge se : firstSelectedVertex.getEdgeNames()) {
-            //get the edge that matches se
-            Edge e = getSimpleEdgeFromListOfEdges(se, edges);
+            //find the index of the clicked edge in graph.simpleEdges
+            int index = graph.getSimpleEdges().indexOf(se);
+            //Get the edge in edges that matches se
+            Edge e = edges.get(index);
             //Disable both endpoints (It's not worth checking
             //if each endpoint is the current vertex or not)
             e.getEndpoint1().setCanAddEdges(false);
