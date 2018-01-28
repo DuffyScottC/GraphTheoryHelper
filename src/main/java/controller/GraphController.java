@@ -1789,6 +1789,7 @@ public class GraphController {
      * @param newState The state to enter
      */
     private void enterState(States newState) {
+        System.out.println("Start switching states---------");
         //Exit the old state
         switch (state) {
             case VERTEX_ADDING:
