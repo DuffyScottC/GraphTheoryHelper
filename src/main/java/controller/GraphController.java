@@ -609,6 +609,8 @@ public class GraphController {
                     replace(loadedGraph);
 
                     setIsModified(false);
+                    
+                    enterSelectionState();
 
                     canvas.repaint();
                 } catch (IOException ex) {
@@ -1167,6 +1169,16 @@ public class GraphController {
         graph.setVertexFillColor(newVertexFillColor);
         graph.setVertexStrokeColor(newVertexStrokeColor);
         graph.setEdgeStrokeColor(newEdgeStrokeColor);
+
+        //set the colors of the elements (which are not saved)
+        for (Vertex vertex : vertices) {
+            vertex.setStrokeColor(graph.getVertexStrokeColor());
+            vertex.setStrokeWidth(Values.VERTEX_STROKE_WIDTH);
+            vertex.setFillColor(graph.getVertexFillColor());
+        }
+        for (Edge e : edges) {
+            unHighlightEdge(e);
+        }
 
         //MARK: Update the list selection:
         //deselect all vertices
