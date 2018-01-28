@@ -398,11 +398,14 @@ public class GraphController {
                 lastX = e.getX();
                 lastY = e.getY();
                 canvas.setLastPosition(lastX, lastY);
-                if (addingEdges) { //if we are in the edge adding state
-                    canvas.repaint();
-                }
-                if (addingVertices) { //if we are in the adding vertex state
-                    canvas.repaint();
+                switch (state) {
+                    case VERTEX_ADDING:
+                        canvas.repaint();
+                        break;
+                    case EDGE_ADDING:
+                        canvas.repaint();
+                        break;
+                    default:
                 }
                 //don't want to repaint canvas if nothing happened
             }
