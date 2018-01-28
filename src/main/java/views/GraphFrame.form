@@ -430,6 +430,13 @@
             <Property name="verticalTextPosition" type="int" value="3"/>
           </Properties>
         </Component>
+        <Component class="javax.swing.JToggleButton" name="addPathsButton">
+          <Properties>
+            <Property name="focusable" type="boolean" value="false"/>
+            <Property name="horizontalTextPosition" type="int" value="0"/>
+            <Property name="verticalTextPosition" type="int" value="3"/>
+          </Properties>
+        </Component>
         <Component class="javax.swing.JButton" name="deleteButton">
           <Properties>
             <Property name="toolTipText" type="java.lang.String" value="Delete (backspace)"/>

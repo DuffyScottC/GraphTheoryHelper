@@ -63,6 +63,7 @@ public class GraphFrame extends javax.swing.JFrame {
         addVerticesButton = new javax.swing.JToggleButton();
         addEdgesButton = new javax.swing.JToggleButton();
         selectionButton = new javax.swing.JToggleButton();
+        addPathsButton = new javax.swing.JToggleButton();
         deleteButton = new javax.swing.JButton();
         myMenuBar = new javax.swing.JMenuBar();
         fileMenu = new javax.swing.JMenu();
@@ -238,6 +239,11 @@ public class GraphFrame extends javax.swing.JFrame {
         selectionButton.setVerticalTextPosition(javax.swing.SwingConstants.BOTTOM);
         toolBar.add(selectionButton);
 
+        addPathsButton.setFocusable(false);
+        addPathsButton.setHorizontalTextPosition(javax.swing.SwingConstants.CENTER);
+        addPathsButton.setVerticalTextPosition(javax.swing.SwingConstants.BOTTOM);
+        toolBar.add(addPathsButton);
+
         deleteButton.setToolTipText("Delete (backspace)");
         deleteButton.setFocusable(false);
         deleteButton.setHorizontalTextPosition(javax.swing.SwingConstants.CENTER);
@@ -359,6 +365,7 @@ public class GraphFrame extends javax.swing.JFrame {
     private javax.swing.JToggleButton addEdgesButton;
     private javax.swing.JCheckBoxMenuItem addEdgesMenuItem;
     private javax.swing.JMenuItem addGraphMenuItem;
+    private javax.swing.JToggleButton addPathsButton;
     private javax.swing.JToggleButton addVerticesButton;
     private javax.swing.JCheckBoxMenuItem addVerticesMenuItem;
     private javax.swing.JPanel buttonPanel;
@@ -407,6 +414,10 @@ public class GraphFrame extends javax.swing.JFrame {
 
     public JToggleButton getAddVerticesButton() {
         return addVerticesButton;
+    }
+    
+    public JToggleButton getAddPathsButton() {
+        return addPathsButton;
     }
 
     public Canvas getCanvas() {
