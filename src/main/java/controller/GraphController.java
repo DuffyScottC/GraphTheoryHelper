@@ -1818,12 +1818,11 @@ public class GraphController {
 
     private void enterSelectionState() {
         setSelectedSelection(true);
-        selecting = true;
+        state = States.SELECTION;
     }
 
     private void exitSelectionState() {
         setSelectedSelection(false);
-        selecting = false;
     }
 
     private void deleteSelectedElements() {
@@ -1927,7 +1926,7 @@ public class GraphController {
      */
     private void enterAddVerticesState() {
         setSelectedVertices(true);
-        addingVertices = true; //enter the vertex adding state
+        state = States.VERTEX_ADDING; //enter the vertex adding state
         canvas.setAddingVertex(true);
     }
 
@@ -1938,7 +1937,6 @@ public class GraphController {
      */
     private void exitAddVerticesState() {
         setSelectedVertices(false);
-        addingVertices = false; //exit the state
         canvas.setAddingVertex(false);
     }
 
@@ -2154,7 +2152,7 @@ public class GraphController {
     private void enterAddEdgeState() {
         setSelectedEdges(true);
 
-        addingEdges = true; //enter the edge adding state
+        state = States.EDGE_ADDING; //enter the edge adding state
         //highlight all of the vertexes to provide a visual cue that the user is supposed
         //to click one to add the edge
 
@@ -2191,7 +2189,6 @@ public class GraphController {
 
     private void exitAddEdgesState() {
         setSelectedEdges(false);
-        addingEdges = false;
         firstSelectedVertex = null; //prepare for the next edge
         canvas.setFirstSelectedVertex(null);
         //Unhighlight all vertices
@@ -2390,7 +2387,7 @@ public class GraphController {
         
         //if we are in the addingEdges state and have selected the first vertex
         //then we don't want to save yet. 
-        if (addingEdges && firstSelectedVertex != null) {
+        if (state == States.EDGE_ADDING && firstSelectedVertex != null) {
             return;
         }
         
