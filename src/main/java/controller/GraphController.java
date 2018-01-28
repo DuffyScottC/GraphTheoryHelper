@@ -690,8 +690,8 @@ public class GraphController {
         //The add button
         addGraphDialog.getAddButton().addActionListener((ActionEvent e) -> {
             List<Vertex> toBeFormatted = new ArrayList();
-            List<Vertex> vertices1 = graph.getVertices();
-            List<Edge> edges1 = graph.getEdges();
+//            List<Vertex> vertices1 = graph.getVertices();
+//            List<Edge> edges1 = graph.getEdges();
             //This regex checks if the graph is properly formatted
             //(e.g. {{A,B},{B,A},{C,D}} )
             String properFormat = "\\{(\\{\\w+,\\w+\\})(,\\s*\\{\\w+,\\w+\\})*\\}";
@@ -724,29 +724,29 @@ public class GraphController {
                 Vertex newVertex2 = new Vertex(title2, DIAMETER);
                 //Get the indexes of the vertexes named title1 and title2
                 //(if they exist):
-                int index1 = vertices1.indexOf(newVertex1);
-                int index2 = vertices1.indexOf(newVertex2);
+                int index1 = vertices.indexOf(newVertex1);
+                int index2 = vertices.indexOf(newVertex2);
                 if (index1 == -1) {
                     //if this is a new vertex
-                    vertices1.add(newVertex1); //add this vertex to the list
+                    vertices.add(newVertex1); //add this vertex to the list
                     toBeFormatted.add(newVertex1);
                     wasModified = true;
                 } else {
                     //if this vertex is already contained in the graph
                     //reassign the reference newVertex1 to the vertex that
                     //is already in the graph but has the same name:
-                    newVertex1 = vertices1.get(index1);
+                    newVertex1 = vertices.get(index1);
                 }
                 if (index2 == -1) {
                     //if this is a new vertex
-                    vertices1.add(newVertex2); //add this vertex to the list
+                    vertices.add(newVertex2); //add this vertex to the list
                     toBeFormatted.add(newVertex2);
                     wasModified = true;
                 } else {
                     //if this vertex is already contained in the graph
                     //reassign the reference newVertex2 to the vertex that
                     //is already in the graph but has the same name:
-                    newVertex2 = vertices1.get(index2);
+                    newVertex2 = vertices.get(index2);
                 }
                 //At this point, newVertex1 and newVertex2 are the vertices
                 //in the graph that we want to work with (whether their new
@@ -756,7 +756,7 @@ public class GraphController {
                 if (!newVertex1.isAdjacentTo(newVertex2)) {
                     //create a new edge between newVertex1 and newVertex2
                     Edge newEdge = new Edge(newVertex1, newVertex2);
-                    edges1.add(newEdge); //add the edge to the list
+                    graph.addEdge(newEdge); //add the edge to the list
                     wasModified = true;
                 }
                 //If newVertex1 is already adjacent to newVertex2, then it
@@ -1037,7 +1037,9 @@ public class GraphController {
      *
      * @param e
      */
-    private void straightenEdge(Edge e) {
+    private void straightenEdge(int edgeIndex) {
+        //get the edge at edgeIndex
+        Edge e = edges.get(edgeIndex);
         //Set the default control point:
         //get the endpoint coordinates
         double x1 = e.getEndpoint1().getCenter().getX();
@@ -1047,7 +1049,7 @@ public class GraphController {
         //set the control point
         double ctrlX = (x1 + x2) / 2; //find the mid-x
         double ctrlY = (y1 + y2) / 2; //find the mid-y
-        e.setCtrlPoint(ctrlX, ctrlY);
+        graph.setEdgeCtrlPoint(edgeIndex, ctrlX, ctrlY);
     }
 
     /**
@@ -1055,8 +1057,8 @@ public class GraphController {
      */
     public void formatAllVertices() {
         formatVertices(vertices);
-        for (Edge e : edges) { //cycle through the edges
-            straightenEdge(e); //straighten the edges
+        for (int i = 0; i < edges.size(); i++) { //cycle through the edges
+            straightenEdge(i); //straighten the edges
         }
     }
 
