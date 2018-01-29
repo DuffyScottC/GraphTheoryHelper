@@ -32,7 +32,8 @@ public class GraphStateMachine {
     private final JCheckBoxMenuItem selectionMenuItem;
     private final JCheckBoxMenuItem addPathsMenuItem;
     
-    public GraphStateMachine(GraphFrame frame, Canvas canvas, List<Vertex> vertices) {
+    public GraphStateMachine(GraphFrame frame, Canvas canvas, 
+            List<Vertex> vertices, List<Integer> selectedVertexIndices) {
         addVerticesButton = frame.getAddVerticesButton();
         addEdgesButton = frame.getAddEdgesButton();
         selectionButton = frame.getSelectionButton();
