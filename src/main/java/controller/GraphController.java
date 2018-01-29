@@ -230,6 +230,7 @@ public class GraphController {
         addVerticesButton = frame.getAddVerticesButton();
         addEdgesButton = frame.getAddEdgesButton();
         selectionButton = frame.getSelectionButton();
+        addPathsButton = frame.getAddPathsButton();
         
         graphStateMachine = new GraphStateMachine(frame, 
                 graph, 
