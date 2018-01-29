@@ -61,4 +61,25 @@ public class Values {
     private static final int SELECTION_TRANSPARENCY = 80;
     public static final Color SELECTION_STROKE_COLOR = new Color(125, 125, 125, SELECTION_TRANSPARENCY);
     public static final Color SELECTION_FILL_COLOR = new Color(192, 192, 192, SELECTION_TRANSPARENCY);
+    
+    /*
+        switch (state) {
+            case VERTEX_ADDING:
+                break;
+            case EDGE_ADDING:
+                break;
+            case SELECTION:
+                break;
+            case PATH_ADDING:
+                break;
+            default:
+        }
+    */
+    public static enum States {
+        VERTEX_ADDING,
+        EDGE_ADDING,
+        SELECTION,
+        PATH_ADDING
+    }
+    
 }
