@@ -238,7 +238,11 @@ public class GraphController {
 
         addKeyboardShortcuts();
         
-        graphSelectionHandeler = new GraphSelectionHandeler();
+        graphSelectionHandeler = new GraphSelectionHandeler(frame,
+        selectedVertices,
+        selectedEdges,
+        selectedVertexIndices,
+        selectedEdgeIndices);
         
         titleTextField = frame.getTitleTextField();
         modifiedTextField = frame.getModifiedTextField();

@@ -7,6 +7,10 @@ package controller;
 
 import element.Edge;
 import element.Vertex;
+import java.util.ArrayList;
+import java.util.List;
+import javax.swing.JList;
+import views.GraphFrame;
 
 /**
  *
@@ -14,8 +18,40 @@ import element.Vertex;
  */
 public class GraphSelectionHandeler {
     
-    public GraphSelectionHandeler() {
-        
+    /**
+     * the last selected vertex in the vertices JList (Used for things like
+     * setting the title text field, updating the title, changing the color,
+     * etc.)
+     */
+    private List<Vertex> selectedVertices;
+    /**
+     * The last selected edge in the edges JList
+     */
+    private List<Edge> selectedEdges;
+    /**
+     * A list of the selected indices in the vertices JList. null if there are
+     * no selected vertices. (Used for things like setting the title text field
+     * or updating the title)
+     */
+    private List<Integer> selectedVertexIndices;
+    /**
+     * The last selected index in the edges JList
+     */
+    private List<Integer> selectedEdgeIndices;
+    private JList verticesList;
+    
+    
+    public GraphSelectionHandeler(GraphFrame frame,
+            List<Vertex> selectedVertices,
+            List<Edge> selectedEdges,
+            List<Integer> selectedVertexIndices,
+            List<Integer> selectedEdgeIndices) {
+        //the visual JList that the user sees and interacts with
+        verticesList = frame.getVerticesList(); 
+        this.selectedVertices = selectedVertices;
+        this.selectedEdges = selectedEdges;
+        this.selectedVertexIndices = selectedVertexIndices;
+        this.selectedEdgeIndices = selectedEdgeIndices;
     }
     
     /**
