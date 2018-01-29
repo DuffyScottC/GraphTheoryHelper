@@ -263,4 +263,27 @@ public class GraphStateMachine {
         addPathsMenuItem.setSelected(selected);
     }
     
+    /**
+     * Determines whether all vertices are available to add edges to (and
+     * assigns their canAddEdges value) when the user enters the addEdgeState.
+     * (A vertex is available if its degree is less than (order-1), where order
+     * is the number of vertices in the graph.
+     *
+     * @return The number of vertexes that were assigned a canAddEdges value of
+     * false
+     */
+    private int assignCanAddEdges() {
+        int numberOfFalses = 0;
+        for (Vertex v : graph.getVertices()) {
+            //if this vertex is available to add edges to:
+            if (v.getDegree() < graph.getVertices().size() - 1) {
+                v.setCanAddEdges(true);
+            } else { //if this vertex is completely full
+                v.setCanAddEdges(false);
+                numberOfFalses++; //increment the number of falses
+            }
+        }
+        return numberOfFalses;
+    }
+    
 }
