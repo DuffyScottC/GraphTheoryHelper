@@ -160,22 +160,22 @@ public class Graph implements Serializable {
         this.edgeStrokeColor = edgeStrokeColor;
     }
     
-    private void highlightVertex(Vertex vertex) {
+    public void highlightVertex(Vertex vertex) {
         vertex.setStrokeColor(Values.EDGE_HIGHLIGHT_COLOR);
         vertex.setStrokeWidth(Values.VERTEX_HIGHLIGHT_STROKE_WIDTH);
     }
 
-    private void unHighlightVertex(Vertex vertex) {
+    public void unHighlightVertex(Vertex vertex) {
         vertex.setStrokeColor(vertexStrokeColor);
         vertex.setStrokeWidth(Values.VERTEX_STROKE_WIDTH);
     }
 
-    private void highlightEdge(Edge edge) {
+    public void highlightEdge(Edge edge) {
         edge.setStrokeWidth(Values.EDGE_HIGHLIGHT_STROKE_WIDTH);
         edge.setStrokeColor(Values.EDGE_HIGHLIGHT_COLOR);
     }
 
-    private void unHighlightEdge(Edge edge) {
+    public void unHighlightEdge(Edge edge) {
         edge.setStrokeWidth(Values.EDGE_STROKE_WIDTH);
         edge.setStrokeColor(edgeStrokeColor);
     }

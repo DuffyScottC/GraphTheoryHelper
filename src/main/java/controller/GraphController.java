@@ -1101,7 +1101,7 @@ public class GraphController {
             vertex.setFillColor(graph.getVertexFillColor());
         }
         for (Edge e : edges) {
-            unHighlightEdge(e);
+            graph.unHighlightEdge(e);
         }
 
         //MARK: Update the list selection:
@@ -2148,19 +2148,19 @@ public class GraphController {
         if (state == States.EDGE_ADDING) {
             //unhighlight all vertices
             for (Vertex v : vertices) {
-                unHighlightVertex(v);
+                graph.unHighlightVertex(v);
             }
             //set the editing edge to null (so it won't draw the dot)
             canvas.setEditingEdge(null);
         } else { //if we are not in the edge adding state
             //unhighlight the selected vertices
             for (Vertex v : selectedVertices) {
-                unHighlightVertex(v);
+                graph.unHighlightVertex(v);
             }
         }
         //unhighlight the selected vertices
         for (Edge e : selectedEdges) {
-            unHighlightEdge(e);
+            graph.unHighlightEdge(e);
         }
         
         //Create a BufferedImage of the same dimensions as canvas
@@ -2189,12 +2189,12 @@ public class GraphController {
         } else { //if we are not in the addingEdges state
             //highlight the selected vertices again
             for (Vertex v : selectedVertices) {
-                highlightVertex(v);
+                graph.highlightVertex(v);
             }
         }
         //hightlight the selected edges again
         for (Edge e : selectedEdges) {
-            highlightEdge(e);
+            graph.highlightEdge(e);
         }
     }
 
