@@ -1846,7 +1846,7 @@ public class GraphController {
                     //connected to the firstSelectedVertex:
                     assignCanAddEdgesToConnectedVertices();
                     //Reset the highlights
-                    highlightAvailableVertices();
+                    graph.highlightAvailableVertices();
                     lastX = mx;
                     lastY = my;
                     canvas.setLastPosition(lastX, lastY);
@@ -2169,7 +2169,7 @@ public class GraphController {
         //if we are in the edge adding state
         if (state == States.EDGE_ADDING) {
             //re-highlight the available vertices
-            highlightAvailableVertices();
+            graph.highlightAvailableVertices();
             //reset the editing edge
             canvas.setEditingEdge(editingEdge);
         } else { //if we are not in the addingEdges state
