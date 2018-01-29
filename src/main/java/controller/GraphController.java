@@ -217,8 +217,6 @@ public class GraphController {
 
         SampleCanvas sampleCanvas = graphColorChooserDialog.getSampleCanvas();
         sampleCanvas.setUp(graph); //Set up the sample canvas in the dialog
-
-        addKeyboardShortcuts();
         
         graphSelectionHandeler = new GraphSelectionHandeler(frame, 
                 selectedVertices,
@@ -238,6 +236,8 @@ public class GraphController {
                 canvas, 
                 vertices, 
                 graphSelectionHandeler);
+        
+        addKeyboardShortcuts();
         
         graphStateMachine.enterState(States.VERTEX_ADDING);
         
