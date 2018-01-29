@@ -8,6 +8,7 @@ package controller;
 import element.Vertex;
 import javax.swing.JOptionPane;
 import controller.Values.States;
+import element.Graph;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 import java.util.List;
@@ -32,9 +33,14 @@ public class GraphStateMachine {
     private final JCheckBoxMenuItem selectionMenuItem;
     private final JCheckBoxMenuItem addPathsMenuItem;
     private final GraphSelectionHandeler graphSelectionHandeler;
+    private final Canvas canvas;
+    private final Graph graph;
     
-    public GraphStateMachine(GraphFrame frame, Canvas canvas, 
-            List<Vertex> vertices, GraphSelectionHandeler graphSelectionHandeler) {
+    public GraphStateMachine(GraphFrame frame,
+            Graph graph,
+            Canvas canvas, 
+            List<Vertex> vertices, 
+            GraphSelectionHandeler graphSelectionHandeler) {
         addVerticesButton = frame.getAddVerticesButton();
         addEdgesButton = frame.getAddEdgesButton();
         selectionButton = frame.getSelectionButton();
@@ -44,6 +50,8 @@ public class GraphStateMachine {
         selectionMenuItem = frame.getSelectionMenuItem();
         addPathsMenuItem = frame.getAddPathsMenuItem();
         this.graphSelectionHandeler = graphSelectionHandeler;
+        this.canvas = canvas;
+        this.graph = graph;
         
         //Add vertices
         ActionListener addVertices = (ActionEvent e) -> {
@@ -178,28 +186,30 @@ public class GraphStateMachine {
         //is supposed to click one to add the edge
 
         //Update vertex selection
-        verticesList.clearSelection(); //clear the visual selection in the JList
+        graphSelectionHandeler.getVerticesList().clearSelection(); //clear the visual selection in the JList
         //deselect the vertex
-        selectedVertexIndices.clear();
-        updateSelectedVertices();
+        graphSelectionHandeler.getSelectedVertexIndices().clear();
+        graphSelectionHandeler.updateSelectedVertices();
 
         //Update edge selection
         //if selectedEdgeIndeces is not empty
-        if (!selectedEdgeIndices.isEmpty()) {
+        if (!graphSelectionHandeler.getSelectedEdgeIndices().isEmpty()) {
             //get the last index of selectedEdgeIndices
-            int sEISize = selectedEdgeIndices.size();
+            int sEISize = graphSelectionHandeler.getSelectedEdgeIndices().size();
             //find the last selected index
-            int lastIndex = selectedEdgeIndices.get(sEISize - 1);
+            int lastIndex = graphSelectionHandeler.getSelectedEdgeIndices().get(sEISize - 1);
+            //get the size of the selectedEdges list
+            int size = graphSelectionHandeler.getSelectedEdges().size();
             //set the editingEdge to the last selected edge
-            editingEdge = selectedEdges.get(selectedEdges.size() - 1);
+            editingEdge = graphSelectionHandeler.getSelectedEdges().get(size - 1);
             canvas.setEditingEdge(editingEdge);
             //set the last index to be the only one selected
-            edgesList.setSelectedIndex(lastIndex);
+            graphSelectionHandeler.getEdgesList().setSelectedIndex(lastIndex);
             //deselect all edges
-            selectedEdgeIndices.clear();
+            graphSelectionHandeler.getSelectedEdgeIndices().clear();
             //add the last index
-            selectedEdgeIndices.add(lastIndex);
-            updateSelectedEdges();
+            graphSelectionHandeler.getSelectedEdgeIndices().add(lastIndex);
+            graphSelectionHandeler.updateSelectedEdges();
         }
 
         //Assign the canAddEdges values of all the vertices and get the number
@@ -207,19 +217,17 @@ public class GraphStateMachine {
         int numberOfFalses = assignCanAddEdges();
 
         //Highglight appropriate vertices
-        highlightAvailableVertices();
+        graph.highlightAvailableVertices();
     }
 
     private void exitAddEdgesState() {
         setSelectedEdges(false);
-        firstSelectedVertex = null; //prepare for the next edge
-        canvas.setFirstSelectedVertex(null);
+        graph.setFirstSelectedVertex(null); //prepare for the next edge
         //Unhighlight all vertices
-        for (Vertex v : vertices) {
-            unHighlightVertex(v);
+        for (Vertex v : graph.getVertices()) {
+            graph.unHighlightVertex(v);
         }
         //set the editingEdge to null
-        editingEdge = null;
         canvas.setEditingEdge(null);
         //in case the user was holding down the mouse when they switched states
         movingControlPoint = false;

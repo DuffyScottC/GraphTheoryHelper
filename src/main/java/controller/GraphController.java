@@ -65,12 +65,6 @@ import views.SampleCanvas;
 public class GraphController {
 
     /**
-     * The edge that the user can edit, if they are in the edge adding state and
-     * click an already-placed edge. Set to null if there is no edge to be
-     * edited.
-     */
-    private Edge editingEdge = null;
-    /**
      * the last selected vertex in the vertices JList (Used for things like
      * setting the title text field, updating the title, changing the color,
      * etc.)
@@ -367,7 +361,7 @@ public class GraphController {
                         //control point
                         if (movingControlPoint) {
                             //increment the control point's location
-                            graph.incEdgeCtrlPoint(edges.indexOf(editingEdge), incX, incY);
+                            graph.incEdgeCtrlPoint(edges.indexOf(canvas.getEditingEdge()), incX, incY);
                         }
                         break;
                     case SELECTION: //if we're in the selection state
@@ -1765,14 +1759,13 @@ public class GraphController {
             if there is an edge in edit mode, we want to provide priority to the
             edge's control point (in case it's on top of a vertex)
              */
-            if (editingEdge != null) {
+            if (canvas.getEditingEdge() != null) {
                 //if the user clicked the control point
-                if (editingEdge.getCtrlPointPositionShape().contains(mx, my)) {
+                if (canvas.getEditingEdge().getCtrlPointPositionShape().contains(mx, my)) {
                     //signal to the mouseDragged function in canvas's mouse motion
                     //listener that the user is moving a control point
                     movingControlPoint = true;
                 } else { //if the user did not click the control point
-                    editingEdge = null;
                     canvas.setEditingEdge(null);
                     edgesList.clearSelection(); //deselect edge in the list
                     selectedEdgeIndices.clear();
@@ -1797,10 +1790,9 @@ public class GraphController {
                         //if this edge was clicked
                         if (isEdgeClicked(edge, mx, my)) {
                             //set the editingEdge
-                            editingEdge = edge;
                             canvas.setEditingEdge(edge);
                             //find the index of the editingEdge
-                            int index = edges.indexOf(editingEdge);
+                            int index = edges.indexOf(canvas.getEditingEdge());
                             //select the editingEdge
                             selectedEdgeIndices.add(index);
                             edgesList.setSelectedIndex(index);
@@ -1883,7 +1875,6 @@ public class GraphController {
                     canvas.repaint();
 
                     //set the editingEdge
-                    editingEdge = newEdge;
                     canvas.setEditingEdge(newEdge);
 
                     //Update selection
@@ -1936,7 +1927,6 @@ public class GraphController {
         graphSelectionHandeler.updateSelectedEdges();
 
         //set the editingEdge to null
-        editingEdge = null;
         canvas.setEditingEdge(null);
         //in case the user was holding down the mouse when they switched states
         movingControlPoint = false;
@@ -2123,6 +2113,8 @@ public class GraphController {
      * Currently, it eliminates any highlighting.
      */
     public void exportToPng() {
+        //store the editing edge temporarily
+        Edge editingEdge = canvas.getEditingEdge();
         //if we are in the edge adding state
         if (state == States.EDGE_ADDING) {
             //unhighlight all vertices

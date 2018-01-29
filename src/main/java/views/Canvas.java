@@ -220,6 +220,10 @@ public class Canvas extends JTextArea {
         this.editingEdge = editingEdge;
     }
     
+    public Edge getEditingEdge() {
+        return editingEdge;
+    }
+    
     public void setMultipleSelecting(boolean multipleSelecting) {
         this.multipleSelecting = multipleSelecting;
     }
