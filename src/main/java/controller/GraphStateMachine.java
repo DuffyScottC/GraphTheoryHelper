@@ -9,6 +9,9 @@ import element.Vertex;
 import javax.swing.JOptionPane;
 import controller.Values.States;
 import java.awt.event.ActionEvent;
+import javax.swing.JCheckBoxMenuItem;
+import javax.swing.JToggleButton;
+import views.GraphFrame;
 
 /**
  *
@@ -17,8 +20,25 @@ import java.awt.event.ActionEvent;
 public class GraphStateMachine {
     
     States state = States.SELECTION;
+    private final JToggleButton addVerticesButton;
+    private final JToggleButton addEdgesButton;
+    private final JToggleButton selectionButton;
+    private final JToggleButton addPathsButton;
+    private final JCheckBoxMenuItem addVerticesMenuItem;
+    private final JCheckBoxMenuItem addEdgesMenuItem;
+    private final JCheckBoxMenuItem selectionMenuItem;
+    private final JCheckBoxMenuItem addPathsMenuItem;
     
-    public GraphStateMachine() {
+    public GraphStateMachine(GraphFrame frame) {
+        addVerticesButton = frame.getAddVerticesButton();
+        addEdgesButton = frame.getAddEdgesButton();
+        selectionButton = frame.getSelectionButton();
+        addPathsButton = frame.getAddPathsButton();
+        addVerticesMenuItem = frame.getAddVerticesMenuItem();
+        addEdgesMenuItem = frame.getAddEdgesMenuItem();
+        selectionMenuItem = frame.getSelectionMenuItem();
+        addPathsMenuItem = frame.getAddPathsMenuItem();
+        
         //Add vertices
         addVerticesButton.addActionListener((ActionEvent e) -> {
             addVertices();

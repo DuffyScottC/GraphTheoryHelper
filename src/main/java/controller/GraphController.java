@@ -97,10 +97,6 @@ public class GraphController {
     private JToggleButton addEdgesButton;
     private JToggleButton selectionButton;
     private JToggleButton addPathsButton;
-    private JCheckBoxMenuItem addVerticesMenuItem;
-    private JCheckBoxMenuItem addEdgesMenuItem;
-    private JCheckBoxMenuItem selectionMenuItem;
-    private JCheckBoxMenuItem addPathsMenuItem;
     
     //MARK: State machine
     /**
@@ -246,13 +242,8 @@ public class GraphController {
         addVerticesButton = frame.getAddVerticesButton();
         addEdgesButton = frame.getAddEdgesButton();
         selectionButton = frame.getSelectionButton();
-        addPathsButton = frame.getAddPathsButton();
-        addVerticesMenuItem = frame.getAddVerticesMenuItem();
-        addEdgesMenuItem = frame.getAddEdgesMenuItem();
-        selectionMenuItem = frame.getSelectionMenuItem();
-        addPathsMenuItem = frame.getAddPathsMenuItem();
         
-        graphStateMachine = new GraphStateMachine();
+        graphStateMachine = new GraphStateMachine(frame);
         
         graphStateMachine.enterState(States.VERTEX_ADDING);
 
@@ -601,7 +592,8 @@ public class GraphController {
                     setIsModified(false);
                     
                     //enter the selection state (and exit any other state)
-                    selection();
+                    graphStateMachine.enterState(States.SELECTION);
+                    canvas.repaint();
 
                     canvas.repaint();
                 } catch (IOException ex) {
@@ -655,7 +647,7 @@ public class GraphController {
             colorAllElements(Values.VERTEX_FILL_COLOR, Values.VERTEX_STROKE_COLOR, Values.EDGE_STROKE_COLOR);
             graph.setColors(Values.VERTEX_FILL_COLOR, Values.VERTEX_STROKE_COLOR, Values.EDGE_STROKE_COLOR);
             
-            enterState(States.SELECTION);
+            graphStateMachine.enterState(States.SELECTION);
 
             setIsModified(false);
         });
@@ -916,6 +908,7 @@ public class GraphController {
         addVerticesButton.addKeyListener(keyboardShortcuts);
         addEdgesButton.addKeyListener(keyboardShortcuts);
         selectionButton.addKeyListener(keyboardShortcuts);
+        addPathsButton.addKeyListener(keyboardShortcuts);
 //        titleTextField.addKeyListener(keyboardShortcuts);
         frame.getDeleteButton().addKeyListener(keyboardShortcuts);
         frame.getGraphOutputTextField().addKeyListener(keyboardShortcuts);
@@ -1939,7 +1932,7 @@ public class GraphController {
 
                     //exit the add edge state and then re-enter the add edge
                     //state (allow user to add more edges)
-                    enterState(States.EDGE_ADDING);
+                    graphStateMachine.enterState(States.EDGE_ADDING);
                     canvas.repaint();
 
                     //set the editingEdge
@@ -1962,7 +1955,7 @@ public class GraphController {
         //If we reach this point, we want to cancel the edge
         
         //reenter the add edge state (allow user to add more edges)
-        enterState(States.EDGE_ADDING);
+        graphStateMachine.enterState(States.EDGE_ADDING);
         canvas.repaint();
         return false;
     }
