@@ -92,15 +92,6 @@ public class GraphController {
     private JToggleButton selectionButton;
     private JToggleButton addPathsButton;
     
-    //MARK: State machine
-    /**
-     * An integer used to keep track of which state the user is in.
-     * VERTEX_ADDING - the user is in the vertex adding state.
-     * EDGE_ADDING - the user is in the edge adding state.
-     * SELECTION - the user is in the selection state.
-     * PATHADDING - the user is in the path adding state.
-     */
-    private States state = States.SELECTION;
     //SUBMARK: Selection state
     /**
      * Only true of the command key is pressed
@@ -277,7 +268,7 @@ public class GraphController {
             public void mousePressed(MouseEvent e) {
                 int mx = e.getX(); //x-coord of mouse click
                 int my = e.getY(); //y-coord of mouse click
-                switch (state) {
+                switch (graphStateMachine.getState()) {
                     case VERTEX_ADDING:
                         addVertex(mx - Values.DIAMETER / 2, my - Values.DIAMETER / 2);
                         break;
@@ -318,7 +309,7 @@ public class GraphController {
                     clickedEdges.clear(); //we don't want to move an edge after the user lets go
                     canvas.repaint();
                 }
-                switch (state) {
+                switch (graphStateMachine.getState()) {
                     case EDGE_ADDING:
                         //stop the user from being able to edit the selected edge's control point
                         canvas.setMovingControlPoint(false);
@@ -350,7 +341,7 @@ public class GraphController {
                 lastY = my;
                 canvas.setLastPosition(lastX, lastY);
                 
-                switch (state) {
+                switch (graphStateMachine.getState()) {
                     case EDGE_ADDING: //if we're in the edge adding state
                         //if the user's mouse is held down on the selected edge's
                         //control point
@@ -384,7 +375,7 @@ public class GraphController {
                 lastX = e.getX();
                 lastY = e.getY();
                 canvas.setLastPosition(lastX, lastY);
-                switch (state) {
+                switch (graphStateMachine.getState()) {
                     case VERTEX_ADDING:
                         canvas.repaint();
                         break;
@@ -2054,7 +2045,7 @@ public class GraphController {
         
         //if we are in the addingEdges state and have selected the first vertex
         //then we don't want to save yet. 
-        if (state == States.EDGE_ADDING && graph.getFirstSelectedVertex() != null) {
+        if (graphStateMachine.getState() == States.EDGE_ADDING && graph.getFirstSelectedVertex() != null) {
             return;
         }
         
@@ -2088,7 +2079,7 @@ public class GraphController {
         //store the editing edge temporarily
         Edge editingEdge = canvas.getEditingEdge();
         //if we are in the edge adding state
-        if (state == States.EDGE_ADDING) {
+        if (graphStateMachine.getState() == States.EDGE_ADDING) {
             //unhighlight all vertices
             for (Vertex v : vertices) {
                 graph.unHighlightVertex(v);
@@ -2124,7 +2115,7 @@ public class GraphController {
         }
         
         //if we are in the edge adding state
-        if (state == States.EDGE_ADDING) {
+        if (graphStateMachine.getState() == States.EDGE_ADDING) {
             //re-highlight the available vertices
             graph.highlightAvailableVertices();
             //reset the editing edge

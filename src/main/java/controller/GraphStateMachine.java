@@ -24,7 +24,14 @@ import views.GraphFrame;
  */
 public class GraphStateMachine {
     
-    States state = States.SELECTION;
+    /**
+     * An integer used to keep track of which state the user is in.
+     * VERTEX_ADDING - the user is in the vertex adding state.
+     * EDGE_ADDING - the user is in the edge adding state.
+     * SELECTION - the user is in the selection state.
+     * PATHADDING - the user is in the path adding state.
+     */
+    private States state = States.SELECTION;
     private final JToggleButton addVerticesButton;
     private final JToggleButton addEdgesButton;
     private final JToggleButton selectionButton;
@@ -286,6 +293,10 @@ public class GraphStateMachine {
             }
         }
         return numberOfFalses;
+    }
+
+    public States getState() {
+        return state;
     }
     
 }
