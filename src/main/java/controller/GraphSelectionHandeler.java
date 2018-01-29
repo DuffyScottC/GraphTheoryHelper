@@ -6,10 +6,11 @@
 package controller;
 
 import element.Edge;
+import element.Graph;
 import element.Vertex;
-import java.util.ArrayList;
 import java.util.List;
 import javax.swing.JList;
+import javax.swing.JTextField;
 import views.GraphFrame;
 
 /**
@@ -39,19 +40,30 @@ public class GraphSelectionHandeler {
      */
     private List<Integer> selectedEdgeIndices;
     private JList verticesList;
+    private JList edgesList;
+    private JTextField titleTextField;
+    private List<Vertex> vertices;
+    private List<Edge> edges;
+    private Graph graph;
     
     
     public GraphSelectionHandeler(GraphFrame frame,
             List<Vertex> selectedVertices,
             List<Edge> selectedEdges,
             List<Integer> selectedVertexIndices,
-            List<Integer> selectedEdgeIndices) {
+            List<Integer> selectedEdgeIndices,
+            Graph graph) {
         //the visual JList that the user sees and interacts with
         verticesList = frame.getVerticesList(); 
+        edgesList = frame.getEdgesList();
+        titleTextField = frame.getTitleTextField();
         this.selectedVertices = selectedVertices;
         this.selectedEdges = selectedEdges;
         this.selectedVertexIndices = selectedVertexIndices;
         this.selectedEdgeIndices = selectedEdgeIndices;
+        this.graph = graph;
+        vertices = graph.getVertices();
+        edges = graph.getEdges();
     }
     
     /**
@@ -66,7 +78,7 @@ public class GraphSelectionHandeler {
             //loop through the old vertices
             for (Vertex selectedVertex : selectedVertices) {
                 //unhighlight each one
-                unHighlightVertex(selectedVertex);
+                graph.unHighlightVertex(selectedVertex);
             }
         }
 
@@ -81,7 +93,7 @@ public class GraphSelectionHandeler {
             //store the new selected vertices:
             for (int i : selectedVertexIndices) { //loop through the selected indices
                 Vertex selectedVertex = vertices.get(i); //store this selected vertex
-                highlightVertex(selectedVertex);
+                graph.highlightVertex(selectedVertex);
                 selectedVertices.add(selectedVertex); //add the new selection
             }
             if (selectedVertices.size() == 1) { //if exactly one vertex was selected
@@ -101,7 +113,7 @@ public class GraphSelectionHandeler {
             //loop through the old edges
             for (Edge selectedEdge : selectedEdges) {
                 //unhighlight each one
-                unHighlightEdge(selectedEdge);
+                graph.unHighlightEdge(selectedEdge);
             }
         }
 
@@ -114,7 +126,7 @@ public class GraphSelectionHandeler {
             //store the new selected edges
             for (int i : selectedEdgeIndices) { //loop through the selected indices
                 Edge selectedEdge = edges.get(i); //store this selected edge
-                highlightEdge(selectedEdge);
+                graph.highlightEdge(selectedEdge);
                 selectedEdges.add(selectedEdge); //add the new selection
             }
         }
