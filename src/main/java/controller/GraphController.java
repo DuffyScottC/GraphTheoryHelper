@@ -438,46 +438,6 @@ public class GraphController {
             canvas.repaint();
         });
 
-        //Add vertices
-        addVerticesButton.addActionListener((ActionEvent e) -> {
-            addVertices();
-        });
-        addVerticesMenuItem.addActionListener((ActionEvent e) -> {
-            addVertices();
-        });
-
-        //Selection
-        selectionButton.addActionListener((ActionEvent e) -> {
-            selection();
-        });
-        selectionMenuItem.addActionListener((ActionEvent e) -> {
-            selection();
-        });
-
-        //Add edges
-        addEdgesButton.addActionListener((ActionEvent e) -> {
-            addEdges();
-        });
-        addEdgesMenuItem.addActionListener((ActionEvent e) -> {
-            addEdges();
-        });
-        
-        //Add paths
-        addPathsButton.addActionListener((ActionEvent e) -> {
-            addPaths();
-        });
-        addPathsMenuItem.addActionListener((ActionEvent e) -> {
-            addPaths();
-        });
-
-        //Delete
-        frame.getDeleteButton().addActionListener((ActionEvent e) -> {
-            deleteSelectedElements();
-        });
-        frame.getDeleteMenuItem().addActionListener((ActionEvent e) -> {
-            deleteSelectedElements();
-        });
-
         verticesList.addMouseListener(new MouseAdapter() {
             @Override
             public void mouseClicked(MouseEvent e) {

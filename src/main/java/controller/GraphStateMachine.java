@@ -8,6 +8,7 @@ package controller;
 import element.Vertex;
 import javax.swing.JOptionPane;
 import controller.Values.States;
+import java.awt.event.ActionEvent;
 
 /**
  *
@@ -18,7 +19,45 @@ public class GraphStateMachine {
     States state = States.SELECTION;
     
     public GraphStateMachine() {
+        //Add vertices
+        addVerticesButton.addActionListener((ActionEvent e) -> {
+            addVertices();
+        });
+        addVerticesMenuItem.addActionListener((ActionEvent e) -> {
+            addVertices();
+        });
+
+        //Selection
+        selectionButton.addActionListener((ActionEvent e) -> {
+            selection();
+        });
+        selectionMenuItem.addActionListener((ActionEvent e) -> {
+            selection();
+        });
+
+        //Add edges
+        addEdgesButton.addActionListener((ActionEvent e) -> {
+            addEdges();
+        });
+        addEdgesMenuItem.addActionListener((ActionEvent e) -> {
+            addEdges();
+        });
         
+        //Add paths
+        addPathsButton.addActionListener((ActionEvent e) -> {
+            addPaths();
+        });
+        addPathsMenuItem.addActionListener((ActionEvent e) -> {
+            addPaths();
+        });
+
+        //Delete
+        frame.getDeleteButton().addActionListener((ActionEvent e) -> {
+            deleteSelectedElements();
+        });
+        frame.getDeleteMenuItem().addActionListener((ActionEvent e) -> {
+            deleteSelectedElements();
+        });
     }
     
     int debugCount = 0;
