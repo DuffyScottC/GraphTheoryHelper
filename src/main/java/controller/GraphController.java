@@ -207,6 +207,7 @@ public class GraphController {
     
     //MARK: Seperate Responsibilities
     private GraphStateMachine graphStateMachine;
+    private GraphSelectionHandeler graphSelectionHandeler;
 
     public GraphController() {
         frame.setTitle("Graph Theory Helper");
@@ -237,13 +238,16 @@ public class GraphController {
 
         addKeyboardShortcuts();
         
+        graphSelectionHandeler = new GraphSelectionHandeler();
+        
         titleTextField = frame.getTitleTextField();
         modifiedTextField = frame.getModifiedTextField();
         addVerticesButton = frame.getAddVerticesButton();
         addEdgesButton = frame.getAddEdgesButton();
         selectionButton = frame.getSelectionButton();
         
-        graphStateMachine = new GraphStateMachine(frame, canvas, vertices);
+        graphStateMachine = new GraphStateMachine(frame, canvas, vertices, 
+                graphSelectionHandeler);
         
         graphStateMachine.enterState(States.VERTEX_ADDING);
         
