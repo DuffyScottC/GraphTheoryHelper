@@ -8,6 +8,7 @@ package controller;
 import element.Vertex;
 import javax.swing.JOptionPane;
 import controller.Values.States;
+import element.Edge;
 import element.Graph;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
@@ -201,7 +202,8 @@ public class GraphStateMachine {
             //get the size of the selectedEdges list
             int size = graphSelectionHandeler.getSelectedEdges().size();
             //set the editingEdge to the last selected edge
-            editingEdge = graphSelectionHandeler.getSelectedEdges().get(size - 1);
+            Edge editingEdge = graphSelectionHandeler.getSelectedEdges().get(size - 1);
+            //update canvas's editing edge with this
             canvas.setEditingEdge(editingEdge);
             //set the last index to be the only one selected
             graphSelectionHandeler.getEdgesList().setSelectedIndex(lastIndex);
@@ -230,7 +232,7 @@ public class GraphStateMachine {
         //set the editingEdge to null
         canvas.setEditingEdge(null);
         //in case the user was holding down the mouse when they switched states
-        movingControlPoint = false;
+        canvas.setMovingControlPoint(false);
     }
     
     private void enterAddPathsState() {

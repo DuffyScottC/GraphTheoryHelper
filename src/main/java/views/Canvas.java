@@ -17,9 +17,7 @@ import java.awt.RenderingHints;
 import java.awt.Shape;
 import java.awt.geom.AffineTransform;
 import java.awt.geom.Ellipse2D;
-import java.awt.geom.Point2D;
 import java.awt.geom.Rectangle2D;
-import java.util.ArrayList;
 import java.util.List;
 import javax.swing.JTextArea;
 import javax.swing.JTextField;
@@ -71,6 +69,12 @@ public class Canvas extends JTextArea {
      * be edited.
      */
     private Edge editingEdge = null;
+    
+    /**
+     * Only true if the user has clicked inside of an edge's control point and
+     * is holding down the mouse.
+     */
+    private boolean movingControlPoint = false;
     
     public void setGraph(Graph graph) {
         this.graph = graph;
@@ -222,6 +226,14 @@ public class Canvas extends JTextArea {
     
     public Edge getEditingEdge() {
         return editingEdge;
+    }
+    
+    public void setMovingControlPoint(boolean movingControlPoint) {
+        this.movingControlPoint = movingControlPoint;
+    }
+    
+    public boolean getMovingControlPoint() {
+        return movingControlPoint;
     }
     
     public void setMultipleSelecting(boolean multipleSelecting) {

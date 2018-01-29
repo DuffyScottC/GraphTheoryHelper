@@ -101,12 +101,6 @@ public class GraphController {
      * PATHADDING - the user is in the path adding state.
      */
     private States state = States.SELECTION;
-    //SUBMARK: Adding edge state:
-    /**
-     * Only true if the user has clicked inside of an edge's control point and
-     * is holding down the mouse.
-     */
-    private boolean movingControlPoint = false;
     //SUBMARK: Selection state
     /**
      * Only true of the command key is pressed
@@ -326,7 +320,7 @@ public class GraphController {
                 switch (state) {
                     case EDGE_ADDING:
                         //stop the user from being able to edit the selected edge's control point
-                        movingControlPoint = false;
+                        canvas.setMovingControlPoint(false);
                         break;
                     case SELECTION:
                         canvas.setMultipleSelecting(false);
@@ -359,7 +353,7 @@ public class GraphController {
                     case EDGE_ADDING: //if we're in the edge adding state
                         //if the user's mouse is held down on the selected edge's
                         //control point
-                        if (movingControlPoint) {
+                        if (canvas.getMovingControlPoint()) {
                             //increment the control point's location
                             graph.incEdgeCtrlPoint(edges.indexOf(canvas.getEditingEdge()), incX, incY);
                         }
@@ -1764,7 +1758,7 @@ public class GraphController {
                 if (canvas.getEditingEdge().getCtrlPointPositionShape().contains(mx, my)) {
                     //signal to the mouseDragged function in canvas's mouse motion
                     //listener that the user is moving a control point
-                    movingControlPoint = true;
+                    canvas.setMovingControlPoint(true);
                 } else { //if the user did not click the control point
                     canvas.setEditingEdge(null);
                     edgesList.clearSelection(); //deselect edge in the list
@@ -1929,7 +1923,7 @@ public class GraphController {
         //set the editingEdge to null
         canvas.setEditingEdge(null);
         //in case the user was holding down the mouse when they switched states
-        movingControlPoint = false;
+        canvas.setMovingControlPoint(false);
 
         canvas.repaint();
     }
