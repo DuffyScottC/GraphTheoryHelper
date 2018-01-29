@@ -208,6 +208,9 @@ public class GraphController {
      * Used to tell what directory to open the chooser into.
      */
     private File currentDirectory;
+    
+    //MARK: Seperate Responsibilities
+    private GraphStateMachine graphStateMachine;
 
     public GraphController() {
         frame.setTitle("Graph Theory Helper");
@@ -230,7 +233,14 @@ public class GraphController {
 
         //remove the backspace action from canvas to prevent error beep
         canvas.getInputMap().put(KeyStroke.getKeyStroke("BACK_SPACE"), "none");
+        
+        loadPreferences();
 
+        SampleCanvas sampleCanvas = graphColorChooserDialog.getSampleCanvas();
+        sampleCanvas.setUp(graph); //Set up the sample canvas in the dialog
+
+        addKeyboardShortcuts();
+        
         titleTextField = frame.getTitleTextField();
         modifiedTextField = frame.getModifiedTextField();
         addVerticesButton = frame.getAddVerticesButton();
@@ -241,15 +251,10 @@ public class GraphController {
         addEdgesMenuItem = frame.getAddEdgesMenuItem();
         selectionMenuItem = frame.getSelectionMenuItem();
         addPathsMenuItem = frame.getAddPathsMenuItem();
-
-        loadPreferences();
-
-        SampleCanvas sampleCanvas = graphColorChooserDialog.getSampleCanvas();
-        sampleCanvas.setUp(graph); //Set up the sample canvas in the dialog
-
-        addKeyboardShortcuts();
-
-        enterState(States.VERTEX_ADDING);
+        
+        graphStateMachine = new GraphStateMachine();
+        
+        graphStateMachine.enterState(States.VERTEX_ADDING);
 
         //Define the filter
         filter = new FileFilter() {

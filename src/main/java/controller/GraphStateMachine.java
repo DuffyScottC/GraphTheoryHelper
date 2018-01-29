@@ -26,7 +26,7 @@ public class GraphStateMachine {
      * Exit the current state and enter the given state
      * @param newState The state to enter
      */
-    private void enterState(States newState) {
+    public void enterState(States newState) {
         debugCount += 1;
         System.out.print("Switch states: ");
         //Exit the old state
