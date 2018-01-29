@@ -238,11 +238,12 @@ public class GraphController {
 
         addKeyboardShortcuts();
         
-        graphSelectionHandeler = new GraphSelectionHandeler(frame,
-        selectedVertices,
-        selectedEdges,
-        selectedVertexIndices,
-        selectedEdgeIndices);
+        graphSelectionHandeler = new GraphSelectionHandeler(frame, 
+                selectedVertices,
+                selectedEdges,
+                selectedVertexIndices,
+                selectedEdgeIndices,
+                graph);
         
         titleTextField = frame.getTitleTextField();
         modifiedTextField = frame.getModifiedTextField();
@@ -1999,26 +2000,6 @@ public class GraphController {
                 v.setStrokeWidth(Values.VERTEX_STROKE_WIDTH);
             }
         }
-    }
-
-    private void highlightVertex(Vertex vertex) {
-        vertex.setStrokeColor(Values.EDGE_HIGHLIGHT_COLOR);
-        vertex.setStrokeWidth(Values.VERTEX_HIGHLIGHT_STROKE_WIDTH);
-    }
-
-    private void unHighlightVertex(Vertex vertex) {
-        vertex.setStrokeColor(graph.getVertexStrokeColor());
-        vertex.setStrokeWidth(Values.VERTEX_STROKE_WIDTH);
-    }
-
-    private void highlightEdge(Edge edge) {
-        edge.setStrokeWidth(Values.EDGE_HIGHLIGHT_STROKE_WIDTH);
-        edge.setStrokeColor(Values.EDGE_HIGHLIGHT_COLOR);
-    }
-
-    private void unHighlightEdge(Edge edge) {
-        edge.setStrokeWidth(Values.EDGE_STROKE_WIDTH);
-        edge.setStrokeColor(graph.getEdgeStrokeColor());
     }
 
     /**
