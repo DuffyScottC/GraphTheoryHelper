@@ -45,11 +45,6 @@ public class Canvas extends JTextArea {
     private List<Edge> edges;
     
     /**
-     * used for drawing a live edge
-     */
-    Vertex firstSelectedVertex = null;
-    
-    /**
      * The x-coordinate of the start point of the multiple-selection box.
      */
     private int startX;
@@ -156,11 +151,11 @@ public class Canvas extends JTextArea {
     private void drawLiveEdge(Graphics2D g2) {
         //If this is null, then we are not in the adding a vertex state
         //or the user has not yet selected their first vertex
-        if (firstSelectedVertex == null) {
+        if (graph.getFirstSelectedVertex() == null) {
             return;
         }
-        int x1 = (int) firstSelectedVertex.getCenter().getX();
-        int y1 = (int) firstSelectedVertex.getCenter().getY();
+        int x1 = (int) graph.getFirstSelectedVertex().getCenter().getX();
+        int y1 = (int) graph.getFirstSelectedVertex().getCenter().getY();
         int x2 = lastX;
         int y2 = lastY;
         g2.setStroke(new BasicStroke(Values.EDGE_STROKE_WIDTH));
@@ -247,10 +242,6 @@ public class Canvas extends JTextArea {
     public void setLastPosition(int lastX, int lastY) {
         this.lastX = lastX;
         this.lastY = lastY;
-    }
-    
-    public void setFirstSelectedVertex(Vertex firstSelectedVertex) {
-        this.firstSelectedVertex = firstSelectedVertex;
     }
     
     public void setGraphOutputTextField(JTextField graphOutputTextField) {

@@ -35,6 +35,13 @@ public class Graph implements Serializable {
     private Color edgeStrokeColor = Values.EDGE_STROKE_COLOR;
     
     /**
+     * If this is not null, we want to start drawing an edge between this vertex
+     * and the mouse. Not to be confused with selectedVertex, which is used for
+     * deleting vertices and changing titles.
+     */
+    private transient Vertex firstSelectedVertex = null;
+    
+    /**
      * Adds an edge to the graph's edges list and to its simpleEdges list.
      * (The edges list does not de-serialize well, so we store simpleEdges
      * and convert them to real Edges when loading from files). 
@@ -158,6 +165,14 @@ public class Graph implements Serializable {
         this.vertexFillColor = vertexFillColor;
         this.vertexStrokeColor = vertexStrokeColor;
         this.edgeStrokeColor = edgeStrokeColor;
+    }
+    
+    public Vertex getFirstSelectedVertex() {
+        return firstSelectedVertex;
+    }
+    
+    public void setFirstSelectedVertex(Vertex firstSelectedVertex) {
+        this.firstSelectedVertex = firstSelectedVertex;
     }
     
     /**

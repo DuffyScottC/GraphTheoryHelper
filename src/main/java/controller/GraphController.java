@@ -113,12 +113,6 @@ public class GraphController {
      * is holding down the mouse.
      */
     private boolean movingControlPoint = false;
-    /**
-     * If this is not null, we want to start drawing an edge between this vertex
-     * and the mouse. Not to be confused with selectedVertex, which is used for
-     * deleting vertices and changing titles.
-     */
-    private Vertex firstSelectedVertex;
     //SUBMARK: Selection state
     /**
      * Only true of the command key is pressed
@@ -1766,7 +1760,7 @@ public class GraphController {
 
     private void addEdge(int mx, int my) {
         //Find out which vertex was clicked (if any):
-        if (firstSelectedVertex == null) { //if this is null, the user hasn't chosen their first vertex
+        if (graph.getFirstSelectedVertex() == null) { //if this is null, the user hasn't chosen their first vertex
             /*
             if there is an edge in edit mode, we want to provide priority to the
             edge's control point (in case it's on top of a vertex)
@@ -1838,10 +1832,9 @@ public class GraphController {
             if (currentVertex.canAddEdges()) {
                 //Check if this vertex contains the mouse click:
                 if (currentVertex.getPositionShape().contains(mx, my)) {
-                    firstSelectedVertex = currentVertex; //assign the first vertex
-                    canvas.setFirstSelectedVertex(firstSelectedVertex);
+                    graph.setFirstSelectedVertex(currentVertex); //assign the first vertex
                     //Make it so that user can't add edge from a vertex to itself:
-                    firstSelectedVertex.setCanAddEdges(false);
+                    graph.getFirstSelectedVertex().setCanAddEdges(false);
                     //Make it so that user can't add an edge to vertices that are already
                     //connected to the firstSelectedVertex:
                     assignCanAddEdgesToConnectedVertices();
@@ -1877,7 +1870,7 @@ public class GraphController {
                 //If this figure contains the mouse click:
                 if (currentVertex.getPositionShape().contains(mx, my)) {
                     //Create a new edge with the two vertices
-                    Edge newEdge = new Edge(firstSelectedVertex, currentVertex);
+                    Edge newEdge = new Edge(graph.getFirstSelectedVertex(), currentVertex);
                     newEdge.setStrokeWidth(Values.EDGE_STROKE_WIDTH);
 
                     graph.addEdge(newEdge); //Add the edge to the graph
@@ -1976,7 +1969,7 @@ public class GraphController {
     
     private void assignCanAddEdgesToConnectedVertices() {
         //Loop through all edges
-        for (SimpleEdge se : firstSelectedVertex.getEdgeNames()) {
+        for (SimpleEdge se : graph.getFirstSelectedVertex().getEdgeNames()) {
             //find the index of the clicked edge in graph.simpleEdges
             int index = graph.getSimpleEdges().indexOf(se);
             //Get the edge in edges that matches se
@@ -2099,7 +2092,7 @@ public class GraphController {
         
         //if we are in the addingEdges state and have selected the first vertex
         //then we don't want to save yet. 
-        if (state == States.EDGE_ADDING && firstSelectedVertex != null) {
+        if (state == States.EDGE_ADDING && graph.getFirstSelectedVertex() != null) {
             return;
         }
         
