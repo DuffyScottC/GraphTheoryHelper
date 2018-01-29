@@ -243,10 +243,18 @@ public class GraphController {
         addEdgesButton = frame.getAddEdgesButton();
         selectionButton = frame.getSelectionButton();
         
-        graphStateMachine = new GraphStateMachine(frame);
+        graphStateMachine = new GraphStateMachine(frame, canvas, vertices);
         
         graphStateMachine.enterState(States.VERTEX_ADDING);
-
+        
+        //Delete
+        frame.getDeleteButton().addActionListener((ActionEvent e) -> {
+            deleteSelectedElements();
+        });
+        frame.getDeleteMenuItem().addActionListener((ActionEvent e) -> {
+            deleteSelectedElements();
+        });
+        
         //Define the filter
         filter = new FileFilter() {
             @Override

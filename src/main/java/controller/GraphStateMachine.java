@@ -9,8 +9,11 @@ import element.Vertex;
 import javax.swing.JOptionPane;
 import controller.Values.States;
 import java.awt.event.ActionEvent;
+import java.awt.event.ActionListener;
+import java.util.List;
 import javax.swing.JCheckBoxMenuItem;
 import javax.swing.JToggleButton;
+import views.Canvas;
 import views.GraphFrame;
 
 /**
@@ -29,7 +32,7 @@ public class GraphStateMachine {
     private final JCheckBoxMenuItem selectionMenuItem;
     private final JCheckBoxMenuItem addPathsMenuItem;
     
-    public GraphStateMachine(GraphFrame frame) {
+    public GraphStateMachine(GraphFrame frame, Canvas canvas, List<Vertex> vertices) {
         addVerticesButton = frame.getAddVerticesButton();
         addEdgesButton = frame.getAddEdgesButton();
         selectionButton = frame.getSelectionButton();
@@ -40,44 +43,49 @@ public class GraphStateMachine {
         addPathsMenuItem = frame.getAddPathsMenuItem();
         
         //Add vertices
-        addVerticesButton.addActionListener((ActionEvent e) -> {
-            addVertices();
-        });
-        addVerticesMenuItem.addActionListener((ActionEvent e) -> {
-            addVertices();
-        });
+        ActionListener addVertices = (ActionEvent e) -> {
+            enterState(States.VERTEX_ADDING);
+            canvas.repaint();
+        };
+        addVerticesButton.addActionListener(addVertices);
+        addVerticesMenuItem.addActionListener(addVertices);
 
         //Selection
-        selectionButton.addActionListener((ActionEvent e) -> {
-            selection();
-        });
-        selectionMenuItem.addActionListener((ActionEvent e) -> {
-            selection();
-        });
+        ActionListener selection = (ActionEvent e) -> {
+            enterState(States.SELECTION);
+            canvas.repaint();
+        };
+        selectionButton.addActionListener(selection);
+        selectionMenuItem.addActionListener(selection);
 
         //Add edges
-        addEdgesButton.addActionListener((ActionEvent e) -> {
-            addEdges();
-        });
-        addEdgesMenuItem.addActionListener((ActionEvent e) -> {
-            addEdges();
-        });
+        ActionListener addEdges = (ActionEvent e) -> {
+            if (vertices == null) {
+                JOptionPane.showMessageDialog(frame, "Need at least two vertices "
+                        + "to add an edge.");
+                setSelectedEdges(false);
+//                isCommandPressed = false; //unpress command
+                return;
+            }
+            if (vertices.isEmpty() || vertices.size() == 1) {
+                JOptionPane.showMessageDialog(frame, "Need at least two vertices "
+                        + "to add an edge.");
+                setSelectedEdges(false);
+//                isCommandPressed = false; //unpress command
+                return;
+            }
+            enterState(States.EDGE_ADDING);
+            canvas.repaint();
+        };
+        addEdgesButton.addActionListener(addEdges);
+        addEdgesMenuItem.addActionListener(addEdges);
         
         //Add paths
-        addPathsButton.addActionListener((ActionEvent e) -> {
-            addPaths();
-        });
-        addPathsMenuItem.addActionListener((ActionEvent e) -> {
-            addPaths();
-        });
-
-        //Delete
-        frame.getDeleteButton().addActionListener((ActionEvent e) -> {
-            deleteSelectedElements();
-        });
-        frame.getDeleteMenuItem().addActionListener((ActionEvent e) -> {
-            deleteSelectedElements();
-        });
+        ActionListener addPaths = (ActionEvent e) -> {
+            enterState(States.PATH_ADDING);
+        };
+        addPathsButton.addActionListener(addPaths);
+        addPathsMenuItem.addActionListener(addPaths);
     }
     
     int debugCount = 0;
@@ -242,56 +250,6 @@ public class GraphStateMachine {
     private void setSelectedPaths(boolean selected) {
         addPathsButton.setSelected(selected);
         addPathsMenuItem.setSelected(selected);
-    }
-    
-    //SUBMARK: State ActionListeners
-    /**
-     * The code that runs in both the selectionButton and the 
-     * selectionMenuItem
-     */
-    private void selection() {
-        enterState(States.SELECTION);
-        canvas.repaint();
-    }
-
-    /**
-     * The code that runs in both the addPathsButton and the
-     * addPathsMenuItem
-     */
-    private void addPaths() {
-        enterState(States.PATH_ADDING);
-    }
-
-    /**
-     * The code that runs in both the addVerticesButton and the
-     * addVerticesMenuItem
-     */
-    private void addVertices() {
-        enterState(States.VERTEX_ADDING);
-        canvas.repaint();
-    }
-    
-    /**
-     * The code that runs in both the addEdgesButton and the 
-     * addEdgesMenuItem
-     */
-    private void addEdges() {
-        if (vertices == null) {
-            JOptionPane.showMessageDialog(frame, "Need at least two vertices "
-                    + "to add an edge.");
-            setSelectedEdges(false);
-            isCommandPressed = false; //unpress command
-            return;
-        }
-        if (vertices.isEmpty() || vertices.size() == 1) {
-            JOptionPane.showMessageDialog(frame, "Need at least two vertices "
-                    + "to add an edge.");
-            setSelectedEdges(false);
-            isCommandPressed = false; //unpress command
-            return;
-        }
-        enterState(States.EDGE_ADDING);
-        canvas.repaint();
     }
     
 }
