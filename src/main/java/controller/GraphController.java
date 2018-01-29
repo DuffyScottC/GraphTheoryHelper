@@ -206,8 +206,8 @@ public class GraphController {
     private File currentDirectory;
     
     //MARK: Seperate Responsibilities
-    private GraphStateMachine graphStateMachine;
-    private GraphSelectionHandeler graphSelectionHandeler;
+    private final GraphStateMachine graphStateMachine;
+    private final GraphSelectionHandeler graphSelectionHandeler;
 
     public GraphController() {
         frame.setTitle("Graph Theory Helper");
@@ -251,7 +251,10 @@ public class GraphController {
         addEdgesButton = frame.getAddEdgesButton();
         selectionButton = frame.getSelectionButton();
         
-        graphStateMachine = new GraphStateMachine(frame, canvas, vertices, 
+        graphStateMachine = new GraphStateMachine(frame, 
+                graph, 
+                canvas, 
+                vertices, 
                 graphSelectionHandeler);
         
         graphStateMachine.enterState(States.VERTEX_ADDING);
@@ -1982,23 +1985,6 @@ public class GraphController {
             //if each endpoint is the current vertex or not)
             e.getEndpoint1().setCanAddEdges(false);
             e.getEndpoint2().setCanAddEdges(false);
-        }
-    }
-
-    /**
-     * Highlights all vertices that are available to have an edge added to them
-     * when the user enters the addEdgeState.
-     */
-    private void highlightAvailableVertices() {
-        for (Vertex v : vertices) {
-            //if this vertex is available to add edges to
-            if (v.canAddEdges()) {
-                v.setStrokeColor(Values.VERTEX_AVAILABLE_STROKE_COLOR);
-                v.setStrokeWidth(Values.VERTEX_HIGHLIGHT_STROKE_WIDTH);
-            } else { //if this vertex is completely full
-                v.setStrokeColor(graph.getVertexStrokeColor());
-                v.setStrokeWidth(Values.VERTEX_STROKE_WIDTH);
-            }
         }
     }
 

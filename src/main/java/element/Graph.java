@@ -160,6 +160,23 @@ public class Graph implements Serializable {
         this.edgeStrokeColor = edgeStrokeColor;
     }
     
+    /**
+     * Highlights all vertices that are available to have an edge added to them
+     * when the user enters the addEdgeState.
+     */
+    public void highlightAvailableVertices() {
+        for (Vertex v : vertices) {
+            //if this vertex is available to add edges to
+            if (v.canAddEdges()) {
+                v.setStrokeColor(Values.VERTEX_AVAILABLE_STROKE_COLOR);
+                v.setStrokeWidth(Values.VERTEX_HIGHLIGHT_STROKE_WIDTH);
+            } else { //if this vertex is completely full
+                v.setStrokeColor(vertexStrokeColor);
+                v.setStrokeWidth(Values.VERTEX_STROKE_WIDTH);
+            }
+        }
+    }
+    
     public void highlightVertex(Vertex vertex) {
         vertex.setStrokeColor(Values.EDGE_HIGHLIGHT_COLOR);
         vertex.setStrokeWidth(Values.VERTEX_HIGHLIGHT_STROKE_WIDTH);
