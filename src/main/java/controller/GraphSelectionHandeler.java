@@ -24,27 +24,27 @@ public class GraphSelectionHandeler {
      * setting the title text field, updating the title, changing the color,
      * etc.)
      */
-    private List<Vertex> selectedVertices;
+    private final List<Vertex> selectedVertices;
     /**
      * The last selected edge in the edges JList
      */
-    private List<Edge> selectedEdges;
+    private final List<Edge> selectedEdges;
     /**
      * A list of the selected indices in the vertices JList. null if there are
      * no selected vertices. (Used for things like setting the title text field
      * or updating the title)
      */
-    private List<Integer> selectedVertexIndices;
+    private final List<Integer> selectedVertexIndices;
     /**
      * The last selected index in the edges JList
      */
-    private List<Integer> selectedEdgeIndices;
-    private JList verticesList;
-    private JList edgesList;
-    private JTextField titleTextField;
-    private List<Vertex> vertices;
-    private List<Edge> edges;
-    private Graph graph;
+    private final List<Integer> selectedEdgeIndices;
+    private final JList verticesList;
+    private final JList edgesList;
+    private final JTextField titleTextField;
+    private final List<Vertex> vertices;
+    private final List<Edge> edges;
+    private final Graph graph;
     
     
     public GraphSelectionHandeler(GraphFrame frame,
@@ -131,5 +131,29 @@ public class GraphSelectionHandeler {
             }
         }
     }
+
+    public List<Edge> getSelectedEdges() {
+        return selectedEdges;
+    }
+
+    public List<Integer> getSelectedEdgeIndices() {
+        return selectedEdgeIndices;
+    }
+
+    public JList getVerticesList() {
+        return verticesList;
+    }
+
+    public JList getEdgesList() {
+        return edgesList;
+    }
+
+    public List<Integer> getSelectedVertexIndices() {
+        return selectedVertexIndices;
+    }
+    
+    
+    
+    
     
 }
