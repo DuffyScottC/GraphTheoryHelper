@@ -142,8 +142,8 @@ public class GraphStateMachine {
     }
     
     /**
-     * Used to enter the state in which a user can add vertices to the canvas by
-     * clicking anywhere as many times as they want.
+     * Used to enter the state in which a user can add vertices to the canvas
+     * by clicking anywhere as many times as they want.
      */
     private void enterAddVerticesState() {
         setSelectedVertices(true);
@@ -163,8 +163,8 @@ public class GraphStateMachine {
         setSelectedEdges(true);
 
         state = States.EDGE_ADDING; //enter the edge adding state
-        //highlight all of the vertexes to provide a visual cue that the user is supposed
-        //to click one to add the edge
+        //highlight all of the vertexes to provide a visual cue that the user
+        //is supposed to click one to add the edge
 
         //Update vertex selection
         verticesList.clearSelection(); //clear the visual selection in the JList
@@ -175,8 +175,10 @@ public class GraphStateMachine {
         //Update edge selection
         //if selectedEdgeIndeces is not empty
         if (!selectedEdgeIndices.isEmpty()) {
+            //get the last index of selectedEdgeIndices
+            int sEISize = selectedEdgeIndices.size();
             //find the last selected index
-            int lastIndex = selectedEdgeIndices.get(selectedEdgeIndices.size() - 1);
+            int lastIndex = selectedEdgeIndices.get(sEISize - 1);
             //set the editingEdge to the last selected edge
             editingEdge = selectedEdges.get(selectedEdges.size() - 1);
             canvas.setEditingEdge(editingEdge);
@@ -189,8 +191,8 @@ public class GraphStateMachine {
             updateSelectedEdges();
         }
 
-        //Assign the canAddEdges values of all the vertices and get the number of vertices
-        //that can't have edges added to them
+        //Assign the canAddEdges values of all the vertices and get the number
+        //of vertices that can't have edges added to them
         int numberOfFalses = assignCanAddEdges();
 
         //Highglight appropriate vertices
@@ -275,13 +277,15 @@ public class GraphStateMachine {
      */
     private void addEdges() {
         if (vertices == null) {
-            JOptionPane.showMessageDialog(frame, "Need at least two vertices to add an edge.");
+            JOptionPane.showMessageDialog(frame, "Need at least two vertices "
+                    + "to add an edge.");
             setSelectedEdges(false);
             isCommandPressed = false; //unpress command
             return;
         }
         if (vertices.isEmpty() || vertices.size() == 1) {
-            JOptionPane.showMessageDialog(frame, "Need at least two vertices to add an edge.");
+            JOptionPane.showMessageDialog(frame, "Need at least two vertices "
+                    + "to add an edge.");
             setSelectedEdges(false);
             isCommandPressed = false; //unpress command
             return;
