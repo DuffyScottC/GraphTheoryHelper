@@ -1485,8 +1485,10 @@ public class GraphController {
                 //add this vertex to be moved later
                 verticesToMove.add(ep2);
             }
+            //get the index of the clickedEdge in edges
+            int index = edges.indexOf(clickedEdge);
             //increment the edge control point's location
-            graph.incEdgeCtrlPoint(i, incX, incY);
+            graph.incEdgeCtrlPoint(index, incX, incY);
         }
 
         //A set of edges whose control points have already been incremented
