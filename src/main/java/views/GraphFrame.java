@@ -26,11 +26,11 @@ public class GraphFrame extends javax.swing.JFrame {
      */
     public GraphFrame() {
         initComponents();
-        addVerticesButton.setIcon(new javax.swing.ImageIcon(GraphFrame.class.getClassLoader().getResource("add-vertices-icon.png")));
-        addEdgesButton.setIcon(new javax.swing.ImageIcon(GraphFrame.class.getClassLoader().getResource("add-edges-icon.png")));
-        selectionButton.setIcon(new javax.swing.ImageIcon(GraphFrame.class.getClassLoader().getResource("selection-icon.png")));
-        addPathsButton.setIcon(new javax.swing.ImageIcon(GraphFrame.class.getClassLoader().getResource("add-paths-icon.png")));
-        deleteButton.setIcon(new javax.swing.ImageIcon(GraphFrame.class.getClassLoader().getResource("delete-icon.png")));
+//        addVerticesButton.setIcon(new javax.swing.ImageIcon(GraphFrame.class.getClassLoader().getResource("add-vertices-icon.png")));
+//        addEdgesButton.setIcon(new javax.swing.ImageIcon(GraphFrame.class.getClassLoader().getResource("add-edges-icon.png")));
+//        selectionButton.setIcon(new javax.swing.ImageIcon(GraphFrame.class.getClassLoader().getResource("selection-icon.png")));
+//        addPathsButton.setIcon(new javax.swing.ImageIcon(GraphFrame.class.getClassLoader().getResource("add-paths-icon.png")));
+//        deleteButton.setIcon(new javax.swing.ImageIcon(GraphFrame.class.getClassLoader().getResource("delete-icon.png")));
     }
 
     /**
@@ -223,30 +223,35 @@ public class GraphFrame extends javax.swing.JFrame {
         toolBar.setOrientation(javax.swing.SwingConstants.VERTICAL);
         toolBar.setRollover(true);
 
+        addVerticesButton.setIcon(new javax.swing.ImageIcon(getClass().getResource("/add-vertices-icon.png"))); // NOI18N
         addVerticesButton.setToolTipText("Click to add vertices to the canvas (V)");
         addVerticesButton.setFocusable(false);
         addVerticesButton.setHorizontalTextPosition(javax.swing.SwingConstants.CENTER);
         addVerticesButton.setVerticalTextPosition(javax.swing.SwingConstants.BOTTOM);
         toolBar.add(addVerticesButton);
 
+        addEdgesButton.setIcon(new javax.swing.ImageIcon(getClass().getResource("/add-edges-icon.png"))); // NOI18N
         addEdgesButton.setToolTipText("Add/bend edges between vertices (E)");
         addEdgesButton.setFocusable(false);
         addEdgesButton.setHorizontalTextPosition(javax.swing.SwingConstants.CENTER);
         addEdgesButton.setVerticalTextPosition(javax.swing.SwingConstants.BOTTOM);
         toolBar.add(addEdgesButton);
 
+        selectionButton.setIcon(new javax.swing.ImageIcon(getClass().getResource("/selection-icon.png"))); // NOI18N
         selectionButton.setToolTipText("Select and move vertices and edges (spacebar)");
         selectionButton.setFocusable(false);
         selectionButton.setHorizontalTextPosition(javax.swing.SwingConstants.CENTER);
         selectionButton.setVerticalTextPosition(javax.swing.SwingConstants.BOTTOM);
         toolBar.add(selectionButton);
 
+        addPathsButton.setIcon(new javax.swing.ImageIcon(getClass().getResource("/add-paths-icon.png"))); // NOI18N
         addPathsButton.setToolTipText("Add paths between vertices (P)");
         addPathsButton.setFocusable(false);
         addPathsButton.setHorizontalTextPosition(javax.swing.SwingConstants.CENTER);
         addPathsButton.setVerticalTextPosition(javax.swing.SwingConstants.BOTTOM);
         toolBar.add(addPathsButton);
 
+        deleteButton.setIcon(new javax.swing.ImageIcon(getClass().getResource("/delete-icon.png"))); // NOI18N
         deleteButton.setToolTipText("Delete (backspace)");
         deleteButton.setFocusable(false);
         deleteButton.setHorizontalTextPosition(javax.swing.SwingConstants.CENTER);
