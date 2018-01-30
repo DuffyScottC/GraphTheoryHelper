@@ -44,8 +44,6 @@ public class GraphFrame extends javax.swing.JFrame {
         java.awt.GridBagConstraints gridBagConstraints;
 
         mainPanel = new javax.swing.JPanel();
-        canvasScrollPane = new javax.swing.JScrollPane();
-        canvas = new views.Canvas();
         inspectorPanel = new views.InspectorPanel();
         propertiesPanel = new javax.swing.JPanel();
         JLabel3 = new javax.swing.JLabel();
@@ -60,6 +58,8 @@ public class GraphFrame extends javax.swing.JFrame {
         graphOutputPanel = new javax.swing.JPanel();
         graphOutputTextField = new javax.swing.JTextField();
         modifiedTextField = new javax.swing.JTextField();
+        jScrollPane1 = new javax.swing.JScrollPane();
+        canvasTextArea = new javax.swing.JTextArea();
         toolBar = new javax.swing.JToolBar();
         addVerticesButton = new javax.swing.JToggleButton();
         addEdgesButton = new javax.swing.JToggleButton();
@@ -93,20 +93,6 @@ public class GraphFrame extends javax.swing.JFrame {
         setDefaultCloseOperation(javax.swing.WindowConstants.EXIT_ON_CLOSE);
 
         mainPanel.setLayout(new java.awt.GridBagLayout());
-
-        canvas.setEditable(false);
-        canvas.setColumns(20);
-        canvas.setLineWrap(true);
-        canvas.setRows(5);
-        canvasScrollPane.setViewportView(canvas);
-
-        gridBagConstraints = new java.awt.GridBagConstraints();
-        gridBagConstraints.gridx = 1;
-        gridBagConstraints.gridy = 1;
-        gridBagConstraints.fill = java.awt.GridBagConstraints.BOTH;
-        gridBagConstraints.weightx = 0.1;
-        gridBagConstraints.weighty = 0.1;
-        mainPanel.add(canvasScrollPane, gridBagConstraints);
 
         inspectorPanel.setLayout(new java.awt.GridBagLayout());
 
@@ -217,6 +203,18 @@ public class GraphFrame extends javax.swing.JFrame {
         gridBagConstraints.gridwidth = 2;
         gridBagConstraints.fill = java.awt.GridBagConstraints.HORIZONTAL;
         mainPanel.add(graphOutputPanel, gridBagConstraints);
+
+        canvasTextArea.setColumns(20);
+        canvasTextArea.setRows(5);
+        jScrollPane1.setViewportView(canvasTextArea);
+
+        gridBagConstraints = new java.awt.GridBagConstraints();
+        gridBagConstraints.gridx = 1;
+        gridBagConstraints.gridy = 1;
+        gridBagConstraints.fill = java.awt.GridBagConstraints.BOTH;
+        gridBagConstraints.weightx = 0.1;
+        gridBagConstraints.weighty = 0.1;
+        mainPanel.add(jScrollPane1, gridBagConstraints);
 
         getContentPane().add(mainPanel, java.awt.BorderLayout.CENTER);
 
@@ -382,8 +380,7 @@ public class GraphFrame extends javax.swing.JFrame {
     private javax.swing.JToggleButton addVerticesButton;
     private javax.swing.JCheckBoxMenuItem addVerticesMenuItem;
     private javax.swing.JPanel buttonPanel;
-    private views.Canvas canvas;
-    private javax.swing.JScrollPane canvasScrollPane;
+    private javax.swing.JTextArea canvasTextArea;
     private javax.swing.JMenuItem changeColorsMenuItem;
     private javax.swing.JButton deleteButton;
     private javax.swing.JMenuItem deleteMenuItem;
@@ -397,6 +394,7 @@ public class GraphFrame extends javax.swing.JFrame {
     private javax.swing.JPanel graphOutputPanel;
     private javax.swing.JTextField graphOutputTextField;
     private views.InspectorPanel inspectorPanel;
+    private javax.swing.JScrollPane jScrollPane1;
     private javax.swing.JPopupMenu.Separator jSeparator1;
     private javax.swing.JPopupMenu.Separator jSeparator2;
     private javax.swing.JPanel mainPanel;
@@ -434,10 +432,7 @@ public class GraphFrame extends javax.swing.JFrame {
     }
 
     public Canvas getCanvas() {
-        //This already is a canvas object. Not certain why I should cast it like my
-        //prof did in his example, so I'm not going to.
-        //return (Canvas) canvas;
-        return canvas;
+        return (Canvas) canvasTextArea;
     }
 
     public JList<String> getEdgesList() {
