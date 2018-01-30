@@ -39,8 +39,8 @@ public class Canvas extends JTextArea {
      */
     private boolean multipleSelecting = false;
     
-    private List<Vertex> vertices;
-    private List<Edge> edges;
+    private List<Vertex> vertices = null;
+    private List<Edge> edges = null;
     
     /**
      * The x-coordinate of the start point of the multiple-selection box.
