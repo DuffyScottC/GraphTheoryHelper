@@ -44,22 +44,22 @@ public class GraphFrame extends javax.swing.JFrame {
         java.awt.GridBagConstraints gridBagConstraints;
 
         mainPanel = new javax.swing.JPanel();
-        inspectorPanel = new views.InspectorPanel();
-        propertiesPanel = new javax.swing.JPanel();
-        JLabel3 = new javax.swing.JLabel();
-        titleTextField = new javax.swing.JTextField();
-        verticesLabel = new javax.swing.JLabel();
-        verticesScrollPane = new javax.swing.JScrollPane();
-        verticesList = new javax.swing.JList<>();
-        edgesLabel = new javax.swing.JLabel();
-        edgesScrollPane = new javax.swing.JScrollPane();
-        edgesList = new javax.swing.JList<>();
-        buttonPanel = new javax.swing.JPanel();
         graphOutputPanel = new javax.swing.JPanel();
         graphOutputTextField = new javax.swing.JTextField();
         modifiedTextField = new javax.swing.JTextField();
         jScrollPane1 = new javax.swing.JScrollPane();
         canvasTextArea = new javax.swing.JTextArea();
+        inspectorPanelJPanel = new javax.swing.JPanel();
+        buttonPanel = new javax.swing.JPanel();
+        edgesScrollPane = new javax.swing.JScrollPane();
+        edgesList = new javax.swing.JList<>();
+        edgesLabel = new javax.swing.JLabel();
+        verticesScrollPane = new javax.swing.JScrollPane();
+        verticesList = new javax.swing.JList<>();
+        verticesLabel = new javax.swing.JLabel();
+        propertiesPanel = new javax.swing.JPanel();
+        JLabel3 = new javax.swing.JLabel();
+        titleTextField = new javax.swing.JTextField();
         toolBar = new javax.swing.JToolBar();
         addVerticesButton = new javax.swing.JToggleButton();
         addEdgesButton = new javax.swing.JToggleButton();
@@ -93,92 +93,6 @@ public class GraphFrame extends javax.swing.JFrame {
         setDefaultCloseOperation(javax.swing.WindowConstants.EXIT_ON_CLOSE);
 
         mainPanel.setLayout(new java.awt.GridBagLayout());
-
-        inspectorPanel.setLayout(new java.awt.GridBagLayout());
-
-        JLabel3.setText("Title:");
-        propertiesPanel.add(JLabel3);
-
-        titleTextField.setEditable(false);
-        titleTextField.setColumns(5);
-        propertiesPanel.add(titleTextField);
-
-        gridBagConstraints = new java.awt.GridBagConstraints();
-        gridBagConstraints.gridx = 0;
-        gridBagConstraints.gridy = 0;
-        gridBagConstraints.fill = java.awt.GridBagConstraints.BOTH;
-        inspectorPanel.add(propertiesPanel, gridBagConstraints);
-
-        verticesLabel.setText("Vertices:");
-        gridBagConstraints = new java.awt.GridBagConstraints();
-        gridBagConstraints.gridx = 0;
-        gridBagConstraints.gridy = 2;
-        gridBagConstraints.fill = java.awt.GridBagConstraints.HORIZONTAL;
-        gridBagConstraints.anchor = java.awt.GridBagConstraints.LINE_START;
-        gridBagConstraints.insets = new java.awt.Insets(0, 4, 0, 4);
-        inspectorPanel.add(verticesLabel, gridBagConstraints);
-
-        verticesList.setModel(new javax.swing.AbstractListModel<String>() {
-            String[] strings = { "Item 1", "Item 2", "Item 3", "Item 4", "Item 5" };
-            public int getSize() { return strings.length; }
-            public String getElementAt(int i) { return strings[i]; }
-        });
-        verticesList.setMaximumSize(new java.awt.Dimension(138, 85));
-        verticesList.setMinimumSize(new java.awt.Dimension(138, 85));
-        verticesList.setPreferredSize(new java.awt.Dimension(138, 85));
-        verticesList.setSize(new java.awt.Dimension(138, 0));
-        verticesScrollPane.setViewportView(verticesList);
-
-        gridBagConstraints = new java.awt.GridBagConstraints();
-        gridBagConstraints.gridx = 0;
-        gridBagConstraints.gridy = 3;
-        gridBagConstraints.fill = java.awt.GridBagConstraints.BOTH;
-        gridBagConstraints.weightx = 0.1;
-        gridBagConstraints.weighty = 0.1;
-        gridBagConstraints.insets = new java.awt.Insets(0, 4, 0, 4);
-        inspectorPanel.add(verticesScrollPane, gridBagConstraints);
-
-        edgesLabel.setText("Edges:");
-        gridBagConstraints = new java.awt.GridBagConstraints();
-        gridBagConstraints.gridx = 0;
-        gridBagConstraints.gridy = 4;
-        gridBagConstraints.fill = java.awt.GridBagConstraints.HORIZONTAL;
-        gridBagConstraints.anchor = java.awt.GridBagConstraints.LINE_START;
-        gridBagConstraints.insets = new java.awt.Insets(0, 4, 0, 4);
-        inspectorPanel.add(edgesLabel, gridBagConstraints);
-
-        edgesList.setModel(new javax.swing.AbstractListModel<String>() {
-            String[] strings = { "Item 1", "Item 2", "Item 3", "Item 4", "Item 5" };
-            public int getSize() { return strings.length; }
-            public String getElementAt(int i) { return strings[i]; }
-        });
-        edgesList.setMaximumSize(new java.awt.Dimension(138, 85));
-        edgesList.setMinimumSize(new java.awt.Dimension(138, 85));
-        edgesList.setPreferredSize(new java.awt.Dimension(138, 85));
-        edgesList.setSize(new java.awt.Dimension(138, 0));
-        edgesScrollPane.setViewportView(edgesList);
-
-        gridBagConstraints = new java.awt.GridBagConstraints();
-        gridBagConstraints.gridx = 0;
-        gridBagConstraints.gridy = 5;
-        gridBagConstraints.fill = java.awt.GridBagConstraints.BOTH;
-        gridBagConstraints.weightx = 0.1;
-        gridBagConstraints.weighty = 0.1;
-        gridBagConstraints.insets = new java.awt.Insets(0, 4, 0, 4);
-        inspectorPanel.add(edgesScrollPane, gridBagConstraints);
-
-        buttonPanel.setLayout(new java.awt.GridBagLayout());
-        gridBagConstraints = new java.awt.GridBagConstraints();
-        gridBagConstraints.gridx = 0;
-        gridBagConstraints.gridy = 1;
-        gridBagConstraints.fill = java.awt.GridBagConstraints.HORIZONTAL;
-        inspectorPanel.add(buttonPanel, gridBagConstraints);
-
-        gridBagConstraints = new java.awt.GridBagConstraints();
-        gridBagConstraints.gridx = 2;
-        gridBagConstraints.gridy = 1;
-        gridBagConstraints.fill = java.awt.GridBagConstraints.BOTH;
-        mainPanel.add(inspectorPanel, gridBagConstraints);
 
         graphOutputPanel.setLayout(new java.awt.GridBagLayout());
 
@@ -215,6 +129,92 @@ public class GraphFrame extends javax.swing.JFrame {
         gridBagConstraints.weightx = 0.1;
         gridBagConstraints.weighty = 0.1;
         mainPanel.add(jScrollPane1, gridBagConstraints);
+
+        inspectorPanelJPanel.setLayout(new java.awt.GridBagLayout());
+
+        buttonPanel.setLayout(new java.awt.GridBagLayout());
+        gridBagConstraints = new java.awt.GridBagConstraints();
+        gridBagConstraints.gridx = 0;
+        gridBagConstraints.gridy = 1;
+        gridBagConstraints.fill = java.awt.GridBagConstraints.HORIZONTAL;
+        inspectorPanelJPanel.add(buttonPanel, gridBagConstraints);
+
+        edgesList.setModel(new javax.swing.AbstractListModel<String>() {
+            String[] strings = { "Item 1", "Item 2", "Item 3", "Item 4", "Item 5" };
+            public int getSize() { return strings.length; }
+            public String getElementAt(int i) { return strings[i]; }
+        });
+        edgesList.setMaximumSize(new java.awt.Dimension(138, 85));
+        edgesList.setMinimumSize(new java.awt.Dimension(138, 85));
+        edgesList.setPreferredSize(new java.awt.Dimension(138, 85));
+        edgesList.setSize(new java.awt.Dimension(138, 0));
+        edgesScrollPane.setViewportView(edgesList);
+
+        gridBagConstraints = new java.awt.GridBagConstraints();
+        gridBagConstraints.gridx = 0;
+        gridBagConstraints.gridy = 5;
+        gridBagConstraints.fill = java.awt.GridBagConstraints.BOTH;
+        gridBagConstraints.weightx = 0.1;
+        gridBagConstraints.weighty = 0.1;
+        gridBagConstraints.insets = new java.awt.Insets(0, 4, 0, 4);
+        inspectorPanelJPanel.add(edgesScrollPane, gridBagConstraints);
+
+        edgesLabel.setText("Edges:");
+        gridBagConstraints = new java.awt.GridBagConstraints();
+        gridBagConstraints.gridx = 0;
+        gridBagConstraints.gridy = 4;
+        gridBagConstraints.fill = java.awt.GridBagConstraints.HORIZONTAL;
+        gridBagConstraints.anchor = java.awt.GridBagConstraints.LINE_START;
+        gridBagConstraints.insets = new java.awt.Insets(0, 4, 0, 4);
+        inspectorPanelJPanel.add(edgesLabel, gridBagConstraints);
+
+        verticesList.setModel(new javax.swing.AbstractListModel<String>() {
+            String[] strings = { "Item 1", "Item 2", "Item 3", "Item 4", "Item 5" };
+            public int getSize() { return strings.length; }
+            public String getElementAt(int i) { return strings[i]; }
+        });
+        verticesList.setMaximumSize(new java.awt.Dimension(138, 85));
+        verticesList.setMinimumSize(new java.awt.Dimension(138, 85));
+        verticesList.setPreferredSize(new java.awt.Dimension(138, 85));
+        verticesList.setSize(new java.awt.Dimension(138, 0));
+        verticesScrollPane.setViewportView(verticesList);
+
+        gridBagConstraints = new java.awt.GridBagConstraints();
+        gridBagConstraints.gridx = 0;
+        gridBagConstraints.gridy = 3;
+        gridBagConstraints.fill = java.awt.GridBagConstraints.BOTH;
+        gridBagConstraints.weightx = 0.1;
+        gridBagConstraints.weighty = 0.1;
+        gridBagConstraints.insets = new java.awt.Insets(0, 4, 0, 4);
+        inspectorPanelJPanel.add(verticesScrollPane, gridBagConstraints);
+
+        verticesLabel.setText("Vertices:");
+        gridBagConstraints = new java.awt.GridBagConstraints();
+        gridBagConstraints.gridx = 0;
+        gridBagConstraints.gridy = 2;
+        gridBagConstraints.fill = java.awt.GridBagConstraints.HORIZONTAL;
+        gridBagConstraints.anchor = java.awt.GridBagConstraints.LINE_START;
+        gridBagConstraints.insets = new java.awt.Insets(0, 4, 0, 4);
+        inspectorPanelJPanel.add(verticesLabel, gridBagConstraints);
+
+        JLabel3.setText("Title:");
+        propertiesPanel.add(JLabel3);
+
+        titleTextField.setEditable(false);
+        titleTextField.setColumns(5);
+        propertiesPanel.add(titleTextField);
+
+        gridBagConstraints = new java.awt.GridBagConstraints();
+        gridBagConstraints.gridx = 0;
+        gridBagConstraints.gridy = 0;
+        gridBagConstraints.fill = java.awt.GridBagConstraints.BOTH;
+        inspectorPanelJPanel.add(propertiesPanel, gridBagConstraints);
+
+        gridBagConstraints = new java.awt.GridBagConstraints();
+        gridBagConstraints.gridx = 2;
+        gridBagConstraints.gridy = 1;
+        gridBagConstraints.fill = java.awt.GridBagConstraints.BOTH;
+        mainPanel.add(inspectorPanelJPanel, gridBagConstraints);
 
         getContentPane().add(mainPanel, java.awt.BorderLayout.CENTER);
 
@@ -393,7 +393,7 @@ public class GraphFrame extends javax.swing.JFrame {
     private javax.swing.JMenuItem formatVerticesMenuItem;
     private javax.swing.JPanel graphOutputPanel;
     private javax.swing.JTextField graphOutputTextField;
-    private views.InspectorPanel inspectorPanel;
+    private javax.swing.JPanel inspectorPanelJPanel;
     private javax.swing.JScrollPane jScrollPane1;
     private javax.swing.JPopupMenu.Separator jSeparator1;
     private javax.swing.JPopupMenu.Separator jSeparator2;
@@ -533,8 +533,8 @@ public class GraphFrame extends javax.swing.JFrame {
         return changeColorsMenuItem;
     }
     
-    public JPanel getInspectorPanel() {
-        return inspectorPanel;
+    public InspectorPanel getInspectorPanel() {
+        return (InspectorPanel) inspectorPanelJPanel;
     }
     
     public JMenuItem getSelectAllVerticesMenuItem() {
