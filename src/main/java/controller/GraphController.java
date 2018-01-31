@@ -57,7 +57,7 @@ import views.GraphFrame;
 import views.SampleCanvas;
 
 /**
- *
+ * The main window.
  * @author Scott
  */
 public class GraphController {
