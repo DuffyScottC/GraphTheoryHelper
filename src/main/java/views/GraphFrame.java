@@ -48,8 +48,8 @@ public class GraphFrame extends javax.swing.JFrame {
         graphOutputTextField = new javax.swing.JTextField();
         modifiedTextField = new javax.swing.JTextField();
         jScrollPane1 = new javax.swing.JScrollPane();
-        canvasTextArea = new javax.swing.JTextArea();
-        inspectorPanelJPanel = new javax.swing.JPanel();
+        canvasTextArea = new Canvas();
+        inspectorPanelJPanel = new InspectorPanel();
         buttonPanel = new javax.swing.JPanel();
         edgesScrollPane = new javax.swing.JScrollPane();
         edgesList = new javax.swing.JList<>();
