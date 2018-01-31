@@ -17,11 +17,11 @@
             <artifactId>gson</artifactId>
             <version>2.8.2</version>
         </dependency>
-        <dependency>
+<!--        <dependency>
             <groupId>org.apache.maven.plugins</groupId>
             <artifactId>maven-assembly-plugin</artifactId>
             <version>3.1.0</version>
-        </dependency>
+        </dependency>-->
     </dependencies>
     <build>
         <resources>
@@ -38,7 +38,7 @@
               <configuration>
                   <archive>
                       <manifest>
-                          <mainClass>your.main.class</mainClass>
+                          <mainClass>controller.GraphController</mainClass>
                       </manifest>
                   </archive>
               </configuration>
