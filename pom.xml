@@ -32,7 +32,7 @@
         </resources>
         <!-- This is neccisary to create the executable -->
         <plugins>
-                        <plugin>
+<!--                        <plugin>
                 <groupId>org.apache.maven.plugins</groupId>
                 <artifactId>maven-jar-plugin</artifactId>
                 <version>3.0.2</version>
@@ -43,7 +43,7 @@
                         </manifest>
                     </archive>
                 </configuration>
-            </plugin> 
+            </plugin> -->
             <plugin>
                 <artifactId>maven-assembly-plugin</artifactId>
                 <version>3.1.0</version>
