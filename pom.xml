@@ -9,6 +9,7 @@
         <project.build.sourceEncoding>UTF-8</project.build.sourceEncoding>
         <maven.compiler.source>1.8</maven.compiler.source>
         <maven.compiler.target>1.8</maven.compiler.target>
+        <mainClass>controller.GraphController</mainClass>
     </properties>
     <name>GraphTheoryHelper</name>
     <dependencies>
@@ -54,6 +55,7 @@
           </plugin>-->
           <plugin>
         <artifactId>maven-dependency-plugin</artifactId>
+        <version>2.4</version>
         <executions>
             <execution>
                 <phase>install</phase>
@@ -68,6 +70,7 @@
     </plugin>
     <plugin>
         <artifactId>maven-jar-plugin</artifactId>
+        <version>2.4</version>
         <configuration>
             <archive>
                 <manifest>
