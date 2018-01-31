@@ -58,10 +58,15 @@
         <version>2.4</version>
         <executions>
             <execution>
-                <phase>install</phase>
+                <id>make-assembly</id> <!-- this is used for inheritance merges -->
+                <phase>package</phase> <!-- bind to the packaging phase -->
+                <goals>
+                  <goal>single</goal>
+                </goals>
+<!--                <phase>install</phase>
                 <goals>
                     <goal>copy-dependencies</goal>
-                </goals>
+                </goals>-->
                 <configuration>
                     <outputDirectory>${project.build.directory}/lib</outputDirectory>
                 </configuration>
