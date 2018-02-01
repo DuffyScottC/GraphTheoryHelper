@@ -121,6 +121,7 @@ public class GraphVersionChecker {
             
             //if currentVersion is outdated
             if (isCurrentOutdated(currentVersion, latestVersion)) {
+                setUpDialog(latestVersion);
                 openDialog();
             } else {
                 System.out.println("You're version is up to date!");
@@ -221,11 +222,33 @@ public class GraphVersionChecker {
         return false;
     }
     
-    public void openDialog() {
+    /**
+     * Opens the NewVersionDialog object. If checkForNewVersion is true,
+     * it runs a check to see if there is a new version. If checkForNewVersion
+     * is false, it skips that step and just shows the current version.
+     * @param checkForNewVersion 
+     */
+    public void openDialog(boolean checkForNewVersion) {
         newVersionDialog.setLocationRelativeTo(null);
         newVersionDialog.setTitle("New Version Available");
-        newVersionDialog.getChangelogTextArea().setText(description.toString());
         newVersionDialog.setVisible(true);
+    }
+    
+    /**
+     * Set up the text in the dialog to show results. 
+     * @param latestVersion 
+     */
+    private void setUpDialog(int[] latestVersion) {
+        newVersionDialog.getChangelogTextArea().setText(description.toString());
+        newVersionDialog.getInfoLabel().setText("<html>\n" +
+                "<p>Current Version: " + versionToString(currentVersion) + "</p>\n" +
+                "<p>There is a new update available: " + versionToString(latestVersion) + "</p>\n" +
+                "<p>Download it here: </p>\n" +
+                "</html>");
+    }
+    
+    private String versionToString(int[] version) {
+        return "v" + version[0] + "." + version[1] + "." + version[2];
     }
     
 }
