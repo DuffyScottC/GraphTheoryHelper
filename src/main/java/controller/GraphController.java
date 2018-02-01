@@ -166,7 +166,12 @@ public class GraphController {
      * Allows only .graph files to be chosen by the user. (Allows user to open
      * directories, but not choose them).
      */
-    private FileFilter filter;
+    private FileFilter graphFilter;
+    /**
+     * Allows only .png files to be chosen by the user. (Allows user to open
+     * directories, but not choose them).
+     */
+    private FileFilter pngFilter;
     /**
      * Used to save files (or have the user create a new file if its null).
      */
@@ -243,7 +248,7 @@ public class GraphController {
         });
         
         //Define the filter
-        filter = new FileFilter() {
+        graphFilter = new FileFilter() {
             @Override
             public boolean accept(File pathname) {
                 if (pathname.isDirectory()) {
@@ -260,6 +265,25 @@ public class GraphController {
                 return ".graph files";
             }
         };
+        
+        pngFilter = new FileFilter() {
+            @Override
+            public boolean accept(File pathname) {
+                if (pathname.isDirectory()) {
+                    return true;
+                } else {
+                    String name = pathname.getName();
+                    //file must be "something.graph"
+                    return name.matches(".*\\.png");
+                }
+            }
+            
+            @Override
+            public String getDescription() {
+                return "PNG";
+            }
+        };
+        
         //Set the current directory to the user's preference of the last openned 
         //path, which was set when we ran loadPreferences()
         chooser.setCurrentDirectory(currentDirectory);
@@ -516,7 +540,7 @@ public class GraphController {
                 }
             }
 
-            chooser.setFileFilter(filter);
+            chooser.setFileFilter(graphFilter);
             chooser.setDialogTitle("Open");
             chooser.setAcceptAllFileFilterUsed(false);
 
@@ -2084,6 +2108,51 @@ public class GraphController {
      * Currently, it eliminates any highlighting.
      */
     public void exportToPng() {
+        isCommandPressed = false; //unpress command
+        if (graph.isEmpty()) {
+            JOptionPane.showMessageDialog(frame, "Cannot save an empty graph.");
+            return;
+        }
+
+        chooser.setDialogTitle("Export");
+        chooser.resetChoosableFileFilters(); //remove the .graph specification
+        chooser.setAcceptAllFileFilterUsed(true);
+
+        //Open the save dialogue and let the user choose 
+        //where to save the file:
+        int chooserResult = chooser.showSaveDialog(frame);
+        //if the user successfully saved the file
+        if (chooserResult == JFileChooser.APPROVE_OPTION) {
+
+            //get the path of the file that the user selected
+            Path path = chooser.getSelectedFile().toPath();
+
+            //check if the file has an extension already
+            String fileName = path.getFileName().toString(); //the name of the file
+            if (!fileName.matches(".*\\.\\w+")) { //if the file name has NO extension
+                //add .fig
+                String fileNameWithExtension = fileName + ".graph";
+                //use the resolveSibling method to change the old, 
+                //extensionless file name to the new filename created above
+                path = path.resolveSibling(fileNameWithExtension);
+                //e.g. this will replace "curdir/sample2" with "curdir/sample2.graph"
+            }
+
+            //check if the file already exists
+            if (Files.exists(path)) { //if the file already exists
+                //ask the user if they want to continue
+                if (!shouldContinue("OK to overwrite existing file?")) {
+                    //if the user does not want to overwrite a pre-existing file
+                    return;
+                }
+            }
+
+            //Save the graph
+            saveGraph();
+
+        }
+        
+        
         //store the editing edge temporarily
         Edge editingEdge = canvas.getEditingEdge();
         //if we are in the edge adding state
