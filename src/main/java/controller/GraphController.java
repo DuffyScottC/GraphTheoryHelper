@@ -2113,10 +2113,20 @@ public class GraphController {
             JOptionPane.showMessageDialog(frame, "Cannot save an empty graph.");
             return;
         }
-
+        
+        chooser.setFileFilter(pngFilter);
         chooser.setDialogTitle("Export");
         chooser.resetChoosableFileFilters(); //remove the .graph specification
         chooser.setAcceptAllFileFilterUsed(true);
+        
+        //get the name of the graph
+        String nameGraph = saveFile.getName();
+        String name = nameGraph.subSequence(0, nameGraph.length()-6).toString();
+        String namePNG = name + ".png";
+        //get the directory that the png should be saved in
+        File parDir = new File(saveFile.getParent() + "/" + namePNG);
+        //set the selected file to be parDir (so that the user has a default name)
+        chooser.setSelectedFile(parDir);
 
         //Open the save dialogue and let the user choose 
         //where to save the file:
@@ -2129,9 +2139,9 @@ public class GraphController {
 
             //check if the file has an extension already
             String fileName = path.getFileName().toString(); //the name of the file
-            if (!fileName.matches(".*\\.\\w+")) { //if the file name has NO extension
-                //add .fig
-                String fileNameWithExtension = fileName + ".graph";
+            if (!fileName.matches(".*\\.png")) { //if filename does NOT end with .png
+                //add .png
+                String fileNameWithExtension = fileName + ".png";
                 //use the resolveSibling method to change the old, 
                 //extensionless file name to the new filename created above
                 path = path.resolveSibling(fileNameWithExtension);
