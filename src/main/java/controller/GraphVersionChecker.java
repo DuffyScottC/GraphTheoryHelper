@@ -42,6 +42,8 @@ public class GraphVersionChecker {
         newVersionDialog.getCloseButton().addActionListener((ActionEvent e) -> {
             newVersionDialog.setVisible(false);
         });
+        
+        
     }
     
     public void openDialog() {
