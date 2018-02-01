@@ -7,6 +7,7 @@ package views;
 
 import javax.swing.JButton;
 import javax.swing.JLabel;
+import javax.swing.JTextArea;
 
 /**
  *
@@ -43,6 +44,7 @@ public class NewVersionDialog extends javax.swing.JDialog {
 
         closeButton.setText("Close");
 
+        changelogTextArea.setEditable(false);
         changelogTextArea.setColumns(20);
         changelogTextArea.setRows(5);
         jScrollPane1.setViewportView(changelogTextArea);
@@ -165,5 +167,9 @@ public class NewVersionDialog extends javax.swing.JDialog {
     
     public JLabel getInfoLabel() {
         return infoLabel;
+    }
+    
+    public JTextArea getChangelogTextArea() {
+        return changelogTextArea;
     }
 }
