@@ -89,6 +89,8 @@ public class GraphFrame extends javax.swing.JFrame {
         deleteMenuItem = new javax.swing.JMenuItem();
         changeColorsMenuItem = new javax.swing.JMenuItem();
         addGraphMenuItem = new javax.swing.JMenuItem();
+        helpMenu = new javax.swing.JMenu();
+        checkForUpdatesMenuItem = new javax.swing.JMenuItem();
 
         setDefaultCloseOperation(javax.swing.WindowConstants.EXIT_ON_CLOSE);
 
@@ -352,6 +354,13 @@ public class GraphFrame extends javax.swing.JFrame {
 
         myMenuBar.add(toolsMenu);
 
+        helpMenu.setText("Help");
+
+        checkForUpdatesMenuItem.setText("Check For Updates");
+        helpMenu.add(checkForUpdatesMenuItem);
+
+        myMenuBar.add(helpMenu);
+
         setJMenuBar(myMenuBar);
 
         pack();
@@ -382,6 +391,7 @@ public class GraphFrame extends javax.swing.JFrame {
     private javax.swing.JPanel buttonPanel;
     private javax.swing.JTextArea canvasTextArea;
     private javax.swing.JMenuItem changeColorsMenuItem;
+    private javax.swing.JMenuItem checkForUpdatesMenuItem;
     private javax.swing.JButton deleteButton;
     private javax.swing.JMenuItem deleteMenuItem;
     private javax.swing.JLabel edgesLabel;
@@ -393,6 +403,7 @@ public class GraphFrame extends javax.swing.JFrame {
     private javax.swing.JMenuItem formatVerticesMenuItem;
     private javax.swing.JPanel graphOutputPanel;
     private javax.swing.JTextField graphOutputTextField;
+    private javax.swing.JMenu helpMenu;
     private javax.swing.JPanel inspectorPanelJPanel;
     private javax.swing.JScrollPane jScrollPane1;
     private javax.swing.JPopupMenu.Separator jSeparator1;
@@ -547,5 +558,9 @@ public class GraphFrame extends javax.swing.JFrame {
     
     public JMenuItem getExportMenuItem() {
         return exportMenuItem;
+    }
+    
+    public JMenuItem getCheckForUpdatesMenuItem() {
+        return checkForUpdatesMenuItem;
     }
 }
