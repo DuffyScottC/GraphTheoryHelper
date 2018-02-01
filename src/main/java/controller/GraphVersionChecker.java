@@ -27,7 +27,12 @@ import views.NewVersionDialog;
 public class GraphVersionChecker {
     
     private NewVersionDialog newVersionDialog;
+    private final int[] currentVersion = {1, 0, 0};
     
+    /**
+     * Initializes elements and adds action listeners.
+     * @param frame 
+     */
     public GraphVersionChecker(GraphFrame frame) {
         newVersionDialog = new NewVersionDialog(frame, true);
 
@@ -52,6 +57,10 @@ public class GraphVersionChecker {
             Clipboard clpbrd = Toolkit.getDefaultToolkit().getSystemClipboard();
             clpbrd.setContents(stringSelection, null);
         });
+    }
+    
+    public checkVersion() {
+        
     }
     
     public void openDialog() {
