@@ -2135,24 +2135,21 @@ public class GraphController {
         if (chooserResult == JFileChooser.APPROVE_OPTION) {
 
             //get the path of the file that the user selected
-            Path pngPath = chooser.getSelectedFile().toPath();
+            Path path = chooser.getSelectedFile().toPath();
 
-            //Check if the file has an extension already (and remove it if so):
-            String fileName = pngPath.getFileName().toString(); //the name of the file
-            String extensionRegex = "(.*)\\.\\w+";
-            Pattern extensionP = Pattern.compile(extensionRegex);
-            Matcher extensionM = extensionP.matcher(fileName);
-            if (extensionM.find()) { //if filename has an extension
-                //remove the extension (get only the (.*), leaving off the extension)
-                String fileNameWithExtension = extensionM.group(1);
+            //check if the file has an extension already
+            String fileName = path.getFileName().toString(); //the name of the file
+            if (!fileName.matches(".*\\.png")) { //if filename does NOT end with .png
+                //add .png
+                String fileNameWithExtension = fileName + ".png";
                 //use the resolveSibling method to change the old, 
                 //extensionless file name to the new filename created above
-                pngPath = pngPath.resolveSibling(fileNameWithExtension);
+                path = path.resolveSibling(fileNameWithExtension);
                 //e.g. this will replace "curdir/sample2" with "curdir/sample2.graph"
             }
 
             //check if the file already exists
-            if (Files.exists(pngPath)) { //if the file already exists
+            if (Files.exists(path)) { //if the file already exists
                 //ask the user if they want to continue
                 if (!shouldContinue("OK to overwrite existing file?")) {
                     //if the user does not want to overwrite a pre-existing file
