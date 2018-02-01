@@ -5,6 +5,8 @@
  */
 package views;
 
+import javax.swing.JButton;
+
 /**
  *
  * @author Scott
@@ -41,7 +43,6 @@ public class NewVersionDialog extends javax.swing.JDialog {
 
         changelogTextArea.setColumns(20);
         changelogTextArea.setRows(5);
-        changelogTextArea.setText("<html><a href=\"https://github.com/DuffyScottC/GraphTheoryHelper/releases/latest\">https://github.com/DuffyScottC/GraphTheoryHelper/releases/latest</a></html>");
         jScrollPane1.setViewportView(changelogTextArea);
 
         jLabel1.setText("Changelog:");
@@ -62,15 +63,15 @@ public class NewVersionDialog extends javax.swing.JDialog {
                     .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, layout.createSequentialGroup()
                         .addGap(0, 0, Short.MAX_VALUE)
                         .addComponent(closeButton))
+                    .addComponent(linkButton, javax.swing.GroupLayout.DEFAULT_SIZE, 517, Short.MAX_VALUE)
                     .addGroup(layout.createSequentialGroup()
                         .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
                             .addComponent(jLabel1)
                             .addComponent(jLabel2, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
                         .addGap(0, 0, Short.MAX_VALUE))
-                    .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, layout.createSequentialGroup()
+                    .addGroup(layout.createSequentialGroup()
                         .addComponent(jScrollPane1)
-                        .addContainerGap())
-                    .addComponent(linkButton, javax.swing.GroupLayout.DEFAULT_SIZE, 517, Short.MAX_VALUE)))
+                        .addContainerGap())))
         );
         layout.setVerticalGroup(
             layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
@@ -141,4 +142,8 @@ public class NewVersionDialog extends javax.swing.JDialog {
     private javax.swing.JScrollPane jScrollPane1;
     private javax.swing.JButton linkButton;
     // End of variables declaration//GEN-END:variables
+
+    public JButton getLinkButton() {
+        return linkButton;
+    }
 }
