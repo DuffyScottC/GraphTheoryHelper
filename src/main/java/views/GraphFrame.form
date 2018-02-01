@@ -12,7 +12,7 @@
             <MenuItem class="javax.swing.JMenuItem" name="openMenuItem">
               <Properties>
                 <Property name="accelerator" type="javax.swing.KeyStroke" editor="org.netbeans.modules.form.editors.KeyStrokeEditor">
-                  <KeyStroke key="Meta+O"/>
+                  <KeyStroke key="Ctrl+O"/>
                 </Property>
                 <Property name="text" type="java.lang.String" value="Open"/>
               </Properties>
@@ -20,7 +20,7 @@
             <MenuItem class="javax.swing.JMenuItem" name="saveMenuItem">
               <Properties>
                 <Property name="accelerator" type="javax.swing.KeyStroke" editor="org.netbeans.modules.form.editors.KeyStrokeEditor">
-                  <KeyStroke key="Meta+S"/>
+                  <KeyStroke key="Ctrl+S"/>
                 </Property>
                 <Property name="text" type="java.lang.String" value="Save"/>
               </Properties>
@@ -28,7 +28,7 @@
             <MenuItem class="javax.swing.JMenuItem" name="saveAsMenuItem">
               <Properties>
                 <Property name="accelerator" type="javax.swing.KeyStroke" editor="org.netbeans.modules.form.editors.KeyStrokeEditor">
-                  <KeyStroke key="Shift+Meta+S"/>
+                  <KeyStroke key="Shift+Ctrl+S"/>
                 </Property>
                 <Property name="text" type="java.lang.String" value="Save As"/>
               </Properties>
@@ -36,7 +36,7 @@
             <MenuItem class="javax.swing.JMenuItem" name="newMenuItem">
               <Properties>
                 <Property name="accelerator" type="javax.swing.KeyStroke" editor="org.netbeans.modules.form.editors.KeyStrokeEditor">
-                  <KeyStroke key="Meta+N"/>
+                  <KeyStroke key="Ctrl+N"/>
                 </Property>
                 <Property name="text" type="java.lang.String" value="New"/>
               </Properties>
@@ -46,7 +46,7 @@
             <MenuItem class="javax.swing.JMenuItem" name="exportMenuItem">
               <Properties>
                 <Property name="accelerator" type="javax.swing.KeyStroke" editor="org.netbeans.modules.form.editors.KeyStrokeEditor">
-                  <KeyStroke key="Shift+Meta+E"/>
+                  <KeyStroke key="Shift+Ctrl+E"/>
                 </Property>
                 <Property name="text" type="java.lang.String" value="Export"/>
               </Properties>
@@ -69,7 +69,7 @@
             <MenuItem class="javax.swing.JMenuItem" name="selectAllVerticesMenuItem">
               <Properties>
                 <Property name="accelerator" type="javax.swing.KeyStroke" editor="org.netbeans.modules.form.editors.KeyStrokeEditor">
-                  <KeyStroke key="Meta+A"/>
+                  <KeyStroke key="Ctrl+A"/>
                 </Property>
                 <Property name="text" type="java.lang.String" value="Select All Vertices"/>
               </Properties>
@@ -87,7 +87,7 @@
             <MenuItem class="javax.swing.JCheckBoxMenuItem" name="showVertexNamesMenuItem">
               <Properties>
                 <Property name="accelerator" type="javax.swing.KeyStroke" editor="org.netbeans.modules.form.editors.KeyStrokeEditor">
-                  <KeyStroke key="Shift+Meta+N"/>
+                  <KeyStroke key="Shift+Ctrl+N"/>
                 </Property>
                 <Property name="text" type="java.lang.String" value="Show Vertex Names"/>
               </Properties>
@@ -95,7 +95,7 @@
             <MenuItem class="javax.swing.JMenuItem" name="formatVerticesMenuItem">
               <Properties>
                 <Property name="accelerator" type="javax.swing.KeyStroke" editor="org.netbeans.modules.form.editors.KeyStrokeEditor">
-                  <KeyStroke key="Meta+F"/>
+                  <KeyStroke key="Shift+Ctrl+F"/>
                 </Property>
                 <Property name="text" type="java.lang.String" value="Format Vertices"/>
               </Properties>
@@ -257,6 +257,7 @@
           <SubComponents>
             <Component class="javax.swing.JTextArea" name="canvasTextArea">
               <Properties>
+                <Property name="editable" type="boolean" value="false"/>
                 <Property name="columns" type="int" value="20"/>
                 <Property name="rows" type="int" value="5"/>
               </Properties>
