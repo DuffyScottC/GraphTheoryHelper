@@ -81,8 +81,8 @@ public class GraphVersionChecker {
     public void checkVersion(boolean autoOpen) {
         try {
             //get the latest version web page from github
-//            URL github = new URL("https://github.com/DuffyScottC/GraphTheoryHelper/releases/latest");
-            URL github = new URL("https://github.com/DuffyScottC/Minecraft_Vanilla_Interdiction_Torch/releases/latest");
+            URL github = new URL("https://github.com/DuffyScottC/GraphTheoryHelper/releases/latest");
+//            URL github = new URL("https://github.com/DuffyScottC/Minecraft_Vanilla_Interdiction_Torch/releases/latest");
 
             //get a bufferedReader to read the html line by line
             BufferedReader in = new BufferedReader(
