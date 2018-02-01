@@ -2114,12 +2114,12 @@ public class GraphController {
         canvas.paintAll(g2);
         //save the png
         try {
-            if (ImageIO.write(canvasBufferedImage, "png", new File("./output_image.png"))) {
+            if (ImageIO.write(canvasBufferedImage, "png", new File("./" + saveFile.getName() + ".png"))) {
                 System.out.println("-- saved");
             }
         } catch (IOException e) {
             // TODO Auto-generated catch block
-            e.printStackTrace();
+            System.out.println(e.toString());
         }
         
         //if we are in the edge adding state
