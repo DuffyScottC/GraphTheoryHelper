@@ -2121,7 +2121,7 @@ public class GraphController {
         
         //get the name of the graph
         String nameGraph = saveFile.getName();
-        String name = nameGraph.subSequence(0, nameGraph.length()-6).toString();
+        String name = nameGraph.substring(0, nameGraph.length()-6);
         String namePNG = name + ".png";
         //get the directory that the png should be saved in
         File parDir = new File(saveFile.getParent() + "/" + namePNG);
@@ -2140,6 +2140,10 @@ public class GraphController {
             //check if the file has an extension already
             String fileName = path.getFileName().toString(); //the name of the file
             if (!fileName.matches(".*\\.png")) { //if filename does NOT end with .png
+                if (fileName.matches(".*\\.\\w+")) { //if it has an extension (not png)
+                    //remove the extension
+                    fileName = fileName.substring(0, fileName.lastIndexOf("."));
+                }
                 //add .png
                 String fileNameWithExtension = fileName + ".png";
                 //use the resolveSibling method to change the old, 
