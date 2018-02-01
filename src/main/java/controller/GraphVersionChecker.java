@@ -28,18 +28,19 @@ public class GraphVersionChecker {
     public GraphVersionChecker(GraphFrame frame) {
         newVersionDialog = new NewVersionDialog(frame, true);
 
-        newVersionDialog.getLinkButton().addActionListener(new ActionListener() {
-            @Override
-            public void actionPerformed(ActionEvent e) {
-                try {
-                    Desktop.getDesktop().browse(
-                            new URI("https://github.com/DuffyScottC/GraphTheoryHelper/releases/latest"));
-                } catch (IOException ex) {
-                    System.out.println(ex.toString());
-                } catch (URISyntaxException ex) {
-                    System.out.println(ex.toString());
-                }
+        newVersionDialog.getLinkButton().addActionListener((ActionEvent e) -> {
+            try {
+                Desktop.getDesktop().browse(
+                        new URI("https://github.com/DuffyScottC/GraphTheoryHelper/releases/latest"));
+            } catch (IOException ex) {
+                System.out.println(ex.toString());
+            } catch (URISyntaxException ex) {
+                System.out.println(ex.toString());
             }
+        });
+        
+        newVersionDialog.getCloseButton().addActionListener((ActionEvent e) -> {
+            newVersionDialog.setVisible(false);
         });
     }
     

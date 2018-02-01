@@ -146,4 +146,8 @@ public class NewVersionDialog extends javax.swing.JDialog {
     public JButton getLinkButton() {
         return linkButton;
     }
+    
+    public JButton getCloseButton() {
+        return closeButton;
+    }
 }
