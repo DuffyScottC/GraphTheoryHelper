@@ -2117,7 +2117,7 @@ public class GraphController {
         File fileToSaveAt;
         //if we have no save file yet
         if (saveFile == null) {
-            fileToSaveAt = new File(System.getProperty("user.dir") + "/untitled.png");
+            fileToSaveAt = new File(System.getProperty("user.dir") + "/untitled.graph");
         } else { //if we do have a save file
             fileToSaveAt = saveFile;
         }
