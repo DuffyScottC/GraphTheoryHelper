@@ -2114,7 +2114,8 @@ public class GraphController {
         canvas.paintAll(g2);
         //save the png
         try {
-            if (ImageIO.write(canvasBufferedImage, "png", new File("./" + saveFile.getName() + ".png"))) {
+            if (ImageIO.write(canvasBufferedImage, "png", new File("./" 
+                    + saveFile.getName() + ".png"))) {
                 System.out.println("-- saved");
             }
         } catch (IOException e) {
