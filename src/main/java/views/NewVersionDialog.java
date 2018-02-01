@@ -6,6 +6,7 @@
 package views;
 
 import javax.swing.JButton;
+import javax.swing.JLabel;
 
 /**
  *
@@ -34,7 +35,7 @@ public class NewVersionDialog extends javax.swing.JDialog {
         jScrollPane1 = new javax.swing.JScrollPane();
         changelogTextArea = new javax.swing.JTextArea();
         jLabel1 = new javax.swing.JLabel();
-        jLabel2 = new javax.swing.JLabel();
+        infoLabel = new javax.swing.JLabel();
         linkButton = new javax.swing.JButton();
         copyLinkButton = new javax.swing.JButton();
 
@@ -48,7 +49,7 @@ public class NewVersionDialog extends javax.swing.JDialog {
 
         jLabel1.setText("Changelog:");
 
-        jLabel2.setText("<html> <p>Current Version: v1.0.0</p> <p>There is a new update available: v1.0.1</p> <p>Download it here: </p> </html>");
+        infoLabel.setText("<html> <p>Current Version: v1.0.0</p> <p>There is a new update available: v1.0.1</p> <p>Download it here: </p> </html>");
 
         linkButton.setText("<html><a href=\"https://github.com/DuffyScottC/GraphTheoryHelper/releases/latest\">https://github.com/DuffyScottC/GraphTheoryHelper/releases/latest</a></html>");
         linkButton.setBorderPainted(false);
@@ -72,7 +73,7 @@ public class NewVersionDialog extends javax.swing.JDialog {
                     .addGroup(layout.createSequentialGroup()
                         .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
                             .addComponent(jLabel1)
-                            .addComponent(jLabel2, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
+                            .addComponent(infoLabel, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
                             .addComponent(linkButton, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
                             .addComponent(copyLinkButton))
                         .addGap(0, 0, Short.MAX_VALUE))))
@@ -81,7 +82,7 @@ public class NewVersionDialog extends javax.swing.JDialog {
             layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
             .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, layout.createSequentialGroup()
                 .addContainerGap()
-                .addComponent(jLabel2, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
+                .addComponent(infoLabel, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
                 .addComponent(linkButton, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
@@ -144,8 +145,8 @@ public class NewVersionDialog extends javax.swing.JDialog {
     private javax.swing.JTextArea changelogTextArea;
     private javax.swing.JButton closeButton;
     private javax.swing.JButton copyLinkButton;
+    private javax.swing.JLabel infoLabel;
     private javax.swing.JLabel jLabel1;
-    private javax.swing.JLabel jLabel2;
     private javax.swing.JScrollPane jScrollPane1;
     private javax.swing.JButton linkButton;
     // End of variables declaration//GEN-END:variables
@@ -160,5 +161,9 @@ public class NewVersionDialog extends javax.swing.JDialog {
     
     public JButton getCopyLinkButton() {
         return copyLinkButton;
+    }
+    
+    public JLabel getInfoLabel() {
+        return infoLabel;
     }
 }

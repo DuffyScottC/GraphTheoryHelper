@@ -37,7 +37,7 @@
                   <Group type="102" attributes="0">
                       <Group type="103" groupAlignment="0" attributes="0">
                           <Component id="jLabel1" alignment="0" min="-2" max="-2" attributes="0"/>
-                          <Component id="jLabel2" alignment="0" min="-2" max="-2" attributes="0"/>
+                          <Component id="infoLabel" alignment="0" min="-2" max="-2" attributes="0"/>
                           <Component id="linkButton" alignment="0" min="-2" max="-2" attributes="0"/>
                           <Component id="copyLinkButton" alignment="0" min="-2" max="-2" attributes="0"/>
                       </Group>
@@ -51,7 +51,7 @@
       <Group type="103" groupAlignment="0" attributes="0">
           <Group type="102" alignment="1" attributes="0">
               <EmptySpace max="-2" attributes="0"/>
-              <Component id="jLabel2" min="-2" max="-2" attributes="0"/>
+              <Component id="infoLabel" min="-2" max="-2" attributes="0"/>
               <EmptySpace max="-2" attributes="0"/>
               <Component id="linkButton" min="-2" max="-2" attributes="0"/>
               <EmptySpace max="-2" attributes="0"/>
@@ -92,7 +92,7 @@
         <Property name="text" type="java.lang.String" value="Changelog:"/>
       </Properties>
     </Component>
-    <Component class="javax.swing.JLabel" name="jLabel2">
+    <Component class="javax.swing.JLabel" name="infoLabel">
       <Properties>
         <Property name="text" type="java.lang.String" value="&lt;html&gt; &lt;p&gt;Current Version: v1.0.0&lt;/p&gt; &lt;p&gt;There is a new update available: v1.0.1&lt;/p&gt; &lt;p&gt;Download it here: &lt;/p&gt; &lt;/html&gt;"/>
       </Properties>
