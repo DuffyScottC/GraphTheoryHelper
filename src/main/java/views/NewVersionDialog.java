@@ -7,7 +7,7 @@ package views;
 
 import javax.swing.JButton;
 import javax.swing.JLabel;
-import javax.swing.JTextArea;
+import javax.swing.JTextPane;
 
 /**
  *
@@ -33,21 +33,16 @@ public class NewVersionDialog extends javax.swing.JDialog {
     private void initComponents() {
 
         closeButton = new javax.swing.JButton();
-        jScrollPane1 = new javax.swing.JScrollPane();
-        changelogTextArea = new javax.swing.JTextArea();
         jLabel1 = new javax.swing.JLabel();
         infoLabel = new javax.swing.JLabel();
         linkButton = new javax.swing.JButton();
         copyLinkButton = new javax.swing.JButton();
+        jScrollPane1 = new javax.swing.JScrollPane();
+        changelogTextPane = new javax.swing.JTextPane();
 
         setDefaultCloseOperation(javax.swing.WindowConstants.DISPOSE_ON_CLOSE);
 
         closeButton.setText("Close");
-
-        changelogTextArea.setEditable(false);
-        changelogTextArea.setColumns(20);
-        changelogTextArea.setRows(5);
-        jScrollPane1.setViewportView(changelogTextArea);
 
         jLabel1.setText("Changelog:");
 
@@ -59,6 +54,9 @@ public class NewVersionDialog extends javax.swing.JDialog {
 
         copyLinkButton.setText("Copy Link");
 
+        changelogTextPane.setContentType("text/html"); // NOI18N
+        jScrollPane1.setViewportView(changelogTextPane);
+
         javax.swing.GroupLayout layout = new javax.swing.GroupLayout(getContentPane());
         getContentPane().setLayout(layout);
         layout.setHorizontalGroup(
@@ -66,12 +64,12 @@ public class NewVersionDialog extends javax.swing.JDialog {
             .addGroup(layout.createSequentialGroup()
                 .addContainerGap()
                 .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                    .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, layout.createSequentialGroup()
-                        .addGap(0, 0, Short.MAX_VALUE)
-                        .addComponent(closeButton))
                     .addGroup(layout.createSequentialGroup()
                         .addComponent(jScrollPane1)
                         .addContainerGap())
+                    .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, layout.createSequentialGroup()
+                        .addGap(0, 0, Short.MAX_VALUE)
+                        .addComponent(closeButton))
                     .addGroup(layout.createSequentialGroup()
                         .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
                             .addComponent(jLabel1)
@@ -144,7 +142,7 @@ public class NewVersionDialog extends javax.swing.JDialog {
     }
 
     // Variables declaration - do not modify//GEN-BEGIN:variables
-    private javax.swing.JTextArea changelogTextArea;
+    private javax.swing.JTextPane changelogTextPane;
     private javax.swing.JButton closeButton;
     private javax.swing.JButton copyLinkButton;
     private javax.swing.JLabel infoLabel;
@@ -169,7 +167,7 @@ public class NewVersionDialog extends javax.swing.JDialog {
         return infoLabel;
     }
     
-    public JTextArea getChangelogTextArea() {
-        return changelogTextArea;
+    public JTextPane getChangelogTextPane() {
+        return changelogTextPane;
     }
 }

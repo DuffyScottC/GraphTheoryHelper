@@ -34,7 +34,7 @@ public class GraphVersionChecker {
     private NewVersionDialog newVersionDialog;
     
     private final int[] currentVersion = {1, 0, 0};
-    private StringBuilder description = new StringBuilder();
+    private StringBuilder description = new StringBuilder("<html>");
     
     /**
      * Initializes elements and adds action listeners.
@@ -120,6 +120,9 @@ public class GraphVersionChecker {
                 throw new Exception("Unable to find latest version on page.");
             }
             
+            //add the final html tag to the description
+            description.append("</html>");
+            
             //if currentVersion is outdated
             if (isCurrentOutdated(currentVersion, latestVersion)) {
                 setUpDialog(latestVersion);
@@ -166,35 +169,10 @@ public class GraphVersionChecker {
     }
     
     private boolean getDescription(String inputLine) {
-        String paragraphRegex = ".*<p>(.*)<\\/p>"; //<p>...</p> = paragraph
-        Pattern paragraphP = Pattern.compile(paragraphRegex); //the pattern with the regex
-        Matcher paragraphM = paragraphP.matcher(inputLine); //the matcher for the line
-        
-        String bulletRegex = ".*<li>(.*)<\\/li>"; //<li>...</li> = bullet
-        Pattern bulletP = Pattern.compile(bulletRegex); //the pattern with the regex
-        Matcher bulletM = bulletP.matcher(inputLine); //the matcher for the line
-        
-        
-        if (paragraphM.find()) { //<p>...</p> = paragraph
-            //get the contents of the paragraph
-            String paragraph = paragraphM.group(1);
-            //add the paragraph to the description
-            description.append(paragraph);
-            //add a new line
-            description.append("\n\n");
-        } else if (inputLine.matches(".*<ul>") || inputLine.matches(".*<\\/ul>")) { //<ul> or </ul> = start of bullets
-            description.append("\n");
-        } else if (bulletM.find()) { //<li>...</li> = bullet
-            //get the contents of the bullet
-            String bullet = bulletM.group(1);
-            //add a bullet point
-            description.append(" - ");
-            //add the bullet to the description
-            description.append(bullet);
-            //add a new line
-            description.append("\n");
-        } else if (inputLine.matches(".*<\\/div>")) { //</div> end of description
+        if (inputLine.matches(".*<\\/div>")) { //</div> end of description
             return false; //stop adding to the description
+        } else {
+            description.append(inputLine);
         }
         return true; //keep adding to the description
     }
@@ -240,7 +218,7 @@ public class GraphVersionChecker {
      * @param latestVersion 
      */
     private void setUpDialog(int[] latestVersion) {
-        newVersionDialog.getChangelogTextArea().setText(description.toString());
+        newVersionDialog.getChangelogTextPane().setText(description.toString());
         newVersionDialog.getInfoLabel().setText("<html>\n" +
                 "<p>Current Version: " + versionToString(currentVersion) + "</p>\n" +
                 "<p>There is a new update available: " + versionToString(latestVersion) + "</p>\n" +
