@@ -6,6 +6,9 @@
 package controller;
 
 import java.awt.Desktop;
+import java.awt.Toolkit;
+import java.awt.datatransfer.Clipboard;
+import java.awt.datatransfer.StringSelection;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 import java.io.IOException;
@@ -43,7 +46,12 @@ public class GraphVersionChecker {
             newVersionDialog.setVisible(false);
         });
         
-        
+        newVersionDialog.getCopyLinkButton().addActionListener((ActionEvent e) -> {
+            String myString = "https://github.com/DuffyScottC/GraphTheoryHelper/releases/latest";
+            StringSelection stringSelection = new StringSelection(myString);
+            Clipboard clpbrd = Toolkit.getDefaultToolkit().getSystemClipboard();
+            clpbrd.setContents(stringSelection, null);
+        });
     }
     
     public void openDialog() {
