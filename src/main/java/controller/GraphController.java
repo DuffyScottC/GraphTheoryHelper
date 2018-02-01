@@ -2180,6 +2180,7 @@ public class GraphController {
 
         GraphController app = new GraphController();
         app.frame.setVisible(true);
+        app.graphVersionChecker.checkVersion();
     }
 
 }
