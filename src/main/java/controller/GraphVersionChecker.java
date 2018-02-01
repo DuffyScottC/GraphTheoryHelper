@@ -75,8 +75,10 @@ public class GraphVersionChecker {
      * available. <>
      * Gives up if we cannot find the right information on the web page,
      * if we can't connect, etc.
+     * @param autoOpen If true, this function will open the dialog 
+     * automatically if there is a new version.
      */
-    public void checkVersion() {
+    public void checkVersion(boolean autoOpen) {
         try {
             //get the latest version web page from github
 //            URL github = new URL("https://github.com/DuffyScottC/GraphTheoryHelper/releases/latest");
@@ -117,7 +119,9 @@ public class GraphVersionChecker {
             //if we get here and latestVersion is still null, then this page 
             //has no version number in it
             if (latestVersion == null) {
-                throw new Exception("Unable to find latest version on page.");
+                System.out.println("Unable to find latest version on page.");
+                clearDialog();
+                return;
             }
             
             //add the final html tag to the description
@@ -126,8 +130,11 @@ public class GraphVersionChecker {
             //if currentVersion is outdated
             if (isCurrentOutdated(currentVersion, latestVersion)) {
                 setUpDialog(latestVersion);
-                openDialog();
+                if (autoOpen) { //if we want to open this now
+                    openDialog();
+                }
             } else {
+                clearDialog();
                 System.out.println("You're version is up to date!");
             }
             
@@ -228,6 +235,15 @@ public class GraphVersionChecker {
     
     private String versionToString(int[] version) {
         return "v" + version[0] + "." + version[1] + "." + version[2];
+    }
+
+    private void clearDialog() {
+        newVersionDialog.getChangelogTextPane().setText("");
+        newVersionDialog.getInfoLabel().setText("<html>\n" +
+                "<p>Current Version: v1.0.0</p>\n" +
+                "<p></p>\n" +
+                "<p>Check for updates here: </p>\n" +
+                "</html>");
     }
     
 }

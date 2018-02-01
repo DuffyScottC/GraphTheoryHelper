@@ -838,6 +838,7 @@ public class GraphController {
         });
         
         frame.getCheckForUpdatesMenuItem().addActionListener((ActionEvent e) -> {
+            graphVersionChecker.checkVersion(false);
             graphVersionChecker.openDialog();
         });
         
@@ -2180,7 +2181,7 @@ public class GraphController {
 
         GraphController app = new GraphController();
         app.frame.setVisible(true);
-        app.graphVersionChecker.checkVersion();
+        app.graphVersionChecker.checkVersion(true);
     }
 
 }
