@@ -228,7 +228,7 @@ public class GraphVersionChecker {
      * is false, it skips that step and just shows the current version.
      * @param checkForNewVersion 
      */
-    public void openDialog(boolean checkForNewVersion) {
+    public void openDialog() {
         newVersionDialog.setLocationRelativeTo(null);
         newVersionDialog.setTitle("New Version Available");
         newVersionDialog.setVisible(true);
