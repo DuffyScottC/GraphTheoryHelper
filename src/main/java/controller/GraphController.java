@@ -2135,10 +2135,10 @@ public class GraphController {
         if (chooserResult == JFileChooser.APPROVE_OPTION) {
 
             //get the path of the file that the user selected
-            Path path = chooser.getSelectedFile().toPath();
+            Path pngPath = chooser.getSelectedFile().toPath();
 
             //check if the file has an extension already
-            String fileName = path.getFileName().toString(); //the name of the file
+            String fileName = pngPath.getFileName().toString(); //the name of the file
             if (!fileName.matches(".*\\.png")) { //if filename does NOT end with .png
                 if (fileName.matches(".*\\.\\w+")) { //if it has an extension (not png)
                     //remove the extension
@@ -2148,12 +2148,12 @@ public class GraphController {
                 String fileNameWithExtension = fileName + ".png";
                 //use the resolveSibling method to change the old, 
                 //extensionless file name to the new filename created above
-                path = path.resolveSibling(fileNameWithExtension);
+                pngPath = pngPath.resolveSibling(fileNameWithExtension);
                 //e.g. this will replace "curdir/sample2" with "curdir/sample2.graph"
             }
 
             //check if the file already exists
-            if (Files.exists(path)) { //if the file already exists
+            if (Files.exists(pngPath)) { //if the file already exists
                 //ask the user if they want to continue
                 if (!shouldContinue("OK to overwrite existing file?")) {
                     //if the user does not want to overwrite a pre-existing file
@@ -2193,9 +2193,8 @@ public class GraphController {
             canvas.paintAll(g2);
             //save the png
             try {
-                if (ImageIO.write(canvasBufferedImage, "png", new File("./" 
-                        + saveFile.getName() + ".png"))) {
-                    System.out.println("-- saved");
+                if (ImageIO.write(canvasBufferedImage, "png", pngPath.toFile())) {
+                    System.out.println("-- exported");
                 }
             } catch (IOException e) {
                 // TODO Auto-generated catch block
