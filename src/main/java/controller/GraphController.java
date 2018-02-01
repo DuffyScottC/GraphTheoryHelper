@@ -2135,88 +2135,88 @@ public class GraphController {
         if (chooserResult == JFileChooser.APPROVE_OPTION) {
 
             //get the path of the file that the user selected
-            Path path = chooser.getSelectedFile().toPath();
+            Path pngPath = chooser.getSelectedFile().toPath();
 
-            //check if the file has an extension already
-            String fileName = path.getFileName().toString(); //the name of the file
-            if (!fileName.matches(".*\\.png")) { //if filename does NOT end with .png
-                //add .png
-                String fileNameWithExtension = fileName + ".png";
+            //Check if the file has an extension already (and remove it if so):
+            String fileName = pngPath.getFileName().toString(); //the name of the file
+            String extensionRegex = "(.*)\\.\\w+";
+            Pattern extensionP = Pattern.compile(extensionRegex);
+            Matcher extensionM = extensionP.matcher(fileName);
+            if (extensionM.find()) { //if filename has an extension
+                //remove the extension (get only the (.*), leaving off the extension)
+                String fileNameWithExtension = extensionM.group(1);
                 //use the resolveSibling method to change the old, 
                 //extensionless file name to the new filename created above
-                path = path.resolveSibling(fileNameWithExtension);
+                pngPath = pngPath.resolveSibling(fileNameWithExtension);
                 //e.g. this will replace "curdir/sample2" with "curdir/sample2.graph"
             }
 
             //check if the file already exists
-            if (Files.exists(path)) { //if the file already exists
+            if (Files.exists(pngPath)) { //if the file already exists
                 //ask the user if they want to continue
                 if (!shouldContinue("OK to overwrite existing file?")) {
                     //if the user does not want to overwrite a pre-existing file
                     return;
                 }
             }
-
-            //Save the graph
-            saveGraph();
-
-        }
-        
-        
-        //store the editing edge temporarily
-        Edge editingEdge = canvas.getEditingEdge();
-        //if we are in the edge adding state
-        if (graphStateMachine.getState() == States.EDGE_ADDING) {
-            //unhighlight all vertices
-            for (Vertex v : vertices) {
-                graph.unHighlightVertex(v);
+            
+            //Actually save the png:
+            
+            //store the editing edge temporarily
+            Edge editingEdge = canvas.getEditingEdge();
+            //if we are in the edge adding state
+            if (graphStateMachine.getState() == States.EDGE_ADDING) {
+                //unhighlight all vertices
+                for (Vertex v : vertices) {
+                    graph.unHighlightVertex(v);
+                }
+                //set the editing edge to null (so it won't draw the dot)
+                canvas.setEditingEdge(null);
+            } else { //if we are not in the edge adding state
+                //unhighlight the selected vertices
+                for (Vertex v : selectedVertices) {
+                    graph.unHighlightVertex(v);
+                }
             }
-            //set the editing edge to null (so it won't draw the dot)
-            canvas.setEditingEdge(null);
-        } else { //if we are not in the edge adding state
             //unhighlight the selected vertices
-            for (Vertex v : selectedVertices) {
-                graph.unHighlightVertex(v);
+            for (Edge e : selectedEdges) {
+                graph.unHighlightEdge(e);
             }
-        }
-        //unhighlight the selected vertices
-        for (Edge e : selectedEdges) {
-            graph.unHighlightEdge(e);
-        }
-        
-        //Create a BufferedImage of the same dimensions as canvas
-        BufferedImage canvasBufferedImage = new BufferedImage(canvas.getWidth(), 
-                canvas.getHeight(), BufferedImage.TYPE_INT_RGB);
-        //get the BufferedImage's Graphics2D object to draw into the image
-        Graphics2D g2 = canvasBufferedImage.createGraphics();
-        //draw the canvas onto the BufferedImage using g2
-        canvas.paintAll(g2);
-        //save the png
-        try {
-            if (ImageIO.write(canvasBufferedImage, "png", new File("./" 
-                    + saveFile.getName() + ".png"))) {
-                System.out.println("-- saved");
+
+            //Create a BufferedImage of the same dimensions as canvas
+            BufferedImage canvasBufferedImage = new BufferedImage(canvas.getWidth(), 
+                    canvas.getHeight(), BufferedImage.TYPE_INT_RGB);
+            //get the BufferedImage's Graphics2D object to draw into the image
+            Graphics2D g2 = canvasBufferedImage.createGraphics();
+            //draw the canvas onto the BufferedImage using g2
+            canvas.paintAll(g2);
+            //save the png
+            try {
+                if (ImageIO.write(canvasBufferedImage, "png", new File("./" 
+                        + saveFile.getName() + ".png"))) {
+                    System.out.println("-- saved");
+                }
+            } catch (IOException e) {
+                // TODO Auto-generated catch block
+                System.out.println(e.toString());
             }
-        } catch (IOException e) {
-            // TODO Auto-generated catch block
-            System.out.println(e.toString());
-        }
-        
-        //if we are in the edge adding state
-        if (graphStateMachine.getState() == States.EDGE_ADDING) {
-            //re-highlight the available vertices
-            graph.highlightAvailableVertices();
-            //reset the editing edge
-            canvas.setEditingEdge(editingEdge);
-        } else { //if we are not in the addingEdges state
-            //highlight the selected vertices again
-            for (Vertex v : selectedVertices) {
-                graph.highlightVertex(v);
+
+            //if we are in the edge adding state
+            if (graphStateMachine.getState() == States.EDGE_ADDING) {
+                //re-highlight the available vertices
+                graph.highlightAvailableVertices();
+                //reset the editing edge
+                canvas.setEditingEdge(editingEdge);
+            } else { //if we are not in the addingEdges state
+                //highlight the selected vertices again
+                for (Vertex v : selectedVertices) {
+                    graph.highlightVertex(v);
+                }
             }
-        }
-        //hightlight the selected edges again
-        for (Edge e : selectedEdges) {
-            graph.highlightEdge(e);
+            //hightlight the selected edges again
+            for (Edge e : selectedEdges) {
+                graph.highlightEdge(e);
+            }
         }
     }
 
