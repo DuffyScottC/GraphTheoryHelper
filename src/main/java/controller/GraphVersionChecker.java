@@ -42,4 +42,11 @@ public class GraphVersionChecker {
             }
         });
     }
+    
+    public void openDialog() {
+        newVersionDialog.setLocationRelativeTo(null);
+        newVersionDialog.setTitle("New Version Available");
+        newVersionDialog.setVisible(true);
+    }
+    
 }

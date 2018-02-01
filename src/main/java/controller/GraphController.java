@@ -179,6 +179,7 @@ public class GraphController {
     //MARK: Seperate Responsibilities
     private final GraphStateMachine graphStateMachine;
     private final GraphSelectionHandeler graphSelectionHandeler;
+    private final GraphVersionChecker graphVersionChecker;
 
     public GraphController() {
         frame.setTitle("Graph Theory Helper");
@@ -206,6 +207,8 @@ public class GraphController {
 
         SampleCanvas sampleCanvas = graphColorChooserDialog.getSampleCanvas();
         sampleCanvas.setUp(graph); //Set up the sample canvas in the dialog
+        
+        graphVersionChecker = new GraphVersionChecker(frame);
         
         graphSelectionHandeler = new GraphSelectionHandeler(frame, 
                 selectedVertices,
@@ -832,6 +835,10 @@ public class GraphController {
             graphColorChooserDialog.setVisible(false);
 
             canvas.repaint(); //repaint the canvas
+        });
+        
+        frame.getCheckForUpdatesMenuItem().addActionListener((ActionEvent e) -> {
+            graphVersionChecker.openDialog();
         });
         
         frame.getExportMenuItem().addActionListener((ActionEvent e) -> {
