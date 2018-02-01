@@ -2114,17 +2114,25 @@ public class GraphController {
             return;
         }
         
+        File fileToSaveAt;
+        //if we have no save file yet
+        if (saveFile == null) {
+            fileToSaveAt = new File(System.getProperty("user.dir") + "/untitled.png");
+        } else { //if we do have a save file
+            fileToSaveAt = saveFile;
+        }
+        
         chooser.setFileFilter(pngFilter);
         chooser.setDialogTitle("Export");
         chooser.resetChoosableFileFilters(); //remove the .graph specification
         chooser.setAcceptAllFileFilterUsed(true);
         
         //get the name of the graph
-        String nameGraph = saveFile.getName();
+        String nameGraph = fileToSaveAt.getName();
         String name = nameGraph.substring(0, nameGraph.length()-6);
         String namePNG = name + ".png";
         //get the directory that the png should be saved in
-        File parDir = new File(saveFile.getParent() + "/" + namePNG);
+        File parDir = new File(fileToSaveAt.getParent() + "/" + namePNG);
         //set the selected file to be parDir (so that the user has a default name)
         chooser.setSelectedFile(parDir);
 
