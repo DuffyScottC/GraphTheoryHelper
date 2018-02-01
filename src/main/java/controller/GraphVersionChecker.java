@@ -139,10 +139,10 @@ public class GraphVersionChecker {
             }
             
         } catch (IOException e) {
+            clearDialog();
             System.out.println("error finding url or reading in " + e.toString());
-        } catch (NumberFormatException e) {
-            System.out.println(e.toString());
         } catch (Exception e) {
+            clearDialog();
             System.out.println(e.toString());
         }
     }
