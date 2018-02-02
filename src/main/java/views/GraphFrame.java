@@ -89,6 +89,8 @@ public class GraphFrame extends javax.swing.JFrame {
         deleteMenuItem = new javax.swing.JMenuItem();
         changeColorsMenuItem = new javax.swing.JMenuItem();
         addGraphMenuItem = new javax.swing.JMenuItem();
+        helpMenu = new javax.swing.JMenu();
+        checkForUpdatesMenuItem = new javax.swing.JMenuItem();
 
         setDefaultCloseOperation(javax.swing.WindowConstants.EXIT_ON_CLOSE);
 
@@ -118,6 +120,7 @@ public class GraphFrame extends javax.swing.JFrame {
         gridBagConstraints.fill = java.awt.GridBagConstraints.HORIZONTAL;
         mainPanel.add(graphOutputPanel, gridBagConstraints);
 
+        canvasTextArea.setEditable(false);
         canvasTextArea.setColumns(20);
         canvasTextArea.setRows(5);
         jScrollPane1.setViewportView(canvasTextArea);
@@ -260,24 +263,24 @@ public class GraphFrame extends javax.swing.JFrame {
 
         fileMenu.setText("File");
 
-        openMenuItem.setAccelerator(javax.swing.KeyStroke.getKeyStroke(java.awt.event.KeyEvent.VK_O, java.awt.event.InputEvent.META_MASK));
+        openMenuItem.setAccelerator(javax.swing.KeyStroke.getKeyStroke(java.awt.event.KeyEvent.VK_O, java.awt.event.InputEvent.CTRL_MASK));
         openMenuItem.setText("Open");
         fileMenu.add(openMenuItem);
 
-        saveMenuItem.setAccelerator(javax.swing.KeyStroke.getKeyStroke(java.awt.event.KeyEvent.VK_S, java.awt.event.InputEvent.META_MASK));
+        saveMenuItem.setAccelerator(javax.swing.KeyStroke.getKeyStroke(java.awt.event.KeyEvent.VK_S, java.awt.event.InputEvent.CTRL_MASK));
         saveMenuItem.setText("Save");
         fileMenu.add(saveMenuItem);
 
-        saveAsMenuItem.setAccelerator(javax.swing.KeyStroke.getKeyStroke(java.awt.event.KeyEvent.VK_S, java.awt.event.InputEvent.SHIFT_MASK | java.awt.event.InputEvent.META_MASK));
+        saveAsMenuItem.setAccelerator(javax.swing.KeyStroke.getKeyStroke(java.awt.event.KeyEvent.VK_S, java.awt.event.InputEvent.SHIFT_MASK | java.awt.event.InputEvent.CTRL_MASK));
         saveAsMenuItem.setText("Save As");
         fileMenu.add(saveAsMenuItem);
 
-        newMenuItem.setAccelerator(javax.swing.KeyStroke.getKeyStroke(java.awt.event.KeyEvent.VK_N, java.awt.event.InputEvent.META_MASK));
+        newMenuItem.setAccelerator(javax.swing.KeyStroke.getKeyStroke(java.awt.event.KeyEvent.VK_N, java.awt.event.InputEvent.CTRL_MASK));
         newMenuItem.setText("New");
         fileMenu.add(newMenuItem);
         fileMenu.add(jSeparator1);
 
-        exportMenuItem.setAccelerator(javax.swing.KeyStroke.getKeyStroke(java.awt.event.KeyEvent.VK_E, java.awt.event.InputEvent.SHIFT_MASK | java.awt.event.InputEvent.META_MASK));
+        exportMenuItem.setAccelerator(javax.swing.KeyStroke.getKeyStroke(java.awt.event.KeyEvent.VK_E, java.awt.event.InputEvent.SHIFT_MASK | java.awt.event.InputEvent.CTRL_MASK));
         exportMenuItem.setText("Export");
         fileMenu.add(exportMenuItem);
 
@@ -293,7 +296,7 @@ public class GraphFrame extends javax.swing.JFrame {
         });
         editMenu.add(rotate90MenuItem);
 
-        selectAllVerticesMenuItem.setAccelerator(javax.swing.KeyStroke.getKeyStroke(java.awt.event.KeyEvent.VK_A, java.awt.event.InputEvent.META_MASK));
+        selectAllVerticesMenuItem.setAccelerator(javax.swing.KeyStroke.getKeyStroke(java.awt.event.KeyEvent.VK_A, java.awt.event.InputEvent.CTRL_MASK));
         selectAllVerticesMenuItem.setText("Select All Vertices");
         selectAllVerticesMenuItem.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
@@ -306,11 +309,11 @@ public class GraphFrame extends javax.swing.JFrame {
 
         viewMenu.setText("View");
 
-        showVertexNamesMenuItem.setAccelerator(javax.swing.KeyStroke.getKeyStroke(java.awt.event.KeyEvent.VK_N, java.awt.event.InputEvent.SHIFT_MASK | java.awt.event.InputEvent.META_MASK));
+        showVertexNamesMenuItem.setAccelerator(javax.swing.KeyStroke.getKeyStroke(java.awt.event.KeyEvent.VK_N, java.awt.event.InputEvent.SHIFT_MASK | java.awt.event.InputEvent.CTRL_MASK));
         showVertexNamesMenuItem.setText("Show Vertex Names");
         viewMenu.add(showVertexNamesMenuItem);
 
-        formatVerticesMenuItem.setAccelerator(javax.swing.KeyStroke.getKeyStroke(java.awt.event.KeyEvent.VK_F, java.awt.event.InputEvent.META_MASK));
+        formatVerticesMenuItem.setAccelerator(javax.swing.KeyStroke.getKeyStroke(java.awt.event.KeyEvent.VK_F, java.awt.event.InputEvent.SHIFT_MASK | java.awt.event.InputEvent.CTRL_MASK));
         formatVerticesMenuItem.setText("Format Vertices");
         viewMenu.add(formatVerticesMenuItem);
 
@@ -352,6 +355,13 @@ public class GraphFrame extends javax.swing.JFrame {
 
         myMenuBar.add(toolsMenu);
 
+        helpMenu.setText("Help");
+
+        checkForUpdatesMenuItem.setText("Check For Updates");
+        helpMenu.add(checkForUpdatesMenuItem);
+
+        myMenuBar.add(helpMenu);
+
         setJMenuBar(myMenuBar);
 
         pack();
@@ -382,6 +392,7 @@ public class GraphFrame extends javax.swing.JFrame {
     private javax.swing.JPanel buttonPanel;
     private javax.swing.JTextArea canvasTextArea;
     private javax.swing.JMenuItem changeColorsMenuItem;
+    private javax.swing.JMenuItem checkForUpdatesMenuItem;
     private javax.swing.JButton deleteButton;
     private javax.swing.JMenuItem deleteMenuItem;
     private javax.swing.JLabel edgesLabel;
@@ -393,6 +404,7 @@ public class GraphFrame extends javax.swing.JFrame {
     private javax.swing.JMenuItem formatVerticesMenuItem;
     private javax.swing.JPanel graphOutputPanel;
     private javax.swing.JTextField graphOutputTextField;
+    private javax.swing.JMenu helpMenu;
     private javax.swing.JPanel inspectorPanelJPanel;
     private javax.swing.JScrollPane jScrollPane1;
     private javax.swing.JPopupMenu.Separator jSeparator1;
@@ -547,5 +559,9 @@ public class GraphFrame extends javax.swing.JFrame {
     
     public JMenuItem getExportMenuItem() {
         return exportMenuItem;
+    }
+    
+    public JMenuItem getCheckForUpdatesMenuItem() {
+        return checkForUpdatesMenuItem;
     }
 }

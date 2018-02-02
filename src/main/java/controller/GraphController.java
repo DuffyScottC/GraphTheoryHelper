@@ -166,7 +166,12 @@ public class GraphController {
      * Allows only .graph files to be chosen by the user. (Allows user to open
      * directories, but not choose them).
      */
-    private FileFilter filter;
+    private FileFilter graphFilter;
+    /**
+     * Allows only .png files to be chosen by the user. (Allows user to open
+     * directories, but not choose them).
+     */
+    private FileFilter pngFilter;
     /**
      * Used to save files (or have the user create a new file if its null).
      */
@@ -179,6 +184,7 @@ public class GraphController {
     //MARK: Seperate Responsibilities
     private final GraphStateMachine graphStateMachine;
     private final GraphSelectionHandeler graphSelectionHandeler;
+    private final GraphVersionChecker graphVersionChecker;
 
     public GraphController() {
         frame.setTitle("Graph Theory Helper");
@@ -206,6 +212,8 @@ public class GraphController {
 
         SampleCanvas sampleCanvas = graphColorChooserDialog.getSampleCanvas();
         sampleCanvas.setUp(graph); //Set up the sample canvas in the dialog
+        
+        graphVersionChecker = new GraphVersionChecker(frame);
         
         graphSelectionHandeler = new GraphSelectionHandeler(frame, 
                 selectedVertices,
@@ -240,7 +248,7 @@ public class GraphController {
         });
         
         //Define the filter
-        filter = new FileFilter() {
+        graphFilter = new FileFilter() {
             @Override
             public boolean accept(File pathname) {
                 if (pathname.isDirectory()) {
@@ -257,6 +265,25 @@ public class GraphController {
                 return ".graph files";
             }
         };
+        
+        pngFilter = new FileFilter() {
+            @Override
+            public boolean accept(File pathname) {
+                if (pathname.isDirectory()) {
+                    return true;
+                } else {
+                    String name = pathname.getName();
+                    //file must be "something.graph"
+                    return name.matches(".*\\.png");
+                }
+            }
+            
+            @Override
+            public String getDescription() {
+                return "PNG";
+            }
+        };
+        
         //Set the current directory to the user's preference of the last openned 
         //path, which was set when we ran loadPreferences()
         chooser.setCurrentDirectory(currentDirectory);
@@ -513,7 +540,7 @@ public class GraphController {
                 }
             }
 
-            chooser.setFileFilter(filter);
+            chooser.setFileFilter(graphFilter);
             chooser.setDialogTitle("Open");
             chooser.setAcceptAllFileFilterUsed(false);
 
@@ -832,6 +859,11 @@ public class GraphController {
             graphColorChooserDialog.setVisible(false);
 
             canvas.repaint(); //repaint the canvas
+        });
+        
+        frame.getCheckForUpdatesMenuItem().addActionListener((ActionEvent e) -> {
+            graphVersionChecker.checkVersion(false);
+            graphVersionChecker.openDialog();
         });
         
         frame.getExportMenuItem().addActionListener((ActionEvent e) -> {
@@ -2076,59 +2108,123 @@ public class GraphController {
      * Currently, it eliminates any highlighting.
      */
     public void exportToPng() {
-        //store the editing edge temporarily
-        Edge editingEdge = canvas.getEditingEdge();
-        //if we are in the edge adding state
-        if (graphStateMachine.getState() == States.EDGE_ADDING) {
-            //unhighlight all vertices
-            for (Vertex v : vertices) {
-                graph.unHighlightVertex(v);
+        isCommandPressed = false; //unpress command
+        if (graph.isEmpty()) {
+            JOptionPane.showMessageDialog(frame, "Cannot save an empty graph.");
+            return;
+        }
+        
+        File fileToSaveAt;
+        //if we have no save file yet
+        if (saveFile == null) {
+            fileToSaveAt = new File(System.getProperty("user.dir") + "/untitled.graph");
+        } else { //if we do have a save file
+            fileToSaveAt = saveFile;
+        }
+        
+        chooser.setFileFilter(pngFilter);
+        chooser.setDialogTitle("Export");
+        chooser.resetChoosableFileFilters(); //remove the .graph specification
+        chooser.setAcceptAllFileFilterUsed(true);
+        
+        //get the name of the graph
+        String nameGraph = fileToSaveAt.getName();
+        String name = nameGraph.substring(0, nameGraph.length()-6);
+        String namePNG = name + ".png";
+        //get the directory that the png should be saved in
+        File parDir = new File(fileToSaveAt.getParent() + "/" + namePNG);
+        //set the selected file to be parDir (so that the user has a default name)
+        chooser.setSelectedFile(parDir);
+
+        //Open the save dialogue and let the user choose 
+        //where to save the file:
+        int chooserResult = chooser.showSaveDialog(frame);
+        //if the user successfully saved the file
+        if (chooserResult == JFileChooser.APPROVE_OPTION) {
+
+            //get the path of the file that the user selected
+            Path pngPath = chooser.getSelectedFile().toPath();
+
+            //check if the file has an extension already
+            String fileName = pngPath.getFileName().toString(); //the name of the file
+            if (!fileName.matches(".*\\.png")) { //if filename does NOT end with .png
+                if (fileName.matches(".*\\.\\w+")) { //if it has an extension (not png)
+                    //remove the extension
+                    fileName = fileName.substring(0, fileName.lastIndexOf("."));
+                }
+                //add .png
+                String fileNameWithExtension = fileName + ".png";
+                //use the resolveSibling method to change the old, 
+                //extensionless file name to the new filename created above
+                pngPath = pngPath.resolveSibling(fileNameWithExtension);
+                //e.g. this will replace "curdir/sample2" with "curdir/sample2.graph"
             }
-            //set the editing edge to null (so it won't draw the dot)
-            canvas.setEditingEdge(null);
-        } else { //if we are not in the edge adding state
+
+            //check if the file already exists
+            if (Files.exists(pngPath)) { //if the file already exists
+                //ask the user if they want to continue
+                if (!shouldContinue("OK to overwrite existing file?")) {
+                    //if the user does not want to overwrite a pre-existing file
+                    return;
+                }
+            }
+            
+            //Actually save the png:
+            
+            //store the editing edge temporarily
+            Edge editingEdge = canvas.getEditingEdge();
+            //if we are in the edge adding state
+            if (graphStateMachine.getState() == States.EDGE_ADDING) {
+                //unhighlight all vertices
+                for (Vertex v : vertices) {
+                    graph.unHighlightVertex(v);
+                }
+                //set the editing edge to null (so it won't draw the dot)
+                canvas.setEditingEdge(null);
+            } else { //if we are not in the edge adding state
+                //unhighlight the selected vertices
+                for (Vertex v : selectedVertices) {
+                    graph.unHighlightVertex(v);
+                }
+            }
             //unhighlight the selected vertices
-            for (Vertex v : selectedVertices) {
-                graph.unHighlightVertex(v);
+            for (Edge e : selectedEdges) {
+                graph.unHighlightEdge(e);
             }
-        }
-        //unhighlight the selected vertices
-        for (Edge e : selectedEdges) {
-            graph.unHighlightEdge(e);
-        }
-        
-        //Create a BufferedImage of the same dimensions as canvas
-        BufferedImage canvasBufferedImage = new BufferedImage(canvas.getWidth(), 
-                canvas.getHeight(), BufferedImage.TYPE_INT_RGB);
-        //get the BufferedImage's Graphics2D object to draw into the image
-        Graphics2D g2 = canvasBufferedImage.createGraphics();
-        //draw the canvas onto the BufferedImage using g2
-        canvas.paintAll(g2);
-        //save the png
-        try {
-            if (ImageIO.write(canvasBufferedImage, "png", new File("./output_image.png"))) {
-                System.out.println("-- saved");
+
+            //Create a BufferedImage of the same dimensions as canvas
+            BufferedImage canvasBufferedImage = new BufferedImage(canvas.getWidth(), 
+                    canvas.getHeight(), BufferedImage.TYPE_INT_RGB);
+            //get the BufferedImage's Graphics2D object to draw into the image
+            Graphics2D g2 = canvasBufferedImage.createGraphics();
+            //draw the canvas onto the BufferedImage using g2
+            canvas.paintAll(g2);
+            //save the png
+            try {
+                if (ImageIO.write(canvasBufferedImage, "png", pngPath.toFile())) {
+                    System.out.println("-- exported");
+                }
+            } catch (IOException e) {
+                // TODO Auto-generated catch block
+                System.out.println(e.toString());
             }
-        } catch (IOException e) {
-            // TODO Auto-generated catch block
-            e.printStackTrace();
-        }
-        
-        //if we are in the edge adding state
-        if (graphStateMachine.getState() == States.EDGE_ADDING) {
-            //re-highlight the available vertices
-            graph.highlightAvailableVertices();
-            //reset the editing edge
-            canvas.setEditingEdge(editingEdge);
-        } else { //if we are not in the addingEdges state
-            //highlight the selected vertices again
-            for (Vertex v : selectedVertices) {
-                graph.highlightVertex(v);
+
+            //if we are in the edge adding state
+            if (graphStateMachine.getState() == States.EDGE_ADDING) {
+                //re-highlight the available vertices
+                graph.highlightAvailableVertices();
+                //reset the editing edge
+                canvas.setEditingEdge(editingEdge);
+            } else { //if we are not in the addingEdges state
+                //highlight the selected vertices again
+                for (Vertex v : selectedVertices) {
+                    graph.highlightVertex(v);
+                }
             }
-        }
-        //hightlight the selected edges again
-        for (Edge e : selectedEdges) {
-            graph.highlightEdge(e);
+            //hightlight the selected edges again
+            for (Edge e : selectedEdges) {
+                graph.highlightEdge(e);
+            }
         }
     }
 
@@ -2173,6 +2269,7 @@ public class GraphController {
 
         GraphController app = new GraphController();
         app.frame.setVisible(true);
+        app.graphVersionChecker.checkVersion(true);
     }
 
 }
