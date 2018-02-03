@@ -1965,6 +1965,10 @@ public class GraphController {
             e.getEndpoint2().setCanAddEdges(false);
         }
     }
+    
+    private void addVectorToPath() {
+        
+    }
 
     /**
      * Changes the colors of the vertices and edges after the user chooses new
