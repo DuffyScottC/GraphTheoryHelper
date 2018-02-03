@@ -49,6 +49,7 @@ public class GraphSelectionHandeler {
     private final List<Integer> selectedEdgeIndices = new ArrayList();
     private final JList verticesList;
     private final JList edgesList;
+    private final JList pathsList;
     private final JTextField titleTextField;
     private final List<Vertex> vertices;
     private final List<Edge> edges;
@@ -60,6 +61,7 @@ public class GraphSelectionHandeler {
         //the visual JList that the user sees and interacts with
         verticesList = frame.getVerticesList(); 
         edgesList = frame.getEdgesList();
+        pathsList = frame.getPathsList();
         titleTextField = frame.getTitleTextField();
         canvas = frame.getCanvas();
         this.graph = graph;
@@ -134,8 +136,14 @@ public class GraphSelectionHandeler {
     }
     
     public void setSelectedPath(GPath selectedPath) {
+        //assign the selectedPath
         this.selectedPath = selectedPath;
+        //assign canvas's selectedPath
         canvas.setSelectedPath(selectedPath);
+        //get the index of the selectedPath
+        int index = graph.getPaths().indexOf(selectedPath);
+        //select the path in the JList
+        pathsList.setSelectedIndex(index);
     }
 
     public List<Edge> getSelectedEdges() {
