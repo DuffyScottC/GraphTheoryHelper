@@ -38,27 +38,6 @@ public class GPath {
     }
     
     /**
-     * Checks if the given vertex is contained within the GPath.
-     * @param v The vertex in question.
-     * @return True if v is in the GPath, false if not. 
-     */
-    public boolean contains(Vertex v) {
-        //loop through the path's edges
-        for (Edge e : edges) {
-            //if e.endpoint1 equals v
-            if (e.getEndpoint1().equals(v)) {
-                return true;
-            }
-            //if e.endpoint2 equals v
-            if (e.getEndpoint2().equals(v)) {
-                return true;
-            }
-        }
-        //if we get here, then none of the edge endpoints were equal to v
-        return false;
-    }
-    
-    /**
      * Removes the edge at the given index from the path.
      * @param index The index of the edge to be removed
      */

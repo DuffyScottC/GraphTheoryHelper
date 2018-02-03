@@ -1983,12 +1983,16 @@ public class GraphController {
     private void addPath(int mx, int my) {
         //loop through all the vertices
         for (Vertex currentVertex : vertices) {
-            //if the user clicked this vertex
-            if (currentVertex.getPositionShape().contains(mx, my)) {
-                //if the selectedPath contains currentVertex
-                if (selectedPath.contains(currentVertex)) {
-                    //remove currentVertex from the path
-                    selectedPath.removeVertex(currentVertex);
+            //if currentVertex has at least 1 edge (easier to check this first)
+            if (currentVertex.getDegree() != 0) {
+                //if the user clicked this vertex
+                if (currentVertex.getPositionShape().contains(mx, my)) {
+                    //Cycle through the currentVertex's SimpleEdge list
+                    for (SimpleEdge se : currentVertex.getEdgeNames()) {
+                        if (selectedPath.contains(se)) {
+                            
+                        }
+                    }
                 }
             }
         }
