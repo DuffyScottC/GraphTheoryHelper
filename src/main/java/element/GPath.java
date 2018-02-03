@@ -91,4 +91,19 @@ public class GPath {
         }
     }
     
+    @Override
+    public String toString() {
+        StringBuilder strB = new StringBuilder();
+        strB.append("{");
+        for (int i = 0; i < edges.size(); i++) {
+            strB.append("{");
+            strB.append(edges.get(i).toString());
+            strB.append("}");
+            if (i < edges.size() - 1) { //if this is not the last one
+                strB.append(",");
+            }
+        }
+        strB.append("}");
+        return strB.toString();
+    }
 }
