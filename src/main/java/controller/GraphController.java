@@ -1976,12 +1976,14 @@ public class GraphController {
                     if (graphSelectionHandler.getSelectedPath().contains(currentEdge)) {
                         //remove currentEdge from the path
                         graphSelectionHandler.getSelectedPath().removeEdge(currentEdge);
+                        pathsList.repaint();
                         canvas.repaint();
                         //exit the method because we are done now
                         return;
                     } else { //if selectedPath does NOT already contain currentEdge
                         //add the currentEdge to the path
                         graphSelectionHandler.getSelectedPath().addEdge(currentEdge);
+                        pathsList.repaint();
                         canvas.repaint();
                         //exit the method because we are done now
                         return;
