@@ -6,8 +6,11 @@
 package element;
 
 import controller.Values;
+import java.awt.BasicStroke;
 import java.awt.Graphics2D;
+import java.awt.Stroke;
 import java.awt.geom.AffineTransform;
+import java.awt.geom.Ellipse2D;
 import java.util.ArrayList;
 import java.util.List;
 
@@ -107,9 +110,20 @@ public class GPath {
         double x = vertex.getLocation().x;
         double y = vertex.getLocation().y;
         g2.translate(x, y); //translate the canvas
-        //actually draw the vertex
-        vertex.draw(g2, Values.PATH_VERTEX_STROKE_COLOR, 
-                Values.PATH_VERTEX_FILL_COLOR);
+        
+        //Actually draw the vertex:
+        //set the stroke width
+        g2.setStroke(new BasicStroke(Values.PATH_VERTEX_STROKE_WIDTH));
+        //Draw fill circle:
+        g2.setColor(Values.PATH_VERTEX_FILL_COLOR); //set the circle's color
+        //initialize the shape object
+        Ellipse2D.Double ellipse = new Ellipse2D.Double(0, 0, 
+                Values.DIAMETER, Values.DIAMETER);
+        g2.fill(ellipse); //fill in the circle in that color
+        //Draw outline circle:
+        g2.setColor(Values.PATH_VERTEX_STROKE_COLOR); //set the circle's color
+        g2.draw(ellipse); //draw the outline in that color
+        
         g2.setTransform(t); //restore each after drawing
     }
     
