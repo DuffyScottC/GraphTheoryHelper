@@ -32,7 +32,9 @@ public class Values {
     
     //MARK: Path properties
     public static final float PATH_STROKE_WIDTH = 2.5f;
-    public static final Color PATH_STROKE_COLOR = Color.pink;
+    public static final Color PATH_STROKE_COLOR = Color.pink.brighter();
+    public static final Color PATH_VERTEX_FILL_COLOR = Color.pink.darker();
+    public static final Color PATH_VERTEX_STROKE_COLOR = Color.pink;
     
     //MARK: User preference keys
     /**

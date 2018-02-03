@@ -96,6 +96,8 @@ public class GPath {
     public void draw(Graphics2D g2) {
         for (Edge e : edges) {
             e.draw(g2, Values.PATH_STROKE_COLOR);
+            e.getEndpoint1().draw(g2, Values.PATH_VERTEX_STROKE_COLOR, Values.PATH_VERTEX_FILL_COLOR);
+            e.getEndpoint2().draw(g2, Values.PATH_VERTEX_STROKE_COLOR, Values.PATH_VERTEX_FILL_COLOR);
         }
     }
     
