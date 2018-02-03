@@ -59,10 +59,11 @@ import views.SampleCanvas;
 
 /**
  * The main window.
+ *
  * @author Scott
  */
 public class GraphController {
-    
+
     private JTextField titleTextField;
     private JList verticesList;
     private JList edgesList;
@@ -71,7 +72,7 @@ public class GraphController {
     private JToggleButton addEdgesButton;
     private JToggleButton selectionButton;
     private JToggleButton addPathsButton;
-    
+
     //SUBMARK: Selection state
     /**
      * Only true of the command key is pressed
@@ -164,7 +165,7 @@ public class GraphController {
      * Used to tell what directory to open the chooser into.
      */
     private File currentDirectory;
-    
+
     //MARK: Seperate Responsibilities
     private final GraphStateMachine graphStateMachine;
     private final GraphSelectionHandler graphSelectionHandler;
@@ -194,33 +195,33 @@ public class GraphController {
 
         //remove the backspace action from canvas to prevent error beep
         canvas.getInputMap().put(KeyStroke.getKeyStroke("BACK_SPACE"), "none");
-        
+
         loadPreferences();
 
         SampleCanvas sampleCanvas = graphColorChooserDialog.getSampleCanvas();
         sampleCanvas.setUp(graph); //Set up the sample canvas in the dialog
-        
+
         graphVersionChecker = new GraphVersionChecker(frame);
-        
+
         graphSelectionHandler = new GraphSelectionHandler(frame, graph);
-        
+
         titleTextField = frame.getTitleTextField();
         modifiedTextField = frame.getModifiedTextField();
         addVerticesButton = frame.getAddVerticesButton();
         addEdgesButton = frame.getAddEdgesButton();
         selectionButton = frame.getSelectionButton();
         addPathsButton = frame.getAddPathsButton();
-        
-        graphStateMachine = new GraphStateMachine(frame, 
-                graph, 
-                canvas, 
-                vertices, 
+
+        graphStateMachine = new GraphStateMachine(frame,
+                graph,
+                canvas,
+                vertices,
                 graphSelectionHandler);
-        
+
         addKeyboardShortcuts();
-        
+
         graphStateMachine.enterState(States.VERTEX_ADDING);
-        
+
         //Delete
         frame.getDeleteButton().addActionListener((ActionEvent e) -> {
             deleteSelectedElements();
@@ -228,7 +229,7 @@ public class GraphController {
         frame.getDeleteMenuItem().addActionListener((ActionEvent e) -> {
             deleteSelectedElements();
         });
-        
+
         //Define the filter
         graphFilter = new FileFilter() {
             @Override
@@ -247,7 +248,7 @@ public class GraphController {
                 return ".graph files";
             }
         };
-        
+
         pngFilter = new FileFilter() {
             @Override
             public boolean accept(File pathname) {
@@ -259,13 +260,13 @@ public class GraphController {
                     return name.matches(".*\\.png");
                 }
             }
-            
+
             @Override
             public String getDescription() {
                 return "PNG";
             }
         };
-        
+
         //Set the current directory to the user's preference of the last openned 
         //path, which was set when we ran loadPreferences()
         chooser.setCurrentDirectory(currentDirectory);
@@ -295,7 +296,7 @@ public class GraphController {
                         canvas.setEndPosition(endX, endY);
                         break;
                     case PATH_ADDING:
-                        addElementToPath(mx, my);
+                        addEdgeToPath(mx, my);
                         break;
                     default:
                         System.out.println("This should never happen.");
@@ -327,7 +328,7 @@ public class GraphController {
                         canvas.repaint();
                         break;
                     default:
-                        //Don't want to repaint canvas if nothing happenned
+                    //Don't want to repaint canvas if nothing happenned
                 }
             }
 
@@ -348,7 +349,7 @@ public class GraphController {
                 lastX = mx;
                 lastY = my;
                 canvas.setLastPosition(lastX, lastY);
-                
+
                 switch (graphStateMachine.getState()) {
                     case EDGE_ADDING: //if we're in the edge adding state
                         //if the user's mouse is held down on the selected edge's
@@ -373,7 +374,7 @@ public class GraphController {
                         break;
                     default:
                 }
-                
+
                 canvas.repaint();
             }
 
@@ -532,11 +533,11 @@ public class GraphController {
             int chooserResult = chooser.showOpenDialog(frame);
             if (chooserResult == JFileChooser.APPROVE_OPTION) {
                 File loadFile = chooser.getSelectedFile();
-                
+
                 //Create a Gson object (with the pretty printing option so that
                 //we can read formatted JSON with all the spaces and newlines)
                 Gson gson = new GsonBuilder().setPrettyPrinting().create();
-                
+
                 try {
                     //initialize a new reader with loadFile
                     FileReader reader = new FileReader(loadFile);
@@ -549,10 +550,10 @@ public class GraphController {
                     reader.close();
                     //convert jsonChars to a single String
                     String jsonIn = new String(jsonChars);
-                    
+
                     //deserialize jsonIn into a Graph object
                     Graph loadedGraph = gson.fromJson(jsonIn, Graph.class);
-                    
+
                     /*
                     loadedGraph comes with two things (besides colors): a 
                     vertices list, and a simpleEdges list. The next job is to
@@ -567,7 +568,7 @@ public class GraphController {
                        endpoints from loadedGraph.vertices,
                     3. create an edge from those two referenced endpoints,
                     4. then add the new edge to loadedGraph.edges.
-                    */
+                     */
                     //cycle through the loadedGraph's simpleEdges
                     //cycle through the loadedGraph's simpleEdges
                     for (SimpleEdge se : loadedGraph.getSimpleEdges()) {
@@ -589,12 +590,12 @@ public class GraphController {
                     Now loadedGraph.edges matches loadedGraph.simpleEdges, and
                     loadedGraph.edges uses references to the Vertex objects
                     contained in loadedGraph.vertices.
-                    */
+                     */
                     //replace the old graph with the new one
                     replace(loadedGraph);
 
                     setIsModified(false);
-                    
+
                     //enter the selection state (and exit any other state)
                     graphStateMachine.enterState(States.SELECTION);
                     canvas.repaint();
@@ -621,12 +622,12 @@ public class GraphController {
                 //Update the user's preference for the current directory
                 prefs.put(Values.LAST_FILE_PATH, currentDirectory.toString());
             }
-            
-element.GPath debugPath = new element.GPath(graph.getEdges().get(0));
-debugPath.addEdge(graph.getEdges().get(1));
-graph.getPaths().add(debugPath);
-updatePathsListModel();
-System.out.println("debugPath: " + debugPath);
+
+            element.GPath debugPath = new element.GPath(graph.getEdges().get(0));
+            debugPath.addEdge(graph.getEdges().get(1));
+            graph.getPaths().add(debugPath);
+            updatePathsListModel();
+            System.out.println("debugPath: " + debugPath);
         });
 
         frame.getSaveMenuItem().addActionListener((ActionEvent e) -> {
@@ -656,7 +657,7 @@ System.out.println("debugPath: " + debugPath);
 
             colorAllElements(Values.VERTEX_FILL_COLOR, Values.VERTEX_STROKE_COLOR, Values.EDGE_STROKE_COLOR);
             graph.setColors(Values.VERTEX_FILL_COLOR, Values.VERTEX_STROKE_COLOR, Values.EDGE_STROKE_COLOR);
-            
+
             graphStateMachine.enterState(States.SELECTION);
 
             setIsModified(false);
@@ -851,12 +852,12 @@ System.out.println("debugPath: " + debugPath);
 
             canvas.repaint(); //repaint the canvas
         });
-        
+
         frame.getCheckForUpdatesMenuItem().addActionListener((ActionEvent e) -> {
             graphVersionChecker.checkVersion(false);
             graphVersionChecker.openDialog();
         });
-        
+
         frame.getExportMenuItem().addActionListener((ActionEvent e) -> {
             System.out.println("Export to png");
             exportToPng();
@@ -1065,7 +1066,7 @@ System.out.println("debugPath: " + debugPath);
         //Get a reverence to the new graph's vertices and edges
         List<Vertex> newVertices = newGraph.getVertices();
         List<Edge> newEdges = newGraph.getEdges();
-        
+
         vertices.clear(); //remove all elements from the current vertices
         for (Vertex v : newVertices) { //loop through new list
             vertices.add(v); //add each vertex to the vertices list
@@ -1531,7 +1532,7 @@ System.out.println("debugPath: " + debugPath);
                             From here to the end of this loop, "old" means before 
                             clickedVertex is moved/incremented and "new" means after.
                          */
-                        
+
                         //Get the elements of this edge (p2 is the vertex that
                         //is moving, p1 is ctrl, p1 is staying still)
                         Point2D.Double p2 = clickedVertex.getCenter();
@@ -1579,11 +1580,13 @@ System.out.println("debugPath: " + debugPath);
                                 simply need to increment the edge's control point with 
                                 incX and incY and mark it so that we don't do it twice
                                 (when we run into the other vertex)
-                         */ if (!incedEdges.contains(edge)) {
-                            //mark this so that it is not incremented when
-                            //we run into the other vertex
-                            incedEdges.add(edge);
-                            graph.incEdgeCtrlPoint(edgeIndex, incX, incY);
+                         */ {
+                            if (!incedEdges.contains(edge)) {
+                                //mark this so that it is not incremented when
+                                //we run into the other vertex
+                                incedEdges.add(edge);
+                                graph.incEdgeCtrlPoint(edgeIndex, incX, incY);
+                            }
                         }
                     }
                 }
@@ -1620,16 +1623,22 @@ System.out.println("debugPath: " + debugPath);
             if (ltlt(endX, px, startX)) { //a or d
                 if (ltlt(endY, py, startY)) { //a
                     graphSelectionHandler.getSelectedVertexIndices().add(i);
-                } else if (ltlt(startY, py, endY)) { //d
-                    graphSelectionHandler.getSelectedVertexIndices().add(i);
+                } else {
+                    if (ltlt(startY, py, endY)) { //d
+                        graphSelectionHandler.getSelectedVertexIndices().add(i);
+                    } //not in bounding box
+                }
+            } else {
+                if (ltlt(startX, px, endX)) { //b or c
+                    if (ltlt(endY, py, startY)) { //b
+                        graphSelectionHandler.getSelectedVertexIndices().add(i);
+                    } else {
+                        if (ltlt(startY, py, endY)) { //c
+                            graphSelectionHandler.getSelectedVertexIndices().add(i);
+                        } //not in bounding box
+                    }
                 } //not in bounding box
-            } else if (ltlt(startX, px, endX)) { //b or c
-                if (ltlt(endY, py, startY)) { //b
-                    graphSelectionHandler.getSelectedVertexIndices().add(i);
-                } else if (ltlt(startY, py, endY)) { //c
-                    graphSelectionHandler.getSelectedVertexIndices().add(i);
-                } //not in bounding box
-            } //not in bounding box
+            }
         }
         //now we have a list of selected vertices
 
@@ -1673,7 +1682,7 @@ System.out.println("debugPath: " + debugPath);
     private boolean ltlt(int a, int b, int c) {
         return (a < b && b < c);
     }
-    
+
     private void deleteSelectedElements() {
         if (!graphSelectionHandler.getSelectedVertexIndices().isEmpty()) {
             removeVertices();
@@ -1895,7 +1904,7 @@ System.out.println("debugPath: " + debugPath);
             }
         }
         //If we reach this point, we want to cancel the edge
-        
+
         //reenter the add edge state (allow user to add more edges)
         graphStateMachine.enterState(States.EDGE_ADDING);
         canvas.repaint();
@@ -1937,7 +1946,7 @@ System.out.println("debugPath: " + debugPath);
 
         canvas.repaint();
     }
-    
+
     private void assignCanAddEdgesToConnectedVertices() {
         //Loop through all edges
         for (SimpleEdge se : graph.getFirstSelectedVertex().getEdgeNames()) {
@@ -1949,61 +1958,54 @@ System.out.println("debugPath: " + debugPath);
             e.getEndpoint2().setCanAddEdges(false);
         }
     }
-    
+
     /**
      * The code that handles adding an element to the path when the user clicks.
-     * 
+     *
      * @param mx The x coordinate of the user's click
      * @param my The y coordinate of the user's click
      */
-    private void addElementToPath(int mx, int my) {
+    private void addEdgeToPath(int mx, int my) {
         //loop through all the vertices
-        for (Vertex currentVertex : vertices) {
-            //if currentVertex has at least 1 edge (easier to check this first)
-            if (currentVertex.getDegree() != 0) {
-                //if the user clicked this vertex
-                if (currentVertex.getPositionShape().contains(mx, my)) {
-                    //if there is at least one path in the graph
-                    if (!paths.isEmpty()) {
-                        //Cycle through the currentVertex's SimpleEdge list
-                        for (SimpleEdge se : currentVertex.getEdgeNames()) {
-                            //if selectedPath already contains se
-                            if (graphSelectionHandler.getSelectedPath().contains(se)) {
-                                //remove se from the path
-                                graphSelectionHandler.getSelectedPath().removeSimpleEdge(se);
-                                canvas.repaint();
-                                //exit the method because we are done now
-                                return;
-                            } else { //if selectedPath does not already contain se
-                                //get the edge that matches se
-                                Edge e = graph.getMatchingEdge(se);
-                                //add the edge that matches se to the path
-                                graphSelectionHandler.getSelectedPath().addEdge(e);
-                            }
-                        }
-                    } else { //if there are absolutely no paths in the graph
-                        //if the currentVertex has at least one edge
-                        if (currentVertex.getDegree() != 0) {
-                            //create a new path
-                            GPath newPath = new GPath(currentVertex);
-                            //add the new path to the graph
-                            paths.add(newPath);
-                            //update the list model
-                            updatePathsListModel();
-                            //update the selection
-                            graphSelectionHandler.setSelectedPath(newPath);
-                            canvas.repaint();
-                            //we can be done searching
-                            return;
-                        }
+        for (Edge currentEdge : edges) {
+            //if the user clicked this edge
+            if (isEdgeClicked(currentEdge, mx, my)) {
+                //if there is at least one path in the graph
+                if (!paths.isEmpty()) {
+                    //if selectedPath already contains currentEdge
+                    if (graphSelectionHandler.getSelectedPath().contains(currentEdge)) {
+                        //remove currentEdge from the path
+                        graphSelectionHandler.getSelectedPath().removeEdge(currentEdge);
+                        canvas.repaint();
+                        //exit the method because we are done now
+                        return;
+                    } else { //if selectedPath does NOT already contain currentEdge
+                        //add the currentEdge to the path
+                        graphSelectionHandler.getSelectedPath().addEdge(currentEdge);
+                        canvas.repaint();
+                        //exit the method because we are done now
+                        return;
                     }
+                } else { //if there are absolutely no paths in the graph
+                    //create a new path
+                    GPath newPath = new GPath(currentEdge);
+                    //add the new path to the graph
+                    paths.add(newPath);
+                    //update the list model
+                    updatePathsListModel();
+                    //update the selection
+                    graphSelectionHandler.setSelectedPath(newPath);
+                    canvas.repaint();
+                    //we can be done searching
+                    return;
                 }
             }
+
         }
     }
-    
+
     private void addPath() {
-        
+
     }
 
     /**
@@ -2038,7 +2040,7 @@ System.out.println("debugPath: " + debugPath);
             edgesListModel.addElement(eg);
         }
     }
-    
+
     public void updatePathsListModel() {
         pathsListModel.removeAllElements();;
         for (GPath p : paths) {
@@ -2121,19 +2123,19 @@ System.out.println("debugPath: " + debugPath);
         if (saveFile == null) {
             return;
         }
-        
+
         //if we are in the addingEdges state and have selected the first vertex
         //then we don't want to save yet. 
         if (graphStateMachine.getState() == States.EDGE_ADDING && graph.getFirstSelectedVertex() != null) {
             return;
         }
-        
+
         //instantiate a new gson object (with the pretty formating option
         //so that the file has newlines and indents)
         Gson gson = new GsonBuilder().setPrettyPrinting().create();
         //serialize graph to JSON
         String jsonOut = gson.toJson(graph);
-        
+
         try {
             //initialize a new FileWriter with saveFile
             FileWriter writer = new FileWriter(saveFile);
@@ -2149,7 +2151,7 @@ System.out.println("debugPath: " + debugPath);
 
         setIsModified(false);
     }
-    
+
     /**
      * Exports the contents of the canvas to a .png image (named by the user).
      * Currently, it eliminates any highlighting.
@@ -2160,7 +2162,7 @@ System.out.println("debugPath: " + debugPath);
             JOptionPane.showMessageDialog(frame, "Cannot save an empty graph.");
             return;
         }
-        
+
         File fileToSaveAt;
         //if we have no save file yet
         if (saveFile == null) {
@@ -2168,15 +2170,15 @@ System.out.println("debugPath: " + debugPath);
         } else { //if we do have a save file
             fileToSaveAt = saveFile;
         }
-        
+
         chooser.setFileFilter(pngFilter);
         chooser.setDialogTitle("Export");
         chooser.resetChoosableFileFilters(); //remove the .graph specification
         chooser.setAcceptAllFileFilterUsed(true);
-        
+
         //get the name of the graph
         String nameGraph = fileToSaveAt.getName();
-        String name = nameGraph.substring(0, nameGraph.length()-6);
+        String name = nameGraph.substring(0, nameGraph.length() - 6);
         String namePNG = name + ".png";
         //get the directory that the png should be saved in
         File parDir = new File(fileToSaveAt.getParent() + "/" + namePNG);
@@ -2215,9 +2217,8 @@ System.out.println("debugPath: " + debugPath);
                     return;
                 }
             }
-            
+
             //Actually save the png:
-            
             //store the editing edge temporarily
             Edge editingEdge = canvas.getEditingEdge();
             //if we are in the edge adding state
@@ -2240,7 +2241,7 @@ System.out.println("debugPath: " + debugPath);
             }
 
             //Create a BufferedImage of the same dimensions as canvas
-            BufferedImage canvasBufferedImage = new BufferedImage(canvas.getWidth(), 
+            BufferedImage canvasBufferedImage = new BufferedImage(canvas.getWidth(),
                     canvas.getHeight(), BufferedImage.TYPE_INT_RGB);
             //get the BufferedImage's Graphics2D object to draw into the image
             Graphics2D g2 = canvasBufferedImage.createGraphics();

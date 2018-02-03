@@ -8,7 +8,6 @@ package element;
 import controller.Values;
 import java.awt.BasicStroke;
 import java.awt.Graphics2D;
-import java.awt.Stroke;
 import java.awt.geom.AffineTransform;
 import java.awt.geom.Ellipse2D;
 import java.awt.geom.QuadCurve2D;
@@ -25,29 +24,12 @@ public class GPath {
      * This holds the edges in the path
      */
     private transient List<Edge> edges = new ArrayList();
-    /**
-     * This holds a single vertex used for the first time a path is created.
-     * The next time a vertex is clicked (as long as it is not this same
-     * vertex) an edge will be added (the edge between this vertex and the
-     * next clicked vertex). This is typically null, and only initialized once
-     * a path is created.
-     */
-    private transient Vertex initialVertex = null;
     
     /**
      * This gets saved in the JSON serialization and is used to retrieve
      * the proper list of edges when a graph is opened. 
      */
     private List<SimpleEdge> simpleEdges = new ArrayList();
-    
-    /**
-     * Creates a new GPath object with the specified initial vertex.
-     * @param initialVertex The first vertex the user clicked when the path was
-     * added.
-     */
-    public GPath(Vertex initialVertex) {
-        this.initialVertex = initialVertex;
-    }
     
     /**
      * Creates a new GPath object with the specified edge as the first edge.
@@ -66,20 +48,20 @@ public class GPath {
     }
     
     /**
-     * Checks to see if the GPath contains the given SimpleEdge
-     * @param se
+     * Checks to see if the GPath contains the given edge
+     * @param e The edge in question
      * @return 
      */
-    public boolean contains(SimpleEdge se) {
-        return simpleEdges.contains(se);
+    public boolean contains(Edge e) {
+        return edges.contains(e);
     }
     
     /**
-     * Removes both the given SimpleEdge and its matching Edge from the path.
-     * @param se The SimpleEdge to be removed
+     * Removes both the given Edge and its matching SimpleEdge from the path.
+     * @param e The Edge to be removed
      */
-    public void removeSimpleEdge(SimpleEdge se) {
-        int index = simpleEdges.indexOf(se);
+    public void removeEdge(Edge e) {
+        int index = edges.indexOf(e);
         edges.remove(index);
         simpleEdges.remove(index);
     }
@@ -91,32 +73,6 @@ public class GPath {
     public void removeEdge(int index) {
         edges.remove(index);
         simpleEdges.remove(index);
-    }
-    
-    /**
-     * Removes the given vertex from the path (if the vertex exists);
-     * @param v 
-     */
-    public void removeVertex(Vertex v) {
-        //loop through the path's edges
-        for (int i = 0; i < edges.size(); i++) {
-            //get the next edge
-            Edge e = edges.get(i);
-            //if e.endpoint1 equals v
-            if (e.getEndpoint1().equals(v)) {
-                //remove the current edge from the path
-                this.removeEdge(i);
-                //exit the function because our job is done
-                return;
-            }
-            //if e.endpoint2 equals v
-            if (e.getEndpoint2().equals(v)) {
-                //remove the current edge from the path
-                this.removeEdge(i);
-                //exit the function because our job is done
-                return;
-            }
-        }
     }
     
     public void draw(Graphics2D g2) {
