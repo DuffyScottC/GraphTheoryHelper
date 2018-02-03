@@ -111,6 +111,13 @@ public class Graph implements Serializable {
         return simpleEdges;
     }
     
+    public Edge getMatchingEdge(SimpleEdge se) {
+        //find the index of the simpleEdge
+        int index = simpleEdges.indexOf(se);
+        //return the matching edge with the same index
+        return edges.get(index);
+    }
+    
     public Color getVertexFillColor() {
         return vertexFillColor;
     }

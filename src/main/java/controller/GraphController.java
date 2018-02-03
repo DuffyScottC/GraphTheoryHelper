@@ -1541,10 +1541,8 @@ public class GraphController {
             if (!clickedVertex.getEdgeNames().isEmpty()) {
                 List<SimpleEdge> edgeNames = clickedVertex.getEdgeNames();
                 for (SimpleEdge se : edgeNames) {
-                    //find the index of the clicked edge in graph.simpleEdges
-                    int index = graph.getSimpleEdges().indexOf(se);
                     //Get the edge in edges that matches se
-                    Edge edge = edges.get(index);
+                    Edge edge = graph.getMatchingEdge(se);
                     //if this edge was NOT already moved above
                     if (!clickedEdges.contains(edge)) {
                         /*
@@ -1741,10 +1739,8 @@ public class GraphController {
         for (Vertex v : selectedVertices) {
             //then add the list of edges from each selected vertices
             for (SimpleEdge se : v.getEdgeNames()) {
-                //find the index of the clicked edge in graph.simpleEdges
-                int index = graph.getSimpleEdges().indexOf(se);
                 //Get the edge in edges that matches se
-                Edge e = edges.get(index);
+                Edge e = graph.getMatchingEdge(se);
                 //remove e (se's match) from edges
                 graph.removeEdge(e);
             }
@@ -1963,10 +1959,8 @@ public class GraphController {
     private void assignCanAddEdgesToConnectedVertices() {
         //Loop through all edges
         for (SimpleEdge se : graph.getFirstSelectedVertex().getEdgeNames()) {
-            //find the index of the clicked edge in graph.simpleEdges
-            int index = graph.getSimpleEdges().indexOf(se);
             //Get the edge in edges that matches se
-            Edge e = edges.get(index);
+            Edge e = graph.getMatchingEdge(se);
             //Disable both endpoints (It's not worth checking
             //if each endpoint is the current vertex or not)
             e.getEndpoint1().setCanAddEdges(false);
@@ -1989,9 +1983,18 @@ public class GraphController {
                 if (currentVertex.getPositionShape().contains(mx, my)) {
                     //Cycle through the currentVertex's SimpleEdge list
                     for (SimpleEdge se : currentVertex.getEdgeNames()) {
-                        //if the selectedPath already contains se
+                        //if selectedPath already contains se
                         if (selectedPath.contains(se)) {
+                            //remove se from the path
                             selectedPath.removeSimpleEdge(se);
+                            canvas.repaint();
+                            //exit the method because we are done now
+                            return;
+                        } else { //if selectedPath does not already contain se
+                            //get the edge that matches se
+                            Edge e = graph.getMatchingEdge(se);
+                            //add the edge that matches se to the path
+                            selectedPath.addEdge(e);
                         }
                     }
                 }
