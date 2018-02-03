@@ -58,4 +58,39 @@ public class GPath {
         return false;
     }
     
+    /**
+     * Removes the edge at the given index from the path.
+     * @param index The index of the edge to be removed
+     */
+    public void removeEdge(int index) {
+        edges.remove(index);
+        simpleEdges.remove(index);
+    }
+    
+    /**
+     * Removes the given vertex from the path (if the vertex exists);
+     * @param v 
+     */
+    public void removeVertex(Vertex v) {
+        //loop through the path's edges
+        for (int i = 0; i < edges.size(); i++) {
+            //get the next edge
+            Edge e = edges.get(i);
+            //if e.endpoint1 equals v
+            if (e.getEndpoint1().equals(v)) {
+                //remove the current edge from the path
+                this.removeEdge(i);
+                //exit the function because our job is done
+                return;
+            }
+            //if e.endpoint2 equals v
+            if (e.getEndpoint2().equals(v)) {
+                //remove the current edge from the path
+                this.removeEdge(i);
+                //exit the function because our job is done
+                return;
+            }
+        }
+    }
+    
 }
