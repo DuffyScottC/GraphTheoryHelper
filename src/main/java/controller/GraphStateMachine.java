@@ -100,17 +100,10 @@ public class GraphStateMachine {
         addEdgesMenuItem.addActionListener(addEdges);
         
         //Add paths
-        ActionListener addPaths = (ActionEvent e) -> {
-            element.GPath debugPath = new element.GPath();
-            debugPath.addEdge(graph.getEdges().get(0));
-            debugPath.addEdge(graph.getEdges().get(1));
-            graph.getPaths().add(debugPath);
-            System.out.println("debugPath: " + debugPath);
-            
-            enterState(States.PATH_ADDING);
+        ActionListener addPaths = (ActionEvent e) -> {enterState(States.PATH_ADDING);
             //if no path is selected
             if (graphSelectionHandeler.getSelectedPath() == null) {
-                //if there is at least one graph
+                //if there is at least one path in the graph
                 if (!graph.getPaths().isEmpty()) {
                     //set the selected path to the first element in the list
                     graphSelectionHandeler.setSelectedPath(graph.getPaths().get(0));

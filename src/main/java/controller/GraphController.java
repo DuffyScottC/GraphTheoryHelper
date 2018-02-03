@@ -856,6 +856,12 @@ public class GraphController {
             exportToPng();
         });
         
+        element.GPath debugPath = new element.GPath();
+        debugPath.addEdge(graph.getEdges().get(0));
+        debugPath.addEdge(graph.getEdges().get(1));
+        graph.getPaths().add(debugPath);
+        updatePathsListModel();
+        System.out.println("debugPath: " + debugPath);
     }
 
     //MARK: Other methods--------------------
@@ -1958,25 +1964,35 @@ public class GraphController {
             if (currentVertex.getDegree() != 0) {
                 //if the user clicked this vertex
                 if (currentVertex.getPositionShape().contains(mx, my)) {
-                    //Cycle through the currentVertex's SimpleEdge list
-                    for (SimpleEdge se : currentVertex.getEdgeNames()) {
-                        //if selectedPath already contains se
-                        if (graphSelectionHandler.getSelectedPath().contains(se)) {
-                            //remove se from the path
-                            graphSelectionHandler.getSelectedPath().removeSimpleEdge(se);
-                            canvas.repaint();
-                            //exit the method because we are done now
-                            return;
-                        } else { //if selectedPath does not already contain se
-                            //get the edge that matches se
-                            Edge e = graph.getMatchingEdge(se);
-                            //add the edge that matches se to the path
-                            graphSelectionHandler.getSelectedPath().addEdge(e);
+                    //if there is at least one path in the graph
+                    if (!paths.isEmpty()) {
+                        //Cycle through the currentVertex's SimpleEdge list
+                        for (SimpleEdge se : currentVertex.getEdgeNames()) {
+                            //if selectedPath already contains se
+                            if (graphSelectionHandler.getSelectedPath().contains(se)) {
+                                //remove se from the path
+                                graphSelectionHandler.getSelectedPath().removeSimpleEdge(se);
+                                canvas.repaint();
+                                //exit the method because we are done now
+                                return;
+                            } else { //if selectedPath does not already contain se
+                                //get the edge that matches se
+                                Edge e = graph.getMatchingEdge(se);
+                                //add the edge that matches se to the path
+                                graphSelectionHandler.getSelectedPath().addEdge(e);
+                            }
                         }
+                    } else { //if there are absolutely no paths in the graph
+                        //create a new path
+                        Gpath
                     }
                 }
             }
         }
+    }
+    
+    private void addPath() {
+        
     }
 
     /**
