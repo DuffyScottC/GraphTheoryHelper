@@ -102,6 +102,7 @@ public class GraphStateMachine {
         //Add paths
         ActionListener addPaths = (ActionEvent e) -> {
             enterState(States.PATH_ADDING);
+            graphSelectionHandeler.setSelectedPath(graph.getPaths().get(0));
         };
         addPathsButton.addActionListener(addPaths);
         addPathsMenuItem.addActionListener(addPaths);

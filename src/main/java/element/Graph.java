@@ -17,10 +17,18 @@ import java.util.List;
  * @author Scott
  */
 public class Graph implements Serializable {
-    //the vertices which appear in canvas and the vertices JList
+    /**
+     * the vertices which appear in canvas and the vertices JList
+     */
     private final List<Vertex> vertices = new ArrayList<>();
-    //the edges which appear in canvas and the edges JList
+    /**
+     * the edges which appear in canvas and the edges JList
+     */
     private transient final List<Edge> edges = new ArrayList<>();
+    /**
+     * the paths which appear in canvas and the paths JList
+     */
+    private final List<GPath> paths = new ArrayList<>();
     /**
      * a list of SimpleEdges which will be used for saving and loading the edges
      * from JSON serialization. Edge objects are not good for storing because
@@ -105,6 +113,10 @@ public class Graph implements Serializable {
     
     public List<Edge> getEdges() {
         return edges;
+    }
+    
+    public List<GPath> getPaths() {
+        return paths;
     }
     
     public List<SimpleEdge> getSimpleEdges() {
