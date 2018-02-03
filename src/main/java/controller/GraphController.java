@@ -1986,6 +1986,15 @@ public class GraphController {
                         if (currentVertex.getDegree() != 0) {
                             //create a new path
                             GPath newPath = new GPath(currentVertex);
+                            //add the new path to the graph
+                            paths.add(newPath);
+                            //update the list model
+                            updatePathsListModel();
+                            //update the selection
+                            graphSelectionHandler.setSelectedPath(newPath);
+                            canvas.repaint();
+                            //we can be done searching
+                            return;
                         }
                     }
                 }
