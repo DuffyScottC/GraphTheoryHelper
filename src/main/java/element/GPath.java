@@ -38,6 +38,15 @@ public class GPath {
     }
     
     /**
+     * Checks to see if the GPath contains the given SimpleEdge
+     * @param se
+     * @return 
+     */
+    public boolean contains(SimpleEdge se) {
+        return simpleEdges.contains(se);
+    }
+    
+    /**
      * Removes the edge at the given index from the path.
      * @param index The index of the edge to be removed
      */
