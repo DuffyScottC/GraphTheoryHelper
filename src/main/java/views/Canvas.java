@@ -135,7 +135,6 @@ public class Canvas extends JTextArea {
                 vertex.drawTitle(g2);
             }
         }
-
     }
 
     private void drawEdges(Graphics2D g2) {

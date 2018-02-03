@@ -7,6 +7,7 @@ package element;
 
 import controller.Values;
 import java.awt.Graphics2D;
+import java.awt.geom.AffineTransform;
 import java.util.ArrayList;
 import java.util.List;
 
@@ -96,9 +97,20 @@ public class GPath {
     public void draw(Graphics2D g2) {
         for (Edge e : edges) {
             e.draw(g2, Values.PATH_STROKE_COLOR);
-            e.getEndpoint1().draw(g2, Values.PATH_VERTEX_STROKE_COLOR, Values.PATH_VERTEX_FILL_COLOR);
-            e.getEndpoint2().draw(g2, Values.PATH_VERTEX_STROKE_COLOR, Values.PATH_VERTEX_FILL_COLOR);
+            this.drawVertex(g2, e.getEndpoint1());
+            this.drawVertex(g2, e.getEndpoint2());
         }
+    }
+    
+    private void drawVertex(Graphics2D g2, Vertex vertex) {
+        AffineTransform t = g2.getTransform(); // save the transform settings
+        double x = vertex.getLocation().x;
+        double y = vertex.getLocation().y;
+        g2.translate(x, y); //translate the canvas
+        //actually draw the vertex
+        vertex.draw(g2, Values.PATH_VERTEX_STROKE_COLOR, 
+                Values.PATH_VERTEX_FILL_COLOR);
+        g2.setTransform(t); //restore each after drawing
     }
     
     @Override
