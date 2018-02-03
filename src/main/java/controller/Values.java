@@ -43,6 +43,9 @@ public class Values {
     public static final Color VERTEX_PRESSED_COLOR = VERTEX_FILL_COLOR.darker();//new Color(200, 0, 0);
     public static final Color VERTEX_AVAILABLE_STROKE_COLOR = EDGE_HIGHLIGHT_COLOR;
     
+    //MARK: Path properties
+    public static final float PATH_STROKE_WIDTH = 2.5f;
+    
     //MARK: User preference keys
     /**
      * The last file location opened when the user saved or loaded a file 

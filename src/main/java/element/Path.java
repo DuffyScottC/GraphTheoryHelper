@@ -5,10 +5,36 @@
  */
 package element;
 
+import java.util.ArrayList;
+import java.util.List;
+
 /**
  *
  * @author Scott
  */
 public class Path {
+    
+    /**
+     * This holds the edges in the path
+     */
+    private transient List<Edge> edges = new ArrayList();
+    
+    /**
+     * This gets saved in the JSON serialization and is used to retrieve
+     * the proper list of edges when a graph is opened. 
+     */
+    private List<SimpleEdge> simpleEdges = new ArrayList();
+    
+    public Path() {
+        
+    }
+    
+    /**
+     * Add an edge to the path (adds the edge and a matching simpleEdge)
+     */
+    public void addEdge(Edge edge) {
+        edges.add(edge);
+        simpleEdges.add(new SimpleEdge(edge));
+    }
     
 }
