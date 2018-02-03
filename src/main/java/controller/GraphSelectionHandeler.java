@@ -13,6 +13,7 @@ import java.util.ArrayList;
 import java.util.List;
 import javax.swing.JList;
 import javax.swing.JTextField;
+import views.Canvas;
 import views.GraphFrame;
 
 /**
@@ -25,7 +26,7 @@ public class GraphSelectionHandeler {
      * The selected path, or the active path, that the user has clicked or
      * is working on. Kept in sync with {@link Canvas.selectedPath}
      */
-    private final GPath selectedPath = null;
+    private GPath selectedPath = null;
     /**
      * the last selected vertex in the vertices JList (Used for things like
      * setting the title text field, updating the title, changing the color,
@@ -52,6 +53,7 @@ public class GraphSelectionHandeler {
     private final List<Vertex> vertices;
     private final List<Edge> edges;
     private final Graph graph;
+    private final Canvas canvas;
     
     
     public GraphSelectionHandeler(GraphFrame frame, Graph graph) {
@@ -59,6 +61,7 @@ public class GraphSelectionHandeler {
         verticesList = frame.getVerticesList(); 
         edgesList = frame.getEdgesList();
         titleTextField = frame.getTitleTextField();
+        canvas = frame.getCanvas();
         this.graph = graph;
         vertices = graph.getVertices();
         edges = graph.getEdges();
@@ -128,6 +131,11 @@ public class GraphSelectionHandeler {
                 selectedEdges.add(selectedEdge); //add the new selection
             }
         }
+    }
+    
+    public void setSelectedPath(GPath selectedPath) {
+        this.selectedPath = selectedPath;
+        canvas.setSelectedPath(selectedPath);
     }
 
     public List<Edge> getSelectedEdges() {
