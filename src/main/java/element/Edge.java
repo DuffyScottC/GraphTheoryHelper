@@ -7,6 +7,7 @@ package element;
 
 import controller.Values;
 import java.awt.BasicStroke;
+import java.awt.Color;
 import java.awt.Graphics2D;
 import java.awt.geom.Ellipse2D;
 import java.awt.geom.Point2D;
@@ -68,6 +69,10 @@ public class Edge extends Element {
     
     @Override
     public void draw(Graphics2D g2) {
+        draw(g2, this.strokeColor);
+    }
+    
+    public void draw(Graphics2D g2, Color strokeColor) {
         if (stroke == null) {
             stroke = new BasicStroke(strokeWidth);
         }

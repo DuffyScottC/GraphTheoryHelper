@@ -5,20 +5,7 @@
  */
 package controller;
 
-import element.Edge;
-import element.Graph;
-import element.Vertex;
 import java.awt.Color;
-import java.awt.event.ActionEvent;
-import java.awt.event.ActionListener;
-import java.util.ArrayList;
-import java.util.List;
-import java.util.regex.Matcher;
-import java.util.regex.Pattern;
-import javax.swing.DefaultListModel;
-import views.AddGraphDialog;
-import views.Canvas;
-import views.GraphFrame;
 
 /**
  *
@@ -45,6 +32,7 @@ public class Values {
     
     //MARK: Path properties
     public static final float PATH_STROKE_WIDTH = 2.5f;
+    public static final Color PATH_STROKE_COLOR = Color.pink;
     
     //MARK: User preference keys
     /**

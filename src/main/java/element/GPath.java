@@ -5,6 +5,8 @@
  */
 package element;
 
+import controller.Values;
+import java.awt.Graphics2D;
 import java.util.ArrayList;
 import java.util.List;
 
@@ -88,6 +90,12 @@ public class GPath {
                 //exit the function because our job is done
                 return;
             }
+        }
+    }
+    
+    public void draw(Graphics2D g2) {
+        for (Edge e : edges) {
+            e.draw(g2, Values.PATH_STROKE_COLOR);
         }
     }
     
