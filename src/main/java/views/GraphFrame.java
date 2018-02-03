@@ -50,7 +50,6 @@ public class GraphFrame extends javax.swing.JFrame {
         jScrollPane1 = new javax.swing.JScrollPane();
         canvasTextArea = new Canvas();
         inspectorPanelJPanel = new InspectorPanel();
-        buttonPanel = new javax.swing.JPanel();
         edgesScrollPane = new javax.swing.JScrollPane();
         edgesList = new javax.swing.JList<>();
         edgesLabel = new javax.swing.JLabel();
@@ -137,13 +136,6 @@ public class GraphFrame extends javax.swing.JFrame {
         mainPanel.add(jScrollPane1, gridBagConstraints);
 
         inspectorPanelJPanel.setLayout(new java.awt.GridBagLayout());
-
-        buttonPanel.setLayout(new java.awt.GridBagLayout());
-        gridBagConstraints = new java.awt.GridBagConstraints();
-        gridBagConstraints.gridx = 0;
-        gridBagConstraints.gridy = 1;
-        gridBagConstraints.fill = java.awt.GridBagConstraints.HORIZONTAL;
-        inspectorPanelJPanel.add(buttonPanel, gridBagConstraints);
 
         edgesList.setModel(new javax.swing.AbstractListModel<String>() {
             String[] strings = { "Item 1", "Item 2", "Item 3", "Item 4", "Item 5" };
@@ -421,7 +413,6 @@ public class GraphFrame extends javax.swing.JFrame {
     private javax.swing.JCheckBoxMenuItem addPathsMenuItem;
     private javax.swing.JToggleButton addVerticesButton;
     private javax.swing.JCheckBoxMenuItem addVerticesMenuItem;
-    private javax.swing.JPanel buttonPanel;
     private javax.swing.JTextArea canvasTextArea;
     private javax.swing.JMenuItem changeColorsMenuItem;
     private javax.swing.JMenuItem checkForUpdatesMenuItem;
