@@ -20,7 +20,7 @@ import views.GraphFrame;
  *
  * @author Scott
  */
-public class GraphSelectionHandeler {
+public class GraphSelectionHandler {
     
     /**
      * The selected path, or the active path, that the user has clicked or
@@ -57,7 +57,7 @@ public class GraphSelectionHandeler {
     private final Canvas canvas;
     
     
-    public GraphSelectionHandeler(GraphFrame frame, Graph graph) {
+    public GraphSelectionHandler(GraphFrame frame, Graph graph) {
         //the visual JList that the user sees and interacts with
         verticesList = frame.getVerticesList(); 
         edgesList = frame.getEdgesList();

@@ -40,7 +40,7 @@ public class GraphStateMachine {
     private final JCheckBoxMenuItem addEdgesMenuItem;
     private final JCheckBoxMenuItem selectionMenuItem;
     private final JCheckBoxMenuItem addPathsMenuItem;
-    private final GraphSelectionHandeler graphSelectionHandeler;
+    private final GraphSelectionHandler graphSelectionHandeler;
     private final Canvas canvas;
     private final Graph graph;
     
@@ -48,7 +48,7 @@ public class GraphStateMachine {
             Graph graph,
             Canvas canvas, 
             List<Vertex> vertices, 
-            GraphSelectionHandeler graphSelectionHandeler) {
+            GraphSelectionHandler graphSelectionHandeler) {
         addVerticesButton = frame.getAddVerticesButton();
         addEdgesButton = frame.getAddEdgesButton();
         selectionButton = frame.getSelectionButton();
