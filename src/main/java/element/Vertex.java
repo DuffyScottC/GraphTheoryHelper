@@ -58,6 +58,10 @@ public class Vertex extends Element {
     
     @Override
     public void draw(Graphics2D g2) {
+        this.draw(g2, strokeColor);
+    }
+    
+    public void draw(Graphics2D g2, Color strokeColor) {
         if (stroke == null) {
             stroke = new BasicStroke(strokeWidth);
         }
