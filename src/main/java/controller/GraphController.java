@@ -2011,6 +2011,13 @@ public class GraphController {
             edgesListModel.addElement(eg);
         }
     }
+    
+    private void updatePathsListModel() {
+        pathsListModel.removeAllElements();;
+        for (GPath p : paths) {
+            pathsListModel.addElement(p);
+        }
+    }
 
     /**
      * Convenience method that asks a user if they want to continue if they try
