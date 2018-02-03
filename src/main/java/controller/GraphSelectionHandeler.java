@@ -160,7 +160,9 @@ public class GraphSelectionHandeler {
         return selectedVertexIndices;
     }
     
-    
+    public GPath getSelectedPath() {
+        return selectedPath;
+    }
     
     
     

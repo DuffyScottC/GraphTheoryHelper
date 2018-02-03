@@ -7,6 +7,7 @@ package views;
 
 import controller.Values;
 import element.Edge;
+import element.GPath;
 import element.Graph;
 import element.Vertex;
 import java.awt.BasicStroke;
@@ -71,6 +72,13 @@ public class Canvas extends JTextArea {
     private Edge editingEdge = null;
     
     /**
+     * The selected path, or the active path, that the user has clicked or
+     * is working on. Kept in sync with {@link GraphController.selectedPath} and
+     * {@link GraphSelectionHandeler.selectedPath}
+     */
+    private GPath selectedPath = new GPath();
+    
+    /**
      * Only true if the user has clicked inside of an edge's control point and
      * is holding down the mouse.
      */
@@ -101,6 +109,7 @@ public class Canvas extends JTextArea {
         drawEdges(g2);
         drawVertices(g2);
         drawSelectionBox(g2);
+        drawSelectedPath(g2);
         drawEditingEdgeCtrlPoint(g2);
         
         graphOutputTextField.setText(graph.toString());
@@ -206,6 +215,16 @@ public class Canvas extends JTextArea {
             g2.setColor(Values.SELECTION_STROKE_COLOR);
             g2.draw(shape);
         }
+    }
+    
+    private void drawSelectedPath(Graphics2D g2) {
+        if (selectedPath != null) {
+            selectedPath.draw(g2);
+        }
+    }
+    
+    public void setSelectedPath(GPath selectedPath) {
+        this.selectedPath = selectedPath;
     }
     
     /**
