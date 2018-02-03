@@ -11,6 +11,7 @@ import com.google.gson.JsonSyntaxException;
 import controller.Values.States;
 import element.Edge;
 import element.Graph;
+import element.GraphPath;
 import element.SimpleEdge;
 import element.Vertex;
 import java.awt.Color;
@@ -66,7 +67,7 @@ public class GraphController {
      * The selected path, or the active path, that the user has clicked or
      * is working on.
      */
-    private final element.Path selectedPath;
+    private final GraphPath selectedPath;
     /**
      * the last selected vertex in the vertices JList (Used for things like
      * setting the title text field, updating the title, changing the color,

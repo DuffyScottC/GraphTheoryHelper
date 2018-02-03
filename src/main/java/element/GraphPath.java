@@ -12,7 +12,7 @@ import java.util.List;
  *
  * @author Scott
  */
-public class Path {
+public class GraphPath {
     
     /**
      * This holds the edges in the path
@@ -25,7 +25,7 @@ public class Path {
      */
     private List<SimpleEdge> simpleEdges = new ArrayList();
     
-    public Path() {
+    public GraphPath() {
         
     }
     
