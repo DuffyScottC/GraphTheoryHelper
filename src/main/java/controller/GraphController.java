@@ -1985,7 +1985,7 @@ public class GraphController {
         for (Vertex currentVertex : vertices) {
             //if the user clicked this vertex
             if (currentVertex.getPositionShape().contains(mx, my)) {
-                if (selectedPath) {
+                if (selectedPath.contains(currentVertex)) {
                     
                 }
             }
