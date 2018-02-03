@@ -58,6 +58,7 @@ public class GraphSelectionHandeler {
             List<Edge> selectedEdges,
             List<Integer> selectedVertexIndices,
             List<Integer> selectedEdgeIndices,
+            GraphPath selectedPath,
             Graph graph) {
         //the visual JList that the user sees and interacts with
         verticesList = frame.getVerticesList(); 
@@ -67,6 +68,7 @@ public class GraphSelectionHandeler {
         this.selectedEdges = selectedEdges;
         this.selectedVertexIndices = selectedVertexIndices;
         this.selectedEdgeIndices = selectedEdgeIndices;
+        this.selectedPath = selectedPath;
         this.graph = graph;
         vertices = graph.getVertices();
         edges = graph.getEdges();
