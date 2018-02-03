@@ -295,7 +295,7 @@ public class GraphController {
                         canvas.setEndPosition(endX, endY);
                         break;
                     case PATH_ADDING:
-                        addPath(mx, my);
+                        addElementToPath(mx, my);
                         break;
                     default:
                         System.out.println("This should never happen.");
@@ -1951,7 +1951,7 @@ public class GraphController {
      * @param mx The x coordinate of the user's click
      * @param my The y coordinate of the user's click
      */
-    private void addPath(int mx, int my) {
+    private void addElementToPath(int mx, int my) {
         //loop through all the vertices
         for (Vertex currentVertex : vertices) {
             //if currentVertex has at least 1 edge (easier to check this first)
@@ -1998,21 +1998,21 @@ public class GraphController {
         }
     }
 
-    private void updateVerticesListModel() {
+    public void updateVerticesListModel() {
         verticesListModel.removeAllElements();
         for (Vertex v : vertices) {
             verticesListModel.addElement(v);
         }
     }
 
-    private void updateEdgesListModel() {
+    public void updateEdgesListModel() {
         edgesListModel.removeAllElements();
         for (Edge eg : edges) {
             edgesListModel.addElement(eg);
         }
     }
     
-    private void updatePathsListModel() {
+    public void updatePathsListModel() {
         pathsListModel.removeAllElements();;
         for (GPath p : paths) {
             pathsListModel.addElement(p);
