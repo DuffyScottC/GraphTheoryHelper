@@ -11,6 +11,7 @@ import java.awt.Graphics2D;
 import java.awt.Stroke;
 import java.awt.geom.AffineTransform;
 import java.awt.geom.Ellipse2D;
+import java.awt.geom.QuadCurve2D;
 import java.util.ArrayList;
 import java.util.List;
 
@@ -99,10 +100,35 @@ public class GPath {
     
     public void draw(Graphics2D g2) {
         for (Edge e : edges) {
-            e.draw(g2, Values.PATH_STROKE_COLOR);
+            this.drawEdge(g2, e);
             this.drawVertex(g2, e.getEndpoint1());
             this.drawVertex(g2, e.getEndpoint2());
         }
+    }
+    
+    /**
+     * A private helper method that draws an "edge" manually (rather than using
+     * the {@link Edge.draw(Graphics2D)} method) using path colors and stroke
+     * widths.
+     * @param g2
+     * @param edge 
+     */
+    private void drawEdge(Graphics2D g2, Edge edge) {
+        g2.setStroke(new BasicStroke(Values.PATH_EDGE_STROKE_WIDTH));
+        
+        g2.setColor(Values.PATH_EDGE_STROKE_COLOR);
+        
+        //Convert the center points of the two endpoints to ints
+        int x1 = (int) edge.getEndpoint1().getCenter().getX();
+        int y1 = (int) edge.getEndpoint1().getCenter().getY();
+        int x2 = (int) edge.getEndpoint2().getCenter().getX();
+        int y2 = (int) edge.getEndpoint2().getCenter().getY();
+        double ctrlX = edge.getCtrlPoint().x;
+        double ctrlY = edge.getCtrlPoint().y;
+        //Define a new quad curve from the endpoints and the control point:
+        QuadCurve2D qCurve = new QuadCurve2D.Double(); //instantiate a curve
+        qCurve.setCurve(x1, y1, ctrlX, ctrlY, x2, y2); //assign the values
+        g2.draw(qCurve); //draw the curve
     }
     
     /**
