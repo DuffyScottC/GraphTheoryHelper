@@ -101,6 +101,12 @@ public class GraphStateMachine {
         
         //Add paths
         ActionListener addPaths = (ActionEvent e) -> {
+            element.GPath debugPath = new element.GPath();
+            debugPath.addEdge(graph.getEdges().get(0));
+            debugPath.addEdge(graph.getEdges().get(1));
+            graph.getPaths().add(debugPath);
+            System.out.println("debugPath: " + debugPath);
+            
             enterState(States.PATH_ADDING);
             //if no path is selected
             if (graphSelectionHandeler.getSelectedPath() == null) {
