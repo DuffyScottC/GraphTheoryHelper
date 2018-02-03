@@ -621,6 +621,12 @@ public class GraphController {
                 //Update the user's preference for the current directory
                 prefs.put(Values.LAST_FILE_PATH, currentDirectory.toString());
             }
+            
+element.GPath debugPath = new element.GPath(graph.getEdges().get(0));
+debugPath.addEdge(graph.getEdges().get(1));
+graph.getPaths().add(debugPath);
+updatePathsListModel();
+System.out.println("debugPath: " + debugPath);
         });
 
         frame.getSaveMenuItem().addActionListener((ActionEvent e) -> {
@@ -855,12 +861,6 @@ public class GraphController {
             System.out.println("Export to png");
             exportToPng();
         });
-        
-        element.GPath debugPath = new element.GPath(graph.getEdges().get(0));
-        debugPath.addEdge(graph.getEdges().get(1));
-        graph.getPaths().add(debugPath);
-        updatePathsListModel();
-        System.out.println("debugPath: " + debugPath);
     }
 
     //MARK: Other methods--------------------
