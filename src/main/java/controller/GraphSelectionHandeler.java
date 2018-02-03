@@ -9,6 +9,7 @@ import element.Edge;
 import element.Graph;
 import element.GPath;
 import element.Vertex;
+import java.util.ArrayList;
 import java.util.List;
 import javax.swing.JList;
 import javax.swing.JTextField;
@@ -22,29 +23,29 @@ public class GraphSelectionHandeler {
     
     /**
      * The selected path, or the active path, that the user has clicked or
-     * is working on.
+     * is working on. Kept in sync with {@link Canvas.selectedPath}
      */
-    private final GPath selectedPath;
+    private final GPath selectedPath = null;
     /**
      * the last selected vertex in the vertices JList (Used for things like
      * setting the title text field, updating the title, changing the color,
      * etc.)
      */
-    private final List<Vertex> selectedVertices;
+    private final List<Vertex> selectedVertices = new ArrayList();
     /**
      * The last selected edge in the edges JList
      */
-    private final List<Edge> selectedEdges;
+    private final List<Edge> selectedEdges = new ArrayList();
     /**
      * A list of the selected indices in the vertices JList. null if there are
      * no selected vertices. (Used for things like setting the title text field
      * or updating the title)
      */
-    private final List<Integer> selectedVertexIndices;
+    private final List<Integer> selectedVertexIndices = new ArrayList();
     /**
      * The last selected index in the edges JList
      */
-    private final List<Integer> selectedEdgeIndices;
+    private final List<Integer> selectedEdgeIndices = new ArrayList();
     private final JList verticesList;
     private final JList edgesList;
     private final JTextField titleTextField;
@@ -53,22 +54,11 @@ public class GraphSelectionHandeler {
     private final Graph graph;
     
     
-    public GraphSelectionHandeler(GraphFrame frame,
-            List<Vertex> selectedVertices,
-            List<Edge> selectedEdges,
-            List<Integer> selectedVertexIndices,
-            List<Integer> selectedEdgeIndices,
-            GPath selectedPath,
-            Graph graph) {
+    public GraphSelectionHandeler(GraphFrame frame, Graph graph) {
         //the visual JList that the user sees and interacts with
         verticesList = frame.getVerticesList(); 
         edgesList = frame.getEdgesList();
         titleTextField = frame.getTitleTextField();
-        this.selectedVertices = selectedVertices;
-        this.selectedEdges = selectedEdges;
-        this.selectedVertexIndices = selectedVertexIndices;
-        this.selectedEdgeIndices = selectedEdgeIndices;
-        this.selectedPath = selectedPath;
         this.graph = graph;
         vertices = graph.getVertices();
         edges = graph.getEdges();
@@ -160,10 +150,11 @@ public class GraphSelectionHandeler {
         return selectedVertexIndices;
     }
     
+    public List<Vertex> getSelectedVertices() {
+        return selectedVertices;
+    }
+    
     public GPath getSelectedPath() {
         return selectedPath;
     }
-    
-    
-    
 }

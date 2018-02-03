@@ -63,32 +63,6 @@ import views.SampleCanvas;
  */
 public class GraphController {
     
-    /**
-     * The selected path, or the active path, that the user has clicked or
-     * is working on. Kept in sync with {@link Canvas.selectedPath} and
-     * {@link GraphSelectionHandeler.selectedPath}
-     */
-    private GPath selectedPath = new GPath();
-    /**
-     * the last selected vertex in the vertices JList (Used for things like
-     * setting the title text field, updating the title, changing the color,
-     * etc.)
-     */
-    private List<Vertex> selectedVertices = new ArrayList();
-    /**
-     * The last selected edge in the edges JList
-     */
-    private List<Edge> selectedEdges = new ArrayList();
-    /**
-     * A list of the selected indices in the vertices JList. null if there are
-     * no selected vertices. (Used for things like setting the title text field
-     * or updating the title)
-     */
-    private List<Integer> selectedVertexIndices = new ArrayList();
-    /**
-     * The last selected index in the edges JList
-     */
-    private List<Integer> selectedEdgeIndices = new ArrayList();
     private JTextField titleTextField;
     private JList verticesList;
     private JList edgesList;
@@ -222,13 +196,7 @@ public class GraphController {
         
         graphVersionChecker = new GraphVersionChecker(frame);
         
-        graphSelectionHandeler = new GraphSelectionHandeler(frame, 
-                selectedVertices,
-                selectedEdges,
-                selectedVertexIndices,
-                selectedEdgeIndices,
-                selectedPath,
-                graph);
+        graphSelectionHandeler = new GraphSelectionHandeler(frame, graph);
         
         titleTextField = frame.getTitleTextField();
         modifiedTextField = frame.getModifiedTextField();
@@ -463,19 +431,19 @@ public class GraphController {
                 //if command is not held down
                 if (!isCommandPressed) {
                     //deselect all edges (if any were selected)
-                    selectedEdgeIndices.clear();
+                    graphSelectionHandeler.getSelectedEdgeIndices().clear();
                     graphSelectionHandeler.updateSelectedEdges();
                 }
 
                 //Select (or deselect) the vertices:
                 //remove all previous selected vertices 
-                selectedVertexIndices.clear();
+                graphSelectionHandeler.getSelectedVertexIndices().clear();
                 //get the list of selected vertices
                 int[] tempIndices = verticesList.getSelectedIndices();
                 //loop through the selected indices
                 for (int i : tempIndices) {
                     //add each one to the main ArrayList
-                    selectedVertexIndices.add(i);
+                    graphSelectionHandeler.getSelectedVertexIndices().add(i);
                 }
                 graphSelectionHandeler.updateSelectedVertices();
                 canvas.repaint();
@@ -488,19 +456,19 @@ public class GraphController {
                 //if command is not held down
                 if (!isCommandPressed) {
                     //Deselect the vertices (if any were selected)
-                    selectedVertexIndices.clear();
+                    graphSelectionHandeler.getSelectedVertexIndices().clear();
                     graphSelectionHandeler.updateSelectedVertices();
                 }
 
                 //Select (or deselect) the edges:
                 //remove all previous selected edges
-                selectedEdgeIndices.clear();
+                graphSelectionHandeler.getSelectedEdgeIndices().clear();
                 //get the list of selected edges
                 int[] tempIndices = edgesList.getSelectedIndices();
                 //loop through the selected indices
                 for (int i : tempIndices) {
                     //add each one to the main ArrayList
-                    selectedEdgeIndices.add(i);
+                    graphSelectionHandeler.getSelectedEdgeIndices().add(i);
                 }
                 graphSelectionHandeler.updateSelectedEdges();
                 canvas.repaint();
@@ -509,7 +477,7 @@ public class GraphController {
 
         titleTextField.addActionListener((ActionEvent e) -> {
             //The title of the vertex should be updated and the JList should be repainted
-            if (selectedVertices.size() != 1) { //if there is not exactly one vertex selected
+            if (graphSelectionHandeler.getSelectedVertices().size() != 1) { //if there is not exactly one vertex selected
                 return; //we can't allow the text field to edit the name of any vertices
             }
             //If there is exacly one vertex selected
@@ -524,7 +492,7 @@ public class GraphController {
                 }
             }
             //If the name is unique, rename the title
-            selectedVertices.get(0).setTitle(newTitle);
+            graphSelectionHandeler.getSelectedVertices().get(0).setTitle(newTitle);
             verticesList.repaint();
             canvas.repaint();
             setIsModified(true);
@@ -949,7 +917,7 @@ public class GraphController {
 
     private void selectAllVertices() {
         //Clear the selected indices
-        selectedVertexIndices.clear();
+        graphSelectionHandeler.getSelectedVertexIndices().clear();
         //Initialize a new primitive array of ints to hold all indices
         int[] allIndices = new int[vertices.size()];
         //loop through all the indices in vertices ArrayList
@@ -957,7 +925,7 @@ public class GraphController {
             //add each one to the primitive array
             allIndices[i] = i;
             //add each one to the selected indices
-            selectedVertexIndices.add(i);
+            graphSelectionHandeler.getSelectedVertexIndices().add(i);
         }
         //select all the indices in the JList
         verticesList.setSelectedIndices(allIndices);
@@ -1123,12 +1091,12 @@ public class GraphController {
         //MARK: Update the list selection:
         //deselect all vertices
         verticesList.clearSelection();
-        selectedVertexIndices.clear(); //clear all elements
+        graphSelectionHandeler.getSelectedVertexIndices().clear(); //clear all elements
         graphSelectionHandeler.updateSelectedVertices();
 
         //deselect all edges
         edgesList.clearSelection();
-        selectedEdges.clear();
+        graphSelectionHandeler.getSelectedEdges().clear();
         graphSelectionHandeler.updateSelectedEdges();
         canvas.repaint();
     }
@@ -1144,7 +1112,7 @@ public class GraphController {
         updateEdgesListModel();
 
         //deselect the vertices
-        selectedVertexIndices.clear();
+        graphSelectionHandeler.getSelectedVertexIndices().clear();
         graphSelectionHandeler.updateSelectedVertices();
         canvas.repaint();
     }
@@ -1250,22 +1218,22 @@ public class GraphController {
             //if this vertex contains the mouse click:
             if (currentVertex.getPositionShape().contains(mx, my)) {
                 //If the clicked vertex is one of multiple already selected vertices
-                if (selectedVertices.contains(currentVertex)) {
+                if (graphSelectionHandeler.getSelectedVertices().contains(currentVertex)) {
                     //If the command button is held down
                     if (isCommandPressed) {
                         //Remove the clicked vertex from the selection:
                         //remove the selected vertex's index
-                        selectedVertexIndices.remove(Integer.valueOf(i));
+                        graphSelectionHandeler.getSelectedVertexIndices().remove(Integer.valueOf(i));
                         //Convert the selected indices to an array
-                        int[] tempIndices = selectedIndicesToArray(selectedVertexIndices);
+                        int[] tempIndices = selectedIndicesToArray(graphSelectionHandeler.getSelectedVertexIndices());
                         //Set selected indices of the verticesList to the array
                         //version of selectedVertexIndices
                         verticesList.setSelectedIndices(tempIndices);
                         graphSelectionHandeler.updateSelectedVertices();
                     } else { //if the command button is not held down
                         //add the selected vertices to clickedVertices (for moving)
-                        clickedVertices.addAll(selectedVertices);
-                        clickedEdges.addAll(selectedEdges);
+                        clickedVertices.addAll(graphSelectionHandeler.getSelectedVertices());
+                        clickedEdges.addAll(graphSelectionHandeler.getSelectedEdges());
                     }
                     //if the user clicked a new, unselected vertex
                 } else {
@@ -1273,27 +1241,27 @@ public class GraphController {
                     if (isCommandPressed) { //if the command key is held down
                         //Add the new vertex to the selection:
                         //append the index of this clicked vertex to the selection
-                        selectedVertexIndices.add(i);
+                        graphSelectionHandeler.getSelectedVertexIndices().add(i);
                         //Convert the selected indices to an array
-                        int[] tempIndices = selectedIndicesToArray(selectedVertexIndices);
+                        int[] tempIndices = selectedIndicesToArray(graphSelectionHandeler.getSelectedVertexIndices());
                         //Set selected indices of the verticesList to the array
                         //version of selectedVertexIndices
                         verticesList.setSelectedIndices(tempIndices);
                         graphSelectionHandeler.updateSelectedVertices();
                         //add the selected vertices to clickedVertices (for moving)
-                        clickedVertices.addAll(selectedVertices);
-                        clickedEdges.addAll(selectedEdges);
+                        clickedVertices.addAll(graphSelectionHandeler.getSelectedVertices());
+                        clickedEdges.addAll(graphSelectionHandeler.getSelectedEdges());
                     } else { //if the command key is not held down
                         //store the clicked vertex (for moving)
                         clickedVertices.add(currentVertex);
                         //Update the selection:
                         //deselect any selected edges
-                        selectedEdgeIndices.clear();
+                        graphSelectionHandeler.getSelectedEdgeIndices().clear();
                         graphSelectionHandeler.updateSelectedEdges();
                         //select the vertex
                         verticesList.setSelectedIndex(i);
-                        selectedVertexIndices.clear(); //empty the old selected indices
-                        selectedVertexIndices.add(i); //update selected indices
+                        graphSelectionHandeler.getSelectedVertexIndices().clear(); //empty the old selected indices
+                        graphSelectionHandeler.getSelectedVertexIndices().add(i); //update selected indices
                         graphSelectionHandeler.updateSelectedVertices();
                     }
                 }
@@ -1332,14 +1300,14 @@ public class GraphController {
             //If we clicked edge e
             if (clickedAnEdge) {
                 //if the clicked edge is one of multiple already selected edges
-                if (selectedEdges.contains(e)) {
+                if (graphSelectionHandeler.getSelectedEdges().contains(e)) {
                     if (isCommandPressed) {  //if command is held down
                         //We want to deselect this edge:
                         //Remove the clicked edge from the selection:
                         //remove the selected edge's index
-                        selectedEdgeIndices.remove(Integer.valueOf(i));
+                        graphSelectionHandeler.getSelectedEdgeIndices().remove(Integer.valueOf(i));
                         //Convert the selected indices to an array
-                        int[] tempIndices = selectedIndicesToArray(selectedEdgeIndices);
+                        int[] tempIndices = selectedIndicesToArray(graphSelectionHandeler.getSelectedEdgeIndices());
                         //Set selected indices of the edgesList to the array
                         //version of selectedEdgeIndices
                         edgesList.setSelectedIndices(tempIndices);
@@ -1347,8 +1315,8 @@ public class GraphController {
                     } else { //if command is not held down
                         //We want to allow the user to move all selected edges:
                         //add the selected edges to clickedEdges (for moving)
-                        clickedEdges.addAll(selectedEdges);
-                        clickedVertices.addAll(selectedVertices);
+                        clickedEdges.addAll(graphSelectionHandeler.getSelectedEdges());
+                        clickedVertices.addAll(graphSelectionHandeler.getSelectedVertices());
                     }
                     //if the user clicked an entirely new edge
                 } else {
@@ -1357,30 +1325,30 @@ public class GraphController {
                         //We want to add the new edge to the current set of 
                         //already selected edges:
                         //append the index of this clicked edge to the selection
-                        selectedEdgeIndices.add(i);
+                        graphSelectionHandeler.getSelectedEdgeIndices().add(i);
                         //Convert the selected indices to an array
-                        int[] tempIndices = selectedIndicesToArray(selectedEdgeIndices);
+                        int[] tempIndices = selectedIndicesToArray(graphSelectionHandeler.getSelectedEdgeIndices());
                         //Set selected indices of the edgesList to the array
                         //version of selectedEdgeIndices
                         edgesList.setSelectedIndices(tempIndices);
                         graphSelectionHandeler.updateSelectedEdges();
                         //add the selected edges to clickedEdges (for moving)
-                        clickedEdges.addAll(selectedEdges);
-                        clickedVertices.addAll(selectedVertices);
+                        clickedEdges.addAll(graphSelectionHandeler.getSelectedEdges());
+                        clickedVertices.addAll(graphSelectionHandeler.getSelectedVertices());
                     } else { //if command is not held down
                         //We want to make this the only selected edge:
                         //store the clicked edge (for moving)
                         clickedEdges.add(e);
                         //Update the selection:
                         //deselect all vertices
-                        selectedVertexIndices.clear();
+                        graphSelectionHandeler.getSelectedVertexIndices().clear();
                         graphSelectionHandeler.updateSelectedVertices();
                         //select the edge
                         edgesList.setSelectedIndex(i);
                         //clear the previous selection
-                        selectedEdgeIndices.clear();
+                        graphSelectionHandeler.getSelectedEdgeIndices().clear();
                         //add this index to the selection
-                        selectedEdgeIndices.add(i);
+                        graphSelectionHandeler.getSelectedEdgeIndices().add(i);
                         graphSelectionHandeler.updateSelectedEdges();
                     }
                 }
@@ -1403,12 +1371,12 @@ public class GraphController {
     private void selectCanvas() {
         //Deselect the vertex
         verticesList.clearSelection(); //deselect vertex in the list
-        selectedVertexIndices.clear();
+        graphSelectionHandeler.getSelectedVertexIndices().clear();
         graphSelectionHandeler.updateSelectedVertices();
 
         //Deselect the edge
         edgesList.clearSelection(); //deselect edge in the list
-        selectedEdgeIndices.clear();
+        graphSelectionHandeler.getSelectedEdgeIndices().clear();
         graphSelectionHandeler.updateSelectedEdges();
 
         canvas.repaint();
@@ -1626,7 +1594,7 @@ public class GraphController {
 
         //MARK: Select vertices
         //start by clearing out the old selected vertices (if needed)
-        selectedVertexIndices.clear();
+        graphSelectionHandeler.getSelectedVertexIndices().clear();
         //cycle through the vertices
         for (int i = vertices.size() - 1; i >= 0; i--) {
             //get the current vertex in the loop
@@ -1638,21 +1606,21 @@ public class GraphController {
             //if the center is within the boundingBox
             if (ltlt(endX, px, startX)) { //a or d
                 if (ltlt(endY, py, startY)) { //a
-                    selectedVertexIndices.add(i);
+                    graphSelectionHandeler.getSelectedVertexIndices().add(i);
                 } else if (ltlt(startY, py, endY)) { //d
-                    selectedVertexIndices.add(i);
+                    graphSelectionHandeler.getSelectedVertexIndices().add(i);
                 } //not in bounding box
             } else if (ltlt(startX, px, endX)) { //b or c
                 if (ltlt(endY, py, startY)) { //b
-                    selectedVertexIndices.add(i);
+                    graphSelectionHandeler.getSelectedVertexIndices().add(i);
                 } else if (ltlt(startY, py, endY)) { //c
-                    selectedVertexIndices.add(i);
+                    graphSelectionHandeler.getSelectedVertexIndices().add(i);
                 } //not in bounding box
             } //not in bounding box
         }
         //now we have a list of selected vertices
 
-        int[] tempIndices = selectedIndicesToArray(selectedVertexIndices);
+        int[] tempIndices = selectedIndicesToArray(graphSelectionHandeler.getSelectedVertexIndices());
         //set the selection to the indices of the selected vertices
         verticesList.setSelectedIndices(tempIndices);
         graphSelectionHandeler.updateSelectedVertices();
@@ -1694,10 +1662,10 @@ public class GraphController {
     }
     
     private void deleteSelectedElements() {
-        if (!selectedVertexIndices.isEmpty()) {
+        if (!graphSelectionHandeler.getSelectedVertexIndices().isEmpty()) {
             removeVertices();
         }
-        if (!selectedEdgeIndices.isEmpty()) {
+        if (!graphSelectionHandeler.getSelectedEdgeIndices().isEmpty()) {
             removeEdges();
         }
     }
@@ -1725,8 +1693,8 @@ public class GraphController {
         int bottomIndex = vertices.size() - 1;
         //Set the selection of the visual JList to the bottom
         verticesList.setSelectedIndex(bottomIndex);
-        selectedVertexIndices.clear(); //clear the selection
-        selectedVertexIndices.add(bottomIndex); //select the new index
+        graphSelectionHandeler.getSelectedVertexIndices().clear(); //clear the selection
+        graphSelectionHandeler.getSelectedVertexIndices().add(bottomIndex); //select the new index
         graphSelectionHandeler.updateSelectedVertices();
         canvas.repaint();
         setIsModified(true);
@@ -1737,7 +1705,7 @@ public class GraphController {
         List<Edge> removeEdges = new ArrayList();
         //Get all the edges from all the selected vertices:
         //first loop through all selected vertices
-        for (Vertex v : selectedVertices) {
+        for (Vertex v : graphSelectionHandeler.getSelectedVertices()) {
             //then add the list of edges from each selected vertices
             for (SimpleEdge se : v.getEdgeNames()) {
                 //Get the edge in edges that matches se
@@ -1750,7 +1718,7 @@ public class GraphController {
         //Cycle trhough the vertices to remove
         //Note: can't remove vertices by index, 
         //since indices change with each removal
-        for (Vertex v : selectedVertices) {
+        for (Vertex v : graphSelectionHandeler.getSelectedVertices()) {
             vertices.remove(v); //remove the matching vertex from the vertices
         }
 
@@ -1765,10 +1733,10 @@ public class GraphController {
         updateVerticesListModel();
         updateEdgesListModel();
         //Deselect the vertices:
-        selectedVertexIndices.clear();
+        graphSelectionHandeler.getSelectedVertexIndices().clear();
         graphSelectionHandeler.updateSelectedVertices();
         //Deselect the edges:
-        selectedEdgeIndices.clear();
+        graphSelectionHandeler.getSelectedEdgeIndices().clear();
         graphSelectionHandeler.updateSelectedEdges();
 
         canvas.repaint();
@@ -1791,7 +1759,7 @@ public class GraphController {
                 } else { //if the user did not click the control point
                     canvas.setEditingEdge(null);
                     edgesList.clearSelection(); //deselect edge in the list
-                    selectedEdgeIndices.clear();
+                    graphSelectionHandeler.getSelectedEdgeIndices().clear();
                     graphSelectionHandeler.updateSelectedEdges();
                     canvas.repaint();
                 }
@@ -1817,7 +1785,7 @@ public class GraphController {
                             //find the index of the editingEdge
                             int index = edges.indexOf(canvas.getEditingEdge());
                             //select the editingEdge
-                            selectedEdgeIndices.add(index);
+                            graphSelectionHandeler.getSelectedEdgeIndices().add(index);
                             edgesList.setSelectedIndex(index);
                             graphSelectionHandeler.updateSelectedEdges();
                             canvas.repaint();
@@ -1903,8 +1871,8 @@ public class GraphController {
                     //Update selection
                     int lastIndex = edges.size() - 1; //last index in edges
                     edgesList.setSelectedIndex(lastIndex);
-                    selectedEdgeIndices.clear();
-                    selectedEdgeIndices.add(lastIndex);
+                    graphSelectionHandeler.getSelectedEdgeIndices().clear();
+                    graphSelectionHandeler.getSelectedEdgeIndices().add(lastIndex);
                     graphSelectionHandeler.updateSelectedEdges();
 
                     setIsModified(true);
@@ -1923,13 +1891,13 @@ public class GraphController {
 
     private void removeEdges() {
         //If the user did not choose an edge
-        if (selectedEdgeIndices.isEmpty()) {
+        if (graphSelectionHandeler.getSelectedEdgeIndices().isEmpty()) {
             return;
         }
         //Get a reference to the selected edges:
         //create a temporary ArrayList to hold the edges to be removed
         List<Edge> edgesToRemove = new ArrayList();
-        for (Edge e : selectedEdges) { //loop through all selected edges
+        for (Edge e : graphSelectionHandeler.getSelectedEdges()) { //loop through all selected edges
             edgesToRemove.add(e); //mark this edge to be removed
         }
 
@@ -1941,12 +1909,12 @@ public class GraphController {
         }
 
         //remove all the edges from the edges list
-        graph.removeAllEdges(selectedEdges);
+        graph.removeAllEdges(graphSelectionHandeler.getSelectedEdges());
 
         updateEdgesListModel();
 
         //update selection
-        selectedEdgeIndices.clear();
+        graphSelectionHandeler.getSelectedEdgeIndices().clear();
         graphSelectionHandeler.updateSelectedEdges();
 
         //set the editingEdge to null
@@ -1985,9 +1953,9 @@ public class GraphController {
                     //Cycle through the currentVertex's SimpleEdge list
                     for (SimpleEdge se : currentVertex.getEdgeNames()) {
                         //if selectedPath already contains se
-                        if (selectedPath.contains(se)) {
+                        if (graphSelectionHandeler.getSelectedPath().contains(se)) {
                             //remove se from the path
-                            selectedPath.removeSimpleEdge(se);
+                            graphSelectionHandeler.getSelectedPath().removeSimpleEdge(se);
                             canvas.repaint();
                             //exit the method because we are done now
                             return;
@@ -1995,7 +1963,7 @@ public class GraphController {
                             //get the edge that matches se
                             Edge e = graph.getMatchingEdge(se);
                             //add the edge that matches se to the path
-                            selectedPath.addEdge(e);
+                            graphSelectionHandeler.getSelectedPath().addEdge(e);
                         }
                     }
                 }
@@ -2220,12 +2188,12 @@ public class GraphController {
                 canvas.setEditingEdge(null);
             } else { //if we are not in the edge adding state
                 //unhighlight the selected vertices
-                for (Vertex v : selectedVertices) {
+                for (Vertex v : graphSelectionHandeler.getSelectedVertices()) {
                     graph.unHighlightVertex(v);
                 }
             }
             //unhighlight the selected vertices
-            for (Edge e : selectedEdges) {
+            for (Edge e : graphSelectionHandeler.getSelectedEdges()) {
                 graph.unHighlightEdge(e);
             }
 
@@ -2254,12 +2222,12 @@ public class GraphController {
                 canvas.setEditingEdge(editingEdge);
             } else { //if we are not in the addingEdges state
                 //highlight the selected vertices again
-                for (Vertex v : selectedVertices) {
+                for (Vertex v : graphSelectionHandeler.getSelectedVertices()) {
                     graph.highlightVertex(v);
                 }
             }
             //hightlight the selected edges again
-            for (Edge e : selectedEdges) {
+            for (Edge e : graphSelectionHandeler.getSelectedEdges()) {
                 graph.highlightEdge(e);
             }
         }
