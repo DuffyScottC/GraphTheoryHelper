@@ -313,6 +313,7 @@ public class GraphController {
                         canvas.setEndPosition(endX, endY);
                         break;
                     case PATH_ADDING:
+                        addPath(mx, my);
                         break;
                     default:
                         System.out.println("This should never happen.");
@@ -1966,8 +1967,22 @@ public class GraphController {
         }
     }
     
-    private void addVectorToPath() {
-        
+    /**
+     * The code that handles adding an element to the path when the user clicks.
+     * 
+     * @param mx The x coordinate of the user's click
+     * @param my The y coordinate of the user's click
+     */
+    private void addPath(int mx, int my) {
+        //loop through all the vertices
+        for (Vertex currentVertex : vertices) {
+            //if the user clicked this vertex
+            if (currentVertex.getPositionShape().contains(mx, my)) {
+                if (selectedPath) {
+                    
+                }
+            }
+        }
     }
 
     /**
