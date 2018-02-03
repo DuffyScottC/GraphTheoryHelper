@@ -25,6 +25,14 @@ public class GPath {
      * This holds the edges in the path
      */
     private transient List<Edge> edges = new ArrayList();
+    /**
+     * This holds a single vertex used for the first time a path is created.
+     * The next time a vertex is clicked (as long as it is not this same
+     * vertex) an edge will be added (the edge between this vertex and the
+     * next clicked vertex). This is typically null, and only initialized once
+     * a path is created.
+     */
+    private transient Vertex initialVertex = null;
     
     /**
      * This gets saved in the JSON serialization and is used to retrieve
@@ -32,8 +40,21 @@ public class GPath {
      */
     private List<SimpleEdge> simpleEdges = new ArrayList();
     
-    public GPath() {
-        
+    /**
+     * Creates a new GPath object with the specified initial vertex.
+     * @param initialVertex The first vertex the user clicked when the path was
+     * added.
+     */
+    public GPath(Vertex initialVertex) {
+        this.initialVertex = initialVertex;
+    }
+    
+    /**
+     * Creates a new GPath object with the specified edge as the first edge.
+     * @param edge The first edge in the path.
+     */
+    public GPath(Edge edge) {
+        addEdge(edge);
     }
     
     /**

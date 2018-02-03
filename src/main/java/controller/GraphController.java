@@ -856,8 +856,7 @@ public class GraphController {
             exportToPng();
         });
         
-        element.GPath debugPath = new element.GPath();
-        debugPath.addEdge(graph.getEdges().get(0));
+        element.GPath debugPath = new element.GPath(graph.getEdges().get(0));
         debugPath.addEdge(graph.getEdges().get(1));
         graph.getPaths().add(debugPath);
         updatePathsListModel();
@@ -1983,8 +1982,11 @@ public class GraphController {
                             }
                         }
                     } else { //if there are absolutely no paths in the graph
-                        //create a new path
-                        Gpath
+                        //if the currentVertex has at least one edge
+                        if (currentVertex.getDegree() != 0) {
+                            //create a new path
+                            GPath newPath = new GPath(currentVertex);
+                        }
                     }
                 }
             }
