@@ -102,7 +102,15 @@ public class GraphStateMachine {
         //Add paths
         ActionListener addPaths = (ActionEvent e) -> {
             enterState(States.PATH_ADDING);
-            graphSelectionHandeler.setSelectedPath(graph.getPaths().get(0));
+            //if no path is selected
+            if (graphSelectionHandeler.getSelectedPath() == null) {
+                //if there is at least one graph
+                if (!graph.getPaths().isEmpty()) {
+                    //set the selected path to the first element in the list
+                    graphSelectionHandeler.setSelectedPath(graph.getPaths().get(0));
+                }
+            }
+            canvas.repaint();
         };
         addPathsButton.addActionListener(addPaths);
         addPathsMenuItem.addActionListener(addPaths);

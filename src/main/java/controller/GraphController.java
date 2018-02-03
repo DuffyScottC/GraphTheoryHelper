@@ -132,6 +132,7 @@ public class GraphController {
 
     private final List<Vertex> vertices = graph.getVertices();
     private final List<Edge> edges = graph.getEdges();
+    private final List<GPath> paths = graph.getPaths();
 
     //MARK: File I/O:
     /**
