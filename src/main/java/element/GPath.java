@@ -115,14 +115,13 @@ public class GPath {
      */
     private void drawEdge(Graphics2D g2, Edge edge) {
         g2.setStroke(new BasicStroke(Values.PATH_EDGE_STROKE_WIDTH));
-        
         g2.setColor(Values.PATH_EDGE_STROKE_COLOR);
-        
-        //Convert the center points of the two endpoints to ints
+        //Convert the center points of the two endpoints to ints:
         int x1 = (int) edge.getEndpoint1().getCenter().getX();
         int y1 = (int) edge.getEndpoint1().getCenter().getY();
         int x2 = (int) edge.getEndpoint2().getCenter().getX();
         int y2 = (int) edge.getEndpoint2().getCenter().getY();
+        //Get the control point:
         double ctrlX = edge.getCtrlPoint().x;
         double ctrlY = edge.getCtrlPoint().y;
         //Define a new quad curve from the endpoints and the control point:
