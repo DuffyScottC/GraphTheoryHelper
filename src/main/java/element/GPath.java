@@ -47,6 +47,16 @@ public class GPath {
     }
     
     /**
+     * Removes both the given SimpleEdge and its matching Edge from the path.
+     * @param se The SimpleEdge to be removed
+     */
+    public void removeSimpleEdge(SimpleEdge se) {
+        int index = simpleEdges.indexOf(se);
+        edges.remove(index);
+        simpleEdges.remove(index);
+    }
+    
+    /**
      * Removes the edge at the given index from the path.
      * @param index The index of the edge to be removed
      */

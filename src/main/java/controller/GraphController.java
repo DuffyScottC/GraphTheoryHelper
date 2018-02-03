@@ -1989,8 +1989,9 @@ public class GraphController {
                 if (currentVertex.getPositionShape().contains(mx, my)) {
                     //Cycle through the currentVertex's SimpleEdge list
                     for (SimpleEdge se : currentVertex.getEdgeNames()) {
+                        //if the selectedPath already contains se
                         if (selectedPath.contains(se)) {
-                            
+                            selectedPath.removeSimpleEdge(se);
                         }
                     }
                 }
