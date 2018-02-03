@@ -76,7 +76,7 @@ public class Canvas extends JTextArea {
      * is working on. Kept in sync with {@link GraphController.selectedPath} and
      * {@link GraphSelectionHandeler.selectedPath}
      */
-    private GPath selectedPath = new GPath();
+    private GPath selectedPath = null;
     
     /**
      * Only true if the user has clicked inside of an edge's control point and
