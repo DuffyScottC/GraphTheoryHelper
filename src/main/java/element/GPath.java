@@ -105,6 +105,13 @@ public class GPath {
         }
     }
     
+    /**
+     * A private helper method that draws a "vertex" manually (rather than using
+     * the {@link Vertex.draw(Graphics2D)} method) using path colors and stroke
+     * widths. 
+     * @param g2
+     * @param vertex The vertex to draw
+     */
     private void drawVertex(Graphics2D g2, Vertex vertex) {
         AffineTransform t = g2.getTransform(); // save the transform settings
         double x = vertex.getLocation().x;
