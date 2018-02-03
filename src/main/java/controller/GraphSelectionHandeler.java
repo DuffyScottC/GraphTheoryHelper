@@ -7,7 +7,7 @@ package controller;
 
 import element.Edge;
 import element.Graph;
-import element.GraphPath;
+import element.GPath;
 import element.Vertex;
 import java.util.List;
 import javax.swing.JList;
@@ -24,7 +24,7 @@ public class GraphSelectionHandeler {
      * The selected path, or the active path, that the user has clicked or
      * is working on.
      */
-    private final GraphPath selectedPath;
+    private final GPath selectedPath;
     /**
      * the last selected vertex in the vertices JList (Used for things like
      * setting the title text field, updating the title, changing the color,
@@ -58,7 +58,7 @@ public class GraphSelectionHandeler {
             List<Edge> selectedEdges,
             List<Integer> selectedVertexIndices,
             List<Integer> selectedEdgeIndices,
-            GraphPath selectedPath,
+            GPath selectedPath,
             Graph graph) {
         //the visual JList that the user sees and interacts with
         verticesList = frame.getVerticesList(); 
