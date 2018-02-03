@@ -66,6 +66,7 @@ public class GraphController {
     private JTextField titleTextField;
     private JList verticesList;
     private JList edgesList;
+    private JList pathsList;
     private JToggleButton addVerticesButton;
     private JToggleButton addEdgesButton;
     private JToggleButton selectionButton;
@@ -80,6 +81,7 @@ public class GraphController {
     // models for vertex and edge selection lists
     private final DefaultListModel verticesListModel = new DefaultListModel();
     private final DefaultListModel edgesListModel = new DefaultListModel();
+    private final DefaultListModel pathsListModel = new DefaultListModel();
 
     /**
      * The x-coordinate of the start point of the multiple-selection box.
@@ -180,12 +182,15 @@ public class GraphController {
         //Get the two JLists
         verticesList = frame.getVerticesList(); //the visual JList that the user sees and interacts with
         edgesList = frame.getEdgesList(); //the visual JList that the user sees and interacts with
+        pathsList = frame.getPathsList(); //the visual JList that the user sees and interacts with
 
         //Remove the up/down arrow key action from both JLists (too hard to deal with for now)
         verticesList.getInputMap().put(KeyStroke.getKeyStroke("DOWN"), "none"); //make it do nothing
         verticesList.getInputMap().put(KeyStroke.getKeyStroke("UP"), "none"); //make it do nothing
         edgesList.getInputMap().put(KeyStroke.getKeyStroke("DOWN"), "none"); //make it do nothing
         edgesList.getInputMap().put(KeyStroke.getKeyStroke("UP"), "none"); //make it do nothing
+        pathsList.getInputMap().put(KeyStroke.getKeyStroke("DOWN"), "none"); //make it do nothing
+        pathsList.getInputMap().put(KeyStroke.getKeyStroke("UP"), "none"); //make it do nothing
 
         //remove the backspace action from canvas to prevent error beep
         canvas.getInputMap().put(KeyStroke.getKeyStroke("BACK_SPACE"), "none");
@@ -501,11 +506,13 @@ public class GraphController {
 
         //Set up list models:
         //set them to their respective JLists
-        frame.getVerticesList().setModel(verticesListModel);
-        frame.getEdgesList().setModel(edgesListModel);
+        verticesList.setModel(verticesListModel);
+        edgesList.setModel(edgesListModel);
+        pathsList.setModel(pathsListModel);
         //set their selection modes
-        frame.getVerticesList().setSelectionMode(ListSelectionModel.MULTIPLE_INTERVAL_SELECTION);
-        frame.getEdgesList().setSelectionMode(ListSelectionModel.MULTIPLE_INTERVAL_SELECTION);
+        verticesList.setSelectionMode(ListSelectionModel.MULTIPLE_INTERVAL_SELECTION);
+        edgesList.setSelectionMode(ListSelectionModel.MULTIPLE_INTERVAL_SELECTION);
+        pathsList.setSelectionMode(ListSelectionModel.SINGLE_SELECTION);
 
         frame.getSaveAsMenuItem().addActionListener((ActionEvent e) -> {
             saveGraphAs();
