@@ -473,10 +473,6 @@ public class GraphFrame extends javax.swing.JFrame {
         return (Canvas) canvasTextArea;
     }
 
-    public JList<String> getEdgesList() {
-        return edgesList;
-    }
-
     public JMenuItem getNewMenuItem() {
         return newMenuItem;
     }
@@ -504,9 +500,17 @@ public class GraphFrame extends javax.swing.JFrame {
     public JTextField getTitleTextField() {
         return titleTextField;
     }
+    
+    public JList<String> getEdgesList() {
+        return edgesList;
+    }
 
     public JList<String> getVerticesList() {
         return verticesList;
+    }
+    
+    public JList<String> getPathsList() {
+        return pathsList;
     }
     
     public JMenuItem getShowVertexNamesMenuItem() {
