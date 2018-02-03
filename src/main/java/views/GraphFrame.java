@@ -60,6 +60,9 @@ public class GraphFrame extends javax.swing.JFrame {
         propertiesPanel = new javax.swing.JPanel();
         JLabel3 = new javax.swing.JLabel();
         titleTextField = new javax.swing.JTextField();
+        pathsLabel = new javax.swing.JLabel();
+        pathsScrollPane = new javax.swing.JScrollPane();
+        pathsList = new javax.swing.JList<>();
         toolBar = new javax.swing.JToolBar();
         addVerticesButton = new javax.swing.JToggleButton();
         addEdgesButton = new javax.swing.JToggleButton();
@@ -212,6 +215,31 @@ public class GraphFrame extends javax.swing.JFrame {
         gridBagConstraints.gridy = 0;
         gridBagConstraints.fill = java.awt.GridBagConstraints.BOTH;
         inspectorPanelJPanel.add(propertiesPanel, gridBagConstraints);
+
+        pathsLabel.setText("Paths:");
+        gridBagConstraints = new java.awt.GridBagConstraints();
+        gridBagConstraints.fill = java.awt.GridBagConstraints.HORIZONTAL;
+        gridBagConstraints.anchor = java.awt.GridBagConstraints.LINE_START;
+        gridBagConstraints.insets = new java.awt.Insets(0, 4, 0, 4);
+        inspectorPanelJPanel.add(pathsLabel, gridBagConstraints);
+
+        pathsList.setModel(new javax.swing.AbstractListModel<String>() {
+            String[] strings = { "Item 1", "Item 2", "Item 3", "Item 4", "Item 5" };
+            public int getSize() { return strings.length; }
+            public String getElementAt(int i) { return strings[i]; }
+        });
+        pathsList.setMaximumSize(new java.awt.Dimension(138, 85));
+        pathsList.setMinimumSize(new java.awt.Dimension(138, 85));
+        pathsList.setPreferredSize(new java.awt.Dimension(138, 85));
+        pathsList.setSize(new java.awt.Dimension(138, 0));
+        pathsScrollPane.setViewportView(pathsList);
+
+        gridBagConstraints = new java.awt.GridBagConstraints();
+        gridBagConstraints.fill = java.awt.GridBagConstraints.BOTH;
+        gridBagConstraints.weightx = 0.1;
+        gridBagConstraints.weighty = 0.1;
+        gridBagConstraints.insets = new java.awt.Insets(0, 4, 0, 4);
+        inspectorPanelJPanel.add(pathsScrollPane, gridBagConstraints);
 
         gridBagConstraints = new java.awt.GridBagConstraints();
         gridBagConstraints.gridx = 2;
@@ -414,6 +442,9 @@ public class GraphFrame extends javax.swing.JFrame {
     private javax.swing.JMenuBar myMenuBar;
     private javax.swing.JMenuItem newMenuItem;
     private javax.swing.JMenuItem openMenuItem;
+    private javax.swing.JLabel pathsLabel;
+    private javax.swing.JList<String> pathsList;
+    private javax.swing.JScrollPane pathsScrollPane;
     private javax.swing.JPanel propertiesPanel;
     private javax.swing.JMenuItem rotate90MenuItem;
     private javax.swing.JMenuItem saveAsMenuItem;
