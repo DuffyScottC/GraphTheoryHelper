@@ -269,7 +269,7 @@ public class GraphFrame extends javax.swing.JFrame {
         selectionButton.setVerticalTextPosition(javax.swing.SwingConstants.BOTTOM);
         toolBar.add(selectionButton);
 
-        addWalksButton.setIcon(new javax.swing.ImageIcon(getClass().getResource("/add-paths-icon.png"))); // NOI18N
+        addWalksButton.setIcon(new javax.swing.ImageIcon(getClass().getResource("/add-walks-icon.png"))); // NOI18N
         addWalksButton.setToolTipText("Add walks between vertices (W)");
         addWalksButton.setFocusable(false);
         addWalksButton.setHorizontalTextPosition(javax.swing.SwingConstants.CENTER);
