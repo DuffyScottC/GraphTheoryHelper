@@ -14,6 +14,7 @@ import java.awt.event.ActionListener;
 import java.io.BufferedReader;
 import java.io.IOException;
 import java.io.InputStreamReader;
+import java.net.ConnectException;
 import java.net.URI;
 import java.net.URISyntaxException;
 import java.net.URL;
@@ -138,6 +139,9 @@ public class GraphVersionChecker {
                 System.out.println("You're version is up to date!");
             }
             
+        } catch (ConnectException e) {
+            clearDialog();
+            System.out.println("Could not connect to github: " + e.toString());
         } catch (IOException e) {
             clearDialog();
             System.out.println("error finding url or reading in " + e.toString());
