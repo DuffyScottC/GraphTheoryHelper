@@ -15,6 +15,7 @@ import element.Walk;
 import element.SimpleEdge;
 import element.Vertex;
 import java.awt.Color;
+import java.awt.Desktop;
 import java.awt.Graphics2D;
 import java.awt.event.ActionEvent;
 import java.awt.event.KeyAdapter;
@@ -32,6 +33,8 @@ import java.io.File;
 import java.io.FileReader;
 import java.io.FileWriter;
 import java.io.IOException;
+import java.net.URI;
+import java.net.URISyntaxException;
 import java.nio.file.Files;
 import java.nio.file.Path;
 import java.util.ArrayList;
@@ -857,9 +860,19 @@ public class GraphController {
             graphVersionChecker.checkVersion(false);
             graphVersionChecker.openDialog();
         });
+        
+        frame.getTutorialMenuItem().addActionListener((ActionEvent e) -> {
+            try {
+                Desktop.getDesktop().browse(
+                        new URI("https://github.com/DuffyScottC/GraphTheoryHelper/releases/latest"));
+            } catch (IOException ex) {
+                System.out.println(ex.toString());
+            } catch (URISyntaxException ex) {
+                System.out.println("Improper URL: " + ex.toString());
+            }
+        });
 
         frame.getExportMenuItem().addActionListener((ActionEvent e) -> {
-            System.out.println("Export to png");
             exportToPng();
         });
     }

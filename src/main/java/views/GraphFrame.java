@@ -93,6 +93,7 @@ public class GraphFrame extends javax.swing.JFrame {
         addGraphMenuItem = new javax.swing.JMenuItem();
         helpMenu = new javax.swing.JMenu();
         checkForUpdatesMenuItem = new javax.swing.JMenuItem();
+        tutorialMenuItem = new javax.swing.JMenuItem();
 
         setDefaultCloseOperation(javax.swing.WindowConstants.EXIT_ON_CLOSE);
 
@@ -384,6 +385,9 @@ public class GraphFrame extends javax.swing.JFrame {
         checkForUpdatesMenuItem.setText("Check For Updates");
         helpMenu.add(checkForUpdatesMenuItem);
 
+        tutorialMenuItem.setText("Tutorial");
+        helpMenu.add(tutorialMenuItem);
+
         myMenuBar.add(helpMenu);
 
         setJMenuBar(myMenuBar);
@@ -448,6 +452,7 @@ public class GraphFrame extends javax.swing.JFrame {
     private javax.swing.JTextField titleTextField;
     private javax.swing.JToolBar toolBar;
     private javax.swing.JMenu toolsMenu;
+    private javax.swing.JMenuItem tutorialMenuItem;
     private javax.swing.JLabel verticesLabel;
     private javax.swing.JList<String> verticesList;
     private javax.swing.JScrollPane verticesScrollPane;
@@ -593,5 +598,9 @@ public class GraphFrame extends javax.swing.JFrame {
     
     public JMenuItem getCheckForUpdatesMenuItem() {
         return checkForUpdatesMenuItem;
+    }
+    
+    public JMenuItem getTutorialMenuItem() {
+        return tutorialMenuItem;
     }
 }

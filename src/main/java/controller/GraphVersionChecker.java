@@ -10,7 +10,6 @@ import java.awt.Toolkit;
 import java.awt.datatransfer.Clipboard;
 import java.awt.datatransfer.StringSelection;
 import java.awt.event.ActionEvent;
-import java.awt.event.ActionListener;
 import java.io.BufferedReader;
 import java.io.IOException;
 import java.io.InputStreamReader;
@@ -18,8 +17,6 @@ import java.net.ConnectException;
 import java.net.URI;
 import java.net.URISyntaxException;
 import java.net.URL;
-import java.util.logging.Level;
-import java.util.logging.Logger;
 import java.util.regex.Matcher;
 import java.util.regex.Pattern;
 import views.GraphFrame;
@@ -35,7 +32,7 @@ public class GraphVersionChecker {
     private NewVersionDialog newVersionDialog;
     
     private final int[] currentVersion = {1, 0, 0};
-    private StringBuilder description = new StringBuilder("<html>");
+    private final StringBuilder description = new StringBuilder("<html>");
     
     /**
      * Initializes elements and adds action listeners.
@@ -51,7 +48,7 @@ public class GraphVersionChecker {
             } catch (IOException ex) {
                 System.out.println(ex.toString());
             } catch (URISyntaxException ex) {
-                System.out.println(ex.toString());
+                System.out.println("Improper URL: " + ex.toString());
             }
         });
         
@@ -216,7 +213,6 @@ public class GraphVersionChecker {
      * Opens the NewVersionDialog object. If checkForNewVersion is true,
      * it runs a check to see if there is a new version. If checkForNewVersion
      * is false, it skips that step and just shows the current version.
-     * @param checkForNewVersion 
      */
     public void openDialog() {
         newVersionDialog.setLocationRelativeTo(null);
