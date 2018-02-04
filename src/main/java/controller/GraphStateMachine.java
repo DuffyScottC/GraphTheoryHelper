@@ -122,24 +122,19 @@ public class GraphStateMachine {
      */
     public void enterState(States newState) {
         debugCount += 1;
-        System.out.print("Switch states: ");
         //Exit the old state
         switch (state) {
             case VERTEX_ADDING:
                 exitAddVerticesState();
-                System.out.print("exitAddVertices -> ");
                 break;
             case EDGE_ADDING:
                 exitAddEdgesState();
-                System.out.print("exitAddEdges -> ");
                 break;
             case SELECTION:
                 exitSelectionState();
-                System.out.print("exitSelection -> ");
                 break;
             case PATH_ADDING:
                 exitAddPathsState();
-                System.out.print("exitAddPaths -> ");
                 break;
             default:
         }
@@ -147,23 +142,18 @@ public class GraphStateMachine {
         switch (newState) {
             case VERTEX_ADDING:
                 enterAddVerticesState();
-                System.out.print("enterAddVertices");
                 break;
             case EDGE_ADDING:
                 enterAddEdgesState();
-                System.out.print("enterAddEdges");
                 break;
             case SELECTION:
                 enterSelectionState();
-                System.out.print("enterSelection");
                 break;
             case PATH_ADDING:
                 enterAddPathsState();
-                System.out.print("enterAddPaths");
                 break;
             default:
         }
-        System.out.println("(" + debugCount + ")");
     }
     
     //SUBMARK: Enter/Exit States
