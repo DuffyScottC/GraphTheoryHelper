@@ -7,7 +7,7 @@ package views;
 
 import controller.Values;
 import element.Edge;
-import element.GPath;
+import element.Walk;
 import element.Graph;
 import element.Vertex;
 import java.awt.BasicStroke;
@@ -72,11 +72,11 @@ public class Canvas extends JTextArea {
     private Edge editingEdge = null;
     
     /**
-     * The selected path, or the active path, that the user has clicked or
-     * is working on. Kept in sync with {@link GraphController.selectedPath} and
-     * {@link GraphSelectionHandeler.selectedPath}
+     * The selected walk, or the active walk, that the user has clicked or
+     * is working on. Kept in sync with {@link GraphController.selectedWalk} and
+     * {@link GraphSelectionHandeler.selectedWalk}
      */
-    private GPath selectedPath = null;
+    private Walk selectedWalk = null;
     
     /**
      * Only true if the user has clicked inside of an edge's control point and
@@ -109,7 +109,7 @@ public class Canvas extends JTextArea {
         drawEdges(g2);
         drawVertices(g2);
         drawSelectionBox(g2);
-        drawSelectedPath(g2);
+        drawSelectedWalk(g2);
         drawEditingEdgeCtrlPoint(g2);
         
         graphOutputTextField.setText(graph.toString());
@@ -216,14 +216,14 @@ public class Canvas extends JTextArea {
         }
     }
     
-    private void drawSelectedPath(Graphics2D g2) {
-        if (selectedPath != null) {
-            selectedPath.draw(g2);
+    private void drawSelectedWalk(Graphics2D g2) {
+        if (selectedWalk != null) {
+            selectedWalk.draw(g2);
         }
     }
     
-    public void setSelectedPath(GPath selectedPath) {
-        this.selectedPath = selectedPath;
+    public void setSelectedWalk(Walk selectedWalk) {
+        this.selectedWalk = selectedWalk;
     }
     
     /**

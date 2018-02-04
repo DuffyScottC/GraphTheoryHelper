@@ -18,10 +18,10 @@ import java.util.List;
  *
  * @author Scott
  */
-public class GPath {
+public class Walk {
     
     /**
-     * This holds the edges in the path
+     * This holds the edges in the walk
      */
     private transient List<Edge> edges = new ArrayList();
     
@@ -32,15 +32,15 @@ public class GPath {
     private List<SimpleEdge> simpleEdges = new ArrayList();
     
     /**
-     * Creates a new GPath object with the specified edge as the first edge.
-     * @param edge The first edge in the path.
+     * Creates a new Walk object with the specified edge as the first edge.
+     * @param edge The first edge in the walk.
      */
-    public GPath(Edge edge) {
+    public Walk(Edge edge) {
         addEdge(edge);
     }
     
     /**
-     * Add an edge to the path (adds the edge and a matching simpleEdge)
+     * Add an edge to the walk (adds the edge and a matching simpleEdge)
      */
     public void addEdge(Edge edge) {
         edges.add(edge);
@@ -48,7 +48,7 @@ public class GPath {
     }
     
     /**
-     * Checks to see if the GPath contains the given edge
+     * Checks to see if the Walk contains the given edge
      * @param e The edge in question
      * @return 
      */
@@ -57,7 +57,7 @@ public class GPath {
     }
     
     /**
-     * Removes both the given Edge and its matching SimpleEdge from the path.
+     * Removes both the given Edge and its matching SimpleEdge from the walk.
      * @param e The Edge to be removed
      */
     public void removeEdge(Edge e) {
@@ -67,7 +67,7 @@ public class GPath {
     }
     
     /**
-     * Removes the edge at the given index from the path.
+     * Removes the edge at the given index from the walk.
      * @param index The index of the edge to be removed
      */
     public void removeEdge(int index) {
@@ -85,14 +85,14 @@ public class GPath {
     
     /**
      * A private helper method that draws an "edge" manually (rather than using
-     * the {@link Edge.draw(Graphics2D)} method) using path colors and stroke
+     * the {@link Edge.draw(Graphics2D)} method) using walk colors and stroke
      * widths.
      * @param g2
      * @param edge 
      */
     private void drawEdge(Graphics2D g2, Edge edge) {
-        g2.setStroke(new BasicStroke(Values.PATH_EDGE_STROKE_WIDTH));
-        g2.setColor(Values.PATH_EDGE_STROKE_COLOR);
+        g2.setStroke(new BasicStroke(Values.WALK_EDGE_STROKE_WIDTH));
+        g2.setColor(Values.WALK_EDGE_STROKE_COLOR);
         //Convert the center points of the two endpoints to ints:
         int x1 = (int) edge.getEndpoint1().getCenter().getX();
         int y1 = (int) edge.getEndpoint1().getCenter().getY();
@@ -109,7 +109,7 @@ public class GPath {
     
     /**
      * A private helper method that draws a "vertex" manually (rather than using
-     * the {@link Vertex.draw(Graphics2D)} method) using path colors and stroke
+     * the {@link Vertex.draw(Graphics2D)} method) using walk colors and stroke
      * widths. 
      * @param g2
      * @param vertex The vertex to draw
@@ -122,15 +122,15 @@ public class GPath {
         
         //Actually draw the vertex:
         //set the stroke width
-        g2.setStroke(new BasicStroke(Values.PATH_VERTEX_STROKE_WIDTH));
+        g2.setStroke(new BasicStroke(Values.WALK_VERTEX_STROKE_WIDTH));
         //Draw fill circle:
-        g2.setColor(Values.PATH_VERTEX_FILL_COLOR); //set the circle's color
+        g2.setColor(Values.WALK_VERTEX_FILL_COLOR); //set the circle's color
         //initialize the shape object
         Ellipse2D.Double ellipse = new Ellipse2D.Double(0, 0, 
                 Values.DIAMETER, Values.DIAMETER);
         g2.fill(ellipse); //fill in the circle in that color
         //Draw outline circle:
-        g2.setColor(Values.PATH_VERTEX_STROKE_COLOR); //set the circle's color
+        g2.setColor(Values.WALK_VERTEX_STROKE_COLOR); //set the circle's color
         g2.draw(ellipse); //draw the outline in that color
         
         g2.setTransform(t); //restore each after drawing

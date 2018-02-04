@@ -134,12 +134,12 @@
                 <Property name="text" type="java.lang.String" value="Selection"/>
               </Properties>
             </MenuItem>
-            <MenuItem class="javax.swing.JCheckBoxMenuItem" name="addPathsMenuItem">
+            <MenuItem class="javax.swing.JCheckBoxMenuItem" name="addWalksMenuItem">
               <Properties>
                 <Property name="accelerator" type="javax.swing.KeyStroke" editor="org.netbeans.modules.form.editors.KeyStrokeEditor">
-                  <KeyStroke key="P"/>
+                  <KeyStroke key="W"/>
                 </Property>
-                <Property name="text" type="java.lang.String" value="Add Paths"/>
+                <Property name="text" type="java.lang.String" value="Add Walks"/>
               </Properties>
             </MenuItem>
             <MenuItem class="javax.swing.JPopupMenu$Separator" name="jSeparator2">
@@ -405,9 +405,9 @@
                 </Component>
               </SubComponents>
             </Container>
-            <Component class="javax.swing.JLabel" name="pathsLabel">
+            <Component class="javax.swing.JLabel" name="walksLabel">
               <Properties>
-                <Property name="text" type="java.lang.String" value="Paths:"/>
+                <Property name="text" type="java.lang.String" value="Walks:"/>
               </Properties>
               <Constraints>
                 <Constraint layoutClass="org.netbeans.modules.form.compat2.layouts.DesignGridBagLayout" value="org.netbeans.modules.form.compat2.layouts.DesignGridBagLayout$GridBagConstraintsDescription">
@@ -415,7 +415,7 @@
                 </Constraint>
               </Constraints>
             </Component>
-            <Container class="javax.swing.JScrollPane" name="pathsScrollPane">
+            <Container class="javax.swing.JScrollPane" name="walksScrollPane">
               <AuxValues>
                 <AuxValue name="autoScrollPane" type="java.lang.Boolean" value="true"/>
               </AuxValues>
@@ -427,7 +427,7 @@
 
               <Layout class="org.netbeans.modules.form.compat2.layouts.support.JScrollPaneSupportLayout"/>
               <SubComponents>
-                <Component class="javax.swing.JList" name="pathsList">
+                <Component class="javax.swing.JList" name="walksList">
                   <Properties>
                     <Property name="model" type="javax.swing.ListModel" editor="org.netbeans.modules.form.editors2.ListModelEditor">
                       <StringArray count="5">
@@ -507,12 +507,12 @@
             <Property name="verticalTextPosition" type="int" value="3"/>
           </Properties>
         </Component>
-        <Component class="javax.swing.JToggleButton" name="addPathsButton">
+        <Component class="javax.swing.JToggleButton" name="addWalksButton">
           <Properties>
             <Property name="icon" type="javax.swing.Icon" editor="org.netbeans.modules.form.editors2.IconEditor">
               <Image iconType="3" name="/add-paths-icon.png"/>
             </Property>
-            <Property name="toolTipText" type="java.lang.String" value="Add paths between vertices (P)"/>
+            <Property name="toolTipText" type="java.lang.String" value="Add walks between vertices (W)"/>
             <Property name="focusable" type="boolean" value="false"/>
             <Property name="horizontalTextPosition" type="int" value="0"/>
             <Property name="verticalTextPosition" type="int" value="3"/>

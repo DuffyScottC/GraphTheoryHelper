@@ -30,12 +30,12 @@ public class Values {
     public static final Color VERTEX_PRESSED_COLOR = VERTEX_FILL_COLOR.darker();//new Color(200, 0, 0);
     public static final Color VERTEX_AVAILABLE_STROKE_COLOR = EDGE_HIGHLIGHT_COLOR;
     
-    //MARK: Path properties
-    public static final float PATH_EDGE_STROKE_WIDTH = 3.0f;
-    public static final float PATH_VERTEX_STROKE_WIDTH = 1.5f;
-    public static final Color PATH_EDGE_STROKE_COLOR = Color.orange;
-    public static final Color PATH_VERTEX_FILL_COLOR = Color.orange.brighter();
-    public static final Color PATH_VERTEX_STROKE_COLOR = Color.orange;
+    //MARK: Walk properties
+    public static final float WALK_EDGE_STROKE_WIDTH = 3.0f;
+    public static final float WALK_VERTEX_STROKE_WIDTH = 1.5f;
+    public static final Color WALK_EDGE_STROKE_COLOR = Color.orange;
+    public static final Color WALK_VERTEX_FILL_COLOR = Color.orange.brighter();
+    public static final Color WALK_VERTEX_STROKE_COLOR = Color.orange;
     
     //MARK: User preference keys
     /**
@@ -64,7 +64,7 @@ public class Values {
                 break;
             case SELECTION:
                 break;
-            case PATH_ADDING:
+            case WALK_ADDING:
                 break;
             default:
         }
@@ -73,7 +73,7 @@ public class Values {
         VERTEX_ADDING,
         EDGE_ADDING,
         SELECTION,
-        PATH_ADDING
+        WALK_ADDING
     }
     
 }

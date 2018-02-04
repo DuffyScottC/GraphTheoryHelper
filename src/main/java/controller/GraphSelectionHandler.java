@@ -7,7 +7,7 @@ package controller;
 
 import element.Edge;
 import element.Graph;
-import element.GPath;
+import element.Walk;
 import element.Vertex;
 import java.util.ArrayList;
 import java.util.List;
@@ -23,10 +23,10 @@ import views.GraphFrame;
 public class GraphSelectionHandler {
     
     /**
-     * The selected path, or the active path, that the user has clicked or
-     * is working on. Kept in sync with {@link Canvas.selectedPath}
+     * The selected walk, or the active walk, that the user has clicked or
+     * is working on. Kept in sync with {@link Canvas.selectedWalk}
      */
-    private GPath selectedPath = null;
+    private Walk selectedWalk = null;
     /**
      * the last selected vertex in the vertices JList (Used for things like
      * setting the title text field, updating the title, changing the color,
@@ -49,7 +49,7 @@ public class GraphSelectionHandler {
     private final List<Integer> selectedEdgeIndices = new ArrayList();
     private final JList verticesList;
     private final JList edgesList;
-    private final JList pathsList;
+    private final JList walksList;
     private final JTextField titleTextField;
     private final List<Vertex> vertices;
     private final List<Edge> edges;
@@ -61,7 +61,7 @@ public class GraphSelectionHandler {
         //the visual JList that the user sees and interacts with
         verticesList = frame.getVerticesList(); 
         edgesList = frame.getEdgesList();
-        pathsList = frame.getPathsList();
+        walksList = frame.getWalksList();
         titleTextField = frame.getTitleTextField();
         canvas = frame.getCanvas();
         this.graph = graph;
@@ -135,15 +135,15 @@ public class GraphSelectionHandler {
         }
     }
     
-    public void setSelectedPath(GPath selectedPath) {
-        //assign the selectedPath
-        this.selectedPath = selectedPath;
-        //assign canvas's selectedPath
-        canvas.setSelectedPath(selectedPath);
-        //get the index of the selectedPath
-        int index = graph.getPaths().indexOf(selectedPath);
-        //select the path in the JList
-        pathsList.setSelectedIndex(index);
+    public void setSelectedWalk(Walk selectedWalk) {
+        //assign the selectedWalk
+        this.selectedWalk = selectedWalk;
+        //assign canvas's selectedWalk
+        canvas.setSelectedWalk(selectedWalk);
+        //get the index of the selectedWalk
+        int index = graph.getWalks().indexOf(selectedWalk);
+        //select the walk in the JList
+        walksList.setSelectedIndex(index);
     }
 
     public List<Edge> getSelectedEdges() {
@@ -170,7 +170,7 @@ public class GraphSelectionHandler {
         return selectedVertices;
     }
     
-    public GPath getSelectedPath() {
-        return selectedPath;
+    public Walk getSelectedWalk() {
+        return selectedWalk;
     }
 }

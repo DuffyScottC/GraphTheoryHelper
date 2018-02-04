@@ -26,9 +26,9 @@ public class Graph implements Serializable {
      */
     private transient final List<Edge> edges = new ArrayList<>();
     /**
-     * the paths which appear in canvas and the paths JList
+     * the walks which appear in canvas and the walks JList
      */
-    private final List<GPath> paths = new ArrayList<>();
+    private final List<Walk> walks = new ArrayList<>();
     /**
      * a list of SimpleEdges which will be used for saving and loading the edges
      * from JSON serialization. Edge objects are not good for storing because
@@ -115,8 +115,8 @@ public class Graph implements Serializable {
         return edges;
     }
     
-    public List<GPath> getPaths() {
-        return paths;
+    public List<Walk> getWalks() {
+        return walks;
     }
     
     public List<SimpleEdge> getSimpleEdges() {

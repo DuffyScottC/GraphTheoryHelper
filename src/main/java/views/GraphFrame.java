@@ -29,7 +29,7 @@ public class GraphFrame extends javax.swing.JFrame {
 //        addVerticesButton.setIcon(new javax.swing.ImageIcon(GraphFrame.class.getClassLoader().getResource("add-vertices-icon.png")));
 //        addEdgesButton.setIcon(new javax.swing.ImageIcon(GraphFrame.class.getClassLoader().getResource("add-edges-icon.png")));
 //        selectionButton.setIcon(new javax.swing.ImageIcon(GraphFrame.class.getClassLoader().getResource("selection-icon.png")));
-//        addPathsButton.setIcon(new javax.swing.ImageIcon(GraphFrame.class.getClassLoader().getResource("add-paths-icon.png")));
+//        addWalksButton.setIcon(new javax.swing.ImageIcon(GraphFrame.class.getClassLoader().getResource("add-walks-icon.png")));
 //        deleteButton.setIcon(new javax.swing.ImageIcon(GraphFrame.class.getClassLoader().getResource("delete-icon.png")));
     }
 
@@ -59,14 +59,14 @@ public class GraphFrame extends javax.swing.JFrame {
         propertiesPanel = new javax.swing.JPanel();
         JLabel3 = new javax.swing.JLabel();
         titleTextField = new javax.swing.JTextField();
-        pathsLabel = new javax.swing.JLabel();
-        pathsScrollPane = new javax.swing.JScrollPane();
-        pathsList = new javax.swing.JList<>();
+        walksLabel = new javax.swing.JLabel();
+        walksScrollPane = new javax.swing.JScrollPane();
+        walksList = new javax.swing.JList<>();
         toolBar = new javax.swing.JToolBar();
         addVerticesButton = new javax.swing.JToggleButton();
         addEdgesButton = new javax.swing.JToggleButton();
         selectionButton = new javax.swing.JToggleButton();
-        addPathsButton = new javax.swing.JToggleButton();
+        addWalksButton = new javax.swing.JToggleButton();
         deleteButton = new javax.swing.JButton();
         myMenuBar = new javax.swing.JMenuBar();
         fileMenu = new javax.swing.JMenu();
@@ -86,7 +86,7 @@ public class GraphFrame extends javax.swing.JFrame {
         addVerticesMenuItem = new javax.swing.JCheckBoxMenuItem();
         addEdgesMenuItem = new javax.swing.JCheckBoxMenuItem();
         selectionMenuItem = new javax.swing.JCheckBoxMenuItem();
-        addPathsMenuItem = new javax.swing.JCheckBoxMenuItem();
+        addWalksMenuItem = new javax.swing.JCheckBoxMenuItem();
         jSeparator2 = new javax.swing.JPopupMenu.Separator();
         deleteMenuItem = new javax.swing.JMenuItem();
         changeColorsMenuItem = new javax.swing.JMenuItem();
@@ -208,25 +208,25 @@ public class GraphFrame extends javax.swing.JFrame {
         gridBagConstraints.fill = java.awt.GridBagConstraints.BOTH;
         inspectorPanelJPanel.add(propertiesPanel, gridBagConstraints);
 
-        pathsLabel.setText("Paths:");
+        walksLabel.setText("Walks:");
         gridBagConstraints = new java.awt.GridBagConstraints();
         gridBagConstraints.gridx = 0;
         gridBagConstraints.gridy = 6;
         gridBagConstraints.fill = java.awt.GridBagConstraints.HORIZONTAL;
         gridBagConstraints.anchor = java.awt.GridBagConstraints.LINE_START;
         gridBagConstraints.insets = new java.awt.Insets(0, 4, 0, 4);
-        inspectorPanelJPanel.add(pathsLabel, gridBagConstraints);
+        inspectorPanelJPanel.add(walksLabel, gridBagConstraints);
 
-        pathsList.setModel(new javax.swing.AbstractListModel<String>() {
+        walksList.setModel(new javax.swing.AbstractListModel<String>() {
             String[] strings = { "Item 1", "Item 2", "Item 3", "Item 4", "Item 5" };
             public int getSize() { return strings.length; }
             public String getElementAt(int i) { return strings[i]; }
         });
-        pathsList.setMaximumSize(new java.awt.Dimension(138, 85));
-        pathsList.setMinimumSize(new java.awt.Dimension(138, 85));
-        pathsList.setPreferredSize(new java.awt.Dimension(138, 85));
-        pathsList.setSize(new java.awt.Dimension(138, 0));
-        pathsScrollPane.setViewportView(pathsList);
+        walksList.setMaximumSize(new java.awt.Dimension(138, 85));
+        walksList.setMinimumSize(new java.awt.Dimension(138, 85));
+        walksList.setPreferredSize(new java.awt.Dimension(138, 85));
+        walksList.setSize(new java.awt.Dimension(138, 0));
+        walksScrollPane.setViewportView(walksList);
 
         gridBagConstraints = new java.awt.GridBagConstraints();
         gridBagConstraints.gridx = 0;
@@ -235,7 +235,7 @@ public class GraphFrame extends javax.swing.JFrame {
         gridBagConstraints.weightx = 0.1;
         gridBagConstraints.weighty = 0.1;
         gridBagConstraints.insets = new java.awt.Insets(0, 4, 0, 4);
-        inspectorPanelJPanel.add(pathsScrollPane, gridBagConstraints);
+        inspectorPanelJPanel.add(walksScrollPane, gridBagConstraints);
 
         gridBagConstraints = new java.awt.GridBagConstraints();
         gridBagConstraints.gridx = 2;
@@ -269,12 +269,12 @@ public class GraphFrame extends javax.swing.JFrame {
         selectionButton.setVerticalTextPosition(javax.swing.SwingConstants.BOTTOM);
         toolBar.add(selectionButton);
 
-        addPathsButton.setIcon(new javax.swing.ImageIcon(getClass().getResource("/add-paths-icon.png"))); // NOI18N
-        addPathsButton.setToolTipText("Add paths between vertices (P)");
-        addPathsButton.setFocusable(false);
-        addPathsButton.setHorizontalTextPosition(javax.swing.SwingConstants.CENTER);
-        addPathsButton.setVerticalTextPosition(javax.swing.SwingConstants.BOTTOM);
-        toolBar.add(addPathsButton);
+        addWalksButton.setIcon(new javax.swing.ImageIcon(getClass().getResource("/add-paths-icon.png"))); // NOI18N
+        addWalksButton.setToolTipText("Add walks between vertices (W)");
+        addWalksButton.setFocusable(false);
+        addWalksButton.setHorizontalTextPosition(javax.swing.SwingConstants.CENTER);
+        addWalksButton.setVerticalTextPosition(javax.swing.SwingConstants.BOTTOM);
+        toolBar.add(addWalksButton);
 
         deleteButton.setIcon(new javax.swing.ImageIcon(getClass().getResource("/delete-icon.png"))); // NOI18N
         deleteButton.setToolTipText("Delete (backspace)");
@@ -362,9 +362,9 @@ public class GraphFrame extends javax.swing.JFrame {
         selectionMenuItem.setText("Selection");
         toolsMenu.add(selectionMenuItem);
 
-        addPathsMenuItem.setAccelerator(javax.swing.KeyStroke.getKeyStroke(java.awt.event.KeyEvent.VK_P, 0));
-        addPathsMenuItem.setText("Add Paths");
-        toolsMenu.add(addPathsMenuItem);
+        addWalksMenuItem.setAccelerator(javax.swing.KeyStroke.getKeyStroke(java.awt.event.KeyEvent.VK_W, 0));
+        addWalksMenuItem.setText("Add Walks");
+        toolsMenu.add(addWalksMenuItem);
         toolsMenu.add(jSeparator2);
 
         deleteMenuItem.setAccelerator(javax.swing.KeyStroke.getKeyStroke(java.awt.event.KeyEvent.VK_BACK_SPACE, 0));
@@ -409,10 +409,10 @@ public class GraphFrame extends javax.swing.JFrame {
     private javax.swing.JToggleButton addEdgesButton;
     private javax.swing.JCheckBoxMenuItem addEdgesMenuItem;
     private javax.swing.JMenuItem addGraphMenuItem;
-    private javax.swing.JToggleButton addPathsButton;
-    private javax.swing.JCheckBoxMenuItem addPathsMenuItem;
     private javax.swing.JToggleButton addVerticesButton;
     private javax.swing.JCheckBoxMenuItem addVerticesMenuItem;
+    private javax.swing.JToggleButton addWalksButton;
+    private javax.swing.JCheckBoxMenuItem addWalksMenuItem;
     private javax.swing.JTextArea canvasTextArea;
     private javax.swing.JMenuItem changeColorsMenuItem;
     private javax.swing.JMenuItem checkForUpdatesMenuItem;
@@ -437,9 +437,6 @@ public class GraphFrame extends javax.swing.JFrame {
     private javax.swing.JMenuBar myMenuBar;
     private javax.swing.JMenuItem newMenuItem;
     private javax.swing.JMenuItem openMenuItem;
-    private javax.swing.JLabel pathsLabel;
-    private javax.swing.JList<String> pathsList;
-    private javax.swing.JScrollPane pathsScrollPane;
     private javax.swing.JPanel propertiesPanel;
     private javax.swing.JMenuItem rotate90MenuItem;
     private javax.swing.JMenuItem saveAsMenuItem;
@@ -455,6 +452,9 @@ public class GraphFrame extends javax.swing.JFrame {
     private javax.swing.JList<String> verticesList;
     private javax.swing.JScrollPane verticesScrollPane;
     private javax.swing.JMenu viewMenu;
+    private javax.swing.JLabel walksLabel;
+    private javax.swing.JList<String> walksList;
+    private javax.swing.JScrollPane walksScrollPane;
     // End of variables declaration//GEN-END:variables
 
     public JToggleButton getAddEdgesButton() {
@@ -465,8 +465,8 @@ public class GraphFrame extends javax.swing.JFrame {
         return addVerticesButton;
     }
     
-    public JToggleButton getAddPathsButton() {
-        return addPathsButton;
+    public JToggleButton getAddWalksButton() {
+        return addWalksButton;
     }
 
     public Canvas getCanvas() {
@@ -509,8 +509,8 @@ public class GraphFrame extends javax.swing.JFrame {
         return verticesList;
     }
     
-    public JList<String> getPathsList() {
-        return pathsList;
+    public JList<String> getWalksList() {
+        return walksList;
     }
     
     public JMenuItem getShowVertexNamesMenuItem() {
@@ -563,8 +563,8 @@ public class GraphFrame extends javax.swing.JFrame {
         return selectionMenuItem;
     }
     
-    public JCheckBoxMenuItem getAddPathsMenuItem() {
-        return addPathsMenuItem;
+    public JCheckBoxMenuItem getAddWalksMenuItem() {
+        return addWalksMenuItem;
     }
     
     public JMenuItem getDeleteMenuItem() {

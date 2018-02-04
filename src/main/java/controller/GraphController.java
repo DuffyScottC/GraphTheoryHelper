@@ -11,7 +11,7 @@ import com.google.gson.JsonSyntaxException;
 import controller.Values.States;
 import element.Edge;
 import element.Graph;
-import element.GPath;
+import element.Walk;
 import element.SimpleEdge;
 import element.Vertex;
 import java.awt.Color;
@@ -67,11 +67,11 @@ public class GraphController {
     private JTextField titleTextField;
     private JList verticesList;
     private JList edgesList;
-    private JList pathsList;
+    private JList walksList;
     private JToggleButton addVerticesButton;
     private JToggleButton addEdgesButton;
     private JToggleButton selectionButton;
-    private JToggleButton addPathsButton;
+    private JToggleButton addWalksButton;
 
     //SUBMARK: Selection state
     /**
@@ -82,7 +82,7 @@ public class GraphController {
     // models for vertex and edge selection lists
     private final DefaultListModel verticesListModel = new DefaultListModel();
     private final DefaultListModel edgesListModel = new DefaultListModel();
-    private final DefaultListModel pathsListModel = new DefaultListModel();
+    private final DefaultListModel walksListModel = new DefaultListModel();
 
     /**
      * The x-coordinate of the start point of the multiple-selection box.
@@ -135,7 +135,7 @@ public class GraphController {
 
     private final List<Vertex> vertices = graph.getVertices();
     private final List<Edge> edges = graph.getEdges();
-    private final List<GPath> paths = graph.getPaths();
+    private final List<Walk> walks = graph.getWalks();
 
     //MARK: File I/O:
     /**
@@ -183,15 +183,15 @@ public class GraphController {
         //Get the two JLists
         verticesList = frame.getVerticesList(); //the visual JList that the user sees and interacts with
         edgesList = frame.getEdgesList(); //the visual JList that the user sees and interacts with
-        pathsList = frame.getPathsList(); //the visual JList that the user sees and interacts with
+        walksList = frame.getWalksList(); //the visual JList that the user sees and interacts with
 
         //Remove the up/down arrow key action from both JLists (too hard to deal with for now)
         verticesList.getInputMap().put(KeyStroke.getKeyStroke("DOWN"), "none"); //make it do nothing
         verticesList.getInputMap().put(KeyStroke.getKeyStroke("UP"), "none"); //make it do nothing
         edgesList.getInputMap().put(KeyStroke.getKeyStroke("DOWN"), "none"); //make it do nothing
         edgesList.getInputMap().put(KeyStroke.getKeyStroke("UP"), "none"); //make it do nothing
-        pathsList.getInputMap().put(KeyStroke.getKeyStroke("DOWN"), "none"); //make it do nothing
-        pathsList.getInputMap().put(KeyStroke.getKeyStroke("UP"), "none"); //make it do nothing
+        walksList.getInputMap().put(KeyStroke.getKeyStroke("DOWN"), "none"); //make it do nothing
+        walksList.getInputMap().put(KeyStroke.getKeyStroke("UP"), "none"); //make it do nothing
 
         //remove the backspace action from canvas to prevent error beep
         canvas.getInputMap().put(KeyStroke.getKeyStroke("BACK_SPACE"), "none");
@@ -210,7 +210,7 @@ public class GraphController {
         addVerticesButton = frame.getAddVerticesButton();
         addEdgesButton = frame.getAddEdgesButton();
         selectionButton = frame.getSelectionButton();
-        addPathsButton = frame.getAddPathsButton();
+        addWalksButton = frame.getAddWalksButton();
 
         graphStateMachine = new GraphStateMachine(frame,
                 graph,
@@ -295,8 +295,8 @@ public class GraphController {
                         endY = my;
                         canvas.setEndPosition(endX, endY);
                         break;
-                    case PATH_ADDING:
-                        addEdgeToPath(mx, my);
+                    case WALK_ADDING:
+                        addEdgeToWalk(mx, my);
                         break;
                     default:
                         System.out.println("This should never happen.");
@@ -509,11 +509,11 @@ public class GraphController {
         //set them to their respective JLists
         verticesList.setModel(verticesListModel);
         edgesList.setModel(edgesListModel);
-        pathsList.setModel(pathsListModel);
+        walksList.setModel(walksListModel);
         //set their selection modes
         verticesList.setSelectionMode(ListSelectionModel.MULTIPLE_INTERVAL_SELECTION);
         edgesList.setSelectionMode(ListSelectionModel.MULTIPLE_INTERVAL_SELECTION);
-        pathsList.setSelectionMode(ListSelectionModel.SINGLE_SELECTION);
+        walksList.setSelectionMode(ListSelectionModel.SINGLE_SELECTION);
 
         frame.getSaveAsMenuItem().addActionListener((ActionEvent e) -> {
             saveGraphAs();
@@ -623,11 +623,11 @@ public class GraphController {
                 prefs.put(Values.LAST_FILE_PATH, currentDirectory.toString());
             }
 
-            element.GPath debugPath = new element.GPath(graph.getEdges().get(0));
-            debugPath.addEdge(graph.getEdges().get(1));
-            graph.getPaths().add(debugPath);
-            updatePathsListModel();
-            System.out.println("debugPath: " + debugPath);
+            element.Walk debugWalk = new element.Walk(graph.getEdges().get(0));
+            debugWalk.addEdge(graph.getEdges().get(1));
+            graph.getWalks().add(debugWalk);
+            updateWalksListModel();
+            System.out.println("debugWalk: " + debugWalk);
         });
 
         frame.getSaveMenuItem().addActionListener((ActionEvent e) -> {
@@ -923,7 +923,7 @@ public class GraphController {
         addVerticesButton.addKeyListener(keyboardShortcuts);
         addEdgesButton.addKeyListener(keyboardShortcuts);
         selectionButton.addKeyListener(keyboardShortcuts);
-        addPathsButton.addKeyListener(keyboardShortcuts);
+        addWalksButton.addKeyListener(keyboardShortcuts);
 //        titleTextField.addKeyListener(keyboardShortcuts);
         frame.getDeleteButton().addKeyListener(keyboardShortcuts);
         frame.getGraphOutputTextField().addKeyListener(keyboardShortcuts);
@@ -1960,43 +1960,43 @@ public class GraphController {
     }
 
     /**
-     * The code that handles adding an element to the path when the user clicks.
+     * The code that handles adding an element to the walk when the user clicks.
      *
      * @param mx The x coordinate of the user's click
      * @param my The y coordinate of the user's click
      */
-    private void addEdgeToPath(int mx, int my) {
+    private void addEdgeToWalk(int mx, int my) {
         //loop through all the vertices
         for (Edge currentEdge : edges) {
             //if the user clicked this edge
             if (isEdgeClicked(currentEdge, mx, my)) {
-                //if there is at least one path in the graph
-                if (!paths.isEmpty()) {
-                    //if selectedPath already contains currentEdge
-                    if (graphSelectionHandler.getSelectedPath().contains(currentEdge)) {
-                        //remove currentEdge from the path
-                        graphSelectionHandler.getSelectedPath().removeEdge(currentEdge);
-                        pathsList.repaint();
+                //if there is at least one walk in the graph
+                if (!walks.isEmpty()) {
+                    //if selectedWalk already contains currentEdge
+                    if (graphSelectionHandler.getSelectedWalk().contains(currentEdge)) {
+                        //remove currentEdge from the walk
+                        graphSelectionHandler.getSelectedWalk().removeEdge(currentEdge);
+                        walksList.repaint();
                         canvas.repaint();
                         //exit the method because we are done now
                         return;
-                    } else { //if selectedPath does NOT already contain currentEdge
-                        //add the currentEdge to the path
-                        graphSelectionHandler.getSelectedPath().addEdge(currentEdge);
-                        pathsList.repaint();
+                    } else { //if selectedWalk does NOT already contain currentEdge
+                        //add the currentEdge to the walk
+                        graphSelectionHandler.getSelectedWalk().addEdge(currentEdge);
+                        walksList.repaint();
                         canvas.repaint();
                         //exit the method because we are done now
                         return;
                     }
-                } else { //if there are absolutely no paths in the graph
-                    //create a new path
-                    GPath newPath = new GPath(currentEdge);
-                    //add the new path to the graph
-                    paths.add(newPath);
+                } else { //if there are absolutely no walks in the graph
+                    //create a new walk
+                    Walk newWalk = new Walk(currentEdge);
+                    //add the new walk to the graph
+                    walks.add(newWalk);
                     //update the list model
-                    updatePathsListModel();
+                    updateWalksListModel();
                     //update the selection
-                    graphSelectionHandler.setSelectedPath(newPath);
+                    graphSelectionHandler.setSelectedWalk(newWalk);
                     canvas.repaint();
                     //we can be done searching
                     return;
@@ -2006,7 +2006,7 @@ public class GraphController {
         }
     }
 
-    private void addPath() {
+    private void addWalk() {
 
     }
 
@@ -2043,10 +2043,10 @@ public class GraphController {
         }
     }
 
-    public void updatePathsListModel() {
-        pathsListModel.removeAllElements();;
-        for (GPath p : paths) {
-            pathsListModel.addElement(p);
+    public void updateWalksListModel() {
+        walksListModel.removeAllElements();;
+        for (Walk p : walks) {
+            walksListModel.addElement(p);
         }
     }
 
