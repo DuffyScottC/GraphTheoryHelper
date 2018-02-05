@@ -9,6 +9,7 @@ import controller.Values;
 import java.awt.BasicStroke;
 import java.awt.Color;
 import java.awt.Graphics2D;
+import java.awt.Stroke;
 import java.awt.geom.Ellipse2D;
 import java.awt.geom.Point2D;
 import java.awt.geom.QuadCurve2D;
@@ -69,17 +70,37 @@ public class Edge extends Element {
     
     @Override
     public void draw(Graphics2D g2) {
-        draw(g2, this.strokeColor);
-    }
-    
-    public void draw(Graphics2D g2, Color strokeColor) {
+        //if this element is hidden, don't draw it
+        if (isWalkHidden) {
+            return;
+        }
+        
+        //set up stroke if neccessary
         if (stroke == null) {
             stroke = new BasicStroke(strokeWidth);
         }
-        g2.setStroke(stroke);
         
-        g2.setColor(strokeColor);
+        //initialize the stroke and strokeColor
+        Stroke currentStroke = stroke;
+        Color currentStrokeColor = strokeColor;
         
+        //if this edge is highlighted
+        if (isHighlighted) {
+            //change the current properties to the highlighted mode
+            currentStroke = new BasicStroke(Values.EDGE_HIGHLIGHT_STROKE_WIDTH);
+            currentStrokeColor = Values.EDGE_HIGHLIGHT_COLOR;
+            //if this edge is NOT highlighted and is part of a shown walk
+        } else if (isWalkShown) {
+            //change the current properties to the shown walk mode
+            currentStroke = new BasicStroke(Values.WALK_EDGE_STROKE_WIDTH);
+            currentStrokeColor = Values.WALK_EDGE_STROKE_COLOR;
+        }
+        //If this edge is neither highlighted nor part of a shown walk, then
+        //leave the colors as the default (chosen by the user or default)
+        
+        //Actually draw:
+        g2.setStroke(currentStroke);
+        g2.setColor(currentStrokeColor);
         //Convert the center points of the two endpoints to ints
         int x1 = (int) endpoint1.getCenter().getX();
         int y1 = (int) endpoint1.getCenter().getY();
