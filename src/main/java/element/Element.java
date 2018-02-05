@@ -23,6 +23,22 @@ public abstract class Element implements Serializable {
     protected double xLoc = 0;
     protected double yLoc = 0;
     protected String title = "A";
+    
+    /**
+     * Is only true if this element is highlighted (selected, etc)
+     */
+    protected transient boolean isHighlighted = false;
+    /**
+     * Is only true if this element is part of a hidden walk (meaning the user
+     * wants it to not be shown at all)
+     */
+    protected transient boolean isWalkHidden = false;
+    /**
+     * Is only true if this element is part of a walk that is highlighted
+     * (meaning the user has the walk selected and this element should be
+     * orange)
+     */
+    protected transient boolean isWalkShown = false;
 
     // the stroke is created from strokeWidth + BasicStroke
     // but BasicStroke is not serializable, so the actual
