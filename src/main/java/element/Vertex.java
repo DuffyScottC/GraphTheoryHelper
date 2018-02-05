@@ -10,6 +10,7 @@ import java.awt.BasicStroke;
 import java.awt.Color;
 import java.awt.Graphics2D;
 import java.awt.Shape;
+import java.awt.Stroke;
 import java.awt.geom.Ellipse2D;
 import java.awt.geom.Point2D;
 import java.util.ArrayList;
@@ -58,23 +59,46 @@ public class Vertex extends Element {
     
     @Override
     public void draw(Graphics2D g2) {
-        this.draw(g2, strokeColor, fillColor);
-    }
-    
-    public void draw(Graphics2D g2, Color strokeColor, Color fillColor) {
+        //if this element is hidden, don't draw it
+        if (isWalkHidden) {
+            return;
+        }
+        
+        //set up stroke if neccessary
         if (stroke == null) {
             stroke = new BasicStroke(strokeWidth);
         }
-        g2.setStroke(stroke);
         
-        g2.setColor(fillColor); //set the circle's color
+        //initialize the stroke and strokeColor
+        Stroke currentStroke = stroke;
+        Color currentStrokeColor = strokeColor;
+        Color currentFillColor = fillColor;
+        
+        //if this edge is highlighted
+        if (isHighlighted) {
+            //change the current properties to the highlighted mode
+            currentStroke = new BasicStroke(Values.VERTEX_HIGHLIGHT_STROKE_WIDTH);
+            currentStrokeColor = Values.EDGE_HIGHLIGHT_COLOR;
+            //if this edge is NOT highlighted and is part of a shown walk
+        } else if (isWalkShown) {
+            //change the current properties to the shown walk mode
+            currentStroke = new BasicStroke(Values.WALK_VERTEX_STROKE_WIDTH);
+            currentStrokeColor = Values.WALK_VERTEX_STROKE_COLOR;
+            currentFillColor = Values.WALK_VERTEX_FILL_COLOR;
+        }
+        //If this edge is neither highlighted nor part of a shown walk, then
+        //leave the colors as the default (chosen by the user or default)
+        
+        //Actually draw:
+        g2.setStroke(currentStroke);
+        g2.setColor(currentFillColor); //set the circle's color
         //initialize the shape object
         shape = new Ellipse2D.Double(0, 0, diameter, diameter);
         g2.fill(shape); //fill in the circle in that color
         
         //if the strokeColor is null, we want NO outline.
-        if (strokeColor != null) {
-            g2.setColor(strokeColor); //set the circle's color
+        if (currentStrokeColor != null) {
+            g2.setColor(currentStrokeColor); //set the circle's color
             g2.draw(shape); //draw the outline in that color
         }
     }
