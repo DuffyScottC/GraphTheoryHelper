@@ -75,6 +75,18 @@ public abstract class Element implements Serializable {
     public String toString() {
         return title;
     }
+
+    public void setIsHighlighted(boolean isHighlighted) {
+        this.isHighlighted = isHighlighted;
+    }
+
+    public void setIsWalkHidden(boolean isWalkHidden) {
+        this.isWalkHidden = isWalkHidden;
+    }
+
+    public void setIsWalkShown(boolean isWalkShown) {
+        this.isWalkShown = isWalkShown;
+    }
     
     @Override
     public boolean equals(Object obj) {
