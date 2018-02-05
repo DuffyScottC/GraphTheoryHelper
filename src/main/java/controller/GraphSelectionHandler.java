@@ -81,7 +81,7 @@ public class GraphSelectionHandler {
             //loop through the old vertices
             for (Vertex selectedVertex : selectedVertices) {
                 //unhighlight each one
-                graph.unHighlightVertex(selectedVertex);
+                selectedVertex.setIsHighlighted(false);
             }
         }
 
@@ -96,7 +96,7 @@ public class GraphSelectionHandler {
             //store the new selected vertices:
             for (int i : selectedVertexIndices) { //loop through the selected indices
                 Vertex selectedVertex = vertices.get(i); //store this selected vertex
-                graph.highlightVertex(selectedVertex);
+                selectedVertex.setIsHighlighted(true);
                 selectedVertices.add(selectedVertex); //add the new selection
             }
             if (selectedVertices.size() == 1) { //if exactly one vertex was selected
@@ -116,7 +116,7 @@ public class GraphSelectionHandler {
             //loop through the old edges
             for (Edge selectedEdge : selectedEdges) {
                 //unhighlight each one
-                graph.unHighlightEdge(selectedEdge);
+                selectedEdge.setIsHighlighted(false);
             }
         }
 
@@ -129,7 +129,7 @@ public class GraphSelectionHandler {
             //store the new selected edges
             for (int i : selectedEdgeIndices) { //loop through the selected indices
                 Edge selectedEdge = edges.get(i); //store this selected edge
-                graph.highlightEdge(selectedEdge);
+                selectedEdge.setIsHighlighted(true);
                 selectedEdges.add(selectedEdge); //add the new selection
             }
         }

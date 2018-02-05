@@ -202,33 +202,11 @@ public class Graph implements Serializable {
         for (Vertex v : vertices) {
             //if this vertex is available to add edges to
             if (v.canAddEdges()) {
-                v.setStrokeColor(Values.VERTEX_AVAILABLE_STROKE_COLOR);
-                v.setStrokeWidth(Values.VERTEX_HIGHLIGHT_STROKE_WIDTH);
+                v.setIsHighlighted(true);
             } else { //if this vertex is completely full
-                v.setStrokeColor(vertexStrokeColor);
-                v.setStrokeWidth(Values.VERTEX_STROKE_WIDTH);
+                v.setIsHighlighted(false);
             }
         }
-    }
-    
-    public void highlightVertex(Vertex vertex) {
-        vertex.setStrokeColor(Values.EDGE_HIGHLIGHT_COLOR);
-        vertex.setStrokeWidth(Values.VERTEX_HIGHLIGHT_STROKE_WIDTH);
-    }
-
-    public void unHighlightVertex(Vertex vertex) {
-        vertex.setStrokeColor(vertexStrokeColor);
-        vertex.setStrokeWidth(Values.VERTEX_STROKE_WIDTH);
-    }
-
-    public void highlightEdge(Edge edge) {
-        edge.setStrokeWidth(Values.EDGE_HIGHLIGHT_STROKE_WIDTH);
-        edge.setStrokeColor(Values.EDGE_HIGHLIGHT_COLOR);
-    }
-
-    public void unHighlightEdge(Edge edge) {
-        edge.setStrokeWidth(Values.EDGE_STROKE_WIDTH);
-        edge.setStrokeColor(edgeStrokeColor);
     }
     
     //MARK: Other methods

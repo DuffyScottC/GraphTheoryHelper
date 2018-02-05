@@ -232,7 +232,7 @@ public class GraphStateMachine {
         graph.setFirstSelectedVertex(null); //prepare for the next edge
         //Unhighlight all vertices
         for (Vertex v : graph.getVertices()) {
-            graph.unHighlightVertex(v);
+            v.setIsHighlighted(false);
         }
         //set the editingEdge to null
         canvas.setEditingEdge(null);
