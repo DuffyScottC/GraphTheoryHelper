@@ -74,8 +74,12 @@ public class Vertex extends Element {
         Color currentStrokeColor = strokeColor;
         Color currentFillColor = fillColor;
         
-        //if this edge is highlighted
-        if (isHighlighted) {
+        if (isPressed) {
+            //change the current properties to the highlighted mode
+            currentStroke = new BasicStroke(Values.VERTEX_HIGHLIGHT_STROKE_WIDTH);
+            currentStrokeColor = Values.EDGE_PRESSED_COLOR;
+            currentFillColor = Values.VERTEX_PRESSED_COLOR;
+        } else if (isHighlighted) { //if this edge is highlighted and NOT pressed
             //change the current properties to the highlighted mode
             currentStroke = new BasicStroke(Values.VERTEX_HIGHLIGHT_STROKE_WIDTH);
             currentStrokeColor = Values.EDGE_HIGHLIGHT_COLOR;

@@ -1150,8 +1150,7 @@ public class GraphController {
         }
         //cycle through all the clicked vertices
         for (Vertex clickedVertex : clickedVertices) {
-            clickedVertex.setFillColor(graph.getVertexFillColor().darker());
-            clickedVertex.setStrokeColor(Values.EDGE_PRESSED_COLOR);
+            clickedVertex.setIsPressed(true);
         }
     }
 
@@ -1161,7 +1160,7 @@ public class GraphController {
         }
         //cycle through all the clicked edges
         for (Edge clickedEdge : clickedEdges) {
-            clickedEdge.setStrokeColor(Values.EDGE_PRESSED_COLOR);
+            clickedEdge.setIsPressed(true);
         }
     }
 
@@ -1171,8 +1170,7 @@ public class GraphController {
         }
         //cycle through all the clicked vertices
         for (Vertex clickedVertex : clickedVertices) {
-            clickedVertex.setFillColor(graph.getVertexFillColor());
-            clickedVertex.setStrokeColor(Values.EDGE_HIGHLIGHT_COLOR);
+            clickedVertex.setIsPressed(false);
         }
     }
 
@@ -1182,7 +1180,7 @@ public class GraphController {
         }
         //cycle through all the clicked edges
         for (Edge clickedEdge : clickedEdges) {
-            clickedEdge.setStrokeColor(Values.EDGE_HIGHLIGHT_COLOR);
+            clickedEdge.setIsPressed(false);
         }
     }
 

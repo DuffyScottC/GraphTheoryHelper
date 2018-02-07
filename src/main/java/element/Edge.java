@@ -84,8 +84,12 @@ public class Edge extends Element {
         Stroke currentStroke = stroke;
         Color currentStrokeColor = strokeColor;
         
-        //if this edge is highlighted
-        if (isHighlighted) {
+        
+        if (isPressed) {
+            //change the current properties to the highlighted mode
+            currentStroke = new BasicStroke(Values.EDGE_HIGHLIGHT_STROKE_WIDTH);
+            currentStrokeColor = Values.EDGE_PRESSED_COLOR;
+        } else if (isHighlighted) { //if this edge is highlighted
             //change the current properties to the highlighted mode
             currentStroke = new BasicStroke(Values.EDGE_HIGHLIGHT_STROKE_WIDTH);
             currentStrokeColor = Values.EDGE_HIGHLIGHT_COLOR;

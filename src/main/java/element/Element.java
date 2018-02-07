@@ -29,6 +29,10 @@ public abstract class Element implements Serializable {
      */
     protected transient boolean isHighlighted = false;
     /**
+     * Is only true if this element is pressed (clicked on and held)
+     */
+    protected transient boolean isPressed = false;
+    /**
      * Is only true if this element is part of a hidden walk (meaning the user
      * wants it to not be shown at all)
      */
@@ -79,7 +83,11 @@ public abstract class Element implements Serializable {
     public void setIsHighlighted(boolean isHighlighted) {
         this.isHighlighted = isHighlighted;
     }
-
+    
+    public void setIsPressed(boolean isPressed) {
+        this.isPressed = isPressed;
+    }
+    
     public void setIsWalkHidden(boolean isWalkHidden) {
         this.isWalkHidden = isWalkHidden;
     }
