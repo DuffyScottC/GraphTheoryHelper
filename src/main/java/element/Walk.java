@@ -5,13 +5,6 @@
  */
 package element;
 
-import controller.Values;
-import controller.Values.WalkState;
-import java.awt.BasicStroke;
-import java.awt.Graphics2D;
-import java.awt.geom.AffineTransform;
-import java.awt.geom.Ellipse2D;
-import java.awt.geom.QuadCurve2D;
 import java.util.ArrayList;
 import java.util.List;
 
@@ -20,8 +13,6 @@ import java.util.List;
  * @author Scott
  */
 public class Walk {
-    
-    private transient WalkState walkState = WalkState.NORMAL;
     
     /**
      * This holds the edges in the walk
@@ -77,10 +68,6 @@ public class Walk {
     public void removeEdge(int index) {
         edges.remove(index);
         simpleEdges.remove(index);
-    }
-    
-    public void setWalkState(WalkState walkState) {
-        this.walkState = walkState;
     }
     
     @Override

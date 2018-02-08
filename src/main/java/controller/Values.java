@@ -112,17 +112,4 @@ public class Values {
         WALK_HIDDEN,
         WALK_SHOWN
     }
-    
-    /**
-     * The different states a Walk object can be in:<>
-     * NORMAL: Default state 
-     * SHOWN: Shown state (elements are orange)
-     * HIDDEN: Hidden state (elements are hidden)
-     */
-    public static enum WalkState {
-        NORMAL,
-        SHOWN,
-        HIDDEN
-    }
-    
 }
