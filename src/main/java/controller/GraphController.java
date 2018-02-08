@@ -2105,7 +2105,6 @@ public class GraphController {
      * out of the method
      */
     private boolean shouldContinue(String message) {
-        frame.requestFocusInWindow();
         isCommandPressed = false; //unpress command
         int selection = JOptionPane.showConfirmDialog(frame, message); //ask the user if they want to continue
         //if the user did not choose "yes", then we should cancel the operation
