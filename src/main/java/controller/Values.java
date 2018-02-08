@@ -36,6 +36,7 @@ public class Values {
     public static final Color WALK_EDGE_STROKE_COLOR = Color.orange;
     public static final Color WALK_VERTEX_FILL_COLOR = Color.orange.brighter();
     public static final Color WALK_VERTEX_STROKE_COLOR = Color.orange;
+    public static final Color WALK_VERTEX_PRESSED_COLOR = WALK_VERTEX_FILL_COLOR.darker();
     
     //MARK: User preference keys
     /**

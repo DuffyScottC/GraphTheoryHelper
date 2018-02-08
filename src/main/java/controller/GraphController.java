@@ -2100,7 +2100,7 @@ public class GraphController {
      * Convenience method that asks a user if they want to continue if they try
      * to 1) open a file without saving 2) create a new file without saving 3)
      * close the program without saving
-     *
+     * 
      * @return true if the process should continue, false if you should return
      * out of the method
      */

@@ -17,7 +17,7 @@ import java.util.ArrayList;
 import java.util.List;
 
 /**
- *
+ * 
  * @author Scott
  */
 public class Vertex extends Element {
@@ -76,12 +76,20 @@ public class Vertex extends Element {
         if (isPressed) {
             currentStroke = new BasicStroke(Values.VERTEX_HIGHLIGHT_STROKE_WIDTH);
             currentStrokeColor = Values.EDGE_PRESSED_COLOR;
-            currentFillColor = Values.VERTEX_PRESSED_COLOR;
+            //if this is pressed AND walkColored
+            if (isWalkColored) {
+                currentFillColor = Values.WALK_VERTEX_FILL_COLOR;
+            } else { //if this is pressed and NOT walkColored
+                currentFillColor = Values.WALK_VERTEX_PRESSED_COLOR;
+            }
             //if it's pressed, it can't be highlighted or walk colored
         } else if (isHighlighted) {
             currentStroke = new BasicStroke(Values.VERTEX_HIGHLIGHT_STROKE_WIDTH);
             currentStrokeColor = Values.EDGE_HIGHLIGHT_COLOR;
-            //if it's highlighted, it can't be walk colored
+            //if this is highlighted AND walkColored
+            if (isWalkColored) {
+                currentFillColor = Values.WALK_VERTEX_FILL_COLOR;
+            } //otherwise leave as default
         } else if (isWalkColored) {
             currentStroke = new BasicStroke(Values.WALK_VERTEX_STROKE_WIDTH);
             currentStrokeColor = Values.WALK_VERTEX_STROKE_COLOR;
