@@ -33,8 +33,9 @@ public class Graph implements Serializable {
     /**
      * a list of SimpleEdges which will be used for saving and loading the edges
      * from JSON serialization. Edge objects are not good for storing because
-     * they do not store references to the vertices (instead they create
-     * identical instances stored in a different memory location). 
+     * they do not store references to the vertices when they are serialized to
+     * JSON (instead they create equivalent instances stored in a different 
+     * memory location).
      */
     private final List<SimpleEdge> simpleEdges = new ArrayList<>();
     
