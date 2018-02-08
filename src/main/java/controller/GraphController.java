@@ -8,7 +8,6 @@ package controller;
 import com.google.gson.Gson;
 import com.google.gson.GsonBuilder;
 import com.google.gson.JsonSyntaxException;
-import controller.Values.Format;
 import controller.Values.States;
 import element.Edge;
 import element.Graph;
@@ -1113,7 +1112,9 @@ public class GraphController {
             vertex.setFillColor(graph.getVertexFillColor());
         }
         for (Edge e : edges) {
-            e.setFormat(Format.NORMAL);
+            //may be wrong about this color
+            e.setStrokeColor(graph.getEdgeStrokeColor());
+            e.setStrokeWidth(Values.EDGE_STROKE_WIDTH);
         }
 
         //MARK: Update the list selection:
@@ -1151,7 +1152,7 @@ public class GraphController {
         }
         //cycle through all the clicked vertices
         for (Vertex clickedVertex : clickedVertices) {
-            clickedVertex.setFormat(Format.PRESSED);
+            clickedVertex.setIsPressed(true);
         }
     }
 
@@ -1161,7 +1162,7 @@ public class GraphController {
         }
         //cycle through all the clicked edges
         for (Edge clickedEdge : clickedEdges) {
-            clickedEdge.setFormat(Format.PRESSED);
+            clickedEdge.setIsPressed(true);
         }
     }
 
@@ -1171,7 +1172,7 @@ public class GraphController {
         }
         //cycle through all the clicked vertices
         for (Vertex clickedVertex : clickedVertices) {
-            clickedVertex.setFormat(Format.HIGHLIGHTED);
+            clickedVertex.setIsPressed(false);
         }
     }
 
@@ -1181,7 +1182,7 @@ public class GraphController {
         }
         //cycle through all the clicked edges
         for (Edge clickedEdge : clickedEdges) {
-            clickedEdge.setFormat(Format.HIGHLIGHTED);
+            clickedEdge.setIsPressed(false);
         }
     }
 
@@ -2239,19 +2240,19 @@ public class GraphController {
             if (graphStateMachine.getState() == States.EDGE_ADDING) {
                 //unhighlight all vertices
                 for (Vertex v : vertices) {
-                    v.setFormat(Format.NORMAL);
+                    v.setIsHighlighted(false);
                 }
                 //set the editing edge to null (so it won't draw the dot)
                 canvas.setEditingEdge(null);
             } else { //if we are not in the edge adding state
                 //unhighlight the selected vertices
                 for (Vertex v : graphSelectionHandler.getSelectedVertices()) {
-                    v.setFormat(Format.NORMAL);
+                    v.setIsHighlighted(false);
                 }
             }
-            //unhighlight the selected vertices
+            //unhighlight the selected edges
             for (Edge e : graphSelectionHandler.getSelectedEdges()) {
-                e.setFormat(Format.NORMAL);
+                e.setIsHighlighted(false);
             }
 
             //Create a BufferedImage of the same dimensions as canvas
@@ -2280,12 +2281,12 @@ public class GraphController {
             } else { //if we are not in the addingEdges state
                 //highlight the selected vertices again
                 for (Vertex v : graphSelectionHandler.getSelectedVertices()) {
-                    v.setFormat(Format.HIGHLIGHTED);
+                    v.setIsHighlighted(true);
                 }
             }
             //hightlight the selected edges again
             for (Edge e : graphSelectionHandler.getSelectedEdges()) {
-                e.setFormat(Format.HIGHLIGHTED);
+                e.setIsHighlighted(true);
             }
         }
     }

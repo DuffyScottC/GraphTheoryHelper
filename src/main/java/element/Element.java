@@ -6,7 +6,6 @@
 package element;
 
 import controller.Values;
-import controller.Values.Format;
 import java.awt.Color;
 import java.awt.Graphics2D;
 import java.awt.Stroke;
@@ -24,8 +23,9 @@ public abstract class Element implements Serializable {
     protected double xLoc = 0;
     protected double yLoc = 0;
     protected String title = "A";
-    
-    protected transient Format format = Format.NORMAL;
+    protected transient boolean isHidden = false;
+    protected transient boolean isHighlighted = false;
+    protected transient boolean isPressed = false;
 
     // the stroke is created from strokeWidth + BasicStroke
     // but BasicStroke is not serializable, so the actual
@@ -62,13 +62,21 @@ public abstract class Element implements Serializable {
     public String toString() {
         return title;
     }
-
-    public void setFormat(Format format) {
-        this.format = format;
+    
+    public void setIsHidden(boolean isHidden) {
+        this.isHidden = isHidden;
     }
     
-    public void hide() {
-        format = Format.WALK_HIDDEN;
+    public boolean getIsHidden() {
+        return isHidden;
+    }
+    
+    public void setIsHighlighted(boolean isHighlighted) {
+        this.isHighlighted = isHighlighted;
+    }
+    
+    public void setIsPressed(boolean isPressed) {
+        this.isPressed = isPressed;
     }
     
     @Override

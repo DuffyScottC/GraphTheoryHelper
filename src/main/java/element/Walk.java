@@ -81,17 +81,17 @@ public class Walk {/**
         //loop through all of the edges
         for (Edge edge : edges) {
             //hide the edge
-            edge.hide();
+            edge.setIsHidden(true);
             //get the edge's endpoints
             Vertex ep1 = edge.getEndpoint1();
             Vertex ep2 = edge.getEndpoint2();
             //if we should hide this endpoint
             if (shouldHideVertex(ep1)) {
-                ep1.hide();
+                ep1.setIsHidden(true);
             }
             //if we should hide this endpoint
             if (shouldHideVertex(ep2)) {
-                ep2.hide();
+                ep2.setIsHidden(true);
             }
         }
     }

@@ -6,7 +6,6 @@
 package element;
 
 import controller.Values;
-import controller.Values.Format;
 import java.awt.Color;
 import java.io.Serializable;
 import java.util.ArrayList;
@@ -204,9 +203,9 @@ public class Graph implements Serializable {
         for (Vertex v : vertices) {
             //if this vertex is available to add edges to
             if (v.canAddEdges()) {
-                v.setFormat(Format.HIGHLIGHTED);
+                v.setIsHighlighted(true);
             } else { //if this vertex is completely full
-                v.setFormat(Format.NORMAL);
+                v.setIsHighlighted(false);
             }
         }
     }

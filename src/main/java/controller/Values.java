@@ -79,37 +79,4 @@ public class Values {
         SELECTION,
         WALK_ADDING
     }
-    
-    /*
-        switch (format) {
-            case NORMAL:
-                break;
-            case HIGHLIGHTED:
-                break;
-            case PRESSED:
-                break;
-            case WALK_HIDDEN:
-                break;
-            case WALK_SHOWN:
-                break;
-            default:
-        }
-    */
-    /**
-     *  - The default state drawn with default colors
-     *  - The highlighted state
-     *  - The pressed state
-     *  - element is part of a hidden walk (meaning the user wants it to not be 
-     * shown at all)
-     *  - Is only true if this element is part of a walk that is highlighted
-     * (meaning the user has the walk selected and this element should be
-     * orange)
-     */
-    public static enum Format {
-        NORMAL,
-        HIGHLIGHTED,
-        PRESSED,
-        WALK_HIDDEN,
-        WALK_SHOWN
-    }
 }
