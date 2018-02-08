@@ -57,6 +57,41 @@ public class Walk {
     }
     
     /**
+     * Removes both the given Edge and its matching SimpleEdge from the walk.
+     * @param e The Edge to be removed
+     */
+    public void removeEdge(Edge e) {
+        int index = edges.indexOf(e);
+        removeEdge(index);
+    }
+    
+    /**
+     * Removes the edge at the given index from the walk.
+     * @param index The index of the edge to be removed
+     */
+    public void removeEdge(int index) {
+        //get the edge to be removed
+        Edge e = edges.get(index);
+        //set isWalkColored to false
+        e.setIsWalkColored(false);
+        //get the edge's endpoints
+        Vertex ep1 = e.getEndpoint1();
+        Vertex ep2 = e.getEndpoint2();
+        //if ep1 does NOT have even one edge in this walk
+        if (!vertexHasEdgesInWalk(ep1)) {
+            //set isWalkColored to false
+            ep1.setIsWalkColored(false);
+        }
+        //if ep2 does NOT have even one edge in this walk
+        if (!vertexHasEdgesInWalk(ep2)) {
+            //set isWalkColored to false
+            ep2.setIsWalkColored(false);
+        }
+        edges.remove(index);
+        simpleEdges.remove(index);
+    }
+    
+    /**
      * Checks to see if the Walk contains the given edge
      * @param e The edge in question
      * @return 
@@ -72,25 +107,6 @@ public class Walk {
      */
     public boolean contains(SimpleEdge se) {
         return simpleEdges.contains(se);
-    }
-    
-    /**
-     * Removes both the given Edge and its matching SimpleEdge from the walk.
-     * @param e The Edge to be removed
-     */
-    public void removeEdge(Edge e) {
-        int index = edges.indexOf(e);
-        edges.remove(index);
-        simpleEdges.remove(index);
-    }
-    
-    /**
-     * Removes the edge at the given index from the walk.
-     * @param index The index of the edge to be removed
-     */
-    public void removeEdge(int index) {
-        edges.remove(index);
-        simpleEdges.remove(index);
     }
     
     /**
@@ -177,6 +193,26 @@ public class Walk {
         }
         //if this walk contains all of v's SimpleEdges, we should hide v
         return true;
+    }
+    
+    /**
+     * Checks to see whether the walk contains any of the given vertex's edges.
+     * This is not to be confused with {@link shouldHideVertex}. 
+     * @param v The given vertex
+     * @return True if at least one of the given vertex's edges in contained
+     * in the walk.
+     */
+    private boolean vertexHasEdgesInWalk(Vertex v) {
+        //loop through the vertex's SimpleEdges
+        for (SimpleEdge se : v.edgeNames) {
+            //if this walk contains se
+            if (this.contains(se)) {
+                //this walk has at least one vertex edge
+                return true;
+            }
+        }
+        //this walk contains NONE of v's SimpleEdges
+        return false;
     }
     
     @Override
