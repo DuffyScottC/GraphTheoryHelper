@@ -1437,17 +1437,7 @@ public class GraphController {
      * {@link selectVertexOrEdge(int,int)}. Deselects all vertices and edges.
      */
     private void selectCanvas() {
-        //Deselect the vertex
-        verticesList.clearSelection(); //deselect vertex in the list
-        graphSelectionHandler.getSelectedVertexIndices().clear();
-        graphSelectionHandler.updateSelectedVertices();
-
-        //Deselect the edge
-        edgesList.clearSelection(); //deselect edge in the list
-        graphSelectionHandler.getSelectedEdgeIndices().clear();
-        graphSelectionHandler.updateSelectedEdges();
-
-        canvas.repaint();
+        graphSelectionHandler.clearSelection();
     }
 
     /**

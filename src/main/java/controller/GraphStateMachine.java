@@ -40,7 +40,7 @@ public class GraphStateMachine {
     private final JCheckBoxMenuItem addEdgesMenuItem;
     private final JCheckBoxMenuItem selectionMenuItem;
     private final JCheckBoxMenuItem addWalksMenuItem;
-    private final GraphSelectionHandler graphSelectionHandeler;
+    private final GraphSelectionHandler graphSelectionHandler;
     private final Canvas canvas;
     private final Graph graph;
     
@@ -57,7 +57,7 @@ public class GraphStateMachine {
         addEdgesMenuItem = frame.getAddEdgesMenuItem();
         selectionMenuItem = frame.getSelectionMenuItem();
         addWalksMenuItem = frame.getAddWalksMenuItem();
-        this.graphSelectionHandeler = graphSelectionHandeler;
+        this.graphSelectionHandler = graphSelectionHandeler;
         this.canvas = canvas;
         this.graph = graph;
         
@@ -192,31 +192,31 @@ public class GraphStateMachine {
         //is supposed to click one to add the edge
 
         //Update vertex selection
-        graphSelectionHandeler.getVerticesList().clearSelection(); //clear the visual selection in the JList
+        graphSelectionHandler.getVerticesList().clearSelection(); //clear the visual selection in the JList
         //deselect the vertex
-        graphSelectionHandeler.getSelectedVertexIndices().clear();
-        graphSelectionHandeler.updateSelectedVertices();
+        graphSelectionHandler.getSelectedVertexIndices().clear();
+        graphSelectionHandler.updateSelectedVertices();
 
         //Update edge selection
         //if selectedEdgeIndeces is not empty
-        if (!graphSelectionHandeler.getSelectedEdgeIndices().isEmpty()) {
+        if (!graphSelectionHandler.getSelectedEdgeIndices().isEmpty()) {
             //get the last index of selectedEdgeIndices
-            int sEISize = graphSelectionHandeler.getSelectedEdgeIndices().size();
+            int sEISize = graphSelectionHandler.getSelectedEdgeIndices().size();
             //find the last selected index
-            int lastIndex = graphSelectionHandeler.getSelectedEdgeIndices().get(sEISize - 1);
+            int lastIndex = graphSelectionHandler.getSelectedEdgeIndices().get(sEISize - 1);
             //get the size of the selectedEdges list
-            int size = graphSelectionHandeler.getSelectedEdges().size();
+            int size = graphSelectionHandler.getSelectedEdges().size();
             //set the editingEdge to the last selected edge
-            Edge editingEdge = graphSelectionHandeler.getSelectedEdges().get(size - 1);
+            Edge editingEdge = graphSelectionHandler.getSelectedEdges().get(size - 1);
             //update canvas's editing edge with this
             canvas.setEditingEdge(editingEdge);
             //set the last index to be the only one selected
-            graphSelectionHandeler.getEdgesList().setSelectedIndex(lastIndex);
+            graphSelectionHandler.getEdgesList().setSelectedIndex(lastIndex);
             //deselect all edges
-            graphSelectionHandeler.getSelectedEdgeIndices().clear();
+            graphSelectionHandler.getSelectedEdgeIndices().clear();
             //add the last index
-            graphSelectionHandeler.getSelectedEdgeIndices().add(lastIndex);
-            graphSelectionHandeler.updateSelectedEdges();
+            graphSelectionHandler.getSelectedEdgeIndices().add(lastIndex);
+            graphSelectionHandler.updateSelectedEdges();
         }
 
         //Assign the canAddEdges values of all the vertices and get the number
@@ -241,6 +241,8 @@ public class GraphStateMachine {
     }
     
     private void enterAddWalksState() {
+        //clear the selection
+        graphSelectionHandler.clearSelection();
         setSelectedWalks(true);
         state = States.WALK_ADDING;
     }

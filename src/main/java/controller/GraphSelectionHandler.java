@@ -158,6 +158,19 @@ public class GraphSelectionHandler {
             walksList.setSelectedIndex(index);
         }
     }
+    
+    public void clearSelection() {
+        //Deselect the vertex
+        verticesList.clearSelection(); //deselect vertex in the list
+        selectedVertexIndices.clear();
+        updateSelectedVertices();
+
+        //Deselect the edge
+        edgesList.clearSelection(); //deselect edge in the list
+        selectedEdgeIndices.clear();
+        updateSelectedEdges();
+        canvas.repaint();
+    }
 
     public List<Edge> getSelectedEdges() {
         return selectedEdges;

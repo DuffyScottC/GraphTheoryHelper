@@ -13,7 +13,9 @@ import java.util.List;
  * @author Scott
  */
 public class Walk {
+    
     private transient boolean isHidden = false;
+    private transient boolean isSelected = false;
     
     /**
      * This holds the edges in the walk
@@ -39,6 +41,17 @@ public class Walk {
      * @param edge
      */
     public void addEdge(Edge edge) {
+        //if this element is selected
+        if (isSelected) {
+            //set the edge to be walk colored
+            edge.setIsWalkColored(true);
+            //get the edge's endpoints
+            Vertex ep1 = edge.getEndpoint1();
+            Vertex ep2 = edge.getEndpoint2();
+            //set the vertices to be walk colored
+            ep1.setIsWalkColored(true);
+            ep2.setIsWalkColored(true);
+        }
         edges.add(edge);
         simpleEdges.add(new SimpleEdge(edge));
     }
@@ -85,7 +98,8 @@ public class Walk {
      * {@link Element.isWalkColored} values to true.
      */
     public void select() {
-        setSsWalkColoredForAllElements(true);
+        isSelected = true;
+        setIsWalkColoredForAllElements(true);
     }
     
     /**
@@ -93,7 +107,8 @@ public class Walk {
      * {@link Element.isWalkColored} values to false.
      */
     public void deselect() {
-        setSsWalkColoredForAllElements(false);
+        isSelected = false;
+        setIsWalkColoredForAllElements(false);
     }
     
     /**
@@ -101,7 +116,7 @@ public class Walk {
      * {@link Element.isWalkColored} variable.
      * @param isWalkColored 
      */
-    private void setSsWalkColoredForAllElements(boolean isWalkColored) {
+    private void setIsWalkColoredForAllElements(boolean isWalkColored) {
         for (Edge edge : edges) {
             //set the edge to be walk colored
             edge.setIsWalkColored(isWalkColored);
