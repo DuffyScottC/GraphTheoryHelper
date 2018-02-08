@@ -519,12 +519,13 @@ public class GraphController {
                     graphSelectionHandler.setSelectedWalk(null);
                 } else { //if the user is selecting a walk (not <None>)
                     //add one to match the index to the selectedWalks
-                    int selectedWalkIndex = selectedIndex + 1;
+                    int selectedWalkIndex = selectedIndex - 1;
                     //get the walk at that index
                     Walk newSelectedWalk = walks.get(selectedWalkIndex);
                     //set the selectedWalk
                     graphSelectionHandler.setSelectedWalk(newSelectedWalk);
                 }
+                canvas.repaint();
             }
         });
 
@@ -2012,10 +2013,10 @@ public class GraphController {
     private void addEdgeToWalk(int mx, int my) {
         //loop through all the vertices
         for (Edge currentEdge : edges) {
-            //if the user clicked this edge
-            if (isEdgeClicked(currentEdge, mx, my)) {
-                //if there is at least one walk in the graph
-                if (!walks.isEmpty()) {
+            //if there is a walk selected in walksList
+            if (graphSelectionHandler.getSelectedWalk() != null) {
+                //if the user clicked this edge
+                if (isEdgeClicked(currentEdge, mx, my)) {
                     //if selectedWalk already contains currentEdge
                     if (graphSelectionHandler.getSelectedWalk().contains(currentEdge)) {
                         //remove currentEdge from the walk
@@ -2025,14 +2026,20 @@ public class GraphController {
                         //exit the method because we are done now
                         return;
                     } else { //if selectedWalk does NOT already contain currentEdge
-                        //add the currentEdge to the walk
-                        graphSelectionHandler.getSelectedWalk().addEdge(currentEdge);
-                        walksList.repaint();
-                        canvas.repaint();
-                        //exit the method because we are done now
-                        return;
+                        //check if the currentEdge is connected to the edges in the walk
+                        if (graphSelectionHandler.getSelectedWalk().isEdgeConnected(currentEdge)) {
+                            //add the currentEdge to the walk
+                            graphSelectionHandler.getSelectedWalk().addEdge(currentEdge);
+                            walksList.repaint();
+                            canvas.repaint();
+                            //exit the method because we are done now
+                            return;
+                        }
                     }
-                } else { //if there are absolutely no walks in the graph
+                }
+            } else { //if <None> is selected in the walksList
+                //if the user clicked this edge
+                if (isEdgeClicked(currentEdge, mx, my)) {
                     //create a new walk
                     Walk newWalk = new Walk(currentEdge);
                     //add the new walk to the graph
@@ -2046,7 +2053,6 @@ public class GraphController {
                     return;
                 }
             }
-
         }
     }
 

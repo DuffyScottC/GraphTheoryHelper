@@ -93,6 +93,19 @@ public class Walk {
         }
     }
     
+    public boolean isEdgeConnected(Edge givenEdge) {
+        for (Edge currentEdge : edges) {
+            //if the given edge shares an endpoint with the current edge
+            if (currentEdge.sharesEndpointWith(givenEdge)) {
+                //the given edge is connected to the walk
+                return true;
+            }
+        }
+        //if none of the edges in this walk shares an endpoint with givenEdge
+        //then the given edge is not connected to the walk
+        return false;
+    }
+    
     /**
      * Checks to see if the Walk contains the given edge
      * @param e The edge in question
@@ -219,6 +232,11 @@ public class Walk {
     
     @Override
     public String toString() {
+        //if the path is empty
+        if (edges.isEmpty()) {
+            //provide only an indicator
+            return "<Empty>";
+        }
         StringBuilder strB = new StringBuilder();
         strB.append("{");
         for (int i = 0; i < edges.size(); i++) {

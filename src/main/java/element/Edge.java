@@ -194,6 +194,20 @@ public class Edge extends Element {
     }
     
     /**
+     * Checks to see whether the given edge has an endpoint in common with
+     * this edge.
+     * @param givenEdge The given edge
+     * @return True if this edge shares one or more endpoints with the given
+     * edge, false if this edge shares no endpoints with the given edge.
+     */
+    public boolean sharesEndpointWith(Edge givenEdge) {
+        Vertex ep1 = givenEdge.getEndpoint1();
+        Vertex ep2 = givenEdge.getEndpoint2();
+        //return true if this has ep1 or ep2, false if this has neither of them
+        return this.hasEndpoint(ep1) || this.hasEndpoint(ep2);
+    }
+    
+    /**
      * This is used to determine if the mouse click is contained by
      * the shape of this line (called in Graph)
      * @return A QuadCurve2D.Double object defining the edge's curve
