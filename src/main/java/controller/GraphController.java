@@ -495,15 +495,35 @@ public class GraphController {
         });
         
         walksList.addListSelectionListener((ListSelectionEvent e) -> {
+            //store the last selected index (for addMouseListener)
             lastSelectedWalkIndex = e.getLastIndex();
         });
         
         walksList.addMouseListener(new MouseAdapter() {
             @Override
             public void mouseClicked(MouseEvent e) {
+                //if the user is trying to deselect
                 if (e.isControlDown() || e.isShiftDown() || e.isMetaDown()) {
-                    System.out.println(lastSelectedWalkIndex);
+                    //reset to the last selected index (from listSelectionListener)
                     walksList.setSelectedIndex(lastSelectedWalkIndex);
+                    //exit the method
+                    return;
+                }
+                //otherwise:
+                
+                //get the selected index
+                int selectedIndex = walksList.getSelectedIndex();
+                //if the user is selecting <None>
+                if (selectedIndex == 0) {
+                    //deselect all walks
+                    graphSelectionHandler.setSelectedWalk(null);
+                } else { //if the user is selecting a walk (not <None>)
+                    //add one to match the index to the selectedWalks
+                    int selectedWalkIndex = selectedIndex + 1;
+                    //get the walk at that index
+                    Walk newSelectedWalk = walks.get(selectedWalkIndex);
+                    //set the selectedWalk
+                    graphSelectionHandler.setSelectedWalk(newSelectedWalk);
                 }
             }
         });
