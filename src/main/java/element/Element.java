@@ -80,6 +80,10 @@ public abstract class Element implements Serializable {
         this.isPressed = isPressed;
     }
     
+    public void setIsWalkColored(boolean isWalkColored) {
+        this.isWalkColored = isWalkColored;
+    }
+    
     @Override
     public boolean equals(Object obj) {
         if (obj == null) {

@@ -136,6 +136,10 @@ public class GraphSelectionHandler {
     }
     
     public void setSelectedWalk(Walk selectedWalk) {
+        //place the previously selected walk in deselected mode
+        this.selectedWalk.deselect();
+        //place the selected walk into selection mode
+        selectedWalk.select();
         //assign the selectedWalk
         this.selectedWalk = selectedWalk;
         //get the index of the selectedWalk

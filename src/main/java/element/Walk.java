@@ -77,6 +77,40 @@ public class Walk {/**
         simpleEdges.remove(index);
     }
     
+    /**
+     * When a walk is selected, it sets all its elements' 
+     * {@link Element.isWalkColored} values to true.
+     */
+    public void select() {
+        setSsWalkColoredForAllElements(true);
+    }
+    
+    /**
+     * When a walk is selected, it sets all its elements' 
+     * {@link Element.isWalkColored} values to false.
+     */
+    public void deselect() {
+        setSsWalkColoredForAllElements(false);
+    }
+    
+    /**
+     * Assign the given boolean value to all the walk's elements'
+     * {@link Element.isWalkColored} variable.
+     * @param isWalkColored 
+     */
+    private void setSsWalkColoredForAllElements(boolean isWalkColored) {
+        for (Edge edge : edges) {
+            //set the edge to be walk colored
+            edge.setIsWalkColored(isWalkColored);
+            //get the edge's endpoints
+            Vertex ep1 = edge.getEndpoint1();
+            Vertex ep2 = edge.getEndpoint2();
+            //set the vertices to be walk colored
+            ep1.setIsWalkColored(isWalkColored);
+            ep2.setIsWalkColored(isWalkColored);
+        }
+    }
+    
     public void hide() {
         //loop through all of the edges
         for (Edge edge : edges) {
