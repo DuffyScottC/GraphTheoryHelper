@@ -44,6 +44,7 @@ import java.util.regex.Matcher;
 import java.util.regex.Pattern;
 import javax.imageio.ImageIO;
 import javax.swing.DefaultListModel;
+import javax.swing.DefaultListSelectionModel;
 import javax.swing.JColorChooser;
 import javax.swing.JFileChooser;
 import javax.swing.JFrame;
@@ -53,6 +54,8 @@ import javax.swing.JTextField;
 import javax.swing.JToggleButton;
 import javax.swing.KeyStroke;
 import javax.swing.ListSelectionModel;
+import javax.swing.event.ListSelectionEvent;
+import javax.swing.event.ListSelectionListener;
 import javax.swing.filechooser.FileFilter;
 import views.AddGraphDialog;
 import views.Canvas;
@@ -86,6 +89,12 @@ public class GraphController {
     private final DefaultListModel verticesListModel = new DefaultListModel();
     private final DefaultListModel edgesListModel = new DefaultListModel();
     private final DefaultListModel walksListModel = new DefaultListModel();
+    /**
+     * The last selected index before the user changed the selection. This is
+     * used in the clickListener for {@link walksList} to make sure users can't
+     * deselect items.
+     */
+    private int lastSelectedWalkIndex = 0;
 
     /**
      * The x-coordinate of the start point of the multiple-selection box.
@@ -484,6 +493,20 @@ public class GraphController {
                 canvas.repaint();
             }
         });
+        
+        walksList.addListSelectionListener((ListSelectionEvent e) -> {
+            lastSelectedWalkIndex = e.getLastIndex();
+        });
+        
+        walksList.addMouseListener(new MouseAdapter() {
+            @Override
+            public void mouseClicked(MouseEvent e) {
+                if (e.isControlDown() || e.isShiftDown() || e.isMetaDown()) {
+                    System.out.println(lastSelectedWalkIndex);
+                    walksList.setSelectedIndex(lastSelectedWalkIndex);
+                }
+            }
+        });
 
         titleTextField.addActionListener((ActionEvent e) -> {
             //The title of the vertex should be updated and the JList should be repainted
@@ -517,6 +540,10 @@ public class GraphController {
         verticesList.setSelectionMode(ListSelectionModel.MULTIPLE_INTERVAL_SELECTION);
         edgesList.setSelectionMode(ListSelectionModel.MULTIPLE_INTERVAL_SELECTION);
         walksList.setSelectionMode(ListSelectionModel.SINGLE_SELECTION);
+        //initialize the walksListModel
+        walksListModel.addElement("<None>");
+        //set the selection to that first element <None>
+        walksList.setSelectedIndex(0);
 
         frame.getSaveAsMenuItem().addActionListener((ActionEvent e) -> {
             saveGraphAs();
@@ -625,12 +652,6 @@ public class GraphController {
                 //Update the user's preference for the current directory
                 prefs.put(Values.LAST_FILE_PATH, currentDirectory.toString());
             }
-
-            element.Walk debugWalk = new element.Walk(graph.getEdges().get(0));
-            debugWalk.addEdge(graph.getEdges().get(1));
-            graph.getWalks().add(debugWalk);
-            updateWalksListModel();
-            System.out.println("debugWalk: " + debugWalk);
         });
 
         frame.getSaveMenuItem().addActionListener((ActionEvent e) -> {
@@ -2057,7 +2078,9 @@ public class GraphController {
     }
 
     public void updateWalksListModel() {
-        walksListModel.removeAllElements();;
+        walksListModel.removeAllElements();
+        //add the default element
+        walksListModel.addElement("<None>");
         for (Walk p : walks) {
             walksListModel.addElement(p);
         }

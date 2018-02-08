@@ -136,16 +136,27 @@ public class GraphSelectionHandler {
     }
     
     public void setSelectedWalk(Walk selectedWalk) {
-        //place the previously selected walk in deselected mode
-        this.selectedWalk.deselect();
-        //place the selected walk into selection mode
-        selectedWalk.select();
-        //assign the selectedWalk
-        this.selectedWalk = selectedWalk;
-        //get the index of the selectedWalk
-        int index = graph.getWalks().indexOf(selectedWalk);
-        //select the walk in the JList
-        walksList.setSelectedIndex(index);
+        //if the previously selected walk is not null
+        if (this.selectedWalk != null) {
+            //place the previously selected walk in deselected mode
+            this.selectedWalk.deselect();
+        }
+        
+        if (selectedWalk == null) { //if we're deselecting all walks
+            //select the <None> index
+            walksList.setSelectedIndex(0);
+        } else {
+            //place the selected walk into selection mode
+            selectedWalk.select();
+            //assign the selectedWalk
+            this.selectedWalk = selectedWalk;
+            //get the index of the selectedWalk (the +1 is because walksList
+            //contains a single element called <None> that signifies that no
+            //walks are selected
+            int index = graph.getWalks().indexOf(selectedWalk) + 1;
+            //select the walk in the JList
+            walksList.setSelectedIndex(index);
+        }
     }
 
     public List<Edge> getSelectedEdges() {

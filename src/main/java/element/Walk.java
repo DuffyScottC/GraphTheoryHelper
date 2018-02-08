@@ -12,7 +12,10 @@ import java.util.List;
  *
  * @author Scott
  */
-public class Walk {/**
+public class Walk {
+    private transient boolean isHidden = false;
+    
+    /**
      * This holds the edges in the walk
      */
     private transient List<Edge> edges = new ArrayList();
@@ -112,20 +115,29 @@ public class Walk {/**
     }
     
     public void hide() {
+        setIsHiddenForAllElements(true);
+    }
+    
+    public void unhide() {
+        setIsHiddenForAllElements(true);
+    }
+    
+    private void setIsHiddenForAllElements(boolean isHidden) {
+        this.isHidden = isHidden;
         //loop through all of the edges
         for (Edge edge : edges) {
             //hide the edge
-            edge.setIsHidden(true);
+            edge.setIsHidden(isHidden);
             //get the edge's endpoints
             Vertex ep1 = edge.getEndpoint1();
             Vertex ep2 = edge.getEndpoint2();
             //if we should hide this endpoint
             if (shouldHideVertex(ep1)) {
-                ep1.setIsHidden(true);
+                ep1.setIsHidden(isHidden);
             }
             //if we should hide this endpoint
             if (shouldHideVertex(ep2)) {
-                ep2.setIsHidden(true);
+                ep2.setIsHidden(isHidden);
             }
         }
     }
@@ -165,6 +177,9 @@ public class Walk {/**
             }
         }
         strB.append("}");
+        if (isHidden) {
+            strB.append(" -");
+        }
         return strB.toString();
     }
 }
