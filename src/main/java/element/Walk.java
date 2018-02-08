@@ -12,9 +12,7 @@ import java.util.List;
  *
  * @author Scott
  */
-public class Walk {
-    
-    /**
+public class Walk {/**
      * This holds the edges in the walk
      */
     private transient List<Edge> edges = new ArrayList();
@@ -52,6 +50,15 @@ public class Walk {
     }
     
     /**
+     * Checks to see if the Walk contains the given SimpleEdge
+     * @param se The SimpleEdge in question
+     * @return 
+     */
+    public boolean contains(SimpleEdge se) {
+        return simpleEdges.contains(se);
+    }
+    
+    /**
      * Removes both the given Edge and its matching SimpleEdge from the walk.
      * @param e The Edge to be removed
      */
@@ -68,6 +75,47 @@ public class Walk {
     public void removeEdge(int index) {
         edges.remove(index);
         simpleEdges.remove(index);
+    }
+    
+    public void hide() {
+        //loop through all of the edges
+        for (Edge edge : edges) {
+            //hide the edge
+            edge.hide();
+            //get the edge's endpoints
+            Vertex ep1 = edge.getEndpoint1();
+            Vertex ep2 = edge.getEndpoint2();
+            //if we should hide this endpoint
+            if (shouldHideVertex(ep1)) {
+                ep1.hide();
+            }
+            //if we should hide this endpoint
+            if (shouldHideVertex(ep2)) {
+                ep2.hide();
+            }
+        }
+    }
+    
+    /**
+     * Checks to see whether any of the given vertex's SimpleEdges are NOT
+     * contained within this walk. If even a single edge connected to the
+     * given vertex is not within this walk, then we should not hide the
+     * vertex. If this walk contains all of the given vertex's SimpleEdges,
+     * then we should hide the vertex.
+     * @param v The given vertex
+     * @return True if we should hide the vertex, false if not. 
+     */
+    private boolean shouldHideVertex(Vertex v) {
+        //loop through the vertex's SimpleEdges
+        for (SimpleEdge se : v.edgeNames) {
+            //if this walk does NOT contain se
+            if (!this.contains(se)) {
+                //we should not hide the vertex
+                return false;
+            }
+        }
+        //if this walk contains all of v's SimpleEdges, we should hide v
+        return true;
     }
     
     @Override

@@ -67,6 +67,10 @@ public abstract class Element implements Serializable {
         this.format = format;
     }
     
+    public void hide() {
+        format = Format.WALK_HIDDEN;
+    }
+    
     @Override
     public boolean equals(Object obj) {
         if (obj == null) {
