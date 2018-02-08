@@ -55,10 +55,11 @@ public class GraphSelectionHandler {
     private final List<Edge> edges;
     private final Graph graph;
     private final Canvas canvas;
+    private final GraphFrame frame;
     
     
     public GraphSelectionHandler(GraphFrame frame, Graph graph) {
-        //the visual JList that the user sees and interacts with
+        this.frame = frame;
         verticesList = frame.getVerticesList(); 
         edgesList = frame.getEdgesList();
         walksList = frame.getWalksList();
@@ -140,12 +141,17 @@ public class GraphSelectionHandler {
         if (this.selectedWalk != null) {
             //place the previously selected walk in deselected mode
             this.selectedWalk.deselect();
+            
         }
         
         if (selectedWalk == null) { //if we're deselecting all walks
             //select the <None> index
             walksList.setSelectedIndex(0);
-        } else {
+            //unchoose the hidden checkbox
+            frame.getHiddenCheckBox().setSelected(false);
+            //disable the hidden checkbox
+            frame.getHiddenCheckBox().setEnabled(false);
+        } else { //if were selectin a new walk
             //place the selected walk into selection mode
             selectedWalk.select();
             //assign the selectedWalk
@@ -156,6 +162,10 @@ public class GraphSelectionHandler {
             int index = graph.getWalks().indexOf(selectedWalk) + 1;
             //select the walk in the JList
             walksList.setSelectedIndex(index);
+            //set the hidden checkbox accordingly
+            frame.getHiddenCheckBox().setSelected(selectedWalk.isHidden());
+            //enable the hidden checkbox
+            frame.getHiddenCheckBox().setEnabled(true);
         }
     }
     

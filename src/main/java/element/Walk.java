@@ -188,6 +188,10 @@ public class Walk {
         }
     }
     
+    public boolean isHidden() {
+        return isHidden;
+    }
+    
     /**
      * Checks to see whether any of the given vertex's SimpleEdges are NOT
      * contained within this walk. If even a single edge connected to the
@@ -246,6 +250,9 @@ public class Walk {
             return "<Empty>";
         }
         StringBuilder strB = new StringBuilder();
+        if (isHidden) {
+            strB.append("- ");
+        }
         strB.append("{");
         for (int i = 0; i < edges.size(); i++) {
             strB.append("{");
@@ -256,9 +263,6 @@ public class Walk {
             }
         }
         strB.append("}");
-        if (isHidden) {
-            strB.append(" -");
-        }
         return strB.toString();
     }
 }

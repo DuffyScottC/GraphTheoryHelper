@@ -241,6 +241,21 @@ public class GraphController {
         frame.getDeleteMenuItem().addActionListener((ActionEvent e) -> {
             deleteSelectedElements();
         });
+        
+        frame.getHiddenCheckBox().addActionListener((ActionEvent e) -> {
+            //if there is a selected walk
+            if (graphSelectionHandler.getSelectedWalk() != null) {
+                //if the user selected to hide the walk
+                if (frame.getHiddenCheckBox().isSelected()) {
+                    //hide the walk
+                    graphSelectionHandler.getSelectedWalk().hide();
+                } else { //if the user unhid the walk
+                    //unhide the walk
+                    graphSelectionHandler.getSelectedWalk().unhide();
+                }
+                canvas.repaint();
+            }
+        });
 
         //Define the filter
         graphFilter = new FileFilter() {

@@ -6,6 +6,7 @@
 package views;
 
 import javax.swing.JButton;
+import javax.swing.JCheckBox;
 import javax.swing.JCheckBoxMenuItem;
 import javax.swing.JList;
 import javax.swing.JMenu;
@@ -62,6 +63,7 @@ public class GraphFrame extends javax.swing.JFrame {
         walksLabel = new javax.swing.JLabel();
         walksScrollPane = new javax.swing.JScrollPane();
         walksList = new javax.swing.JList<>();
+        hiddenCheckBox = new javax.swing.JCheckBox();
         toolBar = new javax.swing.JToolBar();
         addVerticesButton = new javax.swing.JToggleButton();
         addEdgesButton = new javax.swing.JToggleButton();
@@ -237,6 +239,12 @@ public class GraphFrame extends javax.swing.JFrame {
         gridBagConstraints.weighty = 0.1;
         gridBagConstraints.insets = new java.awt.Insets(0, 4, 0, 4);
         inspectorPanelJPanel.add(walksScrollPane, gridBagConstraints);
+
+        hiddenCheckBox.setText("Hidden");
+        gridBagConstraints = new java.awt.GridBagConstraints();
+        gridBagConstraints.gridx = 0;
+        gridBagConstraints.gridy = 8;
+        inspectorPanelJPanel.add(hiddenCheckBox, gridBagConstraints);
 
         gridBagConstraints = new java.awt.GridBagConstraints();
         gridBagConstraints.gridx = 2;
@@ -432,6 +440,7 @@ public class GraphFrame extends javax.swing.JFrame {
     private javax.swing.JPanel graphOutputPanel;
     private javax.swing.JTextField graphOutputTextField;
     private javax.swing.JMenu helpMenu;
+    private javax.swing.JCheckBox hiddenCheckBox;
     private javax.swing.JPanel inspectorPanelJPanel;
     private javax.swing.JScrollPane jScrollPane1;
     private javax.swing.JPopupMenu.Separator jSeparator1;
@@ -602,5 +611,9 @@ public class GraphFrame extends javax.swing.JFrame {
     
     public JMenuItem getTutorialMenuItem() {
         return tutorialMenuItem;
+    }
+    
+    public JCheckBox getHiddenCheckBox() {
+        return hiddenCheckBox;
     }
 }
