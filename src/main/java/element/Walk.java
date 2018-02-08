@@ -72,6 +72,10 @@ public class Walk {
     public void removeEdge(int index) {
         //get the edge to be removed
         Edge e = edges.get(index);
+        //remove the edge from the walk
+        edges.remove(index);
+        simpleEdges.remove(index);
+        //Handle coloring:
         //set isWalkColored to false
         e.setIsWalkColored(false);
         //get the edge's endpoints
@@ -87,8 +91,6 @@ public class Walk {
             //set isWalkColored to false
             ep2.setIsWalkColored(false);
         }
-        edges.remove(index);
-        simpleEdges.remove(index);
     }
     
     /**

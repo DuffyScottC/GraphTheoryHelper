@@ -2105,13 +2105,13 @@ public class GraphController {
      * out of the method
      */
     private boolean shouldContinue(String message) {
+        frame.requestFocusInWindow();
         isCommandPressed = false; //unpress command
         int selection = JOptionPane.showConfirmDialog(frame, message); //ask the user if they want to continue
         //if the user did not choose "yes", then we should cancel the operation
         //if the user did choose yes, then we should continue the operation
         //if the file has been saved, then we can just return true
         return selection == JOptionPane.YES_OPTION;
-
     }
 
     private void saveGraphAs() {
