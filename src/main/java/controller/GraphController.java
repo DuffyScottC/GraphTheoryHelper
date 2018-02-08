@@ -1456,6 +1456,25 @@ public class GraphController {
     private boolean isEdgeClicked(Edge e, int mx, int my) {
         QuadCurve2D edgeQCurve = e.getPositionShape();
         Point2D.Double p0 = (Point2D.Double) edgeQCurve.getP1();
+        
+        //get the bounding box of the edge
+        Rectangle2D boundingBox = edgeQCurve.getBounds();
+        //put the edge selection distance in a smaller, more readable variable
+        double d = Values.EDGE_SELECTION_DISTANCE;
+        //get the min and max values of the new box with the selection distance buffer
+        double newMinX = boundingBox.getMinX() - d;
+        double newMinY = boundingBox.getMinY() - d;
+        double newWidth = boundingBox.getWidth() + d;
+        double newHeight = boundingBox.getHeight() + d;
+        //get the new bounding box with the selection distance buffer
+        Rectangle2D.Double bufferedBoundingBox 
+                = new Rectangle2D.Double(newMinX, newMinY, newWidth, newHeight);
+        //if the bufferedBoundingBox does NOT contain the click point
+        if (!bufferedBoundingBox.contains(mx, my)) {
+            //then the edge is definitly not clicked
+            return false;
+        }
+        //otherwise, the edge may be clicked
 
         //get an ArrayList of all the points on the given curve
         List<Point2D.Double> pointsOnCurve = getPointsOnCurve(edgeQCurve);
