@@ -26,6 +26,7 @@ public abstract class Element implements Serializable {
     protected transient boolean isHidden = false;
     protected transient boolean isHighlighted = false;
     protected transient boolean isPressed = false;
+    protected transient boolean isWalkColored = false;
 
     // the stroke is created from strokeWidth + BasicStroke
     // but BasicStroke is not serializable, so the actual

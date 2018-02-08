@@ -59,6 +59,10 @@ public class Vertex extends Element {
     
     @Override
     public void draw(Graphics2D g2) {
+        if (isHidden) {
+            return;
+        }
+        
         //set up stroke if neccessary
         if (stroke == null) {
             stroke = new BasicStroke(strokeWidth);
@@ -69,35 +73,25 @@ public class Vertex extends Element {
         Color currentStrokeColor = strokeColor;
         Color currentFillColor = fillColor;
         
-        switch (format) {
-            case NORMAL:
-                /*
-                If this edge is neither highlighted nor part of a shown walk, then
-                leave the colors as the default (chosen by the user or default)
-                */
-                break;
-            case HIGHLIGHTED: //if this edge is highlighted and NOT pressed
-                //change the current properties to the highlighted mode
-                currentStroke = new BasicStroke(Values.VERTEX_HIGHLIGHT_STROKE_WIDTH);
-                currentStrokeColor = Values.EDGE_HIGHLIGHT_COLOR;
-                break;
-            case PRESSED:
-                //change the current properties to the highlighted mode
-                currentStroke = new BasicStroke(Values.VERTEX_HIGHLIGHT_STROKE_WIDTH);
-                currentStrokeColor = Values.EDGE_PRESSED_COLOR;
-                currentFillColor = Values.VERTEX_PRESSED_COLOR;
-                break;
-            case WALK_HIDDEN: //if this element is hidden
-                //don't draw it
-                return;
-            case WALK_SHOWN: //if this edge is part of a shown walk
-                //change the current properties to the shown walk mode
-                currentStroke = new BasicStroke(Values.WALK_VERTEX_STROKE_WIDTH);
-                currentStrokeColor = Values.WALK_VERTEX_STROKE_COLOR;
-                currentFillColor = Values.WALK_VERTEX_FILL_COLOR;
-                break;
-            default:
+        if (isPressed) {
+            currentStroke = new BasicStroke(Values.VERTEX_HIGHLIGHT_STROKE_WIDTH);
+            currentStrokeColor = Values.EDGE_PRESSED_COLOR;
+            currentFillColor = Values.VERTEX_PRESSED_COLOR;
+            //if it's pressed, it can't be highlighted or walk colored
+        } else if (isHighlighted) {
+            currentStroke = new BasicStroke(Values.VERTEX_HIGHLIGHT_STROKE_WIDTH);
+            currentStrokeColor = Values.EDGE_HIGHLIGHT_COLOR;
+            //if it's highlighted, it can't be walk colored
+        } else if (isWalkColored) {
+            currentStroke = new BasicStroke(Values.WALK_VERTEX_STROKE_WIDTH);
+            currentStrokeColor = Values.WALK_VERTEX_STROKE_COLOR;
+            currentFillColor = Values.WALK_VERTEX_FILL_COLOR;
         }
+        /*
+        If this vertex is neither highlighted nor part of a shown walk,
+        then leave the colors as the default (chosen by the user or 
+        default)
+        */
          
         //Actually draw:
         g2.setStroke(currentStroke);
