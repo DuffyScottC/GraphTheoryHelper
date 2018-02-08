@@ -253,6 +253,7 @@ public class GraphController {
                     //unhide the walk
                     graphSelectionHandler.getSelectedWalk().unhide();
                 }
+                walksList.repaint();
                 canvas.repaint();
             }
         });
