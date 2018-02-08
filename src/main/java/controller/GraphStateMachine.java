@@ -5,6 +5,7 @@
  */
 package controller;
 
+import static controller.Values.Format;
 import element.Vertex;
 import javax.swing.JOptionPane;
 import controller.Values.States;
@@ -232,7 +233,7 @@ public class GraphStateMachine {
         graph.setFirstSelectedVertex(null); //prepare for the next edge
         //Unhighlight all vertices
         for (Vertex v : graph.getVertices()) {
-            v.setIsHighlighted(false);
+            v.setFormat(Format.NORMAL);
         }
         //set the editingEdge to null
         canvas.setEditingEdge(null);

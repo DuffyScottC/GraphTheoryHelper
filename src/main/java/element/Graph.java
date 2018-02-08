@@ -202,9 +202,9 @@ public class Graph implements Serializable {
         for (Vertex v : vertices) {
             //if this vertex is available to add edges to
             if (v.canAddEdges()) {
-                v.setIsHighlighted(true);
+                v.highlight(true);
             } else { //if this vertex is completely full
-                v.setIsHighlighted(false);
+                v.highlight(false);
             }
         }
     }

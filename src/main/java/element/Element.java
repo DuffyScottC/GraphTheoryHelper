@@ -6,6 +6,7 @@
 package element;
 
 import controller.Values;
+import controller.Values.Format;
 import java.awt.Color;
 import java.awt.Graphics2D;
 import java.awt.Stroke;
@@ -24,25 +25,7 @@ public abstract class Element implements Serializable {
     protected double yLoc = 0;
     protected String title = "A";
     
-    /**
-     * Is only true if this element is highlighted (selected, etc)
-     */
-    protected transient boolean isHighlighted = false;
-    /**
-     * Is only true if this element is pressed (clicked on and held)
-     */
-    protected transient boolean isPressed = false;
-    /**
-     * Is only true if this element is part of a hidden walk (meaning the user
-     * wants it to not be shown at all)
-     */
-    protected transient boolean isWalkHidden = false;
-    /**
-     * Is only true if this element is part of a walk that is highlighted
-     * (meaning the user has the walk selected and this element should be
-     * orange)
-     */
-    protected transient boolean isWalkShown = false;
+    protected transient Format format = Format.NORMAL;
 
     // the stroke is created from strokeWidth + BasicStroke
     // but BasicStroke is not serializable, so the actual
@@ -80,20 +63,8 @@ public abstract class Element implements Serializable {
         return title;
     }
 
-    public void setIsHighlighted(boolean isHighlighted) {
-        this.isHighlighted = isHighlighted;
-    }
-    
-    public void setIsPressed(boolean isPressed) {
-        this.isPressed = isPressed;
-    }
-    
-    public void setIsWalkHidden(boolean isWalkHidden) {
-        this.isWalkHidden = isWalkHidden;
-    }
-
-    public void setIsWalkShown(boolean isWalkShown) {
-        this.isWalkShown = isWalkShown;
+    public void setFormat(Format format) {
+        this.format = format;
     }
     
     @Override
