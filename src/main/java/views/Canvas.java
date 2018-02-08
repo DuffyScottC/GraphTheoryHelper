@@ -72,13 +72,6 @@ public class Canvas extends JTextArea {
     private Edge editingEdge = null;
     
     /**
-     * The selected walk, or the active walk, that the user has clicked or
-     * is working on. Kept in sync with {@link GraphController.selectedWalk} and
-     * {@link GraphSelectionHandeler.selectedWalk}
-     */
-    private Walk selectedWalk = null;
-    
-    /**
      * Only true if the user has clicked inside of an edge's control point and
      * is holding down the mouse.
      */
@@ -109,7 +102,6 @@ public class Canvas extends JTextArea {
         drawEdges(g2);
         drawVertices(g2);
         drawSelectionBox(g2);
-        drawSelectedWalk(g2);
         drawEditingEdgeCtrlPoint(g2);
         
         graphOutputTextField.setText(graph.toString());
@@ -214,16 +206,6 @@ public class Canvas extends JTextArea {
             g2.setColor(Values.SELECTION_STROKE_COLOR);
             g2.draw(shape);
         }
-    }
-    
-    private void drawSelectedWalk(Graphics2D g2) {
-        if (selectedWalk != null) {
-            selectedWalk.draw(g2);
-        }
-    }
-    
-    public void setSelectedWalk(Walk selectedWalk) {
-        this.selectedWalk = selectedWalk;
     }
     
     /**

@@ -139,8 +139,6 @@ public class GraphSelectionHandler {
     public void setSelectedWalk(Walk selectedWalk) {
         //assign the selectedWalk
         this.selectedWalk = selectedWalk;
-        //assign canvas's selectedWalk
-        canvas.setSelectedWalk(selectedWalk);
         //get the index of the selectedWalk
         int index = graph.getWalks().indexOf(selectedWalk);
         //select the walk in the JList

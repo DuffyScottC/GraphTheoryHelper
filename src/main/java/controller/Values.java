@@ -69,6 +69,10 @@ public class Values {
             default:
         }
     */
+    /**
+     * The main states the entire program can be in: Vertex adding, edge adding,
+     * selection, and walk adding.
+     */
     public static enum States {
         VERTEX_ADDING,
         EDGE_ADDING,
@@ -107,6 +111,18 @@ public class Values {
         PRESSED,
         WALK_HIDDEN,
         WALK_SHOWN
+    }
+    
+    /**
+     * The different states a Walk object can be in:<>
+     * NORMAL: Default state 
+     * SHOWN: Shown state (elements are orange)
+     * HIDDEN: Hidden state (elements are hidden)
+     */
+    public static enum WalkState {
+        NORMAL,
+        SHOWN,
+        HIDDEN
     }
     
 }
