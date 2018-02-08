@@ -2011,25 +2011,27 @@ public class GraphController {
      * @param my The y coordinate of the user's click
      */
     private void addEdgeToWalk(int mx, int my) {
+        Walk selectedWalk = graphSelectionHandler.getSelectedWalk();
         //loop through all the vertices
         for (Edge currentEdge : edges) {
             //if there is a walk selected in walksList
-            if (graphSelectionHandler.getSelectedWalk() != null) {
+            if (selectedWalk != null) {
                 //if the user clicked this edge
                 if (isEdgeClicked(currentEdge, mx, my)) {
                     //if selectedWalk already contains currentEdge
-                    if (graphSelectionHandler.getSelectedWalk().contains(currentEdge)) {
+                    if (selectedWalk.contains(currentEdge)) {
                         //remove currentEdge from the walk
-                        graphSelectionHandler.getSelectedWalk().removeEdge(currentEdge);
+                        selectedWalk.removeEdge(currentEdge);
                         walksList.repaint();
                         canvas.repaint();
                         //exit the method because we are done now
                         return;
                     } else { //if selectedWalk does NOT already contain currentEdge
                         //check if the currentEdge is connected to the edges in the walk
-                        if (graphSelectionHandler.getSelectedWalk().isEdgeConnected(currentEdge)) {
+                        //or if the selectedWalk has no edges
+                        if (selectedWalk.isEmpty() || selectedWalk.isEdgeConnected(currentEdge)) {
                             //add the currentEdge to the walk
-                            graphSelectionHandler.getSelectedWalk().addEdge(currentEdge);
+                            selectedWalk.addEdge(currentEdge);
                             walksList.repaint();
                             canvas.repaint();
                             //exit the method because we are done now

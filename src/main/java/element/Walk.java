@@ -230,10 +230,18 @@ public class Walk {
         return false;
     }
     
+    /**
+     * If this walk has no edges, then it is empty.
+     * @return 
+     */
+    public boolean isEmpty() {
+        return edges.isEmpty();
+    }
+    
     @Override
     public String toString() {
         //if the path is empty
-        if (edges.isEmpty()) {
+        if (this.isEmpty()) {
             //provide only an indicator
             return "<Empty>";
         }
