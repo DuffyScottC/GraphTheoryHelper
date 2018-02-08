@@ -41,6 +41,7 @@ public class Walk {
     
     /**
      * Add an edge to the walk (adds the edge and a matching simpleEdge)
+     * @param edge
      */
     public void addEdge(Edge edge) {
         edges.add(edge);
@@ -73,67 +74,6 @@ public class Walk {
     public void removeEdge(int index) {
         edges.remove(index);
         simpleEdges.remove(index);
-    }
-    
-    public void draw(Graphics2D g2) {
-        for (Edge e : edges) {
-            this.drawEdge(g2, e);
-            this.drawVertex(g2, e.getEndpoint1());
-            this.drawVertex(g2, e.getEndpoint2());
-        }
-    }
-    
-    /**
-     * A private helper method that draws an "edge" manually (rather than using
-     * the {@link Edge.draw(Graphics2D)} method) using walk colors and stroke
-     * widths.
-     * @param g2
-     * @param edge 
-     */
-    private void drawEdge(Graphics2D g2, Edge edge) {
-        g2.setStroke(new BasicStroke(Values.WALK_EDGE_STROKE_WIDTH));
-        g2.setColor(Values.WALK_EDGE_STROKE_COLOR);
-        //Convert the center points of the two endpoints to ints:
-        int x1 = (int) edge.getEndpoint1().getCenter().getX();
-        int y1 = (int) edge.getEndpoint1().getCenter().getY();
-        int x2 = (int) edge.getEndpoint2().getCenter().getX();
-        int y2 = (int) edge.getEndpoint2().getCenter().getY();
-        //Get the control point:
-        double ctrlX = edge.getCtrlPoint().x;
-        double ctrlY = edge.getCtrlPoint().y;
-        //Define a new quad curve from the endpoints and the control point:
-        QuadCurve2D qCurve = new QuadCurve2D.Double(); //instantiate a curve
-        qCurve.setCurve(x1, y1, ctrlX, ctrlY, x2, y2); //assign the values
-        g2.draw(qCurve); //draw the curve
-    }
-    
-    /**
-     * A private helper method that draws a "vertex" manually (rather than using
-     * the {@link Vertex.draw(Graphics2D)} method) using walk colors and stroke
-     * widths. 
-     * @param g2
-     * @param vertex The vertex to draw
-     */
-    private void drawVertex(Graphics2D g2, Vertex vertex) {
-        AffineTransform t = g2.getTransform(); // save the transform settings
-        double x = vertex.getLocation().x;
-        double y = vertex.getLocation().y;
-        g2.translate(x, y); //translate the canvas
-        
-        //Actually draw the vertex:
-        //set the stroke width
-        g2.setStroke(new BasicStroke(Values.WALK_VERTEX_STROKE_WIDTH));
-        //Draw fill circle:
-        g2.setColor(Values.WALK_VERTEX_FILL_COLOR); //set the circle's color
-        //initialize the shape object
-        Ellipse2D.Double ellipse = new Ellipse2D.Double(0, 0, 
-                Values.DIAMETER, Values.DIAMETER);
-        g2.fill(ellipse); //fill in the circle in that color
-        //Draw outline circle:
-        g2.setColor(Values.WALK_VERTEX_STROKE_COLOR); //set the circle's color
-        g2.draw(ellipse); //draw the outline in that color
-        
-        g2.setTransform(t); //restore each after drawing
     }
     
     @Override
