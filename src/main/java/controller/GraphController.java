@@ -1832,12 +1832,17 @@ public class GraphController {
         //Get all the edges from all the selected vertices:
         //first loop through all selected vertices
         for (Vertex v : graphSelectionHandler.getSelectedVertices()) {
-            //then add the list of edges from each selected vertices
-            for (SimpleEdge se : v.getEdgeNames()) {
-                //Get the edge in edges that matches se
-                Edge e = graph.getMatchingEdge(se);
-                //remove e (se's match) from edges
-                graph.removeEdge(e);
+            //if the vertex is NOT hidden (causes glitches and this is a temp fix)
+            if (!v.isHidden()) {
+                //then add the list of edges from each selected vertices
+                for (SimpleEdge se : v.getEdgeNames()) {
+                    //Get the edge in edges that matches se
+                    Edge e = graph.getMatchingEdge(se);
+                    //remove e (se's match) from edges
+                    graph.removeEdge(e);
+                    //mark the edge to be removed from adjacent vertices
+                    removeEdges.add(e);
+                }
             }
         }
 
@@ -1845,7 +1850,10 @@ public class GraphController {
         //Note: can't remove vertices by index, 
         //since indices change with each removal
         for (Vertex v : graphSelectionHandler.getSelectedVertices()) {
-            vertices.remove(v); //remove the matching vertex from the vertices
+            //if the vertex is NOT hidden (causes glitches and this is a temp fix)
+            if (!v.isHidden()) {
+                vertices.remove(v); //remove the matching vertex from the vertices
+            }
         }
 
         //Remove the edges that were attached to this vertex 
@@ -2032,10 +2040,17 @@ public class GraphController {
         if (graphSelectionHandler.getSelectedEdgeIndices().isEmpty()) {
             return;
         }
+        
+        //Get a reference to the selected edges:
+        //create a temporary ArrayList to hold the edges to be removed
+        List<Edge> edgesToRemove = new ArrayList();
+        for (Edge e : graphSelectionHandler.getSelectedEdges()) { //loop through all selected edges
+            edgesToRemove.add(e); //mark this edge to be removed
+        }
 
         //Remove the edges from the vertices that they are attached to and from
         //any walks they are a part of
-        for (Edge e : graphSelectionHandler.getSelectedEdges()) {
+        for (Edge e : edgesToRemove) {
             //Remove this edge from the vertices that the edge is attached to
             e.getEndpoint1().removeEdge(e);
             e.getEndpoint2().removeEdge(e);
