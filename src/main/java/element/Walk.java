@@ -36,8 +36,8 @@ public class Walk {
         addEdge(edge);
     }
     
-    public List<Edge> getEdges() {
-        return edges;
+    public void setEdges(List<Edge> edges) {
+        this.edges = edges;
     }
     
     public List<SimpleEdge> getSimpleEdges() {

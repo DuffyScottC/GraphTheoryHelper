@@ -681,6 +681,8 @@ public class GraphController {
                     */
                     //loop through the loadedGraph.walks list
                     for (Walk w : loadedGraph.getWalks()) {
+                        //the list of edges to be added to the walk's transient edges list
+                        List<Edge> newWalkEdges = new ArrayList();
                         //loop through the walk's simpleEdges
                         for (SimpleEdge se : w.getSimpleEdges()) {
                             //get the index of se from loadedGraph.simpleEdges
@@ -688,8 +690,10 @@ public class GraphController {
                             //get the edge at that index
                             Edge eg = loadedGraph.getEdges().get(index);
                             //add that edge to the walk's transient edges list
-                            w.getEdges().add(eg);
+                            newWalkEdges.add(eg);
                         }
+                        //set the walks's transient edges list to the newWalkEdges list
+                        w.setEdges(newWalkEdges);
                     }
                     /*
                     now the loadedGraph.walks.edges list matches the
