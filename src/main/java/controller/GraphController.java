@@ -1172,9 +1172,10 @@ public class GraphController {
      */
     public void replace(Graph newGraph) {
         //MARK: Vertices and edges
-        //Get a reverence to the new graph's vertices and edges
+        //Get a reference to the new graph's vertices, edges, and walks
         List<Vertex> newVertices = newGraph.getVertices();
         List<Edge> newEdges = newGraph.getEdges();
+        List<Walk> newWalks = newGraph.getWalks();
 
         vertices.clear(); //remove all elements from the current vertices
         for (Vertex v : newVertices) { //loop through new list
@@ -1189,6 +1190,16 @@ public class GraphController {
         }
 
         updateEdgesListModel();
+        
+        walks.clear(); //remove all the elements from the current walks
+        for (Walk w : newWalks) { //loop through new list
+            walks.add(w); //add each walk to the walks list
+        }
+        
+        updateWalksListModel();
+        
+        //deselect any walks
+        graphSelectionHandler.setSelectedWalk(null);
 
         //MARK: Colors
         //get the new graph's colors
