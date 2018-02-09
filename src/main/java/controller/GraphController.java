@@ -635,7 +635,7 @@ public class GraphController {
 
                     //deserialize jsonIn into a Graph object
                     Graph loadedGraph = gson.fromJson(jsonIn, Graph.class);
-
+                    
                     /*
                     loadedGraph comes with two things (besides colors): a 
                     vertices list, and a simpleEdges list. The next job is to
@@ -1664,8 +1664,8 @@ public class GraphController {
         //cycle through all clicked vertices
         for (Vertex clickedVertex : verticesToMove) {
             //if the vertex has any edges
-            if (!clickedVertex.getEdgeNames().isEmpty()) {
-                List<SimpleEdge> edgeNames = clickedVertex.getEdgeNames();
+            if (!clickedVertex.getSimpleEdges().isEmpty()) {
+                List<SimpleEdge> edgeNames = clickedVertex.getSimpleEdges();
                 for (SimpleEdge se : edgeNames) {
                     //Get the edge in edges that matches se
                     Edge edge = graph.getMatchingEdge(se);
@@ -1878,7 +1878,7 @@ public class GraphController {
             //if the vertex is NOT hidden (causes glitches and this is a temp fix)
             if (!v.isHidden()) {
                 //then add the list of edges from each selected vertices
-                for (SimpleEdge se : v.getEdgeNames()) {
+                for (SimpleEdge se : v.getSimpleEdges()) {
                     //Get the edge in edges that matches se
                     Edge e = graph.getMatchingEdge(se);
                     //remove e (se's match) from edges
@@ -2145,7 +2145,7 @@ public class GraphController {
 
     private void assignCanAddEdgesToConnectedVertices() {
         //Loop through all edges
-        for (SimpleEdge se : graph.getFirstSelectedVertex().getEdgeNames()) {
+        for (SimpleEdge se : graph.getFirstSelectedVertex().getSimpleEdges()) {
             //Get the edge in edges that matches se
             Edge e = graph.getMatchingEdge(se);
             //Disable both endpoints (It's not worth checking
@@ -2246,14 +2246,22 @@ public class GraphController {
     public void updateVerticesListModel() {
         verticesListModel.removeAllElements();
         for (Vertex v : vertices) {
-            verticesListModel.addElement(v);
+            if (v.isHidden()) {
+                verticesListModel.addElement("- " + v.toString());
+            } else {
+                verticesListModel.addElement(v);
+            }
         }
     }
 
     public void updateEdgesListModel() {
         edgesListModel.removeAllElements();
         for (Edge eg : edges) {
-            edgesListModel.addElement(eg);
+            if (eg.isHidden()) {
+                edgesListModel.addElement("- " + eg.toString());
+            } else {
+                edgesListModel.addElement(eg);
+            }
         }
     }
 

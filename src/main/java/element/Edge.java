@@ -229,14 +229,7 @@ public class Edge extends Element {
      */
     @Override
     public String toString() {
-        //if this edge is hidden
-        if (isHidden) {
-            //add the - in front of it
-            return "- " + endpoint1.title + "," + endpoint2.title;
-        } else { //if this edge is NOT hidden
-            //just add the titles of the endpoint
-            return endpoint1.title + "," + endpoint2.title;
-        }
+        return endpoint1.title + "," + endpoint2.title;
     }
     
     @Override

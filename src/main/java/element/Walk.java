@@ -231,7 +231,7 @@ public class Walk {
      */
     private boolean shouldHideVertex(Vertex v) {
         //loop through the vertex's SimpleEdges
-        for (SimpleEdge se : v.edgeNames) {
+        for (SimpleEdge se : v.simpleEdges) {
             //if this walk does NOT contain se
             if (!this.contains(se)) {
                 //we should not hide the vertex
@@ -251,7 +251,7 @@ public class Walk {
      */
     private boolean vertexHasEdgesInWalk(Vertex v) {
         //loop through the vertex's SimpleEdges
-        for (SimpleEdge se : v.edgeNames) {
+        for (SimpleEdge se : v.simpleEdges) {
             //if this walk contains se
             if (this.contains(se)) {
                 //this walk has at least one vertex edge

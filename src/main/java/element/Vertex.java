@@ -42,7 +42,7 @@ public class Vertex extends Element {
      * Used to delete all associated edges when this vertex
      * is deleted.
      */
-    List<SimpleEdge> edgeNames = new ArrayList<>();
+    List<SimpleEdge> simpleEdges = new ArrayList<>();
 
     public Vertex (double diameter) {
         this.diameter = diameter;
@@ -155,14 +155,14 @@ public class Vertex extends Element {
     }
     
     public int getDegree() {
-        return edgeNames.size();
+        return simpleEdges.size();
     }
     
     public void addEdge(Edge e) {
         //Convert this edge to a SimpleEdge
         SimpleEdge se = new SimpleEdge(e);
         //if the new edge is already connected to this vertex:
-        if (edgeNames.contains(se)) {
+        if (simpleEdges.contains(se)) {
             //throw an exception
             throw new RuntimeException("Attempted to add edge (" +
                     e.toString() +
@@ -171,7 +171,7 @@ public class Vertex extends Element {
                     ") twice.");
         }
         //Otherwise just add it
-        edgeNames.add(se);
+        simpleEdges.add(se);
     }
     
     public void addAllEdges(List<Edge> es) {
@@ -184,11 +184,15 @@ public class Vertex extends Element {
         //convert this edge to a SimpleEdge
         SimpleEdge se = new SimpleEdge(e);
         //remove the SimpleEdge to this vertex
-        edgeNames.remove(se);
+        simpleEdges.remove(se);
     }
     
-    public List<SimpleEdge> getEdgeNames() {
-        return edgeNames;
+    public List<SimpleEdge> getSimpleEdges() {
+        return simpleEdges;
+    }
+    
+    public void setSimpleEdges (List<SimpleEdge> simpleEdges) {
+        this.simpleEdges = simpleEdges;
     }
     
     public void setCanAddEdges(boolean canAddEdges) {
@@ -200,7 +204,7 @@ public class Vertex extends Element {
     }
     
     public boolean isAdjacentTo(Vertex v) {
-        for (SimpleEdge se : edgeNames) { //cycle through all the SimpleEdges
+        for (SimpleEdge se : simpleEdges) { //cycle through all the SimpleEdges
             if (se.hasEndpoint(v)) { //if v is an enpoint of se
                 return true;
             }
@@ -222,10 +226,6 @@ public class Vertex extends Element {
     
     @Override
     public String toString() {
-        if (isHidden) {
-            return "- " + title;
-        } else {
-            return title;
-        }
+        return title;
     }
 }
