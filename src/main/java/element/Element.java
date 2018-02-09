@@ -58,15 +58,6 @@ public abstract class Element implements Serializable {
     public final void setTitle(String title) {
         this.title = title;
     }
-
-    @Override
-    public String toString() {
-        if (isHidden) {
-            return "- " + title;
-        } else {
-            return title;
-        }
-    }
     
     public void setIsHidden(boolean isHidden) {
         this.isHidden = isHidden;
