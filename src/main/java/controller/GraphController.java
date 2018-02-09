@@ -673,6 +673,29 @@ public class GraphController {
                     loadedGraph.edges uses references to the Vertex objects
                     contained in loadedGraph.vertices.
                      */
+                    
+                    /*
+                    Now we need to loop through loadedGraph.walks' simpleEdges
+                    list and add the equivalent edges to the transient
+                    loadedGraph.walks.edges list.
+                    */
+                    //loop through the loadedGraph.walks list
+                    for (Walk w : loadedGraph.getWalks()) {
+                        //loop through the walk's simpleEdges
+                        for (SimpleEdge se : w.getSimpleEdges()) {
+                            //get the index of se from loadedGraph.simpleEdges
+                            int index = loadedGraph.getSimpleEdges().indexOf(se);
+                            //get the edge at that index
+                            Edge eg = loadedGraph.getEdges().get(index);
+                            //add that edge to the walk's transient edges list
+                            w.getEdges().add(eg);
+                        }
+                    }
+                    /*
+                    now the loadedGraph.walks.edges list matches the
+                    loadedGraph.walks.simpleEdges list
+                    */
+                    
                     //replace the old graph with the new one
                     replace(loadedGraph);
 

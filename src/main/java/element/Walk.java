@@ -36,6 +36,14 @@ public class Walk {
         addEdge(edge);
     }
     
+    public List<Edge> getEdges() {
+        return edges;
+    }
+    
+    public List<SimpleEdge> getSimpleEdges() {
+        return simpleEdges;
+    }
+    
     /**
      * Add an edge to the walk (adds the edge and a matching simpleEdge)
      * @param edge
