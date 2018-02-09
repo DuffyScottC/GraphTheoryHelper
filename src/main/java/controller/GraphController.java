@@ -677,7 +677,10 @@ public class GraphController {
                     /*
                     Now we need to loop through loadedGraph.walks' simpleEdges
                     list and add the equivalent edges to the transient
-                    loadedGraph.walks.edges list.
+                    loadedGraph.walks.edges list. We also need to unhide any
+                    hidden walks (the Walk.unhide() method automattically checks
+                    to make sure the walk is, in fact, hidden before doing any
+                    of the unhide calculations.
                     */
                     //loop through the loadedGraph.walks list
                     for (Walk w : loadedGraph.getWalks()) {
@@ -694,6 +697,8 @@ public class GraphController {
                         }
                         //set the walks's transient edges list to the newWalkEdges list
                         w.setEdges(newWalkEdges);
+                        //unhide the walk (if it is hidden)
+                        w.unhide();
                     }
                     /*
                     now the loadedGraph.walks.edges list matches the

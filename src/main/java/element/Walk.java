@@ -181,11 +181,19 @@ public class Walk {
     }
     
     public void hide() {
-        setIsHiddenForAllElements(true);
+        //if this is not already hidden
+        if (!isHidden) {
+            setIsHiddenForAllElements(true);
+        }
+        //do nothing if this is already hidden
     }
     
     public void unhide() {
-        setIsHiddenForAllElements(false);
+        //if this is already hidden
+        if (isHidden) {
+            setIsHiddenForAllElements(false);
+        }
+        //do nothing if this is not already hidden
     }
     
     private void setIsHiddenForAllElements(boolean isHidden) {
