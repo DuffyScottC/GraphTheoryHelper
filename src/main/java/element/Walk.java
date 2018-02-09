@@ -264,11 +264,6 @@ public class Walk {
     
     @Override
     public String toString() {
-        //if the path is empty
-        if (this.isEmpty()) {
-            //provide only an indicator
-            return "<Empty>";
-        }
         StringBuilder strB = new StringBuilder();
         if (isHidden) {
             strB.append("- ");
