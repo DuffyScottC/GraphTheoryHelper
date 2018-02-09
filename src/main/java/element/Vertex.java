@@ -78,9 +78,9 @@ public class Vertex extends Element {
             currentStrokeColor = Values.EDGE_PRESSED_COLOR;
             //if this is pressed AND walkColored
             if (isWalkColored) {
-                currentFillColor = Values.WALK_VERTEX_FILL_COLOR;
-            } else { //if this is pressed and NOT walkColored
                 currentFillColor = Values.WALK_VERTEX_PRESSED_COLOR;
+            } else { //if this is pressed and NOT walkColored
+                currentFillColor = Values.VERTEX_PRESSED_COLOR;
             }
             //if it's pressed, it can't be highlighted or walk colored
         } else if (isHighlighted) {
