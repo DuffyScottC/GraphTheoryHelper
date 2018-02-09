@@ -1383,67 +1383,70 @@ public class GraphController {
         boolean clickedAnEdge;
         for (int i = edges.size() - 1; i >= 0; --i) { //loop through edges
             Edge e = edges.get(i); //get the next edge in the list
-            //Check if the current edge was clicked
-            clickedAnEdge = isEdgeClicked(e, mx, my);
-            //If we clicked edge e
-            if (clickedAnEdge) {
-                //if the clicked edge is one of multiple already selected edges
-                if (graphSelectionHandler.getSelectedEdges().contains(e)) {
-                    if (isCommandPressed) {  //if command is held down
-                        //We want to deselect this edge:
-                        //Remove the clicked edge from the selection:
-                        //remove the selected edge's index
-                        graphSelectionHandler.getSelectedEdgeIndices().remove(Integer.valueOf(i));
-                        //Convert the selected indices to an array
-                        int[] tempIndices = selectedIndicesToArray(graphSelectionHandler.getSelectedEdgeIndices());
-                        //Set selected indices of the edgesList to the array
-                        //version of selectedEdgeIndices
-                        edgesList.setSelectedIndices(tempIndices);
-                        graphSelectionHandler.updateSelectedEdges();
-                    } else { //if command is not held down
-                        //We want to allow the user to move all selected edges:
-                        //add the selected edges to clickedEdges (for moving)
-                        clickedEdges.addAll(graphSelectionHandler.getSelectedEdges());
-                        clickedVertices.addAll(graphSelectionHandler.getSelectedVertices());
+            //if this edge is not hidden
+            if (!e.isHidden()) {
+                //Check if the current edge was clicked
+                clickedAnEdge = isEdgeClicked(e, mx, my);
+                //If we clicked edge e
+                if (clickedAnEdge) {
+                    //if the clicked edge is one of multiple already selected edges
+                    if (graphSelectionHandler.getSelectedEdges().contains(e)) {
+                        if (isCommandPressed) {  //if command is held down
+                            //We want to deselect this edge:
+                            //Remove the clicked edge from the selection:
+                            //remove the selected edge's index
+                            graphSelectionHandler.getSelectedEdgeIndices().remove(Integer.valueOf(i));
+                            //Convert the selected indices to an array
+                            int[] tempIndices = selectedIndicesToArray(graphSelectionHandler.getSelectedEdgeIndices());
+                            //Set selected indices of the edgesList to the array
+                            //version of selectedEdgeIndices
+                            edgesList.setSelectedIndices(tempIndices);
+                            graphSelectionHandler.updateSelectedEdges();
+                        } else { //if command is not held down
+                            //We want to allow the user to move all selected edges:
+                            //add the selected edges to clickedEdges (for moving)
+                            clickedEdges.addAll(graphSelectionHandler.getSelectedEdges());
+                            clickedVertices.addAll(graphSelectionHandler.getSelectedVertices());
+                        }
+                        //if the user clicked an entirely new edge
+                    } else {
+                        System.out.print("");
+                        if (isCommandPressed) { //if command is held down
+                            //We want to add the new edge to the current set of 
+                            //already selected edges:
+                            //append the index of this clicked edge to the selection
+                            graphSelectionHandler.getSelectedEdgeIndices().add(i);
+                            //Convert the selected indices to an array
+                            int[] tempIndices = selectedIndicesToArray(graphSelectionHandler.getSelectedEdgeIndices());
+                            //Set selected indices of the edgesList to the array
+                            //version of selectedEdgeIndices
+                            edgesList.setSelectedIndices(tempIndices);
+                            graphSelectionHandler.updateSelectedEdges();
+                            //add the selected edges to clickedEdges (for moving)
+                            clickedEdges.addAll(graphSelectionHandler.getSelectedEdges());
+                            clickedVertices.addAll(graphSelectionHandler.getSelectedVertices());
+                        } else { //if command is not held down
+                            //We want to make this the only selected edge:
+                            //store the clicked edge (for moving)
+                            clickedEdges.add(e);
+                            //Update the selection:
+                            //deselect all vertices
+                            graphSelectionHandler.getSelectedVertexIndices().clear();
+                            graphSelectionHandler.updateSelectedVertices();
+                            //select the edge
+                            edgesList.setSelectedIndex(i);
+                            //clear the previous selection
+                            graphSelectionHandler.getSelectedEdgeIndices().clear();
+                            //add this index to the selection
+                            graphSelectionHandler.getSelectedEdgeIndices().add(i);
+                            graphSelectionHandler.updateSelectedEdges();
+                        }
                     }
-                    //if the user clicked an entirely new edge
-                } else {
-                    System.out.print("");
-                    if (isCommandPressed) { //if command is held down
-                        //We want to add the new edge to the current set of 
-                        //already selected edges:
-                        //append the index of this clicked edge to the selection
-                        graphSelectionHandler.getSelectedEdgeIndices().add(i);
-                        //Convert the selected indices to an array
-                        int[] tempIndices = selectedIndicesToArray(graphSelectionHandler.getSelectedEdgeIndices());
-                        //Set selected indices of the edgesList to the array
-                        //version of selectedEdgeIndices
-                        edgesList.setSelectedIndices(tempIndices);
-                        graphSelectionHandler.updateSelectedEdges();
-                        //add the selected edges to clickedEdges (for moving)
-                        clickedEdges.addAll(graphSelectionHandler.getSelectedEdges());
-                        clickedVertices.addAll(graphSelectionHandler.getSelectedVertices());
-                    } else { //if command is not held down
-                        //We want to make this the only selected edge:
-                        //store the clicked edge (for moving)
-                        clickedEdges.add(e);
-                        //Update the selection:
-                        //deselect all vertices
-                        graphSelectionHandler.getSelectedVertexIndices().clear();
-                        graphSelectionHandler.updateSelectedVertices();
-                        //select the edge
-                        edgesList.setSelectedIndex(i);
-                        //clear the previous selection
-                        graphSelectionHandler.getSelectedEdgeIndices().clear();
-                        //add this index to the selection
-                        graphSelectionHandler.getSelectedEdgeIndices().add(i);
-                        graphSelectionHandler.updateSelectedEdges();
-                    }
+                    //Whether we clicked a selected or unselected edge:
+                    canvas.repaint();
+                    boolean didSelectElement = true;
+                    return didSelectElement; //exit the loop (we don't need to check the rest)
                 }
-                //Whether we clicked a selected or unselected edge:
-                canvas.repaint();
-                boolean didSelectElement = true;
-                return didSelectElement; //exit the loop (we don't need to check the rest)
             }
             //otherwise check next edge
         }
@@ -1886,17 +1889,20 @@ public class GraphController {
                 if (!edges.isEmpty()) { //if there are edges to be chosen
                     //cycle through all the edges
                     for (Edge edge : edges) {
-                        //if this edge was clicked
-                        if (isEdgeClicked(edge, mx, my)) {
-                            //set the editingEdge
-                            canvas.setEditingEdge(edge);
-                            //find the index of the editingEdge
-                            int index = edges.indexOf(canvas.getEditingEdge());
-                            //select the editingEdge
-                            graphSelectionHandler.getSelectedEdgeIndices().add(index);
-                            edgesList.setSelectedIndex(index);
-                            graphSelectionHandler.updateSelectedEdges();
-                            canvas.repaint();
+                        //if this edge is NOT hidden
+                        if (!edge.isHidden()) {
+                            //if this edge was clicked
+                            if (isEdgeClicked(edge, mx, my)) {
+                                //set the editingEdge
+                                canvas.setEditingEdge(edge);
+                                //find the index of the editingEdge
+                                int index = edges.indexOf(canvas.getEditingEdge());
+                                //select the editingEdge
+                                graphSelectionHandler.getSelectedEdgeIndices().add(index);
+                                edgesList.setSelectedIndex(index);
+                                graphSelectionHandler.updateSelectedEdges();
+                                canvas.repaint();
+                            }
                         }
                     }
                 }
@@ -2065,43 +2071,49 @@ public class GraphController {
         for (Edge currentEdge : edges) {
             //if there is a walk selected in walksList
             if (selectedWalk != null) {
-                //if the user clicked this edge
-                if (isEdgeClicked(currentEdge, mx, my)) {
-                    //if selectedWalk already contains currentEdge
-                    if (selectedWalk.contains(currentEdge)) {
-                        //remove currentEdge from the walk
-                        selectedWalk.removeEdge(currentEdge);
-                        walksList.repaint();
-                        canvas.repaint();
-                        //exit the method because we are done now
-                        return;
-                    } else { //if selectedWalk does NOT already contain currentEdge
-                        //check if the currentEdge is connected to the edges in the walk
-                        //or if the selectedWalk has no edges
-                        if (selectedWalk.isEmpty() || selectedWalk.isEdgeConnected(currentEdge)) {
-                            //add the currentEdge to the walk
-                            selectedWalk.addEdge(currentEdge);
+                //if the selected walk is NOT hidden
+                if (!selectedWalk.isHidden()) {
+                    //if the user clicked this edge
+                    if (isEdgeClicked(currentEdge, mx, my)) {
+                        //if selectedWalk already contains currentEdge
+                        if (selectedWalk.contains(currentEdge)) {
+                            //remove currentEdge from the walk
+                            selectedWalk.removeEdge(currentEdge);
                             walksList.repaint();
                             canvas.repaint();
                             //exit the method because we are done now
                             return;
+                        } else { //if selectedWalk does NOT already contain currentEdge
+                            //check if the currentEdge is connected to the edges in the walk
+                            //or if the selectedWalk has no edges
+                            if (selectedWalk.isEmpty() || selectedWalk.isEdgeConnected(currentEdge)) {
+                                //add the currentEdge to the walk
+                                selectedWalk.addEdge(currentEdge);
+                                walksList.repaint();
+                                canvas.repaint();
+                                //exit the method because we are done now
+                                return;
+                            }
                         }
                     }
                 }
             } else { //if <None> is selected in the walksList
-                //if the user clicked this edge
-                if (isEdgeClicked(currentEdge, mx, my)) {
-                    //create a new walk
-                    Walk newWalk = new Walk(currentEdge);
-                    //add the new walk to the graph
-                    walks.add(newWalk);
-                    //update the list model
-                    updateWalksListModel();
-                    //update the selection
-                    graphSelectionHandler.setSelectedWalk(newWalk);
-                    canvas.repaint();
-                    //we can be done searching
-                    return;
+                //if currentEdge is NOT hidden
+                if (!currentEdge.isHidden()) {
+                    //if the user clicked this edge
+                    if (isEdgeClicked(currentEdge, mx, my)) {
+                        //create a new walk
+                        Walk newWalk = new Walk(currentEdge);
+                        //add the new walk to the graph
+                        walks.add(newWalk);
+                        //update the list model
+                        updateWalksListModel();
+                        //update the selection
+                        graphSelectionHandler.setSelectedWalk(newWalk);
+                        canvas.repaint();
+                        //we can be done searching
+                        return;
+                    }
                 }
             }
         }
