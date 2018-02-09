@@ -241,6 +241,7 @@ public class GraphFrame extends javax.swing.JFrame {
         inspectorPanelJPanel.add(walksScrollPane, gridBagConstraints);
 
         hiddenCheckBox.setText("Hidden");
+        hiddenCheckBox.setFocusable(false);
         gridBagConstraints = new java.awt.GridBagConstraints();
         gridBagConstraints.gridx = 0;
         gridBagConstraints.gridy = 8;

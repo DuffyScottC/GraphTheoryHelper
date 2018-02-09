@@ -243,10 +243,12 @@ public class GraphController {
         });
         
         frame.getHiddenCheckBox().addActionListener((ActionEvent e) -> {
-            //if there is a selected walk
+            //if there is a selected walk (should be one, but just in case)
             if (graphSelectionHandler.getSelectedWalk() != null) {
                 //if the user selected to hide the walk
                 if (frame.getHiddenCheckBox().isSelected()) {
+                    //clear the selection
+                graphSelectionHandler.clearSelection();
                     //hide the walk
                     graphSelectionHandler.getSelectedWalk().hide();
                 } else { //if the user unhid the walk
@@ -511,7 +513,7 @@ public class GraphController {
         });
         
         walksList.addListSelectionListener((ListSelectionEvent e) -> {
-            //store the last selected index (for addMouseListener)
+            //store the last selected index (for addMouseListener below)
             lastSelectedWalkIndex = e.getLastIndex();
         });
         
