@@ -68,7 +68,7 @@ public abstract class Element implements Serializable {
         this.isHidden = isHidden;
     }
     
-    public boolean getIsHidden() {
+    public boolean isHidden() {
         return isHidden;
     }
     
