@@ -233,7 +233,21 @@ public class GraphController {
         addKeyboardShortcuts();
 
         graphStateMachine.enterState(States.VERTEX_ADDING);
-
+        
+        //Set up list models:
+        //set them to their respective JLists
+        verticesList.setModel(verticesListModel);
+        edgesList.setModel(edgesListModel);
+        walksList.setModel(walksListModel);
+        //set their selection modes
+        verticesList.setSelectionMode(ListSelectionModel.MULTIPLE_INTERVAL_SELECTION);
+        edgesList.setSelectionMode(ListSelectionModel.MULTIPLE_INTERVAL_SELECTION);
+        walksList.setSelectionMode(ListSelectionModel.SINGLE_SELECTION);
+        //initialize the walksListModel
+        walksListModel.addElement("<None>");
+        //set the selection to that first element <None>
+        graphSelectionHandler.setSelectedWalk(null);
+        
         //Delete
         frame.getDeleteButton().addActionListener((ActionEvent e) -> {
             deleteSelectedElements();
@@ -569,20 +583,6 @@ public class GraphController {
             canvas.repaint();
             setIsModified(true);
         });
-
-        //Set up list models:
-        //set them to their respective JLists
-        verticesList.setModel(verticesListModel);
-        edgesList.setModel(edgesListModel);
-        walksList.setModel(walksListModel);
-        //set their selection modes
-        verticesList.setSelectionMode(ListSelectionModel.MULTIPLE_INTERVAL_SELECTION);
-        edgesList.setSelectionMode(ListSelectionModel.MULTIPLE_INTERVAL_SELECTION);
-        walksList.setSelectionMode(ListSelectionModel.SINGLE_SELECTION);
-        //initialize the walksListModel
-        walksListModel.addElement("<None>");
-        //set the selection to that first element <None>
-        walksList.setSelectedIndex(0);
 
         frame.getSaveAsMenuItem().addActionListener((ActionEvent e) -> {
             saveGraphAs();
