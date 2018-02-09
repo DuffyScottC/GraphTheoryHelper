@@ -61,17 +61,23 @@ public class Walk {
      * Sets isWalkColored to false and isHidden to false for the given edge.
      * @param e The Edge to be removed
      */
-    public void removeEdge(Edge e) {
+    public boolean removeEdge(Edge e) {
         int index = edges.indexOf(e);
-        removeEdge(index);
+        return removeEdge(index);
     }
     
     /**
      * Removes the edge at the given index from the walk. Sets isWalkColored
      * to false and isHidden to false for the given edge.
      * @param index The index of the edge to be removed
+     * @return True if the given edge was in the walk and was successfully
+     * removed, false if the edge was not contained in the walk at all
      */
-    public void removeEdge(int index) {
+    public boolean removeEdge(int index) {
+        if (index == -1) {
+            //the edge does not exist in this walk
+            return false;
+        }
         //get the edge to be removed
         Edge e = edges.get(index);
         //remove the edge from the walk
@@ -95,6 +101,8 @@ public class Walk {
             ep2.setIsWalkColored(false);
             ep2.setIsHidden(false);
         }
+        //we successfully deleted the edge
+        return true;
     }
     
     public boolean isEdgeConnected(Edge givenEdge) {

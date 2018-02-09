@@ -2003,11 +2003,18 @@ public class GraphController {
             edgesToRemove.add(e); //mark this edge to be removed
         }
 
-        //Remove the edges from the vertices that they are attached to
+        //Remove the edges from the vertices that they are attached to and from
+        //any walks they are a part of
         for (Edge e : edgesToRemove) {
             //Remove this edge from the vertices that the edge is attached to
             e.getEndpoint1().removeEdge(e);
             e.getEndpoint2().removeEdge(e);
+            //Remove this edge from any walks it is part of:
+            //cycle through the walks
+            for (Walk w : walks) {
+                //remove the edge from the walk (if it's contained in it at all)
+                w.removeEdge(e);
+            }
         }
 
         //remove all the edges from the edges list
@@ -2024,6 +2031,7 @@ public class GraphController {
         //in case the user was holding down the mouse when they switched states
         canvas.setMovingControlPoint(false);
 
+        walksList.repaint();
         canvas.repaint();
     }
 
