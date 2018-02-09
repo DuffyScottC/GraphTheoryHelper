@@ -267,9 +267,9 @@ public class GraphController {
                     //unhide the walk
                     graphSelectionHandler.getSelectedWalk().unhide();
                 }
-                //repaint everything that changed (changed element names and canvas)
-                verticesList.repaint();
-                edgesList.repaint();
+                //add the "-" to the hidden elements
+                updateVerticesListModel();
+                updateEdgesListModel();
                 walksList.repaint();
                 canvas.repaint();
             }
@@ -2128,7 +2128,9 @@ public class GraphController {
      */
     private void removeEmptyWalks() {
         for (Walk w : walks) {
-            removeWalk(w);
+            if (w.isEmpty()) {
+                removeWalk(w);
+            }
         }
     }
     
