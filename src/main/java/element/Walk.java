@@ -58,6 +58,7 @@ public class Walk {
     
     /**
      * Removes both the given Edge and its matching SimpleEdge from the walk.
+     * Sets isWalkColored to false and isHidden to false for the given edge.
      * @param e The Edge to be removed
      */
     public void removeEdge(Edge e) {
@@ -66,7 +67,8 @@ public class Walk {
     }
     
     /**
-     * Removes the edge at the given index from the walk.
+     * Removes the edge at the given index from the walk. Sets isWalkColored
+     * to false and isHidden to false for the given edge.
      * @param index The index of the edge to be removed
      */
     public void removeEdge(int index) {
@@ -85,11 +87,13 @@ public class Walk {
         if (!vertexHasEdgesInWalk(ep1)) {
             //set isWalkColored to false
             ep1.setIsWalkColored(false);
+            ep1.setIsHidden(false);
         }
         //if ep2 does NOT have even one edge in this walk
         if (!vertexHasEdgesInWalk(ep2)) {
             //set isWalkColored to false
             ep2.setIsWalkColored(false);
+            ep2.setIsHidden(false);
         }
     }
     
@@ -165,7 +169,7 @@ public class Walk {
     }
     
     public void unhide() {
-        setIsHiddenForAllElements(true);
+        setIsHiddenForAllElements(false);
     }
     
     private void setIsHiddenForAllElements(boolean isHidden) {
