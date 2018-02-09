@@ -516,8 +516,14 @@ public class GraphController {
                 int[] tempIndices = edgesList.getSelectedIndices();
                 //loop through the selected indices
                 for (int i : tempIndices) {
-                    //add each one to the main ArrayList
-                    graphSelectionHandler.getSelectedEdgeIndices().add(i);
+                    //if the edge at the given index is NOT hidden
+                    if (!edges.get(i).isHidden()) {
+                        //add each one to the main ArrayList
+                        graphSelectionHandler.getSelectedEdgeIndices().add(i);
+                    } else { //if the edge is hidden
+                        //remove it from the selection
+                        edgesList.removeSelectionInterval(i, i);
+                    }
                 }
                 graphSelectionHandler.updateSelectedEdges();
                 canvas.repaint();
