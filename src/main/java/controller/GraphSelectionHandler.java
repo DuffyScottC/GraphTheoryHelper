@@ -145,6 +145,7 @@ public class GraphSelectionHandler {
         }
         
         if (selectedWalk == null) { //if we're deselecting all walks
+            this.selectedWalk = null;
             //select the <None> index
             walksList.setSelectedIndex(0);
             //unchoose the hidden checkbox
