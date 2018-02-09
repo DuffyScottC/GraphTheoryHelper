@@ -491,8 +491,14 @@ public class GraphController {
                 int[] tempIndices = verticesList.getSelectedIndices();
                 //loop through the selected indices
                 for (int i : tempIndices) {
-                    //add each one to the main ArrayList
-                    graphSelectionHandler.getSelectedVertexIndices().add(i);
+                    //if the vertex is NOT hidden
+                    if (!vertices.get(i).isHidden()) {
+                        //add each one to the main ArrayList
+                        graphSelectionHandler.getSelectedVertexIndices().add(i);
+                    } else { //if the vertex is hidden
+                        //remove it from the selection
+                        verticesList.removeSelectionInterval(i, i);
+                    }
                 }
                 graphSelectionHandler.updateSelectedVertices();
                 canvas.repaint();
