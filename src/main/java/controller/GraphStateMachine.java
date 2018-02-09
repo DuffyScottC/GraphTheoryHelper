@@ -100,15 +100,8 @@ public class GraphStateMachine {
         addEdgesMenuItem.addActionListener(addEdges);
         
         //Add walks
-        ActionListener addWalks = (ActionEvent e) -> {enterState(States.WALK_ADDING);
-            //if no walk is selected
-            if (graphSelectionHandeler.getSelectedWalk() == null) {
-                //if there is at least one walk in the graph
-                if (!graph.getWalks().isEmpty()) {
-                    //set the selected walk to the first element in the list
-                    graphSelectionHandeler.setSelectedWalk(graph.getWalks().get(0));
-                }
-            }
+        ActionListener addWalks = (ActionEvent e) -> {
+            enterState(States.WALK_ADDING);
             canvas.repaint();
         };
         addWalksButton.addActionListener(addWalks);
