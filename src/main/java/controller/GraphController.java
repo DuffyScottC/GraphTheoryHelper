@@ -1027,7 +1027,6 @@ public class GraphController {
                         selectAllVertices();
                     }
                 }
-
             }
 
             @Override
@@ -2180,6 +2179,7 @@ public class GraphController {
                             if (selectedWalk.isEmpty()) {
                                 //delete the selected walk
                                 removeWalk(selectedWalk);
+                                walksList.setSelectedIndex(0);
                             }
                             walksList.repaint();
                             canvas.repaint();
