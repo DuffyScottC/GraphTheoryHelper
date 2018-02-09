@@ -1832,6 +1832,7 @@ public class GraphController {
         if (!graphSelectionHandler.getSelectedEdgeIndices().isEmpty()) {
             removeEdges();
         }
+        removeEmptyWalks();
     }
 
     /**
@@ -2117,6 +2118,26 @@ public class GraphController {
         walksList.repaint();
         canvas.repaint();
     }
+    
+    /**
+     * Removes empty walks from the walks list
+     */
+    private void removeEmptyWalks() {
+        for (Walk w : walks) {
+            removeWalk(w);
+        }
+    }
+    
+    /**
+     * Removes the given walk from the walks list, sets the selectedWalk to
+     * null, and updates the walksListModel
+     * @param w 
+     */
+    private void removeWalk(Walk w) {
+        walks.remove(w);
+        graphSelectionHandler.setSelectedWalk(null);
+        updateWalksListModel();
+    }
 
     private void assignCanAddEdgesToConnectedVertices() {
         //Loop through all edges
@@ -2150,14 +2171,18 @@ public class GraphController {
                         if (selectedWalk.contains(currentEdge)) {
                             //remove currentEdge from the walk
                             selectedWalk.removeEdge(currentEdge);
+                            //if the walk is empty now
+                            if (selectedWalk.isEmpty()) {
+                                //delete the selected walk
+                                removeWalk(selectedWalk);
+                            }
                             walksList.repaint();
                             canvas.repaint();
                             //exit the method because we are done now
                             return;
                         } else { //if selectedWalk does NOT already contain currentEdge
                             //check if the currentEdge is connected to the edges in the walk
-                            //or if the selectedWalk has no edges
-                            if (selectedWalk.isEmpty() || selectedWalk.isEdgeConnected(currentEdge)) {
+                            if (selectedWalk.isEdgeConnected(currentEdge)) {
                                 //add the currentEdge to the walk
                                 selectedWalk.addEdge(currentEdge);
                                 walksList.repaint();
