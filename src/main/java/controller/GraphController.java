@@ -248,7 +248,7 @@ public class GraphController {
                 //if the user selected to hide the walk
                 if (frame.getHiddenCheckBox().isSelected()) {
                     //clear the selection
-                graphSelectionHandler.clearSelection();
+                    graphSelectionHandler.clearSelection();
                     //hide the walk
                     graphSelectionHandler.getSelectedWalk().hide();
                 } else { //if the user unhid the walk
