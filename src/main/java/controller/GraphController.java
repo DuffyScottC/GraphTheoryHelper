@@ -267,6 +267,9 @@ public class GraphController {
                     //unhide the walk
                     graphSelectionHandler.getSelectedWalk().unhide();
                 }
+                //repaint everything that changed (changed element names and canvas)
+                verticesList.repaint();
+                edgesList.repaint();
                 walksList.repaint();
                 canvas.repaint();
             }

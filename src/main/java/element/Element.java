@@ -61,7 +61,11 @@ public abstract class Element implements Serializable {
 
     @Override
     public String toString() {
-        return title;
+        if (isHidden) {
+            return "- " + title;
+        } else {
+            return title;
+        }
     }
     
     public void setIsHidden(boolean isHidden) {
