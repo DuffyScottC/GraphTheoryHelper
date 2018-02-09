@@ -1038,11 +1038,11 @@ public class GraphController {
         canvas.addKeyListener(keyboardShortcuts);
         verticesList.addKeyListener(keyboardShortcuts);
         edgesList.addKeyListener(keyboardShortcuts);
+        walksList.addKeyListener(keyboardShortcuts);
         addVerticesButton.addKeyListener(keyboardShortcuts);
         addEdgesButton.addKeyListener(keyboardShortcuts);
         selectionButton.addKeyListener(keyboardShortcuts);
         addWalksButton.addKeyListener(keyboardShortcuts);
-//        titleTextField.addKeyListener(keyboardShortcuts);
         frame.getDeleteButton().addKeyListener(keyboardShortcuts);
         frame.getGraphOutputTextField().addKeyListener(keyboardShortcuts);
     }
