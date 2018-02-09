@@ -1992,20 +1992,14 @@ public class GraphController {
     }
 
     private void removeEdges() {
-        //If the user did not choose an edge
+        //If the user did not choose any edges
         if (graphSelectionHandler.getSelectedEdgeIndices().isEmpty()) {
             return;
-        }
-        //Get a reference to the selected edges:
-        //create a temporary ArrayList to hold the edges to be removed
-        List<Edge> edgesToRemove = new ArrayList();
-        for (Edge e : graphSelectionHandler.getSelectedEdges()) { //loop through all selected edges
-            edgesToRemove.add(e); //mark this edge to be removed
         }
 
         //Remove the edges from the vertices that they are attached to and from
         //any walks they are a part of
-        for (Edge e : edgesToRemove) {
+        for (Edge e : graphSelectionHandler.getSelectedEdges()) {
             //Remove this edge from the vertices that the edge is attached to
             e.getEndpoint1().removeEdge(e);
             e.getEndpoint2().removeEdge(e);
