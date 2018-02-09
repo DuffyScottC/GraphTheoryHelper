@@ -1703,29 +1703,32 @@ public class GraphController {
         for (int i = vertices.size() - 1; i >= 0; i--) {
             //get the current vertex in the loop
             Vertex vertex = vertices.get(i);
-            //get the center position of the vertex
-            Point2D.Double pos = vertex.getCenter();
-            int px = (int) pos.x;
-            int py = (int) pos.y;
-            //if the center is within the boundingBox
-            if (ltlt(endX, px, startX)) { //a or d
-                if (ltlt(endY, py, startY)) { //a
-                    graphSelectionHandler.getSelectedVertexIndices().add(i);
-                } else {
-                    if (ltlt(startY, py, endY)) { //d
-                        graphSelectionHandler.getSelectedVertexIndices().add(i);
-                    } //not in bounding box
-                }
-            } else {
-                if (ltlt(startX, px, endX)) { //b or c
-                    if (ltlt(endY, py, startY)) { //b
+            //if the vertex is NOT hidden
+            if (!vertex.isHidden()) {
+                //get the center position of the vertex
+                Point2D.Double pos = vertex.getCenter();
+                int px = (int) pos.x;
+                int py = (int) pos.y;
+                //if the center is within the boundingBox
+                if (ltlt(endX, px, startX)) { //a or d
+                    if (ltlt(endY, py, startY)) { //a
                         graphSelectionHandler.getSelectedVertexIndices().add(i);
                     } else {
-                        if (ltlt(startY, py, endY)) { //c
+                        if (ltlt(startY, py, endY)) { //d
                             graphSelectionHandler.getSelectedVertexIndices().add(i);
                         } //not in bounding box
                     }
-                } //not in bounding box
+                } else {
+                    if (ltlt(startX, px, endX)) { //b or c
+                        if (ltlt(endY, py, startY)) { //b
+                            graphSelectionHandler.getSelectedVertexIndices().add(i);
+                        } else {
+                            if (ltlt(startY, py, endY)) { //c
+                                graphSelectionHandler.getSelectedVertexIndices().add(i);
+                            } //not in bounding box
+                        }
+                    } //not in bounding box
+                }
             }
         }
         //now we have a list of selected vertices
