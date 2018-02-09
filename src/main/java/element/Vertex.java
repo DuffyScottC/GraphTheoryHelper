@@ -116,8 +116,12 @@ public class Vertex extends Element {
     }
     
     public void drawTitle(Graphics2D g2) {
-        g2.setColor(Color.BLACK);
-        g2.drawString(title, (int) xLoc, (int) yLoc - 8);
+        //if this vertex is NOT hidden
+        if (!isHidden) {
+            //draw the title
+            g2.setColor(Color.BLACK);
+            g2.drawString(title, (int) xLoc, (int) yLoc - 8);
+        }
     }
     
     public void incLocation(double xInc, double yInc) {
