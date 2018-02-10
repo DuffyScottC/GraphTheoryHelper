@@ -977,7 +977,7 @@ public class GraphController {
             }
         });
         
-        frame.getTutorialMenuItem().addActionListener((ActionEvent e) -> {
+        frame.getDonateMenuItem().addActionListener((ActionEvent e) -> {
             try {
                 Desktop.getDesktop().browse(
                         new URI("PayPal.Me/DuffyScottC/5"));
