@@ -121,11 +121,7 @@ public class Vertex extends Element {
         if (!isHidden) {
             //draw the title
             g2.setColor(Color.BLACK);
-            //get the length of the title
-            int numOfChars = title.length();
-            int widthOfString = 9 * numOfChars;
-            int titleOffset = widthOfString / 2 - 1;
-            g2.drawString(title, (int) xLoc + titleOffset, (int) yLoc - 8);
+            g2.drawString(title, (int) xLoc, (int) yLoc - 8);
         }
     }
     
