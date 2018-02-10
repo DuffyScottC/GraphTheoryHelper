@@ -58,11 +58,11 @@ public class GraphFrame extends javax.swing.JFrame {
         titleTextField = new javax.swing.JTextField();
         walksLabel = new javax.swing.JLabel();
         hiddenCheckBox = new javax.swing.JCheckBox();
-        jScrollPane2 = new javax.swing.JScrollPane();
+        verticesListScrollPane = new ListScrollPane();//new javax.swing.JScrollPane();
         verticesList = new javax.swing.JList<>();
-        jScrollPane3 = new javax.swing.JScrollPane();
+        edgesListScrollPane = new ListScrollPane();//new javax.swing.JScrollPane();
         edgesList = new javax.swing.JList<>();
-        jScrollPane4 = new javax.swing.JScrollPane();
+        walksListScrollPane = new ListScrollPane();//new javax.swing.JScrollPane();
         walksList = new javax.swing.JList<>();
         toolBar = new javax.swing.JToolBar();
         addVerticesButton = new javax.swing.JToggleButton();
@@ -191,7 +191,7 @@ public class GraphFrame extends javax.swing.JFrame {
             public int getSize() { return strings.length; }
             public String getElementAt(int i) { return strings[i]; }
         });
-        jScrollPane2.setViewportView(verticesList);
+        verticesListScrollPane.setViewportView(verticesList);
 
         gridBagConstraints = new java.awt.GridBagConstraints();
         gridBagConstraints.gridx = 0;
@@ -199,14 +199,14 @@ public class GraphFrame extends javax.swing.JFrame {
         gridBagConstraints.fill = java.awt.GridBagConstraints.BOTH;
         gridBagConstraints.weighty = 0.1;
         gridBagConstraints.insets = new java.awt.Insets(0, 4, 0, 4);
-        inspectorPanelJPanel.add(jScrollPane2, gridBagConstraints);
+        inspectorPanelJPanel.add(verticesListScrollPane, gridBagConstraints);
 
         edgesList.setModel(new javax.swing.AbstractListModel<String>() {
             String[] strings = { "Item 1", "Item 2", "Item 3", "Item 4", "Item 5" };
             public int getSize() { return strings.length; }
             public String getElementAt(int i) { return strings[i]; }
         });
-        jScrollPane3.setViewportView(edgesList);
+        edgesListScrollPane.setViewportView(edgesList);
 
         gridBagConstraints = new java.awt.GridBagConstraints();
         gridBagConstraints.gridx = 0;
@@ -214,14 +214,14 @@ public class GraphFrame extends javax.swing.JFrame {
         gridBagConstraints.fill = java.awt.GridBagConstraints.BOTH;
         gridBagConstraints.weighty = 0.1;
         gridBagConstraints.insets = new java.awt.Insets(0, 4, 0, 4);
-        inspectorPanelJPanel.add(jScrollPane3, gridBagConstraints);
+        inspectorPanelJPanel.add(edgesListScrollPane, gridBagConstraints);
 
         walksList.setModel(new javax.swing.AbstractListModel<String>() {
             String[] strings = { "Item 1", "Item 2", "Item 3", "Item 4", "Item 5" };
             public int getSize() { return strings.length; }
             public String getElementAt(int i) { return strings[i]; }
         });
-        jScrollPane4.setViewportView(walksList);
+        walksListScrollPane.setViewportView(walksList);
 
         gridBagConstraints = new java.awt.GridBagConstraints();
         gridBagConstraints.gridx = 0;
@@ -229,7 +229,7 @@ public class GraphFrame extends javax.swing.JFrame {
         gridBagConstraints.fill = java.awt.GridBagConstraints.BOTH;
         gridBagConstraints.weighty = 0.1;
         gridBagConstraints.insets = new java.awt.Insets(0, 4, 0, 4);
-        inspectorPanelJPanel.add(jScrollPane4, gridBagConstraints);
+        inspectorPanelJPanel.add(walksListScrollPane, gridBagConstraints);
 
         gridBagConstraints = new java.awt.GridBagConstraints();
         gridBagConstraints.gridx = 2;
@@ -405,6 +405,7 @@ public class GraphFrame extends javax.swing.JFrame {
     private javax.swing.JMenuItem donateMenuItem;
     private javax.swing.JLabel edgesLabel;
     private javax.swing.JList<String> edgesList;
+    private javax.swing.JScrollPane edgesListScrollPane;
     private javax.swing.JMenuItem exportMenuItem;
     private javax.swing.JMenu fileMenu;
     private javax.swing.JMenuItem formatVerticesMenuItem;
@@ -414,9 +415,6 @@ public class GraphFrame extends javax.swing.JFrame {
     private javax.swing.JCheckBox hiddenCheckBox;
     private javax.swing.JPanel inspectorPanelJPanel;
     private javax.swing.JScrollPane jScrollPane1;
-    private javax.swing.JScrollPane jScrollPane2;
-    private javax.swing.JScrollPane jScrollPane3;
-    private javax.swing.JScrollPane jScrollPane4;
     private javax.swing.JPopupMenu.Separator jSeparator1;
     private javax.swing.JPopupMenu.Separator jSeparator2;
     private javax.swing.JPanel mainPanel;
@@ -437,9 +435,11 @@ public class GraphFrame extends javax.swing.JFrame {
     private javax.swing.JMenuItem tutorialMenuItem;
     private javax.swing.JLabel verticesLabel;
     private javax.swing.JList<String> verticesList;
+    private javax.swing.JScrollPane verticesListScrollPane;
     private javax.swing.JMenu viewMenu;
     private javax.swing.JLabel walksLabel;
     private javax.swing.JList<String> walksList;
+    private javax.swing.JScrollPane walksListScrollPane;
     // End of variables declaration//GEN-END:variables
 
     public JToggleButton getAddEdgesButton() {
