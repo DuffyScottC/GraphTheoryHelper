@@ -1537,8 +1537,8 @@ public class GraphController {
         //get the min and max values of the new box with the selection distance buffer
         double newMinX = boundingBox.getMinX() - d;
         double newMinY = boundingBox.getMinY() - d;
-        double newWidth = boundingBox.getWidth() + d;
-        double newHeight = boundingBox.getHeight() + d;
+        double newWidth = boundingBox.getWidth() + d*2;
+        double newHeight = boundingBox.getHeight() + d*2;
         //get the new bounding box with the selection distance buffer
         Rectangle2D.Double bufferedBoundingBox 
                 = new Rectangle2D.Double(newMinX, newMinY, newWidth, newHeight);
@@ -2243,7 +2243,7 @@ public class GraphController {
         verticesListModel.removeAllElements();
         for (Vertex v : vertices) {
             if (v.isHidden()) {
-                verticesListModel.addElement("- " + v.toString());
+                verticesListModel.addElement("<html><strike>" + v.toString() + "</strike></html>");
             } else {
                 verticesListModel.addElement(v);
             }
