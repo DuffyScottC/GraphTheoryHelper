@@ -457,11 +457,6 @@ public class GraphController {
             }
         });
 
-        frame.getRotate90MenuItem().addActionListener((ActionEvent e) -> {
-            rotateVertices90();
-            canvas.repaint();
-        });
-
         frame.getShowVertexNamesMenuItem().addActionListener((ActionEvent e) -> {
             //Toggle the showTitles boolean
             if (showTitles) {
@@ -1168,24 +1163,6 @@ public class GraphController {
             double y = yCent + radius * Math.sin(angle);
             v.setLocation(x, y); //position the vertex
             angle -= delta; //decrement the angle
-        }
-    }
-
-    /**
-     * Rotates all vertices by 90 degrees counter-clockwise about the origin
-     * (also rotates all edge's control points
-     */
-    private void rotateVertices90() {
-        double oy = canvas.getHeight() / 2;
-        for (Vertex v : vertices) {
-            double x = v.getLocation().x;
-            double y = v.getLocation().y;
-            v.setLocation(2 * oy - y, x);
-        }
-        for (Edge e : edges) {
-            double ctrlX = e.getCtrlPoint().x;
-            double ctrlY = e.getCtrlPoint().y;
-            e.setCtrlPoint(2 * oy - ctrlY, ctrlX);
         }
     }
 

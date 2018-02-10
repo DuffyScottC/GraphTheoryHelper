@@ -78,11 +78,9 @@ public class GraphFrame extends javax.swing.JFrame {
         newMenuItem = new javax.swing.JMenuItem();
         jSeparator1 = new javax.swing.JPopupMenu.Separator();
         exportMenuItem = new javax.swing.JMenuItem();
-        editMenu = new javax.swing.JMenu();
-        rotate90MenuItem = new javax.swing.JMenuItem();
-        selectAllVerticesMenuItem = new javax.swing.JMenuItem();
         viewMenu = new javax.swing.JMenu();
         showVertexNamesMenuItem = new javax.swing.JCheckBoxMenuItem();
+        selectAllVerticesMenuItem = new javax.swing.JMenuItem();
         formatVerticesMenuItem = new javax.swing.JMenuItem();
         toolsMenu = new javax.swing.JMenu();
         addVerticesMenuItem = new javax.swing.JCheckBoxMenuItem();
@@ -321,15 +319,11 @@ public class GraphFrame extends javax.swing.JFrame {
 
         myMenuBar.add(fileMenu);
 
-        editMenu.setText("Edit");
+        viewMenu.setText("View");
 
-        rotate90MenuItem.setText("Rotate 90º");
-        rotate90MenuItem.addActionListener(new java.awt.event.ActionListener() {
-            public void actionPerformed(java.awt.event.ActionEvent evt) {
-                rotate90MenuItemActionPerformed(evt);
-            }
-        });
-        editMenu.add(rotate90MenuItem);
+        showVertexNamesMenuItem.setAccelerator(javax.swing.KeyStroke.getKeyStroke(java.awt.event.KeyEvent.VK_N, java.awt.event.InputEvent.SHIFT_MASK | java.awt.event.InputEvent.CTRL_MASK));
+        showVertexNamesMenuItem.setText("Show Vertex Names");
+        viewMenu.add(showVertexNamesMenuItem);
 
         selectAllVerticesMenuItem.setAccelerator(javax.swing.KeyStroke.getKeyStroke(java.awt.event.KeyEvent.VK_A, java.awt.event.InputEvent.CTRL_MASK));
         selectAllVerticesMenuItem.setText("Select All Vertices");
@@ -338,15 +332,7 @@ public class GraphFrame extends javax.swing.JFrame {
                 selectAllVerticesMenuItemActionPerformed(evt);
             }
         });
-        editMenu.add(selectAllVerticesMenuItem);
-
-        myMenuBar.add(editMenu);
-
-        viewMenu.setText("View");
-
-        showVertexNamesMenuItem.setAccelerator(javax.swing.KeyStroke.getKeyStroke(java.awt.event.KeyEvent.VK_N, java.awt.event.InputEvent.SHIFT_MASK | java.awt.event.InputEvent.CTRL_MASK));
-        showVertexNamesMenuItem.setText("Show Vertex Names");
-        viewMenu.add(showVertexNamesMenuItem);
+        viewMenu.add(selectAllVerticesMenuItem);
 
         formatVerticesMenuItem.setAccelerator(javax.swing.KeyStroke.getKeyStroke(java.awt.event.KeyEvent.VK_F, java.awt.event.InputEvent.SHIFT_MASK | java.awt.event.InputEvent.CTRL_MASK));
         formatVerticesMenuItem.setText("Format Vertices");
@@ -408,10 +394,6 @@ public class GraphFrame extends javax.swing.JFrame {
         pack();
     }// </editor-fold>//GEN-END:initComponents
 
-    private void rotate90MenuItemActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_rotate90MenuItemActionPerformed
-        // TODO add your handling code here:
-    }//GEN-LAST:event_rotate90MenuItemActionPerformed
-
     private void addEdgesMenuItemActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_addEdgesMenuItemActionPerformed
         // TODO add your handling code here:
     }//GEN-LAST:event_addEdgesMenuItemActionPerformed
@@ -439,7 +421,6 @@ public class GraphFrame extends javax.swing.JFrame {
     private javax.swing.JLabel edgesLabel;
     private javax.swing.JList<String> edgesList;
     private javax.swing.JScrollPane edgesScrollPane;
-    private javax.swing.JMenu editMenu;
     private javax.swing.JMenuItem exportMenuItem;
     private javax.swing.JMenu fileMenu;
     private javax.swing.JMenuItem formatVerticesMenuItem;
@@ -457,7 +438,6 @@ public class GraphFrame extends javax.swing.JFrame {
     private javax.swing.JMenuItem newMenuItem;
     private javax.swing.JMenuItem openMenuItem;
     private javax.swing.JPanel propertiesPanel;
-    private javax.swing.JMenuItem rotate90MenuItem;
     private javax.swing.JMenuItem saveAsMenuItem;
     private javax.swing.JMenuItem saveMenuItem;
     private javax.swing.JMenuItem selectAllVerticesMenuItem;
@@ -503,10 +483,6 @@ public class GraphFrame extends javax.swing.JFrame {
 
     public JToggleButton getSelectionButton() {
         return selectionButton;
-    }
-    
-    public JMenuItem getRotate90MenuItem() {
-        return rotate90MenuItem;
     }
 
     public JMenuItem getSaveAsMenuItem() {
