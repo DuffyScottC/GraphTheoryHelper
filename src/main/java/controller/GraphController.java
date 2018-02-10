@@ -871,7 +871,7 @@ public class GraphController {
                     newVertex2 = vertices.get(index2);
                 }
                 //At this point, newVertex1 and newVertex2 are the vertices
-                //in the graph that we want to work with (whether their new
+                //in the graph that we want to work with (whether they're new
                 //or already existed in the graph).
                 //Check if the edge already exists:
                 //If newVertex1 is NOT already connected to newVertex2
@@ -881,8 +881,8 @@ public class GraphController {
                     graph.addEdge(newEdge); //add the edge to the list
                     wasModified = true;
                 }
-                //If newVertex1 is already adjacent to newVertex2, then it
-                //must already be in edges and we don't need to do anything else
+                //If newVertex1 is already adjacent to newVertex2, then it must
+                //already be in edges and we don't need to do anything else.
                 //If there was at least one new vertex or edge
                 if (wasModified) {
                     setIsModified(true);
@@ -1138,9 +1138,6 @@ public class GraphController {
      */
     public void formatAllVertices() {
         formatVertices(vertices);
-        for (int i = 0; i < edges.size(); i++) { //cycle through the edges
-            straightenEdge(i); //straighten the edges
-        }
     }
 
     /**
@@ -1163,8 +1160,15 @@ public class GraphController {
             double x = xCent + radius * Math.cos(angle);
             double y = yCent + radius * Math.sin(angle);
             v.setLocation(x, y); //position the vertex
+            for (SimpleEdge se : v.getSimpleEdges()) {
+                //get the index of the edge in the graph
+                int edgeIndex = graph.getSimpleEdges().indexOf(se);
+                //straighten the edge (faster to straghten the same edge twice
+                //then to add it to a no-repeats list and loop again
+                straightenEdge(edgeIndex);
+            }
             angle -= delta; //decrement the angle
-        }
+        }  
     }
 
     /**
