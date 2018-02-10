@@ -96,6 +96,7 @@ public class GraphFrame extends javax.swing.JFrame {
         helpMenu = new javax.swing.JMenu();
         checkForUpdatesMenuItem = new javax.swing.JMenuItem();
         tutorialMenuItem = new javax.swing.JMenuItem();
+        donateMenuItem = new javax.swing.JMenuItem();
 
         setDefaultCloseOperation(javax.swing.WindowConstants.EXIT_ON_CLOSE);
 
@@ -397,6 +398,9 @@ public class GraphFrame extends javax.swing.JFrame {
         tutorialMenuItem.setText("Tutorial");
         helpMenu.add(tutorialMenuItem);
 
+        donateMenuItem.setText("Consider Donating!");
+        helpMenu.add(donateMenuItem);
+
         myMenuBar.add(helpMenu);
 
         setJMenuBar(myMenuBar);
@@ -431,6 +435,7 @@ public class GraphFrame extends javax.swing.JFrame {
     private javax.swing.JMenuItem checkForUpdatesMenuItem;
     private javax.swing.JButton deleteButton;
     private javax.swing.JMenuItem deleteMenuItem;
+    private javax.swing.JMenuItem donateMenuItem;
     private javax.swing.JLabel edgesLabel;
     private javax.swing.JList<String> edgesList;
     private javax.swing.JScrollPane edgesScrollPane;
@@ -612,6 +617,10 @@ public class GraphFrame extends javax.swing.JFrame {
     
     public JMenuItem getTutorialMenuItem() {
         return tutorialMenuItem;
+    }
+    
+    public JMenuItem getDonateMenuItem() {
+        return donateMenuItem;
     }
     
     public JCheckBox getHiddenCheckBox() {

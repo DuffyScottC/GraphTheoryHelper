@@ -969,7 +969,18 @@ public class GraphController {
         frame.getTutorialMenuItem().addActionListener((ActionEvent e) -> {
             try {
                 Desktop.getDesktop().browse(
-                        new URI("https://github.com/DuffyScottC/GraphTheoryHelper/releases/latest"));
+                        new URI("https://github.com/DuffyScottC/GraphTheoryHelper/wiki"));
+            } catch (IOException ex) {
+                System.out.println(ex.toString());
+            } catch (URISyntaxException ex) {
+                System.out.println("Improper URL: " + ex.toString());
+            }
+        });
+        
+        frame.getTutorialMenuItem().addActionListener((ActionEvent e) -> {
+            try {
+                Desktop.getDesktop().browse(
+                        new URI("PayPal.Me/DuffyScottC/5"));
             } catch (IOException ex) {
                 System.out.println(ex.toString());
             } catch (URISyntaxException ex) {

@@ -179,6 +179,11 @@
                 <Property name="text" type="java.lang.String" value="Tutorial"/>
               </Properties>
             </MenuItem>
+            <MenuItem class="javax.swing.JMenuItem" name="donateMenuItem">
+              <Properties>
+                <Property name="text" type="java.lang.String" value="Consider Donating!"/>
+              </Properties>
+            </MenuItem>
           </SubComponents>
         </Menu>
       </SubComponents>
