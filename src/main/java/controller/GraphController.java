@@ -1581,14 +1581,25 @@ public class GraphController {
         Point2D.Double p1 = (Point2D.Double) qCurve.getCtrlPt();
         Point2D.Double p2 = (Point2D.Double) qCurve.getP2();
 
-        //MARK: Figure out what the percentage of the t-increment value should be to
-        //make the points along the curve close together enough:
+        //MARK: Figure out what the percentage of the t-increment value should
+        //be to make the points along the curve close together enough:
         Rectangle2D bounds = qCurve.getBounds2D();
         double rectArea = bounds.getWidth() * bounds.getHeight();
-        //what percentage of rectArea is 2 pixels?
-        //increase the numberator to decrease the number of points along the 
-        //curve and vice versa
-        double tInc = 3 / Math.sqrt(rectArea);
+        
+        //the inc of t to determine the distance between points along the curve
+        double tInc;
+        //if the rectArea is less than or equal to 150, then it is almost a
+        //straight vertical or horizonal line, and we can't get tInc as a 
+        //function of rectArea. Instead, we must use the length of the line
+        if (rectArea <= 150) {
+            double lengthOfLine = Point2D.distance(p0.x, p0.y, p2.x, p2.y);
+            tInc = 6 / lengthOfLine;
+        } else {
+            //what percentage of rectArea is 2 pixels?
+            //increase the numerator to decrease the number of points along the 
+            //curve and vice versa
+            tInc = 3 / Math.sqrt(rectArea);
+        }
 
         List<Point2D.Double> points = new ArrayList();
 
