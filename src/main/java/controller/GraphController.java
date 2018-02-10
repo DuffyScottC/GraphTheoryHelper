@@ -2182,6 +2182,7 @@ public class GraphController {
         walks.remove(w);
         graphSelectionHandler.setSelectedWalk(null);
         updateWalksListModel();
+        setIsModified(true);
     }
 
     private void assignCanAddEdgesToConnectedVertices() {
@@ -2253,6 +2254,7 @@ public class GraphController {
                         //update the selection
                         graphSelectionHandler.setSelectedWalk(newWalk);
                         canvas.repaint();
+                        setIsModified(true);
                         //we can be done searching
                         return;
                     }

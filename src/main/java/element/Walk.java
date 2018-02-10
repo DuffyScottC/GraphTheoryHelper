@@ -233,7 +233,7 @@ public class Walk {
     private boolean shouldHideVertex(Vertex v) {
         //loop through the vertex's SimpleEdges
         for (SimpleEdge se : v.simpleEdges) {
-            //if this walk does NOT contain se
+            //if this walk does NOT contain this se
             if (!this.contains(se)) {
                 //we should not hide the vertex
                 return false;
