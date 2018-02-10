@@ -1571,14 +1571,10 @@ public class GraphController {
             //get the distance from the mouse click to the edge
             double clickDist = Line2D.ptSegDist((float) p0.x, (float) p0.y + 1,
                     (float) p2.x, (float) p2.y + 1, mx, my);
-            //if the point is close enough to the edge
-            if (clickDist <= Values.EDGE_SELECTION_DISTANCE) {
-                //the edge was clicked
-                return true;
-            } else { //if the click is not close enough to the edge
-                //the edge was NOT clicked
-                return false;
-            }
+            //if the point is close enough to the edge, it edge was clicked
+            //if the click is not close enough to the edge, it edge was't clicked
+            return clickDist <= Values.EDGE_SELECTION_DISTANCE;
+            
         } else { //if the edge is not perfectly flat
             //Use method 2. (describe above):
             //get an ArrayList of all the points on the given curve
