@@ -2288,7 +2288,8 @@ public class GraphController {
         verticesListModel.removeAllElements();
         for (Vertex v : vertices) {
             if (v.isHidden()) {
-                verticesListModel.addElement("<html><strike>" + v.toString() + "</strike></html>");
+                verticesListModel.addElement("<html><strike>" 
+                        + v.toString() + "</strike></html>");
             } else {
                 verticesListModel.addElement(v);
             }
@@ -2299,7 +2300,8 @@ public class GraphController {
         edgesListModel.removeAllElements();
         for (Edge eg : edges) {
             if (eg.isHidden()) {
-                edgesListModel.addElement("- " + eg.toString());
+                edgesListModel.addElement("<html><strike>" 
+                        + eg.toString() + "</strike></html>");
             } else {
                 edgesListModel.addElement(eg);
             }

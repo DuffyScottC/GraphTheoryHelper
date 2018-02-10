@@ -68,6 +68,7 @@ public class Walk {
      * Removes both the given Edge and its matching SimpleEdge from the walk.
      * Sets isWalkColored to false and isHidden to false for the given edge.
      * @param e The Edge to be removed
+     * @return 
      */
     public boolean removeEdge(Edge e) {
         int index = edges.indexOf(e);
@@ -274,7 +275,7 @@ public class Walk {
     public String toString() {
         StringBuilder strB = new StringBuilder();
         if (isHidden) {
-            strB.append("- ");
+            strB.append("<html><strike>");
         }
         strB.append("{");
         for (int i = 0; i < edges.size(); i++) {
@@ -286,6 +287,9 @@ public class Walk {
             }
         }
         strB.append("}");
+        if (isHidden) {
+            strB.append("</strike></html>");
+        }
         return strB.toString();
     }
 }
