@@ -2489,27 +2489,6 @@ public class GraphController {
             }
 
             //Actually save the png:
-            //store the editing edge temporarily
-            Edge editingEdge = canvas.getEditingEdge();
-            //if we are in the edge adding state
-            if (graphStateMachine.getState() == States.EDGE_ADDING) {
-                //unhighlight all vertices
-                for (Vertex v : vertices) {
-                    v.setIsHighlighted(false);
-                }
-                //set the editing edge to null (so it won't draw the dot)
-                canvas.setEditingEdge(null);
-            } else { //if we are not in the edge adding state
-                //unhighlight the selected vertices
-                for (Vertex v : graphSelectionHandler.getSelectedVertices()) {
-                    v.setIsHighlighted(false);
-                }
-            }
-            //unhighlight the selected edges
-            for (Edge e : graphSelectionHandler.getSelectedEdges()) {
-                e.setIsHighlighted(false);
-            }
-
             //Create a BufferedImage of the same dimensions as canvas
             BufferedImage canvasBufferedImage = new BufferedImage(canvas.getWidth(),
                     canvas.getHeight(), BufferedImage.TYPE_INT_RGB);
@@ -2519,29 +2498,10 @@ public class GraphController {
             canvas.paintAll(g2);
             //save the png
             try {
-                if (ImageIO.write(canvasBufferedImage, "png", pngPath.toFile())) {
-                    System.out.println("-- exported");
-                }
+                ImageIO.write(canvasBufferedImage, "png", pngPath.toFile());
             } catch (IOException e) {
                 // TODO Auto-generated catch block
                 System.out.println(e.toString());
-            }
-
-            //if we are in the edge adding state
-            if (graphStateMachine.getState() == States.EDGE_ADDING) {
-                //re-highlight the available vertices
-                graph.highlightAvailableVertices();
-                //reset the editing edge
-                canvas.setEditingEdge(editingEdge);
-            } else { //if we are not in the addingEdges state
-                //highlight the selected vertices again
-                for (Vertex v : graphSelectionHandler.getSelectedVertices()) {
-                    v.setIsHighlighted(true);
-                }
-            }
-            //hightlight the selected edges again
-            for (Edge e : graphSelectionHandler.getSelectedEdges()) {
-                e.setIsHighlighted(true);
             }
         }
     }
