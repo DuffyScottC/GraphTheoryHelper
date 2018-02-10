@@ -1566,10 +1566,11 @@ public class GraphController {
         if (flatness == 0) {
             //Use method 1. (describe above):
             //get the edge's endpoints
-            Point2D.Float p0 = (Point2D.Float) edgeQCurve.getP1();
-            Point2D.Float p2 = (Point2D.Float) edgeQCurve.getP2();
+            Point2D.Double p0 = (Point2D.Double) edgeQCurve.getP1();
+            Point2D.Double p2 = (Point2D.Double) edgeQCurve.getP2();
             //get the distance from the mouse click to the edge
-            double clickDist = Line2D.ptSegDist(p0.x, p0.y, p2.x, p2.y, mx, my);
+            double clickDist = Line2D.ptSegDist((float) p0.x, (float) p0.y + 1,
+                    (float) p2.x, (float) p2.y + 1, mx, my);
             //if the point is close enough to the edge
             if (clickDist <= Values.EDGE_SELECTION_DISTANCE) {
                 //the edge was clicked
