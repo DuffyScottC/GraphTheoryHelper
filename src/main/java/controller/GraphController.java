@@ -1588,10 +1588,15 @@ public class GraphController {
         
         //the inc of t to determine the distance between points along the curve
         double tInc;
-        //if the rectArea is less than or equal to 150, then it is almost a
-        //straight vertical or horizonal line, and we can't get tInc as a 
-        //function of rectArea. Instead, we must use the length of the line
-        if (rectArea <= 150) {
+        double yDist = Math.max(p0.y, p2.y) - Math.min(p0.y, p2.y);
+        double xDist = Math.max(p0.x, p2.x) - Math.min(p0.x, p2.x);
+        /*
+        If yDist is <= 20 then it's almost a straight vertical line.
+        If xDist is <= 20 then it's almost a straight horizontal line.
+        If either of the above is true, then we can't calculate tInc as a 
+        function of rectArea. Instead, we must use the length of the line
+        */
+        if (yDist <= 20 || xDist <= 20) {
             double lengthOfLine = Point2D.distance(p0.x, p0.y, p2.x, p2.y);
             tInc = 6 / lengthOfLine;
         } else {
