@@ -980,7 +980,7 @@ public class GraphController {
         frame.getDonateMenuItem().addActionListener((ActionEvent e) -> {
             try {
                 Desktop.getDesktop().browse(
-                        new URI("PayPal.Me/DuffyScottC/5"));
+                        new URI("https://www.paypal.me/DuffyScottC/5"));
             } catch (IOException ex) {
                 System.out.println(ex.toString());
             } catch (URISyntaxException ex) {
