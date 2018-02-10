@@ -8,6 +8,7 @@ package controller;
 import com.google.gson.Gson;
 import com.google.gson.GsonBuilder;
 import com.google.gson.JsonSyntaxException;
+import com.sun.javafx.geom.Line2D;
 import controller.Values.States;
 import element.Edge;
 import element.Graph;
@@ -1528,7 +1529,6 @@ public class GraphController {
      */
     private boolean isEdgeClicked(Edge e, int mx, int my) {
         QuadCurve2D edgeQCurve = e.getPositionShape();
-        Point2D.Double p0 = (Point2D.Double) edgeQCurve.getP1();
         
         //get the bounding box of the edge
         Rectangle2D boundingBox = edgeQCurve.getBounds();
@@ -1564,28 +1564,40 @@ public class GraphController {
         double flatness = edgeQCurve.getFlatness();
         //if the edge is perfectly flat
         if (flatness == 0) {
-            //use method 1. (describe above)
-        } else { //if the edge is not perfectly flat
-            //use method 2. (describe above)
-        }
-
-        //get an ArrayList of all the points on the given curve
-        List<Point2D.Double> pointsOnCurve = getPointsOnCurve(edgeQCurve);
-
-        //cycle through all the points on the curve (except the first point)
-        for (int i = 0; i < pointsOnCurve.size(); i++) {
-            //get the current point
-            Point2D.Double point = pointsOnCurve.get(i);
-            //find the distance between the click and the current point
-            double distance = Point2D.distance(mx, my, point.x, point.y);
-            //if the distance is close enough to be selected
-            if (distance <= Values.EDGE_SELECTION_DISTANCE) {
-                //signal that the point is close enough to the edge
+            //Use method 1. (describe above):
+            //get the edge's endpoints
+            Point2D.Float p0 = (Point2D.Float) edgeQCurve.getP1();
+            Point2D.Float p2 = (Point2D.Float) edgeQCurve.getP2();
+            //get the distance from the mouse click to the edge
+            double clickDist = Line2D.ptSegDist(p0.x, p0.y, p2.x, p2.y, mx, my);
+            //if the point is close enough to the edge
+            if (clickDist <= Values.EDGE_SELECTION_DISTANCE) {
+                //the edge was clicked
                 return true;
+            } else { //if the click is not close enough to the edge
+                //the edge was NOT clicked
+                return false;
             }
+        } else { //if the edge is not perfectly flat
+            //Use method 2. (describe above):
+            //get an ArrayList of all the points on the given curve
+            List<Point2D.Double> pointsOnCurve = getPointsOnCurve(edgeQCurve);
+
+            //cycle through all the points on the curve (except the first point)
+            for (int i = 0; i < pointsOnCurve.size(); i++) {
+                //get the current point
+                Point2D.Double point = pointsOnCurve.get(i);
+                //find the distance between the click and the current point
+                double distance = Point2D.distance(mx, my, point.x, point.y);
+                //if the distance is close enough to be selected
+                if (distance <= Values.EDGE_SELECTION_DISTANCE) {
+                    //signal that the point is close enough to the edge
+                    return true;
+                }
+            }
+            //signal that the point is NOT close enough to the edge
+            return false;
         }
-        //signal that the point is NOT close enough to the edge
-        return false;
     }
 
     /**
