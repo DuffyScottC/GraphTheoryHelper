@@ -2225,6 +2225,7 @@ public class GraphController {
                             }
                             walksList.repaint();
                             canvas.repaint();
+                            setIsModified(true);
                             //exit the method because we are done now
                             return;
                         } else { //if selectedWalk does NOT already contain currentEdge
@@ -2234,6 +2235,7 @@ public class GraphController {
                                 selectedWalk.addEdge(currentEdge);
                                 walksList.repaint();
                                 canvas.repaint();
+                                setIsModified(true);
                                 //exit the method because we are done now
                                 return;
                             }
