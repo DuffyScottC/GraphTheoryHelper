@@ -1173,13 +1173,19 @@ public class GraphController {
 
     /**
      * Rotates all vertices by 90 degrees counter-clockwise about the origin
+     * (also rotates all edge's control points
      */
     private void rotateVertices90() {
+        double oy = canvas.getHeight() / 2;
         for (Vertex v : vertices) {
-            double oy = canvas.getHeight() / 2;
             double x = v.getLocation().x;
             double y = v.getLocation().y;
             v.setLocation(2 * oy - y, x);
+        }
+        for (Edge e : edges) {
+            double ctrlX = e.getCtrlPoint().x;
+            double ctrlY = e.getCtrlPoint().y;
+            e.setCtrlPoint(2 * oy - ctrlY, ctrlX);
         }
     }
 
