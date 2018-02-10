@@ -51,8 +51,6 @@ public class GraphFrame extends javax.swing.JFrame {
         jScrollPane1 = new javax.swing.JScrollPane();
         canvasTextArea = new Canvas();
         inspectorPanelJPanel = new InspectorPanel();
-        edgesScrollPane = new javax.swing.JScrollPane();
-        edgesList = new javax.swing.JList<>();
         edgesLabel = new javax.swing.JLabel();
         verticesLabel = new javax.swing.JLabel();
         propertiesPanel = new javax.swing.JPanel();
@@ -64,6 +62,8 @@ public class GraphFrame extends javax.swing.JFrame {
         hiddenCheckBox = new javax.swing.JCheckBox();
         jScrollPane2 = new javax.swing.JScrollPane();
         verticesList = new javax.swing.JList<>();
+        jScrollPane3 = new javax.swing.JScrollPane();
+        edgesList = new javax.swing.JList<>();
         toolBar = new javax.swing.JToolBar();
         addVerticesButton = new javax.swing.JToggleButton();
         addEdgesButton = new javax.swing.JToggleButton();
@@ -138,26 +138,6 @@ public class GraphFrame extends javax.swing.JFrame {
         mainPanel.add(jScrollPane1, gridBagConstraints);
 
         inspectorPanelJPanel.setLayout(new java.awt.GridBagLayout());
-
-        edgesList.setModel(new javax.swing.AbstractListModel<String>() {
-            String[] strings = { "Item 1", "Item 2", "Item 3", "Item 4", "Item 5" };
-            public int getSize() { return strings.length; }
-            public String getElementAt(int i) { return strings[i]; }
-        });
-        edgesList.setMaximumSize(new java.awt.Dimension(138, 85));
-        edgesList.setMinimumSize(new java.awt.Dimension(138, 85));
-        edgesList.setPreferredSize(new java.awt.Dimension(138, 85));
-        edgesList.setSize(new java.awt.Dimension(138, 0));
-        edgesScrollPane.setViewportView(edgesList);
-
-        gridBagConstraints = new java.awt.GridBagConstraints();
-        gridBagConstraints.gridx = 0;
-        gridBagConstraints.gridy = 5;
-        gridBagConstraints.fill = java.awt.GridBagConstraints.BOTH;
-        gridBagConstraints.weightx = 0.1;
-        gridBagConstraints.weighty = 0.1;
-        gridBagConstraints.insets = new java.awt.Insets(0, 4, 0, 4);
-        inspectorPanelJPanel.add(edgesScrollPane, gridBagConstraints);
 
         edgesLabel.setText("Edges:");
         gridBagConstraints = new java.awt.GridBagConstraints();
@@ -240,6 +220,21 @@ public class GraphFrame extends javax.swing.JFrame {
         gridBagConstraints.weighty = 0.1;
         gridBagConstraints.insets = new java.awt.Insets(0, 4, 0, 4);
         inspectorPanelJPanel.add(jScrollPane2, gridBagConstraints);
+
+        edgesList.setModel(new javax.swing.AbstractListModel<String>() {
+            String[] strings = { "Item 1", "Item 2", "Item 3", "Item 4", "Item 5" };
+            public int getSize() { return strings.length; }
+            public String getElementAt(int i) { return strings[i]; }
+        });
+        jScrollPane3.setViewportView(edgesList);
+
+        gridBagConstraints = new java.awt.GridBagConstraints();
+        gridBagConstraints.gridx = 0;
+        gridBagConstraints.gridy = 5;
+        gridBagConstraints.fill = java.awt.GridBagConstraints.BOTH;
+        gridBagConstraints.weighty = 0.1;
+        gridBagConstraints.insets = new java.awt.Insets(0, 4, 0, 4);
+        inspectorPanelJPanel.add(jScrollPane3, gridBagConstraints);
 
         gridBagConstraints = new java.awt.GridBagConstraints();
         gridBagConstraints.gridx = 2;
@@ -415,7 +410,6 @@ public class GraphFrame extends javax.swing.JFrame {
     private javax.swing.JMenuItem donateMenuItem;
     private javax.swing.JLabel edgesLabel;
     private javax.swing.JList<String> edgesList;
-    private javax.swing.JScrollPane edgesScrollPane;
     private javax.swing.JMenuItem exportMenuItem;
     private javax.swing.JMenu fileMenu;
     private javax.swing.JMenuItem formatVerticesMenuItem;
@@ -426,6 +420,7 @@ public class GraphFrame extends javax.swing.JFrame {
     private javax.swing.JPanel inspectorPanelJPanel;
     private javax.swing.JScrollPane jScrollPane1;
     private javax.swing.JScrollPane jScrollPane2;
+    private javax.swing.JScrollPane jScrollPane3;
     private javax.swing.JPopupMenu.Separator jSeparator1;
     private javax.swing.JPopupMenu.Separator jSeparator2;
     private javax.swing.JPanel mainPanel;
