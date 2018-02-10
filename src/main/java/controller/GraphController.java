@@ -1548,6 +1548,26 @@ public class GraphController {
             return false;
         }
         //otherwise, the edge may be clicked
+        
+        /*
+        once we've established that the mouse click is within the bounding box,
+        there are two ways to check if the edge was clicked:
+        1. If the edge is flat, check the distance between the mouse click
+        and the line between the vertices.
+        2. If the edge is NOT flat, iterate along the points on the curve
+        and check the distance between the mouse click and each point.
+        Obviously, 1. is more efficient, so we check to see if the curve is
+        flat first.
+        */
+        
+        //get the curve's flatness
+        double flatness = edgeQCurve.getFlatness();
+        //if the edge is perfectly flat
+        if (flatness == 0) {
+            //use method 1. (describe above)
+        } else { //if the edge is not perfectly flat
+            //use method 2. (describe above)
+        }
 
         //get an ArrayList of all the points on the given curve
         List<Point2D.Double> pointsOnCurve = getPointsOnCurve(edgeQCurve);
