@@ -57,13 +57,13 @@ public class GraphFrame extends javax.swing.JFrame {
         JLabel3 = new javax.swing.JLabel();
         titleTextField = new javax.swing.JTextField();
         walksLabel = new javax.swing.JLabel();
-        walksScrollPane = new javax.swing.JScrollPane();
-        walksList = new javax.swing.JList<>();
         hiddenCheckBox = new javax.swing.JCheckBox();
         jScrollPane2 = new javax.swing.JScrollPane();
         verticesList = new javax.swing.JList<>();
         jScrollPane3 = new javax.swing.JScrollPane();
         edgesList = new javax.swing.JList<>();
+        jScrollPane4 = new javax.swing.JScrollPane();
+        walksList = new javax.swing.JList<>();
         toolBar = new javax.swing.JToolBar();
         addVerticesButton = new javax.swing.JToggleButton();
         addEdgesButton = new javax.swing.JToggleButton();
@@ -179,26 +179,6 @@ public class GraphFrame extends javax.swing.JFrame {
         gridBagConstraints.insets = new java.awt.Insets(0, 4, 0, 4);
         inspectorPanelJPanel.add(walksLabel, gridBagConstraints);
 
-        walksList.setModel(new javax.swing.AbstractListModel<String>() {
-            String[] strings = { "Item 1", "Item 2", "Item 3", "Item 4", "Item 5" };
-            public int getSize() { return strings.length; }
-            public String getElementAt(int i) { return strings[i]; }
-        });
-        walksList.setMaximumSize(new java.awt.Dimension(138, 85));
-        walksList.setMinimumSize(new java.awt.Dimension(138, 85));
-        walksList.setPreferredSize(new java.awt.Dimension(138, 85));
-        walksList.setSize(new java.awt.Dimension(138, 0));
-        walksScrollPane.setViewportView(walksList);
-
-        gridBagConstraints = new java.awt.GridBagConstraints();
-        gridBagConstraints.gridx = 0;
-        gridBagConstraints.gridy = 7;
-        gridBagConstraints.fill = java.awt.GridBagConstraints.BOTH;
-        gridBagConstraints.weightx = 0.1;
-        gridBagConstraints.weighty = 0.1;
-        gridBagConstraints.insets = new java.awt.Insets(0, 4, 0, 4);
-        inspectorPanelJPanel.add(walksScrollPane, gridBagConstraints);
-
         hiddenCheckBox.setText("Hidden");
         hiddenCheckBox.setFocusable(false);
         gridBagConstraints = new java.awt.GridBagConstraints();
@@ -235,6 +215,21 @@ public class GraphFrame extends javax.swing.JFrame {
         gridBagConstraints.weighty = 0.1;
         gridBagConstraints.insets = new java.awt.Insets(0, 4, 0, 4);
         inspectorPanelJPanel.add(jScrollPane3, gridBagConstraints);
+
+        walksList.setModel(new javax.swing.AbstractListModel<String>() {
+            String[] strings = { "Item 1", "Item 2", "Item 3", "Item 4", "Item 5" };
+            public int getSize() { return strings.length; }
+            public String getElementAt(int i) { return strings[i]; }
+        });
+        jScrollPane4.setViewportView(walksList);
+
+        gridBagConstraints = new java.awt.GridBagConstraints();
+        gridBagConstraints.gridx = 0;
+        gridBagConstraints.gridy = 7;
+        gridBagConstraints.fill = java.awt.GridBagConstraints.BOTH;
+        gridBagConstraints.weighty = 0.1;
+        gridBagConstraints.insets = new java.awt.Insets(0, 4, 0, 4);
+        inspectorPanelJPanel.add(jScrollPane4, gridBagConstraints);
 
         gridBagConstraints = new java.awt.GridBagConstraints();
         gridBagConstraints.gridx = 2;
@@ -421,6 +416,7 @@ public class GraphFrame extends javax.swing.JFrame {
     private javax.swing.JScrollPane jScrollPane1;
     private javax.swing.JScrollPane jScrollPane2;
     private javax.swing.JScrollPane jScrollPane3;
+    private javax.swing.JScrollPane jScrollPane4;
     private javax.swing.JPopupMenu.Separator jSeparator1;
     private javax.swing.JPopupMenu.Separator jSeparator2;
     private javax.swing.JPanel mainPanel;
@@ -444,7 +440,6 @@ public class GraphFrame extends javax.swing.JFrame {
     private javax.swing.JMenu viewMenu;
     private javax.swing.JLabel walksLabel;
     private javax.swing.JList<String> walksList;
-    private javax.swing.JScrollPane walksScrollPane;
     // End of variables declaration//GEN-END:variables
 
     public JToggleButton getAddEdgesButton() {
