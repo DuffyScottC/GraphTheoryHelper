@@ -101,7 +101,7 @@ public class SampleCanvas extends JTextArea {
         //straighten the edge
         //set the control point
         double ctrlX = w/2; //find the mid-x
-        double ctrlY = h/2; //find the mid-y
+        double ctrlY = h/2 + Values.DIAMETER/2; //find the mid-y
         e.setCtrlPoint(ctrlX, ctrlY);
     }
     
