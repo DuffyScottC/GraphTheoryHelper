@@ -97,7 +97,7 @@ public class GraphColorChooserDialog11 extends javax.swing.JDialog {
                 .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.TRAILING)
                     .addComponent(colorChooserPanel, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
                     .addGroup(layout.createSequentialGroup()
-                        .addGap(0, 0, Short.MAX_VALUE)
+                        .addGap(0, 110, Short.MAX_VALUE)
                         .addComponent(cancelButton)
                         .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
                         .addComponent(okButton))
@@ -206,5 +206,17 @@ public class GraphColorChooserDialog11 extends javax.swing.JDialog {
 
     public JComboBox getEdgeStrokeColorComboBox() {
         return edgeStrokeColorComboBox;
+    }
+
+    public void setVertexFillColorComboBox(JComboBox vertexFillColorComboBox) {
+        this.vertexFillColorComboBox = vertexFillColorComboBox;
+    }
+
+    public void setVertexStrokeColorComboBox(JComboBox vertexStrokeColorComboBox) {
+        this.vertexStrokeColorComboBox = vertexStrokeColorComboBox;
+    }
+
+    public void setEdgeStrokeColorComboBox(JComboBox edgeStrokeColorComboBox) {
+        this.edgeStrokeColorComboBox = edgeStrokeColorComboBox;
     }
 }

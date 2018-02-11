@@ -45,6 +45,7 @@ import java.util.prefs.Preferences;
 import java.util.regex.Matcher;
 import java.util.regex.Pattern;
 import javax.imageio.ImageIO;
+import javax.swing.DefaultComboBoxModel;
 import javax.swing.DefaultListModel;
 import javax.swing.ImageIcon;
 import javax.swing.JColorChooser;
@@ -62,7 +63,7 @@ import javax.swing.event.ListSelectionEvent;
 import javax.swing.filechooser.FileFilter;
 import views.AddGraphDialog;
 import views.Canvas;
-import views.GraphColorChooserDialog1;
+import views.GraphColorChooserDialog11;
 import views.GraphFrame;
 import views.SampleCanvas;
 
@@ -144,7 +145,7 @@ public class GraphController {
     private final GraphFrame frame = new GraphFrame();
     private final Canvas canvas = frame.getCanvas();
     private final AddGraphDialog addGraphDialog = new AddGraphDialog(frame, true);
-    private final GraphColorChooserDialog1 graphColorChooserDialog = new GraphColorChooserDialog1(frame, true);
+    private final GraphColorChooserDialog11 graphColorChooserDialog = new GraphColorChooserDialog11(frame, true);
 
     private final Graph graph = new Graph();
 
@@ -909,19 +910,19 @@ public class GraphController {
 
         //MARK: Color choosing dialog
         //Choose buttons:
-        graphColorChooserDialog.getVertexFillColorChooseButton().addActionListener((ActionEvent e) -> {
+        graphColorChooserDialog.getVertexFillColorComboBox().addActionListener((ActionEvent e) -> {
             Color newColor = JColorChooser.showDialog(frame, "Choose color",
                     graphColorChooserDialog.getVertexFillColor()); //get the color chosen by the user
             graphColorChooserDialog.setVertexFillColor(newColor); //set the sample fill color
             sampleCanvas.repaint(); //repaint the canvas
         });
-        graphColorChooserDialog.getVertexStrokeColorChooseButton().addActionListener((ActionEvent e) -> {
+        graphColorChooserDialog.getVertexStrokeColorComboBox().addActionListener((ActionEvent e) -> {
             Color newColor = JColorChooser.showDialog(frame, "Choose color",
                     graphColorChooserDialog.getVertexStrokeColor()); //get the color chosen by the user
             graphColorChooserDialog.setVertexStrokeColor(newColor); //set the sample stroke color
             sampleCanvas.repaint(); //repaint the canvas
         });
-        graphColorChooserDialog.getEdgeStrokeColorChooseButton().addActionListener((ActionEvent e) -> {
+        graphColorChooserDialog.getEdgeStrokeColorComboBox().addActionListener((ActionEvent e) -> {
             Color newColor = JColorChooser.showDialog(frame, "Choose color",
                     graphColorChooserDialog.getEdgeStrokeColor()); //get the color chosen by the user
             graphColorChooserDialog.setEdgeStrokeColor(newColor); //set the sample fill color
@@ -997,30 +998,40 @@ public class GraphController {
 
     //MARK: Other methods--------------------
     private void setUpGraphColorChooserDialog() {
+        int width = 70;
+        int height = 10;
+        BufferedImage bufferedImage = new BufferedImage(width,height,BufferedImage.TYPE_INT_RGB);
+        Graphics2D g2 = bufferedImage.createGraphics();
+        g2.setColor(Color.red);
+        g2.fillRect(0, 0, width, height);
+        
+        Object[] items = {
+            new ImageIcon(bufferedImage)
+        };
+        
         java.awt.GridBagConstraints gridBagConstraints;
-        
-        JComboBox vertexFillColorComboBox = new JComboBox();
-        JComboBox vertexStrokeColorComboBox = new JComboBox();
-        JComboBox edgeStrokeColorComboBox = new JComboBox();
-        JPanel colorChooserPanel = new JPanel();
-        
-        vertexFillColorComboBox.setModel(new javax.swing.DefaultComboBoxModel<>(new String[] { "Item 1", "Item 2", "Item 3", "Item 4" }));
+        JPanel colorChooserPanel = graphColorChooserDialog.getColorChooserPanel();
+                
+        JComboBox vertexFillColorComboBox = new JComboBox(new DefaultComboBoxModel(items));
         gridBagConstraints = new java.awt.GridBagConstraints();
         gridBagConstraints.gridx = 2;
         gridBagConstraints.gridy = 0;
         colorChooserPanel.add(vertexFillColorComboBox, gridBagConstraints);
+        graphColorChooserDialog.setVertexFillColorComboBox(vertexFillColorComboBox);
 
-        vertexStrokeColorComboBox.setModel(new javax.swing.DefaultComboBoxModel<>(new String[] { "Item 1", "Item 2", "Item 3", "Item 4" }));
+        JComboBox vertexStrokeColorComboBox = new JComboBox(new DefaultComboBoxModel(items));
         gridBagConstraints = new java.awt.GridBagConstraints();
         gridBagConstraints.gridx = 2;
         gridBagConstraints.gridy = 2;
         colorChooserPanel.add(vertexStrokeColorComboBox, gridBagConstraints);
+        graphColorChooserDialog.setVertexStrokeColorComboBox(vertexStrokeColorComboBox);
 
-        edgeStrokeColorComboBox.setModel(new javax.swing.DefaultComboBoxModel<>(new String[] { "Item 1", "Item 2", "Item 3", "Item 4" }));
+        JComboBox edgeStrokeColorComboBox = new JComboBox(new DefaultComboBoxModel(items));
         gridBagConstraints = new java.awt.GridBagConstraints();
         gridBagConstraints.gridx = 2;
         gridBagConstraints.gridy = 4;
         colorChooserPanel.add(edgeStrokeColorComboBox, gridBagConstraints);
+        graphColorChooserDialog.setEdgeStrokeColorComboBox(edgeStrokeColorComboBox);
     }
     
     /**
