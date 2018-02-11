@@ -15,6 +15,7 @@ import element.Graph;
 import element.Walk;
 import element.SimpleEdge;
 import element.Vertex;
+import java.awt.BorderLayout;
 import java.awt.Color;
 import java.awt.Desktop;
 import java.awt.Graphics2D;
@@ -45,11 +46,14 @@ import java.util.regex.Matcher;
 import java.util.regex.Pattern;
 import javax.imageio.ImageIO;
 import javax.swing.DefaultListModel;
+import javax.swing.ImageIcon;
 import javax.swing.JColorChooser;
+import javax.swing.JComboBox;
 import javax.swing.JFileChooser;
 import javax.swing.JFrame;
 import javax.swing.JList;
 import javax.swing.JOptionPane;
+import javax.swing.JPanel;
 import javax.swing.JTextField;
 import javax.swing.JToggleButton;
 import javax.swing.KeyStroke;
@@ -181,7 +185,7 @@ public class GraphController {
     private final GraphStateMachine graphStateMachine;
     private final GraphSelectionHandler graphSelectionHandler;
     private final GraphVersionChecker graphVersionChecker;
-
+    
     public GraphController() {
         frame.setTitle("Graph Theory Helper");
         frame.setLocationRelativeTo(null);
@@ -208,7 +212,9 @@ public class GraphController {
         canvas.getInputMap().put(KeyStroke.getKeyStroke("BACK_SPACE"), "none");
 
         loadPreferences();
-
+        
+        setUpGraphColorChooserDialog();
+        
         SampleCanvas sampleCanvas = graphColorChooserDialog.getSampleCanvas();
         sampleCanvas.setUp(graph); //Set up the sample canvas in the dialog
 
@@ -990,6 +996,33 @@ public class GraphController {
     }
 
     //MARK: Other methods--------------------
+    private void setUpGraphColorChooserDialog() {
+        java.awt.GridBagConstraints gridBagConstraints;
+        
+        JComboBox vertexFillColorComboBox = new JComboBox();
+        JComboBox vertexStrokeColorComboBox = new JComboBox();
+        JComboBox edgeStrokeColorComboBox = new JComboBox();
+        JPanel colorChooserPanel = new JPanel();
+        
+        vertexFillColorComboBox.setModel(new javax.swing.DefaultComboBoxModel<>(new String[] { "Item 1", "Item 2", "Item 3", "Item 4" }));
+        gridBagConstraints = new java.awt.GridBagConstraints();
+        gridBagConstraints.gridx = 2;
+        gridBagConstraints.gridy = 0;
+        colorChooserPanel.add(vertexFillColorComboBox, gridBagConstraints);
+
+        vertexStrokeColorComboBox.setModel(new javax.swing.DefaultComboBoxModel<>(new String[] { "Item 1", "Item 2", "Item 3", "Item 4" }));
+        gridBagConstraints = new java.awt.GridBagConstraints();
+        gridBagConstraints.gridx = 2;
+        gridBagConstraints.gridy = 2;
+        colorChooserPanel.add(vertexStrokeColorComboBox, gridBagConstraints);
+
+        edgeStrokeColorComboBox.setModel(new javax.swing.DefaultComboBoxModel<>(new String[] { "Item 1", "Item 2", "Item 3", "Item 4" }));
+        gridBagConstraints = new java.awt.GridBagConstraints();
+        gridBagConstraints.gridx = 2;
+        gridBagConstraints.gridy = 4;
+        colorChooserPanel.add(edgeStrokeColorComboBox, gridBagConstraints);
+    }
+    
     /**
      * Loads all user preferences from the system
      */
@@ -1170,7 +1203,7 @@ public class GraphController {
             angle -= delta; //decrement the angle
         }  
     }
-
+    
     /**
      * Used for loading a graph from a file
      *

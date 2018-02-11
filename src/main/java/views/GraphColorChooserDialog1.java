@@ -80,6 +80,8 @@ public class GraphColorChooserDialog1 extends javax.swing.JDialog {
 
         cancelButton.setText("Cancel");
 
+        sampleCanvasScrollPane.setEnabled(false);
+
         javax.swing.GroupLayout layout = new javax.swing.GroupLayout(getContentPane());
         getContentPane().setLayout(layout);
         layout.setHorizontalGroup(
@@ -100,18 +102,18 @@ public class GraphColorChooserDialog1 extends javax.swing.JDialog {
                         .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
                         .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
                             .addGroup(layout.createSequentialGroup()
-                                .addComponent(vertexFillColorTextField, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
-                                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                                .addComponent(vertexFillColorChooseButton))
-                            .addGroup(layout.createSequentialGroup()
                                 .addComponent(vertexStrokeColorTextField, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
                                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
                                 .addComponent(vertexStrokeColorChooseButton))
                             .addGroup(layout.createSequentialGroup()
                                 .addComponent(edgeStrokeColorTextField, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
                                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                                .addComponent(edgeStrokeColorChooseButton)))
-                        .addGap(0, 114, Short.MAX_VALUE))
+                                .addComponent(edgeStrokeColorChooseButton))
+                            .addGroup(layout.createSequentialGroup()
+                                .addComponent(vertexFillColorTextField, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
+                                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                                .addComponent(vertexFillColorChooseButton)))
+                        .addGap(0, 0, Short.MAX_VALUE))
                     .addComponent(sampleCanvasScrollPane, javax.swing.GroupLayout.Alignment.TRAILING))
                 .addContainerGap())
         );
