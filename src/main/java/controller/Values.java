@@ -25,7 +25,7 @@ public class Values {
         Color.cyan, //0
         Color.blue, //1
         Color.blue.darker(), //2
-        purple.brighter(), //3
+        purple.darker(), //3
         purple, //4
         purple.brighter(), //5
         Color.pink, //6
