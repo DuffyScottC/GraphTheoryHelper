@@ -5,30 +5,41 @@
  */
 package controller;
 
-import element.Edge;
-import element.Graph;
-import element.Vertex;
 import java.awt.Color;
-import java.awt.event.ActionEvent;
-import java.awt.event.ActionListener;
-import java.util.ArrayList;
-import java.util.List;
-import java.util.regex.Matcher;
-import java.util.regex.Pattern;
-import javax.swing.DefaultListModel;
-import views.AddGraphDialog;
-import views.Canvas;
-import views.GraphFrame;
 
 /**
  *
  * @author Scott
  */
 public class Values {
+    //MARK: Choosable Graph Colors
+    private static final Color purple = new Color(153, 0, 255);
+    /**
+     * Holds the colors that the user can select to format the elements in the
+     * graph. It is initialized in 
+     * {@link GraphController.setUpGraphColorChooserDialog} and used to
+     * interpret user choices in the ComboBoxes into colors when the 
+     * graphColorChooserDialog's OK button is pressed.
+     */
+    public static final Color[] choosableColors = { //11 colors
+        Color.cyan, //0
+        Color.blue, //1
+        Color.blue.darker(), //2
+        purple.darker(), //3
+        purple, //4
+        purple.brighter(), //5
+        Color.pink, //6
+        Color.red, //7
+        Color.red.darker(), //8
+        Color.black, //9
+        Color.gray //10
+    };
+    
     //MARK: Edge properties
     public static final float EDGE_STROKE_WIDTH = 2.5f;
     public static final float EDGE_HIGHLIGHT_STROKE_WIDTH = 3.5f;
-    public static final double EDGE_SELECTION_DISTANCE = 3.5f;
+    public static final double EDGE_SELECTION_DISTANCE = 4f;
+    public static final int EDGE_STROKE_COLOR_INDEX = 9;
     public static final Color EDGE_STROKE_COLOR = Color.black;
     public static final Color EDGE_HIGHLIGHT_COLOR = Color.green;
     public static final Color EDGE_PRESSED_COLOR = EDGE_HIGHLIGHT_COLOR.darker();//new Color(0, 200, 0);
@@ -38,10 +49,20 @@ public class Values {
     //MARK: Vertex properties
     public static final float VERTEX_STROKE_WIDTH = 1.0f;
     public static final float VERTEX_HIGHLIGHT_STROKE_WIDTH = 2.0f;
+    public static final int VERTEX_FILL_COLOR_INDEX = 7;
+    public static final int VERTEX_STROKE_COLOR_INDEX = 9;
     public static final Color VERTEX_FILL_COLOR = Color.red;
     public static final Color VERTEX_STROKE_COLOR = Color.black;
     public static final Color VERTEX_PRESSED_COLOR = VERTEX_FILL_COLOR.darker();//new Color(200, 0, 0);
     public static final Color VERTEX_AVAILABLE_STROKE_COLOR = EDGE_HIGHLIGHT_COLOR;
+    
+    //MARK: Walk properties
+    public static final float WALK_EDGE_STROKE_WIDTH = 3.0f;
+    public static final float WALK_VERTEX_STROKE_WIDTH = 1.5f;
+    public static final Color WALK_EDGE_STROKE_COLOR = Color.orange;
+    public static final Color WALK_VERTEX_FILL_COLOR = Color.orange.brighter();
+    public static final Color WALK_VERTEX_STROKE_COLOR = Color.orange;
+    public static final Color WALK_VERTEX_PRESSED_COLOR = WALK_VERTEX_FILL_COLOR.darker();
     
     //MARK: User preference keys
     /**
@@ -70,16 +91,19 @@ public class Values {
                 break;
             case SELECTION:
                 break;
-            case PATH_ADDING:
+            case WALK_ADDING:
                 break;
             default:
         }
     */
+    /**
+     * The main states the entire program can be in: Vertex adding, edge adding,
+     * selection, and walk adding.
+     */
     public static enum States {
         VERTEX_ADDING,
         EDGE_ADDING,
         SELECTION,
-        PATH_ADDING
+        WALK_ADDING
     }
-    
 }

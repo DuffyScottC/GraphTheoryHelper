@@ -29,18 +29,18 @@ public class GraphStateMachine {
      * VERTEX_ADDING - the user is in the vertex adding state.
      * EDGE_ADDING - the user is in the edge adding state.
      * SELECTION - the user is in the selection state.
-     * PATHADDING - the user is in the path adding state.
+     * WALK_ADDING - the user is in the walk adding state.
      */
     private States state = States.SELECTION;
     private final JToggleButton addVerticesButton;
     private final JToggleButton addEdgesButton;
     private final JToggleButton selectionButton;
-    private final JToggleButton addPathsButton;
+    private final JToggleButton addWalksButton;
     private final JCheckBoxMenuItem addVerticesMenuItem;
     private final JCheckBoxMenuItem addEdgesMenuItem;
     private final JCheckBoxMenuItem selectionMenuItem;
-    private final JCheckBoxMenuItem addPathsMenuItem;
-    private final GraphSelectionHandeler graphSelectionHandeler;
+    private final JCheckBoxMenuItem addWalksMenuItem;
+    private final GraphSelectionHandler graphSelectionHandler;
     private final Canvas canvas;
     private final Graph graph;
     
@@ -48,16 +48,16 @@ public class GraphStateMachine {
             Graph graph,
             Canvas canvas, 
             List<Vertex> vertices, 
-            GraphSelectionHandeler graphSelectionHandeler) {
+            GraphSelectionHandler graphSelectionHandeler) {
         addVerticesButton = frame.getAddVerticesButton();
         addEdgesButton = frame.getAddEdgesButton();
         selectionButton = frame.getSelectionButton();
-        addPathsButton = frame.getAddPathsButton();
+        addWalksButton = frame.getAddWalksButton();
         addVerticesMenuItem = frame.getAddVerticesMenuItem();
         addEdgesMenuItem = frame.getAddEdgesMenuItem();
         selectionMenuItem = frame.getSelectionMenuItem();
-        addPathsMenuItem = frame.getAddPathsMenuItem();
-        this.graphSelectionHandeler = graphSelectionHandeler;
+        addWalksMenuItem = frame.getAddWalksMenuItem();
+        this.graphSelectionHandler = graphSelectionHandeler;
         this.canvas = canvas;
         this.graph = graph;
         
@@ -99,12 +99,13 @@ public class GraphStateMachine {
         addEdgesButton.addActionListener(addEdges);
         addEdgesMenuItem.addActionListener(addEdges);
         
-        //Add paths
-        ActionListener addPaths = (ActionEvent e) -> {
-            enterState(States.PATH_ADDING);
+        //Add walks
+        ActionListener addWalks = (ActionEvent e) -> {
+            enterState(States.WALK_ADDING);
+            canvas.repaint();
         };
-        addPathsButton.addActionListener(addPaths);
-        addPathsMenuItem.addActionListener(addPaths);
+        addWalksButton.addActionListener(addWalks);
+        addWalksMenuItem.addActionListener(addWalks);
     }
     
     int debugCount = 0;
@@ -114,24 +115,19 @@ public class GraphStateMachine {
      */
     public void enterState(States newState) {
         debugCount += 1;
-        System.out.print("Switch states: ");
         //Exit the old state
         switch (state) {
             case VERTEX_ADDING:
                 exitAddVerticesState();
-                System.out.print("exitAddVertices -> ");
                 break;
             case EDGE_ADDING:
                 exitAddEdgesState();
-                System.out.print("exitAddEdges -> ");
                 break;
             case SELECTION:
                 exitSelectionState();
-                System.out.print("exitSelection -> ");
                 break;
-            case PATH_ADDING:
-                exitAddPathsState();
-                System.out.print("exitAddPaths -> ");
+            case WALK_ADDING:
+                exitAddWalksState();
                 break;
             default:
         }
@@ -139,23 +135,18 @@ public class GraphStateMachine {
         switch (newState) {
             case VERTEX_ADDING:
                 enterAddVerticesState();
-                System.out.print("enterAddVertices");
                 break;
             case EDGE_ADDING:
                 enterAddEdgesState();
-                System.out.print("enterAddEdges");
                 break;
             case SELECTION:
                 enterSelectionState();
-                System.out.print("enterSelection");
                 break;
-            case PATH_ADDING:
-                enterAddPathsState();
-                System.out.print("enterAddPaths");
+            case WALK_ADDING:
+                enterAddWalksState();
                 break;
             default:
         }
-        System.out.println("(" + debugCount + ")");
     }
     
     //SUBMARK: Enter/Exit States
@@ -194,31 +185,31 @@ public class GraphStateMachine {
         //is supposed to click one to add the edge
 
         //Update vertex selection
-        graphSelectionHandeler.getVerticesList().clearSelection(); //clear the visual selection in the JList
+        graphSelectionHandler.getVerticesList().clearSelection(); //clear the visual selection in the JList
         //deselect the vertex
-        graphSelectionHandeler.getSelectedVertexIndices().clear();
-        graphSelectionHandeler.updateSelectedVertices();
+        graphSelectionHandler.getSelectedVertexIndices().clear();
+        graphSelectionHandler.updateSelectedVertices();
 
         //Update edge selection
         //if selectedEdgeIndeces is not empty
-        if (!graphSelectionHandeler.getSelectedEdgeIndices().isEmpty()) {
+        if (!graphSelectionHandler.getSelectedEdgeIndices().isEmpty()) {
             //get the last index of selectedEdgeIndices
-            int sEISize = graphSelectionHandeler.getSelectedEdgeIndices().size();
+            int sEISize = graphSelectionHandler.getSelectedEdgeIndices().size();
             //find the last selected index
-            int lastIndex = graphSelectionHandeler.getSelectedEdgeIndices().get(sEISize - 1);
+            int lastIndex = graphSelectionHandler.getSelectedEdgeIndices().get(sEISize - 1);
             //get the size of the selectedEdges list
-            int size = graphSelectionHandeler.getSelectedEdges().size();
+            int size = graphSelectionHandler.getSelectedEdges().size();
             //set the editingEdge to the last selected edge
-            Edge editingEdge = graphSelectionHandeler.getSelectedEdges().get(size - 1);
+            Edge editingEdge = graphSelectionHandler.getSelectedEdges().get(size - 1);
             //update canvas's editing edge with this
             canvas.setEditingEdge(editingEdge);
             //set the last index to be the only one selected
-            graphSelectionHandeler.getEdgesList().setSelectedIndex(lastIndex);
+            graphSelectionHandler.getEdgesList().setSelectedIndex(lastIndex);
             //deselect all edges
-            graphSelectionHandeler.getSelectedEdgeIndices().clear();
+            graphSelectionHandler.getSelectedEdgeIndices().clear();
             //add the last index
-            graphSelectionHandeler.getSelectedEdgeIndices().add(lastIndex);
-            graphSelectionHandeler.updateSelectedEdges();
+            graphSelectionHandler.getSelectedEdgeIndices().add(lastIndex);
+            graphSelectionHandler.updateSelectedEdges();
         }
 
         //Assign the canAddEdges values of all the vertices and get the number
@@ -234,7 +225,7 @@ public class GraphStateMachine {
         graph.setFirstSelectedVertex(null); //prepare for the next edge
         //Unhighlight all vertices
         for (Vertex v : graph.getVertices()) {
-            graph.unHighlightVertex(v);
+            v.setIsHighlighted(false);
         }
         //set the editingEdge to null
         canvas.setEditingEdge(null);
@@ -242,13 +233,15 @@ public class GraphStateMachine {
         canvas.setMovingControlPoint(false);
     }
     
-    private void enterAddPathsState() {
-        setSelectedPaths(true);
-        state = States.PATH_ADDING;
+    private void enterAddWalksState() {
+        //clear the selection
+        graphSelectionHandler.clearSelection();
+        setSelectedWalks(true);
+        state = States.WALK_ADDING;
     }
     
-    private void exitAddPathsState() {
-        setSelectedPaths(false);
+    private void exitAddWalksState() {
+        setSelectedWalks(false);
     }
     
     //SUBMARK: Set Selected Mode
@@ -267,9 +260,9 @@ public class GraphStateMachine {
         selectionMenuItem.setSelected(selected);
     }
     
-    private void setSelectedPaths(boolean selected) {
-        addPathsButton.setSelected(selected);
-        addPathsMenuItem.setSelected(selected);
+    private void setSelectedWalks(boolean selected) {
+        addWalksButton.setSelected(selected);
+        addWalksMenuItem.setSelected(selected);
     }
     
     /**

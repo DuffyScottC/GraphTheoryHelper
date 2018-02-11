@@ -6,22 +6,20 @@
 package views;
 
 import java.awt.Dimension;
-import javax.swing.JPanel;
+import javax.swing.JScrollPane;
 
 /**
- * This makes the inspector side-bar stay the correct width.
+ *
  * @author Scott
  */
-public class InspectorPanel extends JPanel {
-
+public class ListScrollPane extends JScrollPane {
     @Override
     public Dimension getPreferredSize() {
-        return new Dimension(150, 300);
+        return new Dimension(147, 140);
     }
 
     @Override
     public Dimension getMinimumSize() {
         return getPreferredSize();
     }
-
 }

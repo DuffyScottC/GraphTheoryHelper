@@ -7,7 +7,9 @@ package element;
 
 import controller.Values;
 import java.awt.BasicStroke;
+import java.awt.Color;
 import java.awt.Graphics2D;
+import java.awt.Stroke;
 import java.awt.geom.Ellipse2D;
 import java.awt.geom.Point2D;
 import java.awt.geom.QuadCurve2D;
@@ -68,13 +70,43 @@ public class Edge extends Element {
     
     @Override
     public void draw(Graphics2D g2) {
+        if (isHidden) {
+            return;
+        }
+        
+        //set up stroke if neccessary
         if (stroke == null) {
             stroke = new BasicStroke(strokeWidth);
         }
-        g2.setStroke(stroke);
         
-        g2.setColor(strokeColor);
+        //initialize the stroke and strokeColor
+        Stroke currentStroke = stroke;
+        Color currentStrokeColor = strokeColor;
         
+        if (isPressed) {
+            //change the current properties to the highlighted mode
+            currentStroke = new BasicStroke(Values.EDGE_HIGHLIGHT_STROKE_WIDTH);
+            currentStrokeColor = Values.EDGE_PRESSED_COLOR;
+            //if it's pressed, it can't be highlighted or walk colored
+        } else if (isHighlighted) {
+            //change the current properties to the highlighted mode
+            currentStroke = new BasicStroke(Values.EDGE_HIGHLIGHT_STROKE_WIDTH);
+            currentStrokeColor = Values.EDGE_HIGHLIGHT_COLOR;
+            //if it's highlighted, it can't be walk colored
+        } else if (isWalkColored) {
+            //change the current properties to the shown walk mode
+            currentStroke = new BasicStroke(Values.WALK_EDGE_STROKE_WIDTH);
+            currentStrokeColor = Values.WALK_EDGE_STROKE_COLOR;
+        }
+        /*
+        If this edge is neither highlighted nor part of a shown walk,
+        then leave the colors as the default (chosen by the user or 
+        default)
+        */
+        
+        //Actually draw:
+        g2.setStroke(currentStroke);
+        g2.setColor(currentStrokeColor);
         //Convert the center points of the two endpoints to ints
         int x1 = (int) endpoint1.getCenter().getX();
         int y1 = (int) endpoint1.getCenter().getY();
@@ -159,6 +191,20 @@ public class Edge extends Element {
         }
         //if neither endpoint equals v
         return false;
+    }
+    
+    /**
+     * Checks to see whether the given edge has an endpoint in common with
+     * this edge.
+     * @param givenEdge The given edge
+     * @return True if this edge shares one or more endpoints with the given
+     * edge, false if this edge shares no endpoints with the given edge.
+     */
+    public boolean sharesEndpointWith(Edge givenEdge) {
+        Vertex ep1 = givenEdge.getEndpoint1();
+        Vertex ep2 = givenEdge.getEndpoint2();
+        //return true if this has ep1 or ep2, false if this has neither of them
+        return this.hasEndpoint(ep1) || this.hasEndpoint(ep2);
     }
     
     /**

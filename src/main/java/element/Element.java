@@ -6,9 +6,9 @@
 package element;
 
 import controller.Values;
+import static controller.Values.choosableColors;
 import java.awt.Color;
 import java.awt.Graphics2D;
-import java.awt.Shape;
 import java.awt.Stroke;
 import java.io.Serializable;
 
@@ -24,6 +24,10 @@ public abstract class Element implements Serializable {
     protected double xLoc = 0;
     protected double yLoc = 0;
     protected String title = "A";
+    protected transient boolean isHidden = false;
+    protected transient boolean isHighlighted = false;
+    protected transient boolean isPressed = false;
+    protected transient boolean isWalkColored = false;
 
     // the stroke is created from strokeWidth + BasicStroke
     // but BasicStroke is not serializable, so the actual
@@ -55,10 +59,25 @@ public abstract class Element implements Serializable {
     public final void setTitle(String title) {
         this.title = title;
     }
-
-    @Override
-    public String toString() {
-        return title;
+    
+    public void setIsHidden(boolean isHidden) {
+        this.isHidden = isHidden;
+    }
+    
+    public boolean isHidden() {
+        return isHidden;
+    }
+    
+    public void setIsHighlighted(boolean isHighlighted) {
+        this.isHighlighted = isHighlighted;
+    }
+    
+    public void setIsPressed(boolean isPressed) {
+        this.isPressed = isPressed;
+    }
+    
+    public void setIsWalkColored(boolean isWalkColored) {
+        this.isWalkColored = isWalkColored;
     }
     
     @Override
