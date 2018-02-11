@@ -6,7 +6,6 @@
 package element;
 
 import controller.Values;
-import java.awt.Color;
 import java.io.Serializable;
 import java.util.ArrayList;
 import java.util.List;
@@ -39,9 +38,9 @@ public class Graph implements Serializable {
     private final List<SimpleEdge> simpleEdges = new ArrayList<>();
     
     //Start out default
-    private Color vertexFillColor = Values.VERTEX_FILL_COLOR;
-    private Color vertexStrokeColor = Values.VERTEX_STROKE_COLOR;
-    private Color edgeStrokeColor = Values.EDGE_STROKE_COLOR;
+    private int vertexFillColor = Values.VERTEX_FILL_COLOR_INDEX;
+    private int vertexStrokeColor = Values.VERTEX_STROKE_COLOR_INDEX;
+    private int edgeStrokeColor = Values.EDGE_STROKE_COLOR_INDEX;
     
     /**
      * If this is not null, we want to start drawing an edge between this vertex
@@ -131,27 +130,27 @@ public class Graph implements Serializable {
         return edges.get(index);
     }
     
-    public Color getVertexFillColor() {
+    public int getVertexFillColorIndex() {
         return vertexFillColor;
     }
 
-    public void setVertexFillColor(Color vertexFillColor) {
-        this.vertexFillColor = vertexFillColor;
+    public void setVertexFillColorIndex(int vertexFillColorIndex) {
+        this.vertexFillColor = vertexFillColorIndex;
     }
 
-    public Color getVertexStrokeColor() {
+    public int getVertexStrokeColorIndex() {
         return vertexStrokeColor;
     }
 
-    public void setVertexStrokeColor(Color vertexStrokeColor) {
+    public void setVertexStrokeColorIndex(int vertexStrokeColor) {
         this.vertexStrokeColor = vertexStrokeColor;
     }
     
-    public Color getEdgeStrokeColor() {
+    public int getEdgeStrokeColorIndex() {
         return edgeStrokeColor;
     }
     
-    public void setEdgeStrokeColor(Color edgeStrokeColor) {
+    public void setEdgeStrokeColorIndex(int edgeStrokeColor) {
         this.edgeStrokeColor = edgeStrokeColor;
     }
     
@@ -177,14 +176,16 @@ public class Graph implements Serializable {
     
     /**
      * Convenience method to set the three colors all at once.
-     * @param vertexFillColor
-     * @param vertexStrokeColor
-     * @param edgeStrokeColor 
+     * @param vertexFillColorIndex
+     * @param vertexStrokeColorIndex
+     * @param edgeStrokeColorIndex
      */
-    public void setColors(Color vertexFillColor, Color vertexStrokeColor, Color edgeStrokeColor) {
-        this.vertexFillColor = vertexFillColor;
-        this.vertexStrokeColor = vertexStrokeColor;
-        this.edgeStrokeColor = edgeStrokeColor;
+    public void setColors(int vertexFillColorIndex, 
+            int vertexStrokeColorIndex, 
+            int edgeStrokeColorIndex) {
+        this.vertexFillColor = vertexFillColorIndex;
+        this.vertexStrokeColor = vertexStrokeColorIndex;
+        this.edgeStrokeColor = edgeStrokeColorIndex;
     }
     
     public Vertex getFirstSelectedVertex() {

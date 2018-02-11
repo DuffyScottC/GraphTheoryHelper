@@ -17,12 +17,6 @@ import javax.swing.JTextField;
  */
 public class GraphColorChooserDialog11 extends javax.swing.JDialog {
     
-    private Color vertexFillColor;
-    private Color vertexStrokeColor;
-    private Color edgeStrokeColor;
-    //Create a new SampleCanvas object
-    private views.SampleCanvas sampleCanvas;
-    
     /**
      * Creates new form GraphColorChooserDialog
      */
@@ -134,6 +128,11 @@ public class GraphColorChooserDialog11 extends javax.swing.JDialog {
     private javax.swing.JComboBox vertexFillColorComboBox;
     private javax.swing.JComboBox vertexStrokeColorComboBox;
     private javax.swing.JComboBox edgeStrokeColorComboBox;
+    private int vertexFillColorIndex;
+    private int vertexStrokeColorIndex;
+    private int edgeStrokeColorIndex;
+    //Create a new SampleCanvas object
+    private views.SampleCanvas sampleCanvas;
     
     public JButton getCancelButton() {
         return cancelButton;
@@ -147,49 +146,49 @@ public class GraphColorChooserDialog11 extends javax.swing.JDialog {
         return sampleCanvas;
     }
     
-    public Color getVertexFillColor() {
-        return vertexFillColor;
+    public int getVertexFillColorIndex() {
+        return vertexFillColorIndex;
     }
 
-    public Color getVertexStrokeColor() {
-        return vertexStrokeColor;
+    public int getVertexStrokeColorIndex() {
+        return vertexStrokeColorIndex;
     }
     
-    public Color getEdgeStrokeColor() {
-        return edgeStrokeColor;
+    public int getEdgeStrokeColorIndex() {
+        return edgeStrokeColorIndex;
     }
     
     /**
      * Sets the dialog's vertexFillColor, the sampleCanvas's vertexFillColor,
      * and the text field background
-     * @param vertexFillColor 
+     * @param vertexFillColorIndex 
      */
-    public void setVertexFillColor(Color vertexFillColor) {
-        this.vertexFillColor = vertexFillColor;
-        sampleCanvas.setVertexFillColor(vertexFillColor);
-        vertexFillColorComboBox.setSelectedItem(vertexFillColor);
+    public void setVertexFillColorIndex(int vertexFillColorIndex) {
+        this.vertexFillColorIndex = vertexFillColorIndex;
+        sampleCanvas.setVertexFillColorIndex(vertexFillColorIndex);
+        vertexFillColorComboBox.setSelectedIndex(vertexFillColorIndex);
     }
 
     /**
      * Sets the dialog's vertexStrokeColor, the sampleCanvas's vertexStrokeColor,
      * and the text field background
-     * @param vertexStrokeColor 
+     * @param vertexStrokeColorIndex
      */
-    public void setVertexStrokeColor(Color vertexStrokeColor) {
-        this.vertexStrokeColor = vertexStrokeColor;
-        sampleCanvas.setVertexStrokeColor(vertexStrokeColor);
-        vertexStrokeColorComboBox.setSelectedItem(vertexStrokeColor);
+    public void setVertexStrokeColorIndex(int vertexStrokeColorIndex) {
+        this.vertexStrokeColorIndex = vertexStrokeColorIndex;
+        sampleCanvas.setVertexStrokeColorIndex(vertexStrokeColorIndex);
+        vertexStrokeColorComboBox.setSelectedIndex(vertexStrokeColorIndex);
     }
     
     /**
      * Sets the dialog's edgeStrokeColor, the sampleCanvas's edgeStrokeColor,
      * and the text field background
-     * @param edgeStrokeColor 
+     * @param edgeStrokeColorIndex 
      */
-    public void setEdgeStrokeColor(Color edgeStrokeColor) {
-        this.edgeStrokeColor = edgeStrokeColor;
-        sampleCanvas.setEdgeStrokeColor(edgeStrokeColor);
-        edgeStrokeColorComboBox.setSelectedItem(edgeStrokeColor);
+    public void setEdgeStrokeColorIndex(int edgeStrokeColorIndex) {
+        this.edgeStrokeColorIndex = edgeStrokeColorIndex;
+        sampleCanvas.setEdgeStrokeColorIndex(edgeStrokeColorIndex);
+        edgeStrokeColorComboBox.setSelectedIndex(edgeStrokeColorIndex);
     }
 
     public JPanel getColorChooserPanel() {

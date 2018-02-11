@@ -6,6 +6,7 @@
 package element;
 
 import controller.Values;
+import static controller.Values.choosableColors;
 import java.awt.Color;
 import java.awt.Graphics2D;
 import java.awt.Stroke;

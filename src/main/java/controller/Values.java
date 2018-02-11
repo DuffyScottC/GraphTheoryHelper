@@ -12,10 +12,34 @@ import java.awt.Color;
  * @author Scott
  */
 public class Values {
+    //MARK: Choosable Graph Colors
+    private static final Color purple = new Color(153, 0, 255);
+    /**
+     * Holds the colors that the user can select to format the elements in the
+     * graph. It is initialized in 
+     * {@link GraphController.setUpGraphColorChooserDialog} and used to
+     * interpret user choices in the ComboBoxes into colors when the 
+     * graphColorChooserDialog's OK button is pressed.
+     */
+    public static final Color[] choosableColors = { //11 colors
+        Color.blue.brighter(), //0
+        Color.blue, //1
+        Color.blue.darker(), //2
+        purple.brighter(), //3
+        purple, //4
+        purple.brighter(), //5
+        Color.red.brighter(), //6
+        Color.red, //7
+        Color.red.darker(), //8
+        Color.black, //9
+        Color.gray //10
+    };
+    
     //MARK: Edge properties
     public static final float EDGE_STROKE_WIDTH = 2.5f;
     public static final float EDGE_HIGHLIGHT_STROKE_WIDTH = 3.5f;
     public static final double EDGE_SELECTION_DISTANCE = 4f;
+    public static final int EDGE_STROKE_COLOR_INDEX = 9;
     public static final Color EDGE_STROKE_COLOR = Color.black;
     public static final Color EDGE_HIGHLIGHT_COLOR = Color.green;
     public static final Color EDGE_PRESSED_COLOR = EDGE_HIGHLIGHT_COLOR.darker();//new Color(0, 200, 0);
@@ -25,6 +49,8 @@ public class Values {
     //MARK: Vertex properties
     public static final float VERTEX_STROKE_WIDTH = 1.0f;
     public static final float VERTEX_HIGHLIGHT_STROKE_WIDTH = 2.0f;
+    public static final int VERTEX_FILL_COLOR_INDEX = 7;
+    public static final int VERTEX_STROKE_COLOR_INDEX = 9;
     public static final Color VERTEX_FILL_COLOR = Color.red;
     public static final Color VERTEX_STROKE_COLOR = Color.black;
     public static final Color VERTEX_PRESSED_COLOR = VERTEX_FILL_COLOR.darker();//new Color(200, 0, 0);

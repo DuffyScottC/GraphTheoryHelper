@@ -10,6 +10,7 @@ import com.google.gson.GsonBuilder;
 import com.google.gson.JsonSyntaxException;
 import com.sun.javafx.geom.Line2D;
 import controller.Values.States;
+import static controller.Values.choosableColors;
 import element.Edge;
 import element.Graph;
 import element.Walk;
@@ -48,7 +49,6 @@ import javax.imageio.ImageIO;
 import javax.swing.DefaultComboBoxModel;
 import javax.swing.DefaultListModel;
 import javax.swing.ImageIcon;
-import javax.swing.JColorChooser;
 import javax.swing.JComboBox;
 import javax.swing.JFileChooser;
 import javax.swing.JFrame;
@@ -766,8 +766,12 @@ public class GraphController {
 
             clear();
 
-            colorAllElements(Values.VERTEX_FILL_COLOR, Values.VERTEX_STROKE_COLOR, Values.EDGE_STROKE_COLOR);
-            graph.setColors(Values.VERTEX_FILL_COLOR, Values.VERTEX_STROKE_COLOR, Values.EDGE_STROKE_COLOR);
+            colorAllElements(Values.VERTEX_FILL_COLOR_INDEX, 
+                    Values.VERTEX_STROKE_COLOR_INDEX, 
+                    Values.EDGE_STROKE_COLOR_INDEX);
+            graph.setColors(Values.VERTEX_FILL_COLOR_INDEX, 
+                    Values.VERTEX_STROKE_COLOR_INDEX, 
+                    Values.EDGE_STROKE_COLOR_INDEX);
 
             graphStateMachine.enterState(States.SELECTION);
 
@@ -796,9 +800,9 @@ public class GraphController {
             graphColorChooserDialog.getRootPane().setDefaultButton(graphColorChooserDialog.getOKButton());
 
             //Initialize the dialog with the graph's current colors
-            graphColorChooserDialog.setVertexFillColor(graph.getVertexFillColor());
-            graphColorChooserDialog.setVertexStrokeColor(graph.getVertexStrokeColor());
-            graphColorChooserDialog.setEdgeStrokeColor(graph.getEdgeStrokeColor());
+            graphColorChooserDialog.setVertexFillColorIndex(graph.getVertexFillColorIndex());
+            graphColorChooserDialog.setVertexStrokeColorIndex(graph.getVertexStrokeColorIndex());
+            graphColorChooserDialog.setEdgeStrokeColorIndex(graph.getEdgeStrokeColorIndex());
 
             isCommandPressed = false;
 
@@ -911,21 +915,18 @@ public class GraphController {
         //MARK: Color choosing dialog
         //Choose buttons:
         graphColorChooserDialog.getVertexFillColorComboBox().addActionListener((ActionEvent e) -> {
-            Color newColor = JColorChooser.showDialog(frame, "Choose color",
-                    graphColorChooserDialog.getVertexFillColor()); //get the color chosen by the user
-            graphColorChooserDialog.setVertexFillColor(newColor); //set the sample fill color
+            int colorIndex = graphColorChooserDialog.getVertexFillColorComboBox().getSelectedIndex();
+            graphColorChooserDialog.setVertexFillColorIndex(colorIndex); //set the sample fill color
             sampleCanvas.repaint(); //repaint the canvas
         });
         graphColorChooserDialog.getVertexStrokeColorComboBox().addActionListener((ActionEvent e) -> {
-            Color newColor = JColorChooser.showDialog(frame, "Choose color",
-                    graphColorChooserDialog.getVertexStrokeColor()); //get the color chosen by the user
-            graphColorChooserDialog.setVertexStrokeColor(newColor); //set the sample stroke color
+            int colorIndex = graphColorChooserDialog.getVertexFillColorComboBox().getSelectedIndex();
+            graphColorChooserDialog.setVertexStrokeColorIndex(colorIndex); //set the sample stroke color
             sampleCanvas.repaint(); //repaint the canvas
         });
         graphColorChooserDialog.getEdgeStrokeColorComboBox().addActionListener((ActionEvent e) -> {
-            Color newColor = JColorChooser.showDialog(frame, "Choose color",
-                    graphColorChooserDialog.getEdgeStrokeColor()); //get the color chosen by the user
-            graphColorChooserDialog.setEdgeStrokeColor(newColor); //set the sample fill color
+            int colorIndex = graphColorChooserDialog.getVertexFillColorComboBox().getSelectedIndex();
+            graphColorChooserDialog.setEdgeStrokeColorIndex(colorIndex); //set the sample fill color
             sampleCanvas.repaint(); //repaint the canvas
         });
 
@@ -936,27 +937,27 @@ public class GraphController {
 
         //ok button
         graphColorChooserDialog.getOKButton().addActionListener((ActionEvent e) -> {
-            //Get the colors from the dialog
-            Color newVertexFillColor = graphColorChooserDialog.getVertexFillColor();
-            Color newVertexStrokeColor = graphColorChooserDialog.getVertexStrokeColor();
-            Color newEdgeStrokeColor = graphColorChooserDialog.getEdgeStrokeColor();
+            //Get the colors from the dialog:
+            int newVertexFillColorIndex = graphColorChooserDialog.getVertexFillColorIndex();
+            int newVertexStrokeColorIndex = graphColorChooserDialog.getVertexStrokeColorIndex();
+            int newEdgeStrokeColorIndex = graphColorChooserDialog.getEdgeStrokeColorIndex();
 
             //Check if the new colors are different from the old colors
-            if (newVertexFillColor == graph.getVertexFillColor()) {
+            if (newVertexFillColorIndex != graph.getVertexFillColorIndex()) {
                 setIsModified(true); //label the graph as modified
             }
-            if (newVertexStrokeColor == graph.getVertexStrokeColor()) {
-
+            if (newVertexStrokeColorIndex != graph.getVertexStrokeColorIndex()) {
+                setIsModified(true); //label the graph as modified
             }
-            if (newEdgeStrokeColor == graph.getEdgeStrokeColor()) {
-
+            if (newEdgeStrokeColorIndex != graph.getEdgeStrokeColorIndex()) {
+                setIsModified(true); //label the graph as modified
             }
 
             //set the graph's colors
-            graph.setColors(newVertexFillColor, newVertexStrokeColor, newEdgeStrokeColor);
+            graph.setColors(newVertexFillColorIndex, newVertexStrokeColorIndex, newEdgeStrokeColorIndex);
 
             //Set the colors of the current vertices and edges
-            colorAllElements(newVertexFillColor, newVertexStrokeColor, newEdgeStrokeColor);
+            colorAllElements(newVertexFillColorIndex, newVertexStrokeColorIndex, newEdgeStrokeColorIndex);
 
             //dismiss the dialog
             graphColorChooserDialog.setVisible(false);
@@ -997,25 +998,13 @@ public class GraphController {
     }
 
     //MARK: Other methods--------------------
+    /**
+     * Initializes, sets up, and adds the graphColorChooserDialog's
+     * three color-choosing-ComboBoxes.
+     */
     private void setUpGraphColorChooserDialog() {
         //the array that will hold the ImageIcons with the colors
         Object[] colorItems = new Object[11];
-        //create a purple color (there is no Color.purple)
-        Color purple = new Color(153, 0, 255);
-        //put the 11 choosable colors in an array to be cycled through easily
-        Color[] choosableColors = { //11 colors
-            Color.blue.brighter(),
-            Color.blue,
-            Color.blue.darker(),
-            purple.brighter(),
-            purple,
-            purple.brighter(),
-            Color.red.brighter(),
-            Color.red,
-            Color.red.darker(),
-            Color.black,
-            Color.gray
-        };
         //the width of the rectangle of color that the BufferedImages will hold
         int width = 70;
         //the height of the rectangle of color that the BufferedImages will hold
@@ -1289,24 +1278,27 @@ public class GraphController {
 
         //MARK: Colors
         //get the new graph's colors
-        Color newVertexFillColor = newGraph.getVertexFillColor();
-        Color newVertexStrokeColor = newGraph.getVertexStrokeColor();
-        Color newEdgeStrokeColor = newGraph.getEdgeStrokeColor();
+        int newVertexFillColorIndex = newGraph.getVertexFillColorIndex();
+        int newVertexStrokeColorIndex = newGraph.getVertexStrokeColorIndex();
+        int newEdgeStrokeColorIndex = newGraph.getEdgeStrokeColorIndex();
+        Color newVertexFillColor = choosableColors[newVertexFillColorIndex];
+        Color newVertexStrokeColor = choosableColors[newVertexStrokeColorIndex];
+        Color newEdgeStrokeColor = choosableColors[newEdgeStrokeColorIndex];
 
         //update the graph's colors
-        graph.setVertexFillColor(newVertexFillColor);
-        graph.setVertexStrokeColor(newVertexStrokeColor);
-        graph.setEdgeStrokeColor(newEdgeStrokeColor);
+        graph.setVertexFillColorIndex(newVertexFillColorIndex);
+        graph.setVertexStrokeColorIndex(newVertexStrokeColorIndex);
+        graph.setEdgeStrokeColorIndex(newEdgeStrokeColorIndex);
 
         //set the colors of the elements (which are not saved)
         for (Vertex vertex : vertices) {
-            vertex.setStrokeColor(graph.getVertexStrokeColor());
+            vertex.setStrokeColor(newVertexFillColor);
             vertex.setStrokeWidth(Values.VERTEX_STROKE_WIDTH);
-            vertex.setFillColor(graph.getVertexFillColor());
+            vertex.setFillColor(newVertexStrokeColor);
         }
         for (Edge e : edges) {
             //may be wrong about this color
-            e.setStrokeColor(graph.getEdgeStrokeColor());
+            e.setStrokeColor(newEdgeStrokeColor);
             e.setStrokeWidth(Values.EDGE_STROKE_WIDTH);
         }
 
@@ -1971,8 +1963,10 @@ public class GraphController {
         //Create a new vertex object
         Vertex newVertex = new Vertex(Values.DIAMETER);
         newVertex.setLocation(x, y);
-        newVertex.setFillColor(graph.getVertexFillColor());
-        newVertex.setStrokeColor(graph.getVertexStrokeColor());
+        Color vertexFillColor = choosableColors[graph.getVertexFillColorIndex()];
+        newVertex.setFillColor(vertexFillColor);
+        Color vertexStrokeColor = choosableColors[graph.getVertexStrokeColorIndex()];
+        newVertex.setStrokeColor(vertexStrokeColor);
         newVertex.setStrokeWidth(Values.VERTEX_STROKE_WIDTH);
         String newTitle = generateVertexTitle();
         newVertex.setTitle(newTitle);
@@ -2356,11 +2350,16 @@ public class GraphController {
      * Changes the colors of the vertices and edges after the user chooses new
      * ones.
      *
-     * @param newVertexFillColor
-     * @param newVertexStrokeColor
-     * @param newEdgeStrokeColor
+     * @param newVertexFillColorIndex
+     * @param newVertexStrokeColorIndex
+     * @param newEdgeStrokeColorIndex
      */
-    private void colorAllElements(Color newVertexFillColor, Color newVertexStrokeColor, Color newEdgeStrokeColor) {
+    private void colorAllElements(int newVertexFillColorIndex, 
+            int newVertexStrokeColorIndex, 
+            int newEdgeStrokeColorIndex) {
+        Color newVertexFillColor = choosableColors[newVertexFillColorIndex];
+        Color newVertexStrokeColor = choosableColors[newVertexStrokeColorIndex];
+        Color newEdgeStrokeColor = choosableColors[newEdgeStrokeColorIndex];
         for (Vertex v : vertices) {
             v.setFillColor(newVertexFillColor);
             v.setStrokeColor(newVertexStrokeColor);
