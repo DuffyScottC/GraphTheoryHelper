@@ -38,9 +38,9 @@ public class Graph implements Serializable {
     private final List<SimpleEdge> simpleEdges = new ArrayList<>();
     
     //Start out default
-    private int vertexFillColor = Values.VERTEX_FILL_COLOR_INDEX;
-    private int vertexStrokeColor = Values.VERTEX_STROKE_COLOR_INDEX;
-    private int edgeStrokeColor = Values.EDGE_STROKE_COLOR_INDEX;
+    private int vertexFillColorIndex = Values.VERTEX_FILL_COLOR_INDEX;
+    private int vertexStrokeColorIndex = Values.VERTEX_STROKE_COLOR_INDEX;
+    private int edgeStrokeColorIndex = Values.EDGE_STROKE_COLOR_INDEX;
     
     /**
      * If this is not null, we want to start drawing an edge between this vertex
@@ -131,27 +131,27 @@ public class Graph implements Serializable {
     }
     
     public int getVertexFillColorIndex() {
-        return vertexFillColor;
+        return vertexFillColorIndex;
     }
 
     public void setVertexFillColorIndex(int vertexFillColorIndex) {
-        this.vertexFillColor = vertexFillColorIndex;
+        this.vertexFillColorIndex = vertexFillColorIndex;
     }
 
     public int getVertexStrokeColorIndex() {
-        return vertexStrokeColor;
+        return vertexStrokeColorIndex;
     }
 
     public void setVertexStrokeColorIndex(int vertexStrokeColor) {
-        this.vertexStrokeColor = vertexStrokeColor;
+        this.vertexStrokeColorIndex = vertexStrokeColor;
     }
     
     public int getEdgeStrokeColorIndex() {
-        return edgeStrokeColor;
+        return edgeStrokeColorIndex;
     }
     
     public void setEdgeStrokeColorIndex(int edgeStrokeColor) {
-        this.edgeStrokeColor = edgeStrokeColor;
+        this.edgeStrokeColorIndex = edgeStrokeColor;
     }
     
     /**
@@ -183,9 +183,9 @@ public class Graph implements Serializable {
     public void setColors(int vertexFillColorIndex, 
             int vertexStrokeColorIndex, 
             int edgeStrokeColorIndex) {
-        this.vertexFillColor = vertexFillColorIndex;
-        this.vertexStrokeColor = vertexStrokeColorIndex;
-        this.edgeStrokeColor = edgeStrokeColorIndex;
+        this.vertexFillColorIndex = vertexFillColorIndex;
+        this.vertexStrokeColorIndex = vertexStrokeColorIndex;
+        this.edgeStrokeColorIndex = edgeStrokeColorIndex;
     }
     
     public Vertex getFirstSelectedVertex() {

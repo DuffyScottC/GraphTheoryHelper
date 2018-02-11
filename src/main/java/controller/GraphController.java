@@ -800,9 +800,9 @@ public class GraphController {
             graphColorChooserDialog.getRootPane().setDefaultButton(graphColorChooserDialog.getOKButton());
 
             //Initialize the dialog with the graph's current colors
-            graphColorChooserDialog.setVertexFillColorIndex(graph.getVertexFillColorIndex());
-            graphColorChooserDialog.setVertexStrokeColorIndex(graph.getVertexStrokeColorIndex());
-            graphColorChooserDialog.setEdgeStrokeColorIndex(graph.getEdgeStrokeColorIndex());
+            graphColorChooserDialog.setVertexFillColorIndex(graph.getVertexFillColorIndex(), true);
+            graphColorChooserDialog.setVertexStrokeColorIndex(graph.getVertexStrokeColorIndex(), true);
+            graphColorChooserDialog.setEdgeStrokeColorIndex(graph.getEdgeStrokeColorIndex(), true);
 
             isCommandPressed = false;
 
@@ -916,17 +916,17 @@ public class GraphController {
         //Choose buttons:
         graphColorChooserDialog.getVertexFillColorComboBox().addActionListener((ActionEvent e) -> {
             int colorIndex = graphColorChooserDialog.getVertexFillColorComboBox().getSelectedIndex();
-            graphColorChooserDialog.setVertexFillColorIndex(colorIndex); //set the sample fill color
+            graphColorChooserDialog.setVertexFillColorIndex(colorIndex, false); //set the sample fill color
             sampleCanvas.repaint(); //repaint the canvas
         });
         graphColorChooserDialog.getVertexStrokeColorComboBox().addActionListener((ActionEvent e) -> {
-            int colorIndex = graphColorChooserDialog.getVertexFillColorComboBox().getSelectedIndex();
-            graphColorChooserDialog.setVertexStrokeColorIndex(colorIndex); //set the sample stroke color
+            int colorIndex = graphColorChooserDialog.getVertexStrokeColorComboBox().getSelectedIndex();
+            graphColorChooserDialog.setVertexStrokeColorIndex(colorIndex, false); //set the sample stroke color
             sampleCanvas.repaint(); //repaint the canvas
         });
         graphColorChooserDialog.getEdgeStrokeColorComboBox().addActionListener((ActionEvent e) -> {
-            int colorIndex = graphColorChooserDialog.getVertexFillColorComboBox().getSelectedIndex();
-            graphColorChooserDialog.setEdgeStrokeColorIndex(colorIndex); //set the sample fill color
+            int colorIndex = graphColorChooserDialog.getEdgeStrokeColorComboBox().getSelectedIndex();
+            graphColorChooserDialog.setEdgeStrokeColorIndex(colorIndex, false); //set the sample fill color
             sampleCanvas.repaint(); //repaint the canvas
         });
 
@@ -1254,6 +1254,8 @@ public class GraphController {
 
         vertices.clear(); //remove all elements from the current vertices
         for (Vertex v : newVertices) { //loop through new list
+            v.setFillColor(choosableColors[newGraph.getVertexFillColorIndex()]);
+            v.setStrokeColor(choosableColors[newGraph.getVertexStrokeColorIndex()]);
             vertices.add(v); //add each vertex to the vertices list
         }
 
@@ -1261,6 +1263,7 @@ public class GraphController {
 
         graph.clearEdges(); //remove all elements from the current edges
         for (Edge e : newEdges) { //loop through new list
+            e.setStrokeColor(choosableColors[newGraph.getEdgeStrokeColorIndex()]);
             graph.addEdge(e); //add each edge to the edges list
         }
 
@@ -2159,6 +2162,8 @@ public class GraphController {
                         //Create a new edge with the two vertices
                         Edge newEdge = new Edge(graph.getFirstSelectedVertex(), currentVertex);
                         newEdge.setStrokeWidth(Values.EDGE_STROKE_WIDTH);
+                        Color newEdgeColor = choosableColors[graph.getEdgeStrokeColorIndex()];
+                        newEdge.setStrokeColor(newEdgeColor);
 
                         graph.addEdge(newEdge); //Add the edge to the graph
 

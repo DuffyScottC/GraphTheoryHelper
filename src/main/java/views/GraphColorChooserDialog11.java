@@ -162,11 +162,15 @@ public class GraphColorChooserDialog11 extends javax.swing.JDialog {
      * Sets the dialog's vertexFillColor, the sampleCanvas's vertexFillColor,
      * and the text field background
      * @param vertexFillColorIndex 
+     * @param setSelectedIndex Set this to true if you want to also set the
+     * selected index
      */
-    public void setVertexFillColorIndex(int vertexFillColorIndex) {
+    public void setVertexFillColorIndex(int vertexFillColorIndex, boolean setSelectedIndex) {
         this.vertexFillColorIndex = vertexFillColorIndex;
         sampleCanvas.setVertexFillColorIndex(vertexFillColorIndex);
-        vertexFillColorComboBox.setSelectedIndex(vertexFillColorIndex);
+        if (setSelectedIndex) {
+            vertexFillColorComboBox.setSelectedIndex(vertexFillColorIndex);
+        }
     }
 
     /**
@@ -174,10 +178,12 @@ public class GraphColorChooserDialog11 extends javax.swing.JDialog {
      * and the text field background
      * @param vertexStrokeColorIndex
      */
-    public void setVertexStrokeColorIndex(int vertexStrokeColorIndex) {
+    public void setVertexStrokeColorIndex(int vertexStrokeColorIndex, boolean setSelectedIndex) {
         this.vertexStrokeColorIndex = vertexStrokeColorIndex;
         sampleCanvas.setVertexStrokeColorIndex(vertexStrokeColorIndex);
-        vertexStrokeColorComboBox.setSelectedIndex(vertexStrokeColorIndex);
+        if (setSelectedIndex) {
+            vertexStrokeColorComboBox.setSelectedIndex(vertexStrokeColorIndex);
+        }
     }
     
     /**
@@ -185,10 +191,12 @@ public class GraphColorChooserDialog11 extends javax.swing.JDialog {
      * and the text field background
      * @param edgeStrokeColorIndex 
      */
-    public void setEdgeStrokeColorIndex(int edgeStrokeColorIndex) {
+    public void setEdgeStrokeColorIndex(int edgeStrokeColorIndex, boolean setSelectedIndex) {
         this.edgeStrokeColorIndex = edgeStrokeColorIndex;
         sampleCanvas.setEdgeStrokeColorIndex(edgeStrokeColorIndex);
-        edgeStrokeColorComboBox.setSelectedIndex(edgeStrokeColorIndex);
+        if (setSelectedIndex) {
+            edgeStrokeColorComboBox.setSelectedIndex(edgeStrokeColorIndex);
+        }
     }
 
     public JPanel getColorChooserPanel() {
