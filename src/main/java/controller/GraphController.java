@@ -998,35 +998,70 @@ public class GraphController {
 
     //MARK: Other methods--------------------
     private void setUpGraphColorChooserDialog() {
-        int width = 70;
-        int height = 10;
-        BufferedImage bufferedImage = new BufferedImage(width,height,BufferedImage.TYPE_INT_RGB);
-        Graphics2D g2 = bufferedImage.createGraphics();
-        g2.setColor(Color.red);
-        g2.fillRect(0, 0, width, height);
-        
-        Object[] items = {
-            new ImageIcon(bufferedImage)
+        //the array that will hold the ImageIcons with the colors
+        Object[] colorItems = new Object[11];
+        //create a purple color (there is no Color.purple)
+        Color purple = new Color(153, 0, 255);
+        //put the 11 choosable colors in an array to be cycled through easily
+        Color[] choosableColors = { //11 colors
+            Color.blue.brighter(),
+            Color.blue,
+            Color.blue.darker(),
+            purple.brighter(),
+            purple,
+            purple.brighter(),
+            Color.red.brighter(),
+            Color.red,
+            Color.red.darker(),
+            Color.black,
+            Color.gray
         };
+        //the width of the rectangle of color that the BufferedImages will hold
+        int width = 70;
+        //the height of the rectangle of color that the BufferedImages will hold
+        int height = 10;
+        //cycle through both colorItems and choosableColors
+        for (int i = 0; i < 11; i++) {
+            //create a new bufferedImage object of width and height
+            BufferedImage bufferedImage 
+                    = new BufferedImage(width, height, BufferedImage.TYPE_INT_RGB);
+            //get the new bufferedImage's graphics (to draw on)
+            Graphics2D g2 = bufferedImage.createGraphics();
+            //set the bufferedImage's color to the next color in choosableColors
+            g2.setColor(choosableColors[i]);
+            //fill a rectangle with that color
+            g2.fillRect(0, 0, width, height);
+            //add the bufferedImage as an ImageIcon to the colorItems array
+            colorItems[i] = new ImageIcon(bufferedImage);
+        }
         
+        //a GridBagConstraints object to hold the layout positions of the ComboBoxes
         java.awt.GridBagConstraints gridBagConstraints;
+        //get a reference to the graphColorChooserDialog's colorChooserPanel
         JPanel colorChooserPanel = graphColorChooserDialog.getColorChooserPanel();
-                
-        JComboBox vertexFillColorComboBox = new JComboBox(new DefaultComboBoxModel(items));
+        
+        //initialize this ComboBox with the colorItems created above
+        JComboBox vertexFillColorComboBox = new JComboBox(new DefaultComboBoxModel(colorItems));
+        //initialize a new GridBagConstraints for this specific ComboBox
         gridBagConstraints = new java.awt.GridBagConstraints();
+        //set the grid position of this ComboBox
         gridBagConstraints.gridx = 2;
         gridBagConstraints.gridy = 0;
+        //add the comboBox to the colorChooserPanel
         colorChooserPanel.add(vertexFillColorComboBox, gridBagConstraints);
+        //add a reference to the ComboBox to the graphColorChooserDialog
         graphColorChooserDialog.setVertexFillColorComboBox(vertexFillColorComboBox);
 
-        JComboBox vertexStrokeColorComboBox = new JComboBox(new DefaultComboBoxModel(items));
+        //same as above
+        JComboBox vertexStrokeColorComboBox = new JComboBox(new DefaultComboBoxModel(colorItems));
         gridBagConstraints = new java.awt.GridBagConstraints();
         gridBagConstraints.gridx = 2;
         gridBagConstraints.gridy = 2;
         colorChooserPanel.add(vertexStrokeColorComboBox, gridBagConstraints);
         graphColorChooserDialog.setVertexStrokeColorComboBox(vertexStrokeColorComboBox);
 
-        JComboBox edgeStrokeColorComboBox = new JComboBox(new DefaultComboBoxModel(items));
+        //same as above
+        JComboBox edgeStrokeColorComboBox = new JComboBox(new DefaultComboBoxModel(colorItems));
         gridBagConstraints = new java.awt.GridBagConstraints();
         gridBagConstraints.gridx = 2;
         gridBagConstraints.gridy = 4;
