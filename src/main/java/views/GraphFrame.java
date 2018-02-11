@@ -180,6 +180,7 @@ public class GraphFrame extends javax.swing.JFrame {
         inspectorPanelJPanel.add(walksLabel, gridBagConstraints);
 
         hiddenCheckBox.setText("Hidden");
+        hiddenCheckBox.setToolTipText("Temporarily hide the edges of this path.");
         hiddenCheckBox.setFocusable(false);
         gridBagConstraints = new java.awt.GridBagConstraints();
         gridBagConstraints.gridx = 0;
