@@ -7,60 +7,64 @@ package controller;
 
 import element.Edge;
 import element.Graph;
+import element.Walk;
 import element.Vertex;
+import java.util.ArrayList;
 import java.util.List;
 import javax.swing.JList;
 import javax.swing.JTextField;
+import views.Canvas;
 import views.GraphFrame;
 
 /**
  *
  * @author Scott
  */
-public class GraphSelectionHandeler {
+public class GraphSelectionHandler {
     
+    /**
+     * The selected walk, or the active walk, that the user has clicked or
+     * is working on. Kept in sync with {@link Canvas.selectedWalk}
+     */
+    private Walk selectedWalk = null;
     /**
      * the last selected vertex in the vertices JList (Used for things like
      * setting the title text field, updating the title, changing the color,
      * etc.)
      */
-    private final List<Vertex> selectedVertices;
+    private final List<Vertex> selectedVertices = new ArrayList();
     /**
      * The last selected edge in the edges JList
      */
-    private final List<Edge> selectedEdges;
+    private final List<Edge> selectedEdges = new ArrayList();
     /**
      * A list of the selected indices in the vertices JList. null if there are
      * no selected vertices. (Used for things like setting the title text field
      * or updating the title)
      */
-    private final List<Integer> selectedVertexIndices;
+    private final List<Integer> selectedVertexIndices = new ArrayList();
     /**
      * The last selected index in the edges JList
      */
-    private final List<Integer> selectedEdgeIndices;
+    private final List<Integer> selectedEdgeIndices = new ArrayList();
     private final JList verticesList;
     private final JList edgesList;
+    private final JList walksList;
     private final JTextField titleTextField;
     private final List<Vertex> vertices;
     private final List<Edge> edges;
     private final Graph graph;
+    private final Canvas canvas;
+    private final GraphFrame frame;
     
     
-    public GraphSelectionHandeler(GraphFrame frame,
-            List<Vertex> selectedVertices,
-            List<Edge> selectedEdges,
-            List<Integer> selectedVertexIndices,
-            List<Integer> selectedEdgeIndices,
-            Graph graph) {
-        //the visual JList that the user sees and interacts with
+    public GraphSelectionHandler(GraphFrame frame, Graph graph) {
+        this.frame = frame;
         verticesList = frame.getVerticesList(); 
         edgesList = frame.getEdgesList();
+        walksList = frame.getWalksList();
         titleTextField = frame.getTitleTextField();
-        this.selectedVertices = selectedVertices;
-        this.selectedEdges = selectedEdges;
-        this.selectedVertexIndices = selectedVertexIndices;
-        this.selectedEdgeIndices = selectedEdgeIndices;
+        canvas = frame.getCanvas();
         this.graph = graph;
         vertices = graph.getVertices();
         edges = graph.getEdges();
@@ -78,7 +82,7 @@ public class GraphSelectionHandeler {
             //loop through the old vertices
             for (Vertex selectedVertex : selectedVertices) {
                 //unhighlight each one
-                graph.unHighlightVertex(selectedVertex);
+                selectedVertex.setIsHighlighted(false);
             }
         }
 
@@ -93,7 +97,7 @@ public class GraphSelectionHandeler {
             //store the new selected vertices:
             for (int i : selectedVertexIndices) { //loop through the selected indices
                 Vertex selectedVertex = vertices.get(i); //store this selected vertex
-                graph.highlightVertex(selectedVertex);
+                selectedVertex.setIsHighlighted(true);
                 selectedVertices.add(selectedVertex); //add the new selection
             }
             if (selectedVertices.size() == 1) { //if exactly one vertex was selected
@@ -113,7 +117,7 @@ public class GraphSelectionHandeler {
             //loop through the old edges
             for (Edge selectedEdge : selectedEdges) {
                 //unhighlight each one
-                graph.unHighlightEdge(selectedEdge);
+                selectedEdge.setIsHighlighted(false);
             }
         }
 
@@ -126,10 +130,57 @@ public class GraphSelectionHandeler {
             //store the new selected edges
             for (int i : selectedEdgeIndices) { //loop through the selected indices
                 Edge selectedEdge = edges.get(i); //store this selected edge
-                graph.highlightEdge(selectedEdge);
+                selectedEdge.setIsHighlighted(true);
                 selectedEdges.add(selectedEdge); //add the new selection
             }
         }
+    }
+    
+    public void setSelectedWalk(Walk selectedWalk) {
+        //if the previously selected walk is not null
+        if (this.selectedWalk != null) {
+            //place the previously selected walk in deselected mode
+            this.selectedWalk.deselect();
+            
+        }
+        
+        if (selectedWalk == null) { //if we're deselecting all walks
+            this.selectedWalk = null;
+            //select the <None> index
+            walksList.setSelectedIndex(0);
+            //unchoose the hidden checkbox
+            frame.getHiddenCheckBox().setSelected(false);
+            //disable the hidden checkbox
+            frame.getHiddenCheckBox().setEnabled(false);
+        } else { //if were selectin a new walk
+            //place the selected walk into selection mode
+            selectedWalk.select();
+            //assign the selectedWalk
+            this.selectedWalk = selectedWalk;
+            //get the index of the selectedWalk (the +1 is because walksList
+            //contains a single element called <None> that signifies that no
+            //walks are selected
+            int index = graph.getWalks().indexOf(selectedWalk) + 1;
+            //select the walk in the JList
+            walksList.setSelectedIndex(index);
+            //set the hidden checkbox accordingly
+            frame.getHiddenCheckBox().setSelected(selectedWalk.isHidden());
+            //enable the hidden checkbox
+            frame.getHiddenCheckBox().setEnabled(true);
+        }
+    }
+    
+    public void clearSelection() {
+        //Deselect the vertex
+        verticesList.clearSelection(); //deselect vertex in the list
+        selectedVertexIndices.clear();
+        updateSelectedVertices();
+
+        //Deselect the edge
+        edgesList.clearSelection(); //deselect edge in the list
+        selectedEdgeIndices.clear();
+        updateSelectedEdges();
+        canvas.repaint();
     }
 
     public List<Edge> getSelectedEdges() {
@@ -152,8 +203,11 @@ public class GraphSelectionHandeler {
         return selectedVertexIndices;
     }
     
+    public List<Vertex> getSelectedVertices() {
+        return selectedVertices;
+    }
     
-    
-    
-    
+    public Walk getSelectedWalk() {
+        return selectedWalk;
+    }
 }

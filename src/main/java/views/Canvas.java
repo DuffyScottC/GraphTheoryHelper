@@ -7,6 +7,7 @@ package views;
 
 import controller.Values;
 import element.Edge;
+import element.Walk;
 import element.Graph;
 import element.Vertex;
 import java.awt.BasicStroke;
@@ -126,7 +127,6 @@ public class Canvas extends JTextArea {
                 vertex.drawTitle(g2);
             }
         }
-
     }
 
     private void drawEdges(Graphics2D g2) {

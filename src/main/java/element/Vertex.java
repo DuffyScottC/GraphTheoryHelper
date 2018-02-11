@@ -8,15 +8,17 @@ package element;
 import controller.Values;
 import java.awt.BasicStroke;
 import java.awt.Color;
+import java.awt.FontMetrics;
 import java.awt.Graphics2D;
 import java.awt.Shape;
+import java.awt.Stroke;
 import java.awt.geom.Ellipse2D;
 import java.awt.geom.Point2D;
 import java.util.ArrayList;
 import java.util.List;
 
 /**
- *
+ * 
  * @author Scott
  */
 public class Vertex extends Element {
@@ -41,7 +43,7 @@ public class Vertex extends Element {
      * Used to delete all associated edges when this vertex
      * is deleted.
      */
-    List<SimpleEdge> edgeNames = new ArrayList<>();
+    List<SimpleEdge> simpleEdges = new ArrayList<>();
 
     public Vertex (double diameter) {
         this.diameter = diameter;
@@ -58,26 +60,69 @@ public class Vertex extends Element {
     
     @Override
     public void draw(Graphics2D g2) {
+        if (isHidden) {
+            return;
+        }
+        
+        //set up stroke if neccessary
         if (stroke == null) {
             stroke = new BasicStroke(strokeWidth);
         }
-        g2.setStroke(stroke);
         
-        g2.setColor(fillColor); //set the circle's color
+        //initialize the stroke and strokeColor
+        Stroke currentStroke = stroke;
+        Color currentStrokeColor = strokeColor;
+        Color currentFillColor = fillColor;
+        
+        if (isPressed) {
+            currentStroke = new BasicStroke(Values.VERTEX_HIGHLIGHT_STROKE_WIDTH);
+            currentStrokeColor = Values.EDGE_PRESSED_COLOR;
+            //if this is pressed AND walkColored
+            if (isWalkColored) {
+                currentFillColor = Values.WALK_VERTEX_PRESSED_COLOR;
+            } else { //if this is pressed and NOT walkColored
+                currentFillColor = Values.VERTEX_PRESSED_COLOR;
+            }
+            //if it's pressed, it can't be highlighted or walk colored
+        } else if (isHighlighted) {
+            currentStroke = new BasicStroke(Values.VERTEX_HIGHLIGHT_STROKE_WIDTH);
+            currentStrokeColor = Values.EDGE_HIGHLIGHT_COLOR;
+            //if this is highlighted AND walkColored
+            if (isWalkColored) {
+                currentFillColor = Values.WALK_VERTEX_FILL_COLOR;
+            } //otherwise leave as default
+        } else if (isWalkColored) {
+            currentStroke = new BasicStroke(Values.WALK_VERTEX_STROKE_WIDTH);
+            currentStrokeColor = Values.WALK_VERTEX_STROKE_COLOR;
+            currentFillColor = Values.WALK_VERTEX_FILL_COLOR;
+        }
+        /*
+        If this vertex is neither highlighted nor part of a shown walk,
+        then leave the colors as the default (chosen by the user or 
+        default)
+        */
+         
+        //Actually draw:
+        g2.setStroke(currentStroke);
+        g2.setColor(currentFillColor); //set the circle's color
         //initialize the shape object
         shape = new Ellipse2D.Double(0, 0, diameter, diameter);
         g2.fill(shape); //fill in the circle in that color
         
         //if the strokeColor is null, we want NO outline.
-        if (strokeColor != null) {
-            g2.setColor(strokeColor); //set the circle's color
+        if (currentStrokeColor != null) {
+            g2.setColor(currentStrokeColor); //set the circle's color
             g2.draw(shape); //draw the outline in that color
         }
     }
     
     public void drawTitle(Graphics2D g2) {
-        g2.setColor(Color.BLACK);
-        g2.drawString(title, (int) xLoc, (int) yLoc - 8);
+        //if this vertex is NOT hidden
+        if (!isHidden) {
+            //draw the title
+            g2.setColor(Color.BLACK);
+            g2.drawString(title, (int) xLoc, (int) yLoc - 8);
+        }
     }
     
     public void incLocation(double xInc, double yInc) {
@@ -111,14 +156,14 @@ public class Vertex extends Element {
     }
     
     public int getDegree() {
-        return edgeNames.size();
+        return simpleEdges.size();
     }
     
     public void addEdge(Edge e) {
         //Convert this edge to a SimpleEdge
         SimpleEdge se = new SimpleEdge(e);
         //if the new edge is already connected to this vertex:
-        if (edgeNames.contains(se)) {
+        if (simpleEdges.contains(se)) {
             //throw an exception
             throw new RuntimeException("Attempted to add edge (" +
                     e.toString() +
@@ -127,7 +172,7 @@ public class Vertex extends Element {
                     ") twice.");
         }
         //Otherwise just add it
-        edgeNames.add(se);
+        simpleEdges.add(se);
     }
     
     public void addAllEdges(List<Edge> es) {
@@ -140,11 +185,15 @@ public class Vertex extends Element {
         //convert this edge to a SimpleEdge
         SimpleEdge se = new SimpleEdge(e);
         //remove the SimpleEdge to this vertex
-        edgeNames.remove(se);
+        simpleEdges.remove(se);
     }
     
-    public List<SimpleEdge> getEdgeNames() {
-        return edgeNames;
+    public List<SimpleEdge> getSimpleEdges() {
+        return simpleEdges;
+    }
+    
+    public void setSimpleEdges (List<SimpleEdge> simpleEdges) {
+        this.simpleEdges = simpleEdges;
     }
     
     public void setCanAddEdges(boolean canAddEdges) {
@@ -156,7 +205,7 @@ public class Vertex extends Element {
     }
     
     public boolean isAdjacentTo(Vertex v) {
-        for (SimpleEdge se : edgeNames) { //cycle through all the SimpleEdges
+        for (SimpleEdge se : simpleEdges) { //cycle through all the SimpleEdges
             if (se.hasEndpoint(v)) { //if v is an enpoint of se
                 return true;
             }
@@ -175,5 +224,9 @@ public class Vertex extends Element {
         double strokeBuffer = Values.VERTEX_STROKE_WIDTH/2;
         return new Ellipse2D.Double(xLoc, yLoc, diameter + strokeBuffer, diameter + strokeBuffer);
     }
-
+    
+    @Override
+    public String toString() {
+        return title;
+    }
 }

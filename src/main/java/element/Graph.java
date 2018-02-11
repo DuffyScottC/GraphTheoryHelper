@@ -6,7 +6,6 @@
 package element;
 
 import controller.Values;
-import java.awt.Color;
 import java.io.Serializable;
 import java.util.ArrayList;
 import java.util.List;
@@ -17,22 +16,31 @@ import java.util.List;
  * @author Scott
  */
 public class Graph implements Serializable {
-    //the vertices which appear in canvas and the vertices JList
+    /**
+     * the vertices which appear in canvas and the vertices JList
+     */
     private final List<Vertex> vertices = new ArrayList<>();
-    //the edges which appear in canvas and the edges JList
+    /**
+     * the edges which appear in canvas and the edges JList
+     */
     private transient final List<Edge> edges = new ArrayList<>();
+    /**
+     * the walks which appear in canvas and the walks JList
+     */
+    private final List<Walk> walks = new ArrayList<>();
     /**
      * a list of SimpleEdges which will be used for saving and loading the edges
      * from JSON serialization. Edge objects are not good for storing because
-     * they do not store references to the vertices (instead they create
-     * identical instances stored in a different memory location). 
+     * they do not store references to the vertices when they are serialized to
+     * JSON (instead they create equivalent instances stored in a different 
+     * memory location).
      */
     private final List<SimpleEdge> simpleEdges = new ArrayList<>();
     
     //Start out default
-    private Color vertexFillColor = Values.VERTEX_FILL_COLOR;
-    private Color vertexStrokeColor = Values.VERTEX_STROKE_COLOR;
-    private Color edgeStrokeColor = Values.EDGE_STROKE_COLOR;
+    private int vertexFillColorIndex = Values.VERTEX_FILL_COLOR_INDEX;
+    private int vertexStrokeColorIndex = Values.VERTEX_STROKE_COLOR_INDEX;
+    private int edgeStrokeColorIndex = Values.EDGE_STROKE_COLOR_INDEX;
     
     /**
      * If this is not null, we want to start drawing an edge between this vertex
@@ -107,32 +115,43 @@ public class Graph implements Serializable {
         return edges;
     }
     
+    public List<Walk> getWalks() {
+        return walks;
+    }
+    
     public List<SimpleEdge> getSimpleEdges() {
         return simpleEdges;
     }
     
-    public Color getVertexFillColor() {
-        return vertexFillColor;
-    }
-
-    public void setVertexFillColor(Color vertexFillColor) {
-        this.vertexFillColor = vertexFillColor;
-    }
-
-    public Color getVertexStrokeColor() {
-        return vertexStrokeColor;
-    }
-
-    public void setVertexStrokeColor(Color vertexStrokeColor) {
-        this.vertexStrokeColor = vertexStrokeColor;
+    public Edge getMatchingEdge(SimpleEdge se) {
+        //find the index of the simpleEdge
+        int index = simpleEdges.indexOf(se);
+        //return the matching edge with the same index
+        return edges.get(index);
     }
     
-    public Color getEdgeStrokeColor() {
-        return edgeStrokeColor;
+    public int getVertexFillColorIndex() {
+        return vertexFillColorIndex;
+    }
+
+    public void setVertexFillColorIndex(int vertexFillColorIndex) {
+        this.vertexFillColorIndex = vertexFillColorIndex;
+    }
+
+    public int getVertexStrokeColorIndex() {
+        return vertexStrokeColorIndex;
+    }
+
+    public void setVertexStrokeColorIndex(int vertexStrokeColor) {
+        this.vertexStrokeColorIndex = vertexStrokeColor;
     }
     
-    public void setEdgeStrokeColor(Color edgeStrokeColor) {
-        this.edgeStrokeColor = edgeStrokeColor;
+    public int getEdgeStrokeColorIndex() {
+        return edgeStrokeColorIndex;
+    }
+    
+    public void setEdgeStrokeColorIndex(int edgeStrokeColor) {
+        this.edgeStrokeColorIndex = edgeStrokeColor;
     }
     
     /**
@@ -157,14 +176,16 @@ public class Graph implements Serializable {
     
     /**
      * Convenience method to set the three colors all at once.
-     * @param vertexFillColor
-     * @param vertexStrokeColor
-     * @param edgeStrokeColor 
+     * @param vertexFillColorIndex
+     * @param vertexStrokeColorIndex
+     * @param edgeStrokeColorIndex
      */
-    public void setColors(Color vertexFillColor, Color vertexStrokeColor, Color edgeStrokeColor) {
-        this.vertexFillColor = vertexFillColor;
-        this.vertexStrokeColor = vertexStrokeColor;
-        this.edgeStrokeColor = edgeStrokeColor;
+    public void setColors(int vertexFillColorIndex, 
+            int vertexStrokeColorIndex, 
+            int edgeStrokeColorIndex) {
+        this.vertexFillColorIndex = vertexFillColorIndex;
+        this.vertexStrokeColorIndex = vertexStrokeColorIndex;
+        this.edgeStrokeColorIndex = edgeStrokeColorIndex;
     }
     
     public Vertex getFirstSelectedVertex() {
@@ -183,33 +204,11 @@ public class Graph implements Serializable {
         for (Vertex v : vertices) {
             //if this vertex is available to add edges to
             if (v.canAddEdges()) {
-                v.setStrokeColor(Values.VERTEX_AVAILABLE_STROKE_COLOR);
-                v.setStrokeWidth(Values.VERTEX_HIGHLIGHT_STROKE_WIDTH);
+                v.setIsHighlighted(true);
             } else { //if this vertex is completely full
-                v.setStrokeColor(vertexStrokeColor);
-                v.setStrokeWidth(Values.VERTEX_STROKE_WIDTH);
+                v.setIsHighlighted(false);
             }
         }
-    }
-    
-    public void highlightVertex(Vertex vertex) {
-        vertex.setStrokeColor(Values.EDGE_HIGHLIGHT_COLOR);
-        vertex.setStrokeWidth(Values.VERTEX_HIGHLIGHT_STROKE_WIDTH);
-    }
-
-    public void unHighlightVertex(Vertex vertex) {
-        vertex.setStrokeColor(vertexStrokeColor);
-        vertex.setStrokeWidth(Values.VERTEX_STROKE_WIDTH);
-    }
-
-    public void highlightEdge(Edge edge) {
-        edge.setStrokeWidth(Values.EDGE_HIGHLIGHT_STROKE_WIDTH);
-        edge.setStrokeColor(Values.EDGE_HIGHLIGHT_COLOR);
-    }
-
-    public void unHighlightEdge(Edge edge) {
-        edge.setStrokeWidth(Values.EDGE_STROKE_WIDTH);
-        edge.setStrokeColor(edgeStrokeColor);
     }
     
     //MARK: Other methods

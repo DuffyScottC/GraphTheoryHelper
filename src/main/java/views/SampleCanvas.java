@@ -6,6 +6,7 @@
 package views;
 
 import controller.Values;
+import static controller.Values.choosableColors;
 import element.Edge;
 import element.Graph;
 import element.Vertex;
@@ -28,17 +29,20 @@ public class SampleCanvas extends JTextArea {
     private Edge e;
     
     public void setUp(Graph graph) {
+        Color vertexStrokeColor = choosableColors[graph.getVertexStrokeColorIndex()];
+        Color vertexFillColor = choosableColors[graph.getVertexStrokeColorIndex()];
+        
         v1 = new Vertex(Values.DIAMETER);
         v1.setLocation(50, 50);
-        v1.setStrokeColor(graph.getVertexStrokeColor());
-        v1.setFillColor(graph.getVertexFillColor());
+        v1.setStrokeColor(vertexStrokeColor);
+        v1.setFillColor(vertexFillColor);
         v1.setStrokeWidth(Values.VERTEX_STROKE_WIDTH);
         v1.setTitle("");
         
         v2 = new Vertex(Values.DIAMETER);
         v2.setLocation(150, 50);
-        v2.setStrokeColor(graph.getVertexStrokeColor());
-        v2.setFillColor(graph.getVertexFillColor());
+        v2.setStrokeColor(vertexStrokeColor);
+        v2.setFillColor(vertexFillColor);
         v2.setStrokeWidth(Values.VERTEX_STROKE_WIDTH);
         v2.setTitle("");
         
@@ -90,23 +94,31 @@ public class SampleCanvas extends JTextArea {
         //get the height and width of the canvas
         int h = this.getHeight();
         int w = this.getWidth();
-        int distFromSide = 50; //the distance of both vertices from both sides
+        int distFromSide = 50 - Values.DIAMETER/2; //the distance of both vertices from both sides
         
         v1.setLocation(distFromSide, h/2);
         v2.setLocation(w - distFromSide, h/2);
+        //straighten the edge
+        //set the control point
+        double ctrlX = w/2; //find the mid-x
+        double ctrlY = h/2 + Values.DIAMETER/2; //find the mid-y
+        e.setCtrlPoint(ctrlX, ctrlY);
     }
     
-    public void setVertexFillColor(Color vertexFillColor) {
+    public void setVertexFillColorIndex(int vertexFillColorIndex) {
+        Color vertexFillColor = choosableColors[vertexFillColorIndex];
         v1.setFillColor(vertexFillColor);
         v2.setFillColor(vertexFillColor);
     }
     
-    public void setVertexStrokeColor(Color vertexStrokeColor) {
+    public void setVertexStrokeColorIndex(int vertexStrokeColorIndex) {
+        Color vertexStrokeColor = choosableColors[vertexStrokeColorIndex];
         v1.setStrokeColor(vertexStrokeColor);
         v2.setStrokeColor(vertexStrokeColor);
     }
     
-    public void setEdgeStrokeColor(Color edgeStrokeColor) {
+    public void setEdgeStrokeColorIndex(int edgeStrokeColorIndex) {
+        Color edgeStrokeColor = choosableColors[edgeStrokeColorIndex];
         e.setStrokeColor(edgeStrokeColor);
     }
     
