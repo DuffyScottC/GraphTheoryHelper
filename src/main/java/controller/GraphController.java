@@ -1254,8 +1254,6 @@ public class GraphController {
 
         vertices.clear(); //remove all elements from the current vertices
         for (Vertex v : newVertices) { //loop through new list
-            v.setFillColor(choosableColors[newGraph.getVertexFillColorIndex()]);
-            v.setStrokeColor(choosableColors[newGraph.getVertexStrokeColorIndex()]);
             vertices.add(v); //add each vertex to the vertices list
         }
 
@@ -1263,7 +1261,6 @@ public class GraphController {
 
         graph.clearEdges(); //remove all elements from the current edges
         for (Edge e : newEdges) { //loop through new list
-            e.setStrokeColor(choosableColors[newGraph.getEdgeStrokeColorIndex()]);
             graph.addEdge(e); //add each edge to the edges list
         }
 
@@ -1295,9 +1292,9 @@ public class GraphController {
 
         //set the colors of the elements (which are not saved)
         for (Vertex vertex : vertices) {
-            vertex.setStrokeColor(newVertexFillColor);
+            vertex.setFillColor(newVertexFillColor);
             vertex.setStrokeWidth(Values.VERTEX_STROKE_WIDTH);
-            vertex.setFillColor(newVertexStrokeColor);
+            vertex.setStrokeColor(newVertexStrokeColor);
         }
         for (Edge e : edges) {
             //may be wrong about this color
