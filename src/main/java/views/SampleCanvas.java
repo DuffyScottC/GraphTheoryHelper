@@ -94,10 +94,15 @@ public class SampleCanvas extends JTextArea {
         //get the height and width of the canvas
         int h = this.getHeight();
         int w = this.getWidth();
-        int distFromSide = 50; //the distance of both vertices from both sides
+        int distFromSide = 50 - Values.DIAMETER/2; //the distance of both vertices from both sides
         
         v1.setLocation(distFromSide, h/2);
         v2.setLocation(w - distFromSide, h/2);
+        //straighten the edge
+        //set the control point
+        double ctrlX = w/2; //find the mid-x
+        double ctrlY = h/2; //find the mid-y
+        e.setCtrlPoint(ctrlX, ctrlY);
     }
     
     public void setVertexFillColorIndex(int vertexFillColorIndex) {
