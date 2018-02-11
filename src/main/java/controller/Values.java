@@ -22,13 +22,13 @@ public class Values {
      * graphColorChooserDialog's OK button is pressed.
      */
     public static final Color[] choosableColors = { //11 colors
-        Color.blue.brighter(), //0
+        Color.cyan, //0
         Color.blue, //1
         Color.blue.darker(), //2
         purple.brighter(), //3
         purple, //4
         purple.brighter(), //5
-        Color.red.brighter(), //6
+        Color.pink, //6
         Color.red, //7
         Color.red.darker(), //8
         Color.black, //9
