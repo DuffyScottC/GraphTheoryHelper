@@ -10,10 +10,12 @@ import javax.swing.JOptionPane;
 import controller.Values.States;
 import element.Edge;
 import element.Graph;
+import java.awt.Component;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 import java.util.List;
 import javax.swing.JCheckBoxMenuItem;
+import javax.swing.JTextField;
 import javax.swing.JToggleButton;
 import views.Canvas;
 import views.GraphFrame;
@@ -62,24 +64,67 @@ public class GraphStateMachine {
         this.graph = graph;
         
         //Add vertices
-        ActionListener addVertices = (ActionEvent e) -> {
+        addVerticesButton.addActionListener((ActionEvent e) -> {
             enterState(States.VERTEX_ADDING);
             canvas.repaint();
-        };
-        addVerticesButton.addActionListener(addVertices);
-        addVerticesMenuItem.addActionListener(addVertices);
+        });
+        addVerticesMenuItem.addActionListener((ActionEvent e) -> {
+            //first make sure we are not in a text box
+            Component component = frame.getFocusOwner();
+            //if we're not typing in a text box
+            if (!(component instanceof JTextField)) {
+                enterState(States.VERTEX_ADDING);
+                canvas.repaint();
+            }
+            //otherwise, allow the user to type
+        });
 
         //Selection
-        ActionListener selection = (ActionEvent e) -> {
+        selectionButton.addActionListener((ActionEvent e) -> {
             enterState(States.SELECTION);
             canvas.repaint();
-        };
-        selectionButton.addActionListener(selection);
-        selectionMenuItem.addActionListener(selection);
+        });
+        selectionMenuItem.addActionListener((ActionEvent e) -> {
+            //first make sure we are not in a text box
+            Component component = frame.getFocusOwner();
+            //if we're not typing in a text box
+            if (!(component instanceof JTextField)) {
+                enterState(States.SELECTION);
+                canvas.repaint();
+            }
+        });
 
         //Add edges
-        ActionListener addEdges = (ActionEvent e) -> {
-            if (vertices == null) {
+        addEdgesButton.addActionListener((ActionEvent e) -> {
+            addEdgesButtonAndMenuItemCode(frame, vertices);
+        });
+        addEdgesMenuItem.addActionListener((ActionEvent e) -> {
+            //first make sure we are not in a text box
+            Component component = frame.getFocusOwner();
+            //if we're not typing in a text box
+            if (!(component instanceof JTextField)) {
+                addEdgesButtonAndMenuItemCode(frame, vertices);
+            }
+        });
+        
+        //Add walks
+        addWalksButton.addActionListener((ActionEvent e) -> {
+            enterState(States.WALK_ADDING);
+            canvas.repaint();
+        });
+        addWalksMenuItem.addActionListener((ActionEvent e) -> {
+            //first make sure we are not in a text box
+            Component component = frame.getFocusOwner();
+            //if we're not typing in a text box
+            if (!(component instanceof JTextField)) {
+                enterState(States.WALK_ADDING);
+                canvas.repaint();
+            }
+        });
+    }
+    
+    private void addEdgesButtonAndMenuItemCode(GraphFrame frame, List<Vertex> vertices) {
+        if (vertices == null) {
                 JOptionPane.showMessageDialog(frame, "Need at least two vertices "
                         + "to add an edge.");
                 setSelectedEdges(false);
@@ -95,17 +140,6 @@ public class GraphStateMachine {
             }
             enterState(States.EDGE_ADDING);
             canvas.repaint();
-        };
-        addEdgesButton.addActionListener(addEdges);
-        addEdgesMenuItem.addActionListener(addEdges);
-        
-        //Add walks
-        ActionListener addWalks = (ActionEvent e) -> {
-            enterState(States.WALK_ADDING);
-            canvas.repaint();
-        };
-        addWalksButton.addActionListener(addWalks);
-        addWalksMenuItem.addActionListener(addWalks);
     }
     
     int debugCount = 0;
