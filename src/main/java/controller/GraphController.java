@@ -20,6 +20,7 @@ import java.awt.BorderLayout;
 import java.awt.Color;
 import java.awt.Desktop;
 import java.awt.Graphics2D;
+import java.awt.Point;
 import java.awt.event.ActionEvent;
 import java.awt.event.KeyAdapter;
 import java.awt.event.KeyEvent;
@@ -53,12 +54,15 @@ import javax.swing.JComboBox;
 import javax.swing.JFileChooser;
 import javax.swing.JFrame;
 import javax.swing.JList;
+import javax.swing.JMenuItem;
 import javax.swing.JOptionPane;
 import javax.swing.JPanel;
+import javax.swing.JPopupMenu;
 import javax.swing.JTextField;
 import javax.swing.JToggleButton;
 import javax.swing.KeyStroke;
 import javax.swing.ListSelectionModel;
+import javax.swing.SwingUtilities;
 import javax.swing.event.ListSelectionEvent;
 import javax.swing.filechooser.FileFilter;
 import views.AddGraphDialog;
@@ -574,6 +578,22 @@ public class GraphController {
                     graphSelectionHandler.setSelectedWalk(newSelectedWalk);
                 }
                 canvas.repaint();
+                
+            }
+            
+            @Override
+            public void mousePressed(MouseEvent e) {
+                if (e.isPopupTrigger()) {
+                    JPopupMenu menu = new JPopupMenu();
+                    JMenuItem item = new JMenuItem("Say hello");
+                    item.addActionListener((ActionEvent ev) -> {
+                        JOptionPane.showMessageDialog(frame, "Hello "
+                                    + walksList.getSelectedValue());
+                    });
+                    menu.add(item);
+                    Point click = SwingUtilities.convertPoint(walksList, e.getX(), e.getY(), frame);
+                    menu.show(frame, click.x, click.y);
+                }
             }
         });
 
