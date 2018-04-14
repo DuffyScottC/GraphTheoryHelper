@@ -21,6 +21,9 @@ import java.awt.Color;
 import java.awt.Desktop;
 import java.awt.Graphics2D;
 import java.awt.Point;
+import java.awt.Toolkit;
+import java.awt.datatransfer.Clipboard;
+import java.awt.datatransfer.StringSelection;
 import java.awt.event.ActionEvent;
 import java.awt.event.KeyAdapter;
 import java.awt.event.KeyEvent;
@@ -585,10 +588,13 @@ public class GraphController {
             public void mousePressed(MouseEvent e) {
                 if (e.isPopupTrigger()) {
                     JPopupMenu menu = new JPopupMenu();
-                    JMenuItem item = new JMenuItem("Say hello");
+                    JMenuItem item = new JMenuItem("Copy");
                     item.addActionListener((ActionEvent ev) -> {
-                        JOptionPane.showMessageDialog(frame, "Hello "
-                                    + walksList.getSelectedValue());
+                        int index = walksList.getSelectedIndex() - 1;
+                        String walkString = walks.get(index).toString();
+                        StringSelection stringSelection = new StringSelection(walkString);
+                        Clipboard clpbrd = Toolkit.getDefaultToolkit().getSystemClipboard();
+                        clpbrd.setContents(stringSelection, null);
                     });
                     menu.add(item);
                     Point click = SwingUtilities.convertPoint(walksList, e.getX(), e.getY(), frame);
