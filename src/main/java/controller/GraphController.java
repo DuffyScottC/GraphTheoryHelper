@@ -605,10 +605,12 @@ public class GraphController {
                     
                     JMenuItem deleteItem = new JMenuItem("Delete");
                     deleteItem.addActionListener((ActionEvent ev) -> {
-                        //get the index of the selected walk
-                        int index = walksList.getSelectedIndex() - 1;
+                        //get the walk that is selected
+                        Walk selectedWalk = graphSelectionHandler.getSelectedWalk();
+                        //unhide the walk
+                        selectedWalk.unhide();
                         //remove the selected walk
-                        removeWalk(walks.get(index));
+                        removeWalk(selectedWalk);
                         canvas.repaint();
                     });
                     menu.add(deleteItem);
