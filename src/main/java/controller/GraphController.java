@@ -587,15 +587,24 @@ public class GraphController {
             public void mousePressed(MouseEvent e) {
                 if (e.isPopupTrigger()) {
                     JPopupMenu menu = new JPopupMenu();
-                    JMenuItem item = new JMenuItem("Copy");
-                    item.addActionListener((ActionEvent ev) -> {
+                    JMenuItem copyItem = new JMenuItem("Copy");
+                    copyItem.addActionListener((ActionEvent ev) -> {
                         int index = walksList.getSelectedIndex() - 1;
                         String walkString = walks.get(index).toString();
                         StringSelection stringSelection = new StringSelection(walkString);
                         Clipboard clpbrd = Toolkit.getDefaultToolkit().getSystemClipboard();
                         clpbrd.setContents(stringSelection, null);
                     });
-                    menu.add(item);
+                    
+                    JMenuItem deleteItem = new JMenuItem("Delete");
+                    deleteItem.addActionListener((ActionEvent ev) -> {
+                        //get the index of the selected walk
+                        int index = walksList.getSelectedIndex() - 1;
+                        //remove the selected walk
+                        removeWalk(walks.get(index));
+                    });
+                    
+                    menu.add(copyItem);
                     Point click = SwingUtilities.convertPoint(walksList, e.getX(), e.getY(), frame);
                     menu.show(frame, click.x, click.y);
                 }
@@ -2367,10 +2376,6 @@ public class GraphController {
                 }
             }
         }
-    }
-
-    private void addWalk() {
-
     }
 
     /**
