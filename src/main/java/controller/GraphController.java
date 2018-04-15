@@ -271,22 +271,27 @@ public class GraphController {
         
         frame.getHiddenCheckBox().addActionListener((ActionEvent e) -> {
             //if there is a selected walk (should be one, but just in case)
-            if (graphSelectionHandler.getSelectedWalk() != null) {
+            Walk selectedWalk = graphSelectionHandler.getSelectedWalk();
+            if (selectedWalk != null) {
                 //if the user selected to hide the walk
                 if (frame.getHiddenCheckBox().isSelected()) {
                     //clear the selection
                     graphSelectionHandler.clearSelection();
                     //hide the walk
-                    graphSelectionHandler.getSelectedWalk().hide();
+                    selectedWalk.hide();
                 } else { //if the user unhid the walk
                     //unhide the walk
-                    graphSelectionHandler.getSelectedWalk().unhide();
+                    selectedWalk.unhide();
                 }
                 //add the "-" to the hidden elements
                 updateVerticesListModel();
                 updateEdgesListModel();
                 updateWalksListModel();
-                walksList.repaint();
+                //Maintain the selected index:
+                //get the index of the selected walk
+                int index = graph.getWalks().indexOf(selectedWalk) + 1;
+                //select the walk in the JList
+                walksList.setSelectedIndex(index);
                 canvas.repaint();
             }
         });

@@ -152,7 +152,7 @@ public class GraphSelectionHandler {
             frame.getHiddenCheckBox().setSelected(false);
             //disable the hidden checkbox
             frame.getHiddenCheckBox().setEnabled(false);
-        } else { //if were selectin a new walk
+        } else { //if were selecting a new walk
             //place the selected walk into selection mode
             selectedWalk.select();
             //assign the selectedWalk
