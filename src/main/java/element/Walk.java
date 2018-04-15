@@ -274,9 +274,6 @@ public class Walk {
     @Override
     public String toString() {
         StringBuilder strB = new StringBuilder();
-        if (isHidden) {
-            strB.append("<html><strike>");
-        }
         strB.append("{");
         for (int i = 0; i < edges.size(); i++) {
             strB.append("{");
@@ -287,9 +284,6 @@ public class Walk {
             }
         }
         strB.append("}");
-        if (isHidden) {
-            strB.append("</strike></html>");
-        }
         return strB.toString();
     }
 }

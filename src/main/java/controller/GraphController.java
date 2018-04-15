@@ -581,7 +581,6 @@ public class GraphController {
                     graphSelectionHandler.setSelectedWalk(newSelectedWalk);
                 }
                 canvas.repaint();
-                
             }
             
             @Override
@@ -2426,8 +2425,13 @@ public class GraphController {
         walksListModel.removeAllElements();
         //add the default element
         walksListModel.addElement("<None>");
-        for (Walk p : walks) {
-            walksListModel.addElement(p);
+        for (Walk w : walks) {
+            if (w.isHidden()) {
+                walksListModel.addElement("<html><strike>" 
+                        + w.toString() + "</strike></html>");
+            } else {
+                walksListModel.addElement(w);
+            }
         }
     }
 
