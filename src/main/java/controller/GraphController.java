@@ -282,11 +282,10 @@ public class GraphController {
                     //unhide the walk
                     graphSelectionHandler.getSelectedWalk().unhide();
                 }
-                //repaint the walks list
-                walksList.repaint();
                 //add the "-" to the hidden elements
                 updateVerticesListModel();
                 updateEdgesListModel();
+                updateWalksListModel();
                 walksList.repaint();
                 canvas.repaint();
             }
