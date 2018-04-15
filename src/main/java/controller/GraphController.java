@@ -609,6 +609,9 @@ public class GraphController {
                         Walk selectedWalk = graphSelectionHandler.getSelectedWalk();
                         //unhide the walk
                         selectedWalk.unhide();
+                        //update the list models (to remove <strike> tags)
+                        updateVerticesListModel();
+                        updateEdgesListModel();
                         //remove the selected walk
                         removeWalk(selectedWalk);
                         canvas.repaint();
