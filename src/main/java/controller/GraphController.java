@@ -595,6 +595,7 @@ public class GraphController {
                         Clipboard clpbrd = Toolkit.getDefaultToolkit().getSystemClipboard();
                         clpbrd.setContents(stringSelection, null);
                     });
+                    menu.add(copyItem);
                     
                     JMenuItem deleteItem = new JMenuItem("Delete");
                     deleteItem.addActionListener((ActionEvent ev) -> {
@@ -603,8 +604,8 @@ public class GraphController {
                         //remove the selected walk
                         removeWalk(walks.get(index));
                     });
+                    menu.add(deleteItem);
                     
-                    menu.add(copyItem);
                     Point click = SwingUtilities.convertPoint(walksList, e.getX(), e.getY(), frame);
                     menu.show(frame, click.x, click.y);
                 }
