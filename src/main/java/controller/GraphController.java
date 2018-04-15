@@ -603,6 +603,7 @@ public class GraphController {
                         int index = walksList.getSelectedIndex() - 1;
                         //remove the selected walk
                         removeWalk(walks.get(index));
+                        canvas.repaint();
                     });
                     menu.add(deleteItem);
                     
