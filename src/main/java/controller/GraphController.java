@@ -1031,7 +1031,7 @@ public class GraphController {
         frame.getDonateMenuItem().addActionListener((ActionEvent e) -> {
             try {
                 Desktop.getDesktop().browse(
-                        new URI("https://www.paypal.me/DuffyScottC/5"));
+                        new URI("https://github.com/DuffyScottC/GraphTheoryHelper/wiki/Donate!"));
             } catch (IOException ex) {
                 System.out.println(ex.toString());
             } catch (URISyntaxException ex) {
