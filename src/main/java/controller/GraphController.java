@@ -20,6 +20,10 @@ import java.awt.BorderLayout;
 import java.awt.Color;
 import java.awt.Desktop;
 import java.awt.Graphics2D;
+import java.awt.Point;
+import java.awt.Toolkit;
+import java.awt.datatransfer.Clipboard;
+import java.awt.datatransfer.StringSelection;
 import java.awt.event.ActionEvent;
 import java.awt.event.KeyAdapter;
 import java.awt.event.KeyEvent;
@@ -53,12 +57,15 @@ import javax.swing.JComboBox;
 import javax.swing.JFileChooser;
 import javax.swing.JFrame;
 import javax.swing.JList;
+import javax.swing.JMenuItem;
 import javax.swing.JOptionPane;
 import javax.swing.JPanel;
+import javax.swing.JPopupMenu;
 import javax.swing.JTextField;
 import javax.swing.JToggleButton;
 import javax.swing.KeyStroke;
 import javax.swing.ListSelectionModel;
+import javax.swing.SwingUtilities;
 import javax.swing.event.ListSelectionEvent;
 import javax.swing.filechooser.FileFilter;
 import views.AddGraphDialog;
@@ -264,21 +271,27 @@ public class GraphController {
         
         frame.getHiddenCheckBox().addActionListener((ActionEvent e) -> {
             //if there is a selected walk (should be one, but just in case)
-            if (graphSelectionHandler.getSelectedWalk() != null) {
+            Walk selectedWalk = graphSelectionHandler.getSelectedWalk();
+            if (selectedWalk != null) {
                 //if the user selected to hide the walk
                 if (frame.getHiddenCheckBox().isSelected()) {
                     //clear the selection
                     graphSelectionHandler.clearSelection();
                     //hide the walk
-                    graphSelectionHandler.getSelectedWalk().hide();
+                    selectedWalk.hide();
                 } else { //if the user unhid the walk
                     //unhide the walk
-                    graphSelectionHandler.getSelectedWalk().unhide();
+                    selectedWalk.unhide();
                 }
                 //add the "-" to the hidden elements
                 updateVerticesListModel();
                 updateEdgesListModel();
-                walksList.repaint();
+                updateWalksListModel();
+                //Maintain the selected index:
+                //get the index of the selected walk
+                int index = graph.getWalks().indexOf(selectedWalk) + 1;
+                //select the walk in the JList
+                walksList.setSelectedIndex(index);
                 canvas.repaint();
             }
         });
@@ -574,6 +587,40 @@ public class GraphController {
                     graphSelectionHandler.setSelectedWalk(newSelectedWalk);
                 }
                 canvas.repaint();
+            }
+            
+            @Override
+            public void mousePressed(MouseEvent e) {
+                if (e.isPopupTrigger()) {
+                    JPopupMenu menu = new JPopupMenu();
+                    JMenuItem copyItem = new JMenuItem("Copy");
+                    copyItem.addActionListener((ActionEvent ev) -> {
+                        int index = walksList.getSelectedIndex() - 1;
+                        String walkString = walks.get(index).toString();
+                        StringSelection stringSelection = new StringSelection(walkString);
+                        Clipboard clpbrd = Toolkit.getDefaultToolkit().getSystemClipboard();
+                        clpbrd.setContents(stringSelection, null);
+                    });
+                    menu.add(copyItem);
+                    
+                    JMenuItem deleteItem = new JMenuItem("Delete");
+                    deleteItem.addActionListener((ActionEvent ev) -> {
+                        //get the walk that is selected
+                        Walk selectedWalk = graphSelectionHandler.getSelectedWalk();
+                        //unhide the walk
+                        selectedWalk.unhide();
+                        //update the list models (to remove <strike> tags)
+                        updateVerticesListModel();
+                        updateEdgesListModel();
+                        //remove the selected walk
+                        removeWalk(selectedWalk);
+                        canvas.repaint();
+                    });
+                    menu.add(deleteItem);
+                    
+                    Point click = SwingUtilities.convertPoint(walksList, e.getX(), e.getY(), frame);
+                    menu.show(frame, click.x, click.y);
+                }
             }
         });
 
@@ -984,7 +1031,7 @@ public class GraphController {
         frame.getDonateMenuItem().addActionListener((ActionEvent e) -> {
             try {
                 Desktop.getDesktop().browse(
-                        new URI("https://www.paypal.me/DuffyScottC/5"));
+                        new URI("https://github.com/DuffyScottC/GraphTheoryHelper/wiki/Donate!"));
             } catch (IOException ex) {
                 System.out.println(ex.toString());
             } catch (URISyntaxException ex) {
@@ -2344,10 +2391,6 @@ public class GraphController {
         }
     }
 
-    private void addWalk() {
-
-    }
-
     /**
      * Changes the colors of the vertices and edges after the user chooses new
      * ones.
@@ -2400,8 +2443,13 @@ public class GraphController {
         walksListModel.removeAllElements();
         //add the default element
         walksListModel.addElement("<None>");
-        for (Walk p : walks) {
-            walksListModel.addElement(p);
+        for (Walk w : walks) {
+            if (w.isHidden()) {
+                walksListModel.addElement("<html><strike>" 
+                        + w.toString() + "</strike></html>");
+            } else {
+                walksListModel.addElement(w);
+            }
         }
     }
 

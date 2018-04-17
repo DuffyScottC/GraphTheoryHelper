@@ -31,7 +31,7 @@ public class GraphVersionChecker {
     
     private NewVersionDialog newVersionDialog;
     
-    private final int[] currentVersion = {1, 0, 0};
+    private final int[] currentVersion = {1, 0, 1};
     private final StringBuilder description = new StringBuilder("<html>");
     
     /**
