@@ -46,7 +46,7 @@ public class NewVersionDialog extends javax.swing.JDialog {
 
         jLabel1.setText("Changelog:");
 
-        infoLabel.setText("<html> <p>Current Version: v1.0.0</p> <p></p> <p>Check for updates here: </p> </html>");
+        infoLabel.setText("<html> <p>Current Version: v1.0.1</p> <p></p> <p>Check for updates here: </p> </html>");
 
         linkButton.setText("<html><a href=\"https://github.com/DuffyScottC/GraphTheoryHelper/releases/latest\">https://github.com/DuffyScottC/GraphTheoryHelper/releases/latest</a></html>");
         linkButton.setBorderPainted(false);

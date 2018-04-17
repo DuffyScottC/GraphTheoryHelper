@@ -240,7 +240,7 @@ public class GraphVersionChecker {
     private void clearDialog() {
         newVersionDialog.getChangelogTextPane().setText("");
         newVersionDialog.getInfoLabel().setText("<html>\n" +
-                "<p>Current Version: v1.0.0</p>\n" +
+                "<p>Current Version: v"+currentVersion[0]+"."+currentVersion[1]+"."+currentVersion[2]+"</p>\n" +
                 "<p></p>\n" +
                 "<p>Check for updates here: </p>\n" +
                 "</html>");
