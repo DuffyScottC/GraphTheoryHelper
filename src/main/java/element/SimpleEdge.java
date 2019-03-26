@@ -10,7 +10,7 @@ import java.awt.geom.Point2D;
 /**
  * This object helps vertices keep track of the edges that they are connected
  * to. If we used actual Edge objects, then JSON Serialization would be
- * impossible (because there would be Edge-seption, meaning that edges
+ * impossible (because there would be Edge-ception, meaning that edges
  * would be saved within vertices which would again contain the same
  * edges which contain the same vertices etc.). This class only stores the names
  * of the edge endpoints, because that is all we need. 

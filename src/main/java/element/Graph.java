@@ -21,7 +21,11 @@ public class Graph implements Serializable {
      */
     private final List<Vertex> vertices = new ArrayList<>();
     /**
-     * the edges which appear in canvas and the edges JList
+     * the edges which appear in canvas and the edges JList. This
+     * list is transient because we don't want it to be stored
+     * in the JSON serialization. Instead, a simpler representation
+     * of edges is stored (called simpleEdges, below) to save the
+     * edges in the JSON file for later retrieval. 
      */
     private transient final List<Edge> edges = new ArrayList<>();
     /**

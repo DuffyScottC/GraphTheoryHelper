@@ -9,7 +9,8 @@ import java.awt.Dimension;
 import javax.swing.JScrollPane;
 
 /**
- *
+ * Used to ensure that the list has the correct preferred size.
+ * 
  * @author Scott
  */
 public class ListScrollPane extends JScrollPane {

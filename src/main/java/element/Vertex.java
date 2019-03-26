@@ -8,7 +8,6 @@ package element;
 import controller.Values;
 import java.awt.BasicStroke;
 import java.awt.Color;
-import java.awt.FontMetrics;
 import java.awt.Graphics2D;
 import java.awt.Shape;
 import java.awt.Stroke;

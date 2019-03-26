@@ -6,14 +6,15 @@
 package element;
 
 import controller.Values;
-import static controller.Values.choosableColors;
 import java.awt.Color;
 import java.awt.Graphics2D;
 import java.awt.Stroke;
 import java.io.Serializable;
 
 /**
- *
+ * The base fore each Element class. Cannot be instantiated
+ * on its own. It implements Serializable so that all
+ * element types can be serialized. 
  * @author Scott
  */
 public abstract class Element implements Serializable {
@@ -34,10 +35,12 @@ public abstract class Element implements Serializable {
     // stroke used is created "on the fly"
     protected transient Stroke stroke = null;
 
-    // the actual drawing is done by the subclass
+    /**
+     * the actual drawing is done by the subclass
+     * @param g2 The Graphics2D object on which to draw
+     * this Element. 
+     */
     public abstract void draw(Graphics2D g2);
-    
-//    public abstract Shape getPositionShape();
 
     public final void setStrokeWidth(float strokeWidth) {
         this.strokeWidth = strokeWidth;

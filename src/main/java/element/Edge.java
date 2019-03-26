@@ -68,6 +68,11 @@ public class Edge extends Element {
         this.strokeWidth = Values.EDGE_STROKE_WIDTH;
     }
     
+    /**
+     * Draws the edge on the passed in Graphics2D object.
+     * 
+     * @param g2 
+     */
     @Override
     public void draw(Graphics2D g2) {
         if (isHidden) {
@@ -232,8 +237,19 @@ public class Edge extends Element {
         return endpoint1.title + "," + endpoint2.title;
     }
     
+    /**
+     * Checks if the passed in object is 1. an Edge object and 
+     * 2. has the has the same (unsorted) pair of endpoints as
+     * this Edge. 
+     * @param obj
+     * @return 
+     */
     @Override
     public boolean equals(Object obj) {
+      /*
+      This is particularly difficult because the endpoints are in no
+      particular order. 
+       */
         if (obj == null) {
             return false;
         }

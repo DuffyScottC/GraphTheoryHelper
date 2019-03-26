@@ -7,7 +7,6 @@ package views;
 
 import controller.Values;
 import element.Edge;
-import element.Walk;
 import element.Graph;
 import element.Vertex;
 import java.awt.BasicStroke;
@@ -24,7 +23,8 @@ import javax.swing.JTextArea;
 import javax.swing.JTextField;
 
 /**
- *
+ * The main area for viewing the graph elements.
+ * 
  * @author Scott
  */
 public class Canvas extends JTextArea {
