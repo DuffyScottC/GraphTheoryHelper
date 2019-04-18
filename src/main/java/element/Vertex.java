@@ -124,17 +124,32 @@ public class Vertex extends Element {
         }
     }
     
+    /**
+     * Used to move the vertex vertically by xInc and horizontally
+     * by yInc.
+     * (the new location) =
+     * (the old location vector) + 
+     * (the increment vector)
+     * @param xInc
+     * @param yInc 
+     */
     public void incLocation(double xInc, double yInc) {
         //to consolidate code, this simply calls setLocation after incrementing
         this.setLocation(this.xLoc + xInc, this.yLoc + yInc);
     }
     
+    /**
+     * Used to set the location of this vertex to the given
+     * set of coordinates.
+     * @param xLoc
+     * @param yLoc 
+     */
     public void setLocation(double xLoc, double yLoc) {
         //Update the location for next time
         this.xLoc = xLoc;
         this.yLoc = yLoc;
     }
-
+    
     public Point2D.Double getLocation() {
         return new Point2D.Double(xLoc, yLoc);
     }

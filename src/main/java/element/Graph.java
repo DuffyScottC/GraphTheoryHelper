@@ -25,7 +25,7 @@ public class Graph implements Serializable {
      * list is transient because we don't want it to be stored
      * in the JSON serialization. Instead, a simpler representation
      * of edges is stored (called simpleEdges, below) to save the
-     * edges in the JSON file for later retrieval. 
+     * edges in the JSON file for later retrieval.
      */
     private transient final List<Edge> edges = new ArrayList<>();
     /**
@@ -127,9 +127,20 @@ public class Graph implements Serializable {
         return simpleEdges;
     }
     
+    /**
+     * Returns the edge in the Graph which matches the passed in
+     * SimpleEdge (or null if no such edge exists).
+     * @param se
+     * @return 
+     */
     public Edge getMatchingEdge(SimpleEdge se) {
         //find the index of the simpleEdge
         int index = simpleEdges.indexOf(se);
+        //if there is no matching edge
+        if (index == -1) {
+          //return null
+          return null;
+        }
         //return the matching edge with the same index
         return edges.get(index);
     }

@@ -65,7 +65,7 @@
   <SubComponents>
     <Component class="javax.swing.JLabel" name="jLabel1">
       <Properties>
-        <Property name="text" type="java.lang.String" value="Type in a list of edges such as {{A,B},{B,A},{C,D}}:"/>
+        <Property name="text" type="java.lang.String" value="Type in a list of edges such as {{A,B},{B,C},{C,D}}:"/>
       </Properties>
     </Component>
     <Component class="javax.swing.JTextField" name="graphTextField">

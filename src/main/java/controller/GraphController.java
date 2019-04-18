@@ -70,7 +70,7 @@ import javax.swing.event.ListSelectionEvent;
 import javax.swing.filechooser.FileFilter;
 import views.AddGraphDialog;
 import views.Canvas;
-import views.GraphColorChooserDialog11;
+import views.GraphColorChooserDialog;
 import views.GraphFrame;
 import views.SampleCanvas;
 
@@ -152,7 +152,7 @@ public class GraphController {
     private final GraphFrame frame = new GraphFrame();
     private final Canvas canvas = frame.getCanvas();
     private final AddGraphDialog addGraphDialog = new AddGraphDialog(frame, true);
-    private final GraphColorChooserDialog11 graphColorChooserDialog = new GraphColorChooserDialog11(frame, true);
+    private final GraphColorChooserDialog graphColorChooserDialog = new GraphColorChooserDialog(frame, true);
 
     private final Graph graph = new Graph();
 
@@ -2044,10 +2044,14 @@ public class GraphController {
                 for (SimpleEdge se : v.getSimpleEdges()) {
                     //Get the edge in edges that matches se
                     Edge e = graph.getMatchingEdge(se);
-                    //remove e (se's match) from edges
-                    graph.removeEdge(e);
-                    //mark the edge to be removed from adjacent vertices
-                    removeEdges.add(e);
+                    //if this edge has not already been removed from the graph
+                    if (e != null) {
+                      //remove e (se's match) from edges
+                      graph.removeEdge(e);
+                      //mark the edge to be removed from adjacent vertices
+                      removeEdges.add(e);
+                    }
+                    //otherwise we've found a duplicate edge
                 }
             }
         }

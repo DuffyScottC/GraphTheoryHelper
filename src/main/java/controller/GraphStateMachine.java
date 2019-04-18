@@ -12,7 +12,6 @@ import element.Edge;
 import element.Graph;
 import java.awt.Component;
 import java.awt.event.ActionEvent;
-import java.awt.event.ActionListener;
 import java.util.List;
 import javax.swing.JCheckBoxMenuItem;
 import javax.swing.JTextField;
@@ -225,7 +224,7 @@ public class GraphStateMachine {
         graphSelectionHandler.updateSelectedVertices();
 
         //Update edge selection
-        //if selectedEdgeIndeces is not empty
+        //if selectedEdgeIndices is not empty
         if (!graphSelectionHandler.getSelectedEdgeIndices().isEmpty()) {
             //get the last index of selectedEdgeIndices
             int sEISize = graphSelectionHandler.getSelectedEdgeIndices().size();
